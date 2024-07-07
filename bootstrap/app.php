@@ -13,9 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
             App\Http\Middleware\TransactionMiddleware::class,
+             App\Http\Middleware\Fa2EnMiddleware::class
         ]);
         $middleware->api(append: [
             App\Http\Middleware\TransactionMiddleware::class,
+            App\Http\Middleware\Fa2EnMiddleware::class
         ]);
 
         //
