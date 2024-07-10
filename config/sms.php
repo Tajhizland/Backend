@@ -8,6 +8,7 @@ return [
         "method" => [
             "send" => "/sms/send.json",
             "lockup" => "/verify/lookup.json"
-        ]
+        ],
+        "template"=>"register"
     ]
 ];

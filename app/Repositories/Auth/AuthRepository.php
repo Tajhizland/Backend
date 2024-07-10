@@ -1,26 +1,23 @@
 <?php
 
-namespace App\Repositories\User;
+namespace App\Repositories\Auth;
 
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 
-class UserRepository extends BaseRepository implements  UserRepositoryInterface
+class AuthRepository extends BaseRepository implements  AuthRepositoryInterface
 {
     public function __construct(User $model)
     {
         parent::__construct($model);
     }
+
     public function register($username, $password)
     {
-        $this->create([
+        $this->model->create([
             "username"=>$username,
             "password"=>bcrypt($password),
             "role"=>"user"
         ]);
-    }
-    public function findByUsername($username)
-    {
-       return $this->get([["username",$username]],1);
     }
 }
