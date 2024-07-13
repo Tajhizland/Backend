@@ -37,9 +37,9 @@ trait ApiResponse
      * @param $errors
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function badRequestResponse($errors)
+    protected function badRequestResponse($errors , $message='Bad Request')
     {
-        $response = $this->errorEnvelope(400, $errors);
+        $response = $this->errorEnvelope(400, $errors ,$message);
 
         return response()->json($response, 400);
     }
@@ -64,11 +64,17 @@ trait ApiResponse
      * @param $data
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function successResponse($data)
+    protected function successResponse( $message= 'OK')
     {
-        $response = $this->successEnvelope(200, $data);
+        $response = $this->successEnvelope(200 ,[],$message);
 
         return response()->json($response);
+    }
+    protected function errorResponse( $message= 'error')
+    {
+        $response = $this->errorEnvelope(400 ,[],$message);
+
+        return response()->json($response , 400);
     }
 
     /**
