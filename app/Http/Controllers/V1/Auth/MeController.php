@@ -10,6 +10,6 @@ class MeController extends Controller
     public function me()
     {
         $me=Auth::user();
-        return $this->collectionResponse($me);
+        return $this->dataResponse($me);
     }
 }

@@ -38,8 +38,11 @@ class ResetPasswordController extends Controller
     public function reset(ResetPasswordRequest $request)
     {
         try {
-            $this->resetPasswordService->reset($request->get("mobile"), $request->get("password"));
-            return $this->successResponse(Lang::get("responses.reset_password_success"));
+            $token=$this->resetPasswordService->reset($request->get("mobile"), $request->get("password"));
+            return $this->dataResponse(
+                ["token"=>$token],
+                Lang::get("responses.reset_password_success")
+            );
         } catch (\Exception $exception) {
             return $this->badRequestResponse($exception->getMessage());
         }

@@ -19,21 +19,21 @@ trait ApiResponse
      */
     protected function createdResponse($data)
     {
-        $response = $this->successEnvelope(201, $data, 'Created');
+        $response = $this->successEnvelope(true, $data, 'Created');
 
         return response()->json($response, 201);
     }
 
     protected function updatedResponse($data)
     {
-        $response = $this->successEnvelope(200, $data, 'Updated');
+        $response = $this->successEnvelope(true, $data, 'Updated');
 
         return response()->json($response, 200);
     }
 
-    protected function collectionResponse($data , $message="success")
+    protected function dataResponse($data , $message="success")
     {
-        $response = $this->successEnvelope(200, $data, $message);
+        $response = $this->successEnvelope(true, $data, $message);
 
         return response()->json($response, 200);
     }
@@ -73,7 +73,7 @@ trait ApiResponse
      */
     protected function successResponse( $message= 'OK')
     {
-        $response = $this->successEnvelope(200 ,[],$message);
+        $response = $this->successEnvelope(true ,[],$message);
 
         return response()->json($response);
     }
