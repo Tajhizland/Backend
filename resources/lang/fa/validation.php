@@ -151,6 +151,7 @@ return [
         'code'                  => 'کد امنیتی',
         'password'              => 'گذرواژه',
         'password_confirmation' => 'تکرار گذرواژه',
+        'ww' =>  ':attribute اشتباه است.',
     ],
     'attributes2' => [
         'name'                  => 'نام',

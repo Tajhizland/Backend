@@ -5,17 +5,12 @@ namespace App\Models;
 use App\Enums\ResetPasswordStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class mobileVerification extends Model
+class ResetPassword extends Model
 {
-    protected $guarded=["id"];
-    protected function casts()
-    {
-        return [
-            'expire_at' => 'timestamp',
-         ];
-    }
+    use HasFactory;
 
     public function scopeUnExpire(Builder $query): Builder
     {

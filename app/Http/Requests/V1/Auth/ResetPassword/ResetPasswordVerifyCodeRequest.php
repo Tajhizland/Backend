@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests\V1\Auth\Register;
+namespace App\Http\Requests\V1\Auth\ResetPassword;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterVerifyCodeRequest extends FormRequest
+class ResetPasswordVerifyCodeRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'mobile' => 'required|string|regex:/^09\d{9}$/|unique:users,username',
+            'mobile' => 'required|string|regex:/^09\d{9}$/',
             'code' => 'required|string',
         ];
     }

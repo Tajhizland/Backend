@@ -7,6 +7,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface UserRepositoryInterface extends  BaseRepositoryInterface
 {
     public function register($username , $password);
+    public function resetPassword($username , $password);
     public function findByUsername($username);
 
 }

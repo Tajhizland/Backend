@@ -31,6 +31,13 @@ trait ApiResponse
         return response()->json($response, 200);
     }
 
+    protected function collectionResponse($data , $message="success")
+    {
+        $response = $this->successEnvelope(200, $data, $message);
+
+        return response()->json($response, 200);
+    }
+
     /**
      * Returns general error
      *
@@ -39,7 +46,7 @@ trait ApiResponse
      */
     protected function badRequestResponse($errors , $message='Bad Request')
     {
-        $response = $this->errorEnvelope(400, $errors ,$message);
+        $response = $this->errorEnvelope(false, $errors ,$message);
 
         return response()->json($response, 400);
     }
@@ -52,7 +59,7 @@ trait ApiResponse
      */
     protected function ForbiddenResponse($errors)
     {
-        $response = $this->errorEnvelope(403, $errors,
+        $response = $this->errorEnvelope(false, $errors,
             'Forbidden');
 
         return response()->json($response, 403);
@@ -72,7 +79,7 @@ trait ApiResponse
     }
     protected function errorResponse( $message= 'error')
     {
-        $response = $this->errorEnvelope(400 ,[],$message);
+        $response = $this->errorEnvelope(false ,[],$message);
 
         return response()->json($response , 400);
     }
@@ -84,7 +91,7 @@ trait ApiResponse
      */
     protected function notFoundResponse()
     {
-        $response = $this->errorEnvelope(404, [], 'Not Found');
+        $response = $this->errorEnvelope(false, [], 'Not Found');
 
         return response()->json($response, 404);
     }
@@ -97,7 +104,7 @@ trait ApiResponse
      */
     protected function validationErrorResponse($errors)
     {
-        $response = $this->errorEnvelope(422, $errors, 'Unprocessable Entity');
+        $response = $this->errorEnvelope(false, $errors, 'Unprocessable Entity');
 
         return response()->json($response, 422);
     }
@@ -111,12 +118,12 @@ trait ApiResponse
      * @return array
      */
     private function errorEnvelope(
-        $status = 400,
+        $success = false,
         $errors = [],
         $message = 'Bad Request'
     ) {
         return [
-            'status' => $status,
+            'success' => $success,
             'message' => $message,
             'errors' => $errors,
         ];
@@ -131,12 +138,12 @@ trait ApiResponse
      * @return array
      */
     private function successEnvelope(
-        $status = 200,
+        $success = true,
         $data = [],
         $message = 'OK'
     ) {
         return [
-            'status' => $status,
+            'success' => $success,
             'message' => $message,
             'data' => $data,
         ];

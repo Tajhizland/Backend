@@ -7,6 +7,7 @@ use App\Http\Requests\V1\Auth\Register\RegisterRequest;
 use App\Http\Requests\V1\Auth\Register\RegisterVerifyCodeRequest;
 use App\Http\Requests\V1\Auth\Register\SendRegisterVerificationCodeRequest;
 use App\Services\Auth\Register\RegisterServiceInterface;
+use Illuminate\Support\Facades\Lang;
 
 class RegisterController extends Controller
 {
@@ -18,7 +19,7 @@ class RegisterController extends Controller
     {
         try {
             $this->registerService->sendVerificationCode($request->get("mobile"));
-            return  $this->successResponse( "کد تأیید به شماره همراه ارسال شد ." );
+            return  $this->successResponse( Lang::get("responses.verification_code_sent"));
         }
 
         catch (\Exception $exception)
@@ -30,9 +31,7 @@ class RegisterController extends Controller
     {
         try {
             $this->registerService->verifyCode($request->get("mobile") ,$request->get("code"));
-            return  $this->successResponse(
-                ['message' => 'کد تأیید با موفقیت تأیید شد .']
-            );
+            return  $this->successResponse( Lang::get("responses.verification_code_verified"));
         }
         catch (\Exception $exception)
         {
@@ -43,9 +42,7 @@ class RegisterController extends Controller
     {
         try {
             $this->registerService->register($request->get("mobile") ,$request->get("password"));
-            return  $this->successResponse(
-                ['message' => 'ثبت نام با موفقیت انجام شد .']
-            );
+            return  $this->successResponse( Lang::get("responses.registration_success"));
         }
         catch (\Exception $exception)
         {
