@@ -8,4 +8,4 @@ Route::get('/', function (Request $request) {
  });
 
 Route::get('/m',  [\App\Http\Controllers\V1\Auth\RegisterController::class,"sendVerificationCode"]);
-Route::get('/l',  [\App\Http\Controllers\V1\Auth\LoginController::class,"login"]);
+Route::get('/l',  [\App\Http\Controllers\V1\Auth\LoginController::class,"login"])->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);
