@@ -64,6 +64,13 @@ trait ApiResponse
 
         return response()->json($response, 403);
     }
+    protected function UnauthorizedResponse($errors)
+    {
+        $response = $this->errorEnvelope(false, $errors,
+            'Unauthorized');
+
+        return response()->json($response, 401);
+    }
 
     /**
      * Returns a list of resources

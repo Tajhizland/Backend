@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class MeController extends Controller
 {
-    public function me()
+    public function me(Request $request)
     {
-        $me=Auth::user();
-        return $this->dataResponse($me);
+        if (!$request->user())
+            return $this->UnauthorizedResponse("Unauthorized");
+        return $this->dataResponse(["me" => $request->user()]);
     }
 }
