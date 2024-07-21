@@ -17,34 +17,22 @@ class ResetPasswordController extends Controller
 
     public function sendVerificationCode(SendResetPasswordVerificationCodeRequest $request)
     {
-        try {
-            $this->resetPasswordService->sendVerificationCode($request->get("mobile"));
-            return $this->successResponse(Lang::get("responses.verification_code_sent"));
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage());
-        }
+        $this->resetPasswordService->sendVerificationCode($request->get("mobile"));
+        return $this->successResponse(Lang::get("responses.verification_code_sent"));
     }
 
     public function verifyCode(ResetPasswordVerifyCodeRequest $request)
     {
-        try {
-            $this->resetPasswordService->verifyCode($request->get("mobile"), $request->get("code"));
-            return $this->successResponse(Lang::get("responses.verification_code_verified"));
-        } catch (\Exception $exception) {
-            return $this->badRequestResponse($exception->getMessage());
-        }
+        $this->resetPasswordService->verifyCode($request->get("mobile"), $request->get("code"));
+        return $this->successResponse(Lang::get("responses.verification_code_verified"));
     }
 
     public function reset(ResetPasswordRequest $request)
     {
-        try {
-            $token=$this->resetPasswordService->reset($request->get("mobile"), $request->get("password"));
-            return $this->dataResponse(
-                ["token"=>$token],
-                Lang::get("responses.reset_password_success")
-            );
-        } catch (\Exception $exception) {
-            return $this->badRequestResponse($exception->getMessage());
-        }
+        $token = $this->resetPasswordService->reset($request->get("mobile"), $request->get("password"));
+        return $this->dataResponse(
+            ["token" => $token],
+            Lang::get("responses.reset_password_success")
+        );
     }
 }

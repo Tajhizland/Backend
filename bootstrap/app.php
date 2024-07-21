@@ -1,7 +1,9 @@
 <?php
 
+use App\Exceptions\BreakException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -53,6 +55,16 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         //
 
+        $exceptions->render(function (BreakException $exception, Request $request) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => $exception->getMessage(),
+                    'errors' => []
+                ],
+                400
+            );
+        });
         $exceptions->render(function (ValidationException $exception, Request $request) {
             return response()->json(
                 [
@@ -69,7 +81,16 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'ضفحه مورد نظر یافت نشد'
+                    'message' => 'صفحه مورد نظر یافت نشد'
+                ],
+                404
+            );
+        });
+        $exceptions->render(function (ModelNotFoundException $exception, Request $request) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'موردی نظر یافت نشد'
                 ],
                 404
             );

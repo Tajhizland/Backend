@@ -151,6 +151,7 @@ return [
         'code'                  => 'کد امنیتی',
         'password'              => 'گذرواژه',
         'password_confirmation' => 'تکرار گذرواژه',
+        'url' => 'آدرس',
     ],
     'attributes2' => [
         'name'                  => 'نام',

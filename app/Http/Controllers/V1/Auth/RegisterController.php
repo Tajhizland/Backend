@@ -17,34 +17,23 @@ class RegisterController extends Controller
 
     public function sendVerificationCode(SendRegisterVerificationCodeRequest $request)
     {
-        try {
-            $this->registerService->sendVerificationCode($request->get("mobile"));
-            return $this->successResponse(Lang::get("responses.verification_code_sent"));
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage());
-        }
+        $this->registerService->sendVerificationCode($request->get("mobile"));
+        return $this->successResponse(Lang::get("responses.verification_code_sent"));
     }
 
     public function verifyCode(RegisterVerifyCodeRequest $request)
     {
-        try {
-            $this->registerService->verifyCode($request->get("mobile"), $request->get("code"));
-            return $this->successResponse(Lang::get("responses.verification_code_verified"));
-        } catch (\Exception $exception) {
-            return $this->badRequestResponse($exception->getMessage());
-        }
+        $this->registerService->verifyCode($request->get("mobile"), $request->get("code"));
+        return $this->successResponse(Lang::get("responses.verification_code_verified"));
     }
 
     public function register(RegisterRequest $request)
     {
-        try {
-            $token = $this->registerService->register($request->get("mobile"), $request->get("password"));
-            return $this->dataResponse(
-                ["token" => $token],
-                Lang::get("responses.registration_success")
-            );
-        } catch (\Exception $exception) {
-            return $this->badRequestResponse($exception->getMessage());
-        }
+        $token = $this->registerService->register($request->get("mobile"), $request->get("password"));
+        return $this->dataResponse(
+            ["token" => $token],
+            Lang::get("responses.registration_success")
+        );
+
     }
 }

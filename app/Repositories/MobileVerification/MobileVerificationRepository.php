@@ -22,12 +22,12 @@ class MobileVerificationRepository extends BaseRepository implements MobileVerif
 
     public function findPendingRequest($mobile)
     {
-        return $this->get([["mobile", $mobile], ["status", MobileVerificationStatus::Pending], ["expire_at", ">", Carbon::now()]], 1);
+        return $this->model->where("mobile", $mobile)->pending()->unExpire()->first();
     }
 
     public function findInProgressRequest($mobile)
     {
-        return $this->get([["mobile", $mobile], ["status", MobileVerificationStatus::InProgress], ["expire_at", ">", Carbon::now()]], 1);
+        return $this->model->where("mobile", $mobile)->inProgress()->unExpire()->first();
     }
 
     public function setVerificationCode($mobile, $code)
