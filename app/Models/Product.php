@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
@@ -27,6 +28,12 @@ class Product extends Model
     {
         return $this->hasManyThrough(Invoice::class, ProductColor::class);
     }
+
+    public function categories():BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'product_categories');
+    }
+
     public function getMinColorPrice()
     {
         return $this->prices()->min("price");
