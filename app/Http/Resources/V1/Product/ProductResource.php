@@ -11,7 +11,7 @@ class ProductResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $minPrice = $this->productColors->map(function ($color) {
+         $minPrice = $this->productColors->map(function ($color) {
             return $color->price;
         })->min("price");
 

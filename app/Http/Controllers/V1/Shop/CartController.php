@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\UpdateCartItemRequest;
+use App\Http\Resources\CartItemCollection;
 use App\Services\Cart\CartServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
@@ -17,14 +18,8 @@ class CartController extends Controller
 
     public function get()
     {
-//        $this->cartService->decreaseProductInCart(1, 1);
-
-//        $cart = $this->cartService->getCartItems(Auth::user()->id);
-//        $this->cartService->clearCart(1);
-        $this->cartService->addProductToCart(1, 5116556165, 2);
-
         $cart = $this->cartService->getCartItems(1);
-        return $this->dataResponse($cart);
+        return $this->dataResponse(new CartItemCollection($cart));
     }
 
     public function addToCart(AddToCartRequest $request)
