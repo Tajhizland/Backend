@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MobileVerificationStatus;
 use App\Enums\ResetPasswordStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,6 +12,14 @@ use Illuminate\Database\Eloquent\Model;
 class ResetPassword extends Model
 {
     use HasFactory;
+
+    protected function casts()
+    {
+        return [
+            'expire_at' => 'timestamp',
+            'status' => MobileVerificationStatus::class,
+        ];
+    }
 
     public function scopeUnExpire(Builder $query): Builder
     {

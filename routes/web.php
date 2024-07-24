@@ -4,8 +4,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function (Request $request) {
-     return $request;
+    $mv=\App\Models\MobileVerification::first();
+    return new \App\Http\Resources\MobileVerificationResource($mv);
+    return $mv->status->label();;
+    return \App\Enums\MobileVerificationStatus::Pending->value;
+
+    return $request;
  });
+
+Route::get('/c',  [\App\Http\Controllers\V1\Shop\CartController::class,"get"]);
 
 Route::get('/m',  [\App\Http\Controllers\V1\Auth\RegisterController::class,"sendVerificationCode"]);
 Route::get('/l',  [\App\Http\Controllers\V1\Auth\LoginController::class,"login"])->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);

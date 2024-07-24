@@ -3,14 +3,14 @@
 namespace App\Repositories\MobileVerification;
 
 use App\Enums\MobileVerificationStatus;
-use App\Models\mobileVerification;
+use App\Models\MobileVerification;
 use App\Repositories\Base\BaseRepository;
 use Carbon\Carbon;
 
 class MobileVerificationRepository extends BaseRepository implements MobileVerificationRepositoryInterface
 {
 
-    public function __construct(mobileVerification $model)
+    public function __construct(MobileVerification $model)
     {
         parent::__construct($model);
     }
@@ -32,16 +32,16 @@ class MobileVerificationRepository extends BaseRepository implements MobileVerif
 
     public function setVerificationCode($mobile, $code)
     {
-        return $this->create(["mobile" => $mobile, "status" => MobileVerificationStatus::Pending, "code" => $code, "expire_at" => Carbon::now()->addMinutes(config("settings.register.code_expire_minutes"))]);
+        return $this->create(["mobile" => $mobile, "status" => MobileVerificationStatus::Pending->value, "code" => $code, "expire_at" => Carbon::now()->addMinutes(config("settings.register.code_expire_minutes"))]);
     }
 
     public function setInProgress($id)
     {
-        $this->update($this->findOrFail($id), ["status" => MobileVerificationStatus::InProgress]);
+        $this->update($this->findOrFail($id), ["status" => MobileVerificationStatus::InProgress->value]);
     }
 
     public function setCompleted($id)
     {
-        $this->update($this->findOrFail($id), ["status" => MobileVerificationStatus::Completed]);
+        $this->update($this->findOrFail($id), ["status" => MobileVerificationStatus::Completed->value]);
     }
 }

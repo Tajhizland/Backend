@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use App\Enums\CartStatus;
+use App\Enums\MobileVerificationStatus;
 use App\Enums\ResetPasswordStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class mobileVerification extends Model
+class MobileVerification extends Model
 {
     protected $guarded=["id"];
     protected function casts()
     {
         return [
             'expire_at' => 'timestamp',
+            'status' => MobileVerificationStatus::class,
          ];
     }
 
@@ -24,16 +27,12 @@ class mobileVerification extends Model
 
     public function scopePending(Builder $query): Builder
     {
-        return $query->where("status", ResetPasswordStatus::Pending);
+        return $query->where("status", CartStatus::Active->value);
     }
 
     public function scopeCompleted(Builder $query): Builder
     {
-        return $query->where("status", ResetPasswordStatus::Completed);
+        return $query->where("status", CartStatus::Completed->value);
     }
 
-    public function scopeInProgress(Builder $query): Builder
-    {
-        return $query->where("status", ResetPasswordStatus::InProgress);
-    }
 }

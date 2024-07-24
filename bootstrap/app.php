@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             Route::group(["middleware" => "api", "prefix" => "api/v1"], function () {
                 Route::prefix('auth')->group(base_path('routes/v1/auth.php'));
-                Route::prefix('admin')->group(base_path('routes/v1/admin.php'));
+                Route::prefix('admin')->middleware(["auth:sanctum",\App\Http\Middleware\AdminMiddleware::class])->group(base_path('routes/v1/admin.php'));
             });
         }
     )
@@ -76,7 +76,15 @@ return Application::configure(basePath: dirname(__DIR__))
             );
         });
 
-
+        $exceptions->render(function (ModelNotFoundException $exception, Request $request) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'محصول مورد نظر یافت نشد'
+                ],
+                404
+            );
+        });
         $exceptions->render(function (NotFoundHttpException $exception, Request $request) {
             return response()->json(
                 [
@@ -86,15 +94,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 404
             );
         });
-        $exceptions->render(function (ModelNotFoundException $exception, Request $request) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => 'موردی نظر یافت نشد'
-                ],
-                404
-            );
-        });
+
 
         $exceptions->render(function (ThrottleRequestsException $exception, Request $request) {
             return response()->json(

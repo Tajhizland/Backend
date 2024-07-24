@@ -57,17 +57,17 @@ trait ApiResponse
      * @param $errors
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function ForbiddenResponse($errors)
+    protected function forbiddenResponse($errors ,$message='Forbidden')
     {
         $response = $this->errorEnvelope(false, $errors,
-            'Forbidden');
+            $message);
 
         return response()->json($response, 403);
     }
-    protected function UnauthorizedResponse($errors)
+    protected function unauthorizedResponse($errors ,$message='Unauthorized')
     {
         $response = $this->errorEnvelope(false, $errors,
-            'Unauthorized');
+            $message);
 
         return response()->json($response, 401);
     }

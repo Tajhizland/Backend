@@ -74,6 +74,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PriceRepositoryInterface::class,PriceRepository::class);
         $this->app->bind(InvoiceRepositoryInterface::class,InvoiceRepository::class);
 
+
     }
 
     public function boot()

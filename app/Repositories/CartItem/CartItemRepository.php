@@ -2,10 +2,16 @@
 
 namespace App\Repositories\CartItem;
 
+use App\Models\CartItem;
 use App\Repositories\Base\BaseRepository;
 
 class CartItemRepository extends  BaseRepository implements  CartItemRepositoryInterface
 {
+    public function __construct(CartItem $model)
+    {
+        parent::__construct($model);
+    }
+
     public function getItemsByCartId($cartId)
     {
         return $this->model->where('cart_id', $cartId)->get();
@@ -14,7 +20,7 @@ class CartItemRepository extends  BaseRepository implements  CartItemRepositoryI
     public function findItem($cartId, $productId)
     {
         return $this->model->where('cart_id', $cartId)
-            ->where('product_id', $productId)
+            ->where('product_color_id', $productId)
             ->first();
     }
 
@@ -22,8 +28,8 @@ class CartItemRepository extends  BaseRepository implements  CartItemRepositoryI
     {
         return $this->model->create([
             'cart_id' => $cartId,
-            'product_id' => $productId,
-            'quantity' => $quantity,
+            'product_color_id' => $productId,
+            'count' => $quantity,
         ]);
     }
 
@@ -31,7 +37,7 @@ class CartItemRepository extends  BaseRepository implements  CartItemRepositoryI
     {
         $cartItem = $this->findItem($cartId, $productId);
         if ($cartItem) {
-            $cartItem->update(['quantity' => $quantity]);
+            $cartItem->update(['count' => $quantity]);
             return $cartItem;
         }
         return null;
@@ -50,4 +56,14 @@ class CartItemRepository extends  BaseRepository implements  CartItemRepositoryI
     {
         return $this->model->where('cart_id', $cartId)->delete();
     }
+
+    public function increment($cartItem)
+    {
+       return $cartItem->increment('count');
+    }
+    public function decrement($cartItem)
+    {
+       return $cartItem->decrement('count');
+    }
+
 }

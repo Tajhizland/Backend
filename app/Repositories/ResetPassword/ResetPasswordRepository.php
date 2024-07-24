@@ -26,16 +26,16 @@ class ResetPasswordRepository extends BaseRepository implements ResetPasswordRep
 
     public function setVerificationCode($username , $userId, $code)
     {
-        return $this->create(["username" => $username,"user_id" => $userId, "status" => ResetPasswordStatus::Pending, "code" => $code, "expire_at" => Carbon::now()->addMinutes(config("settings.reset_password.code_expire_minutes"))]);
+        return $this->create(["username" => $username,"user_id" => $userId, "status" => ResetPasswordStatus::Pending->value, "code" => $code, "expire_at" => Carbon::now()->addMinutes(config("settings.reset_password.code_expire_minutes"))]);
     }
 
     public function setInProgress($id)
     {
-        $this->update($this->findOrFail($id), ["status" => ResetPasswordStatus::InProgress]);
+        $this->update($this->findOrFail($id), ["status" => ResetPasswordStatus::InProgress->value]);
     }
 
     public function setCompleted($id)
     {
-        $this->update($this->findOrFail($id), ["status" => ResetPasswordStatus::Completed]);
+        $this->update($this->findOrFail($id), ["status" => ResetPasswordStatus::Completed->value]);
     }
 }
