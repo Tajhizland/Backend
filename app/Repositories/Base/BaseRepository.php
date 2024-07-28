@@ -39,8 +39,9 @@ class BaseRepository
      * @param  array  $columns
      * @return mixed
      */
-    public function paginate($limit = null, $columns = ['*']): mixed
+    public function paginate($columns = ['*']): mixed
     {
+        $limit=config("settings.paginated_size");
         return $this->model->select($columns)->latest()->paginate($limit);
     }
 

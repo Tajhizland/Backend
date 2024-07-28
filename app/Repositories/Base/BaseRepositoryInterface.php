@@ -8,7 +8,7 @@ interface BaseRepositoryInterface
 {
     public function all($columns = ['*']): mixed;
 
-    public function paginate($limit = null, $columns = ['*']): mixed;
+    public function paginate($columns = ['*']): mixed;
 
     public function create(array $data): mixed;
 

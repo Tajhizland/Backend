@@ -13,6 +13,7 @@ Route::get('/', function (Request $request) {
  });
 
 Route::get('/c',  [\App\Http\Controllers\V1\Shop\CartController::class,"get"]);
+Route::get('/c2',  [\App\Http\Controllers\V1\Admin\ProductController::class,"getPaginated"]);
 
 Route::get('/m',  [\App\Http\Controllers\V1\Auth\RegisterController::class,"sendVerificationCode"]);
 Route::get('/l',  [\App\Http\Controllers\V1\Auth\LoginController::class,"login"])->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);

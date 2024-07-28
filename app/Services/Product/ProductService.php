@@ -21,4 +21,10 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
+    public function getPaginatedFilterable(): mixed
+    {
+        return $this->productRepository->getPaginated();
+    }
+
+
 }
