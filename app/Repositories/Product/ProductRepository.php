@@ -43,5 +43,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ])
             ->paginate();
     }
+    public function search($query)
+    {
+        return $this->model::where("name","like","%$query%")->limit(config("settings.search_item_limit"))->get();
+    }
 
 }

@@ -152,6 +152,7 @@ return [
         'password'              => 'گذرواژه',
         'password_confirmation' => 'تکرار گذرواژه',
         'url' => 'آدرس',
+        'query' => 'جستجو',
     ],
     'attributes2' => [
         'name'                  => 'نام',

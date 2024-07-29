@@ -7,18 +7,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('filters', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('category_id');
             $table->integer('status');
-            $table->string('type');
+            $table->string('image')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('filters');
+        Schema::dropIfExists('brands');
     }
 };

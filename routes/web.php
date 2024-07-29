@@ -12,6 +12,7 @@ Route::get('/', function (Request $request) {
     return $request;
  });
 
+Route::get('/s',  [\App\Http\Controllers\V1\Shop\CategoryController::class,"index"]);
 Route::get('/c',  [\App\Http\Controllers\V1\Shop\CartController::class,"get"]);
 Route::get('/c2',  [\App\Http\Controllers\V1\Admin\ProductController::class,"getPaginated"]);
 

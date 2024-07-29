@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Http\Resources\V1\Product;
+namespace App\Http\Resources\V1\FilterItem;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-/** @see \App\Models\Product */
-class ProductCollection extends ResourceCollection
+class FilterItemCollection extends ResourceCollection
 {
     public function toArray(Request $request): array
     {
         return [
             'data' => $this->collection,
-
-         ];
+        ];
     }
 }

@@ -16,6 +16,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductColor::class);
     }
+    public function productFilters(): HasMany
+    {
+        return $this->hasMany(ProductFilter::class);
+    }
     public function activeProductColors(): HasMany
     {
         return $this->hasMany(ProductColor::class)->where("status",1);
