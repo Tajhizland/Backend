@@ -22,6 +22,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->get([["url", $url]], 1);
     }
 
+    public function findById($id)
+    {
+        return $this->model::find($id);
+    }
+
     public function incrementViewCount($product)
     {
         return $product->increment('view');
@@ -49,6 +54,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model::where("name", "like", "%$query%")->limit(config("settings.search_item_limit"))->get();
     }
 
+    public function showFavoriteList($userId)
+    {
+        return $this->model::whereHas("favorites", function ($query) use ($userId) {
+            $query->where("user_id", $userId);
+        })->paginate($this->pageSize);
+    }
+
     public function activeProductQuery()
     {
         return $this->model::active()->hasColor();
@@ -68,15 +80,15 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function minPriceFilter($query, $minPrice)
     {
-       return $query->whereHas("prices", function ($q) use ($minPrice) {
-           $q->where("price",">=", $minPrice);
-       });
+        return $query->whereHas("prices", function ($q) use ($minPrice) {
+            $q->where("price", ">=", $minPrice);
+        });
     }
 
     public function maxPriceFilter($query, $maxPrice)
     {
         return $query->whereHas("prices", function ($q) use ($maxPrice) {
-            $q->where("price","<=", $maxPrice);
+            $q->where("price", "<=", $maxPrice);
         });
     }
 
@@ -88,8 +100,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function hasStockFilter($query)
     {
-        return $query->whereHas("stocks", function ($q)   {
-            $q->where("stock",">", 0);
+        return $query->whereHas("stocks", function ($q) {
+            $q->where("stock", ">", 0);
         });
     }
 }

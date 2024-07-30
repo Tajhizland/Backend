@@ -25,6 +25,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductColor::class);
     }
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
 
     public function productFilters(): HasMany
     {

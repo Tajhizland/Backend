@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\V1\Shop\CartController;
-use App\Http\Controllers\V1\Shop\HomePageController;
-use App\Http\Controllers\V1\Shop\SearchController;
-use App\Http\Controllers\V1\Shop\ProductController;
 use App\Http\Controllers\V1\Shop\CategoryController;
+use App\Http\Controllers\V1\Shop\FavoriteController;
+use App\Http\Controllers\V1\Shop\HomePageController;
+use App\Http\Controllers\V1\Shop\ProductController;
+use App\Http\Controllers\V1\Shop\SearchController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,10 +21,16 @@ Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::get('decrease', [CartController::class, "decrease"]);
 });
 
+Route::group(["prefix" => "favorite", "middleware" => "auth:sanctum"], function () {
+    Route::get('show', [FavoriteController::class, "index"]);
+    Route::get('add-item', [FavoriteController::class, "addProduct"]);
+    Route::get('remove-item', [FavoriteController::class, "removeProduct"]);
+});
+
 Route::group(["prefix" => "product"], function () {
     Route::get('find', [ProductController::class, "find"]);
 });
 
 Route::group(["prefix" => "category"], function () {
-    Route::get('find', [CategoryController::class, "find"]);
+    Route::get('find', [CategoryController::class, "index"]);
 });

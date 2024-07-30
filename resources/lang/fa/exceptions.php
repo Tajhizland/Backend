@@ -30,6 +30,10 @@ return [
     "un-stock" => "موجودی محصول کافی نیست",
     "cart_not_find" => "سبد خرید یافت نشد",
     "unavailable_product_in_cart" => "محصول در سبد خرید موجود نمیباشد",
+    /****************** Favorite ******************/
+    "product_already_exist_favorite" => "محصول در حال حاضر در لیست علاقه مندی ها موجود است ",
+    "product_not_exist_favorite" => "محصول در لیست علاقه مندی ها موجود نیست ",
+    "product_not_find" => "محصول یافت نشد ",
 
 
 ];

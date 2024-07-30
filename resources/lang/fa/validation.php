@@ -153,6 +153,7 @@ return [
         'password_confirmation' => 'تکرار گذرواژه',
         'url' => 'آدرس',
         'query' => 'جستجو',
+        'productId' => 'شناسه محصول',
     ],
     'attributes2' => [
         'name'                  => 'نام',

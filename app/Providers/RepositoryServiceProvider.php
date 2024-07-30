@@ -10,6 +10,8 @@ use App\Repositories\CartItem\CartItemRepository;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Favorite\FavoriteRepository;
+use App\Repositories\Favorite\FavoriteRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\MobileVerification\MobileVerificationRepository;
@@ -34,6 +36,8 @@ use App\Services\Cart\CartService;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\Favorite\FavoriteService;
+use App\Services\Favorite\FavoriteServiceInterface;
 use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Filter\ListingFilterService;
@@ -74,6 +78,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CategoryRepositoryInterface::class,CategoryRepository::class);
 
+        $this->app->bind(FavoriteRepositoryInterface::class,FavoriteRepository::class);
+
 
         /** End Repository */
 
@@ -103,6 +109,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CategoryServiceInterface::class,CategoryService::class);
 
         $this->app->bind(ListingFilterServiceInterface::class,ListingFilterService::class);
+
+        $this->app->bind(FavoriteServiceInterface::class,FavoriteService::class);
 
 
         /** End Service */

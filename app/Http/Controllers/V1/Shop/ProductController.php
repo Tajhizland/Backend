@@ -17,9 +17,4 @@ class ProductController extends  Controller
     {
        return $this->dataResponse(new ProductResource($this->productService->findProductByUrl($request->get("url"))));
     }
-
-    public function findAll(FindProductRequest $request)
-    {
-       return $this->dataResponse(new ProductResource($this->productService->findProductByUrl($request->get("url"))));
-    }
 }
