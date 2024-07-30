@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum FilterStatus: int
+enum ProductStatus: int
 {
     case Active = 1;
     case DeActive = 0;

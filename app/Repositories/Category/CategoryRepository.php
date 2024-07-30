@@ -14,6 +14,10 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function search($query)
     {
-        return $this->model::where("name","like","%$query%")->limit(config("settings.search_item_limit"))->get();
+        return $this->model::where("name","like","%$query%")->active()->limit(config("settings.search_item_limit"))->get();
+    }
+    public function findByUrl($url)
+    {
+        return $this->model::where("url",$url)->active()->first();
     }
 }

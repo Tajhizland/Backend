@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\V1\ProductColor;
 
-use App\Http\Resources\V1\Invoice\InvoiceResource;
-use App\Http\Resources\V1\Price\PriceResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,7 +19,7 @@ class ProductColorResource extends JsonResource
             'status' => $this->status,
             'price' => $this->price?->price,
             'discount' => $this->price?->discount,
-            'invoice' => $this->invoice?->invoice,
+            'stock' => $this->stock?->stock,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

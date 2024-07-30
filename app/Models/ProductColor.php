@@ -14,9 +14,9 @@ class ProductColor extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    public function invoice():HasOne
+    public function stock():HasOne
     {
-        return $this->hasOne(Invoice::class, 'product_color_id');
+        return $this->hasOne(Stock::class, 'product_color_id');
     }
     public function price():HasOne
     {

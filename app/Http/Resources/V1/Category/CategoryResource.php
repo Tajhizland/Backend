@@ -19,12 +19,13 @@ class CategoryResource extends JsonResource
             'status' => $this->status,
             'url' => $this->url,
             'image' => $this->image,
-            'filters' => new FilterCollection($this->filters),
-            'products' => new ProductCollection($this->whenLoaded('products')),
             'parent_id' => $this->parent_id,
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'minPrice'=> $this->getMinProductPrice(),
+            'maxPrice'=> $this->getMaxProductPrice(),
+            'filters' => new FilterCollection($this->filters),
         ];
     }
 }

@@ -4,25 +4,28 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Category\CategoryResource;
-use App\Models\Category;
-use App\Models\Product;
+use App\Http\Resources\V1\Product\ProductCollection;
+use App\Services\Category\CategoryServiceInterface;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function __construct(
+        private CategoryServiceInterface $categoryService,
+    )
+    {
+    }
+
     public function index(Request $request)
     {
-        $filters = $request->get("filter");
-        $pf = Product::query();
-        foreach ($filters as $key => $value) {
-            $pf->whereHas("productFilters", function ($q) use ($key, $value) {
-                $q->where("filter_id", $key)->whereIn("filter_item_id", $value);
-            });
-        }
-        $products= $pf->paginate();
+        $listing = $this->categoryService->listing($request->get("url"), $request->get("filter"));
 
-        $cat = Category::find(1);
+        $categoryResource = new CategoryResource($listing["category"]);
+        $productCollection = new ProductCollection($listing["products"]);
 
-        return new CategoryResource($cat->setRelation("products",$products));
+        return $this->dataResponse([
+            "category" => $categoryResource,
+            "products" => $productCollection,
+        ]);
     }
 }

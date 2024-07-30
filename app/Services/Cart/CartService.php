@@ -39,7 +39,7 @@ class CartService implements CartServiceInterface
 
         $totalQuantity = $cartItem ? $quantity + $cartItem->count : $quantity;
 
-        if ($productColor->invoice->stock < $totalQuantity) {
+        if ($productColor->stock->stock < $totalQuantity) {
             throw new BreakException(Lang::get("exceptions.un-stock"));
         }
         $cartItem
@@ -60,7 +60,7 @@ class CartService implements CartServiceInterface
         if (!$cartItem) {
             throw new BreakException(Lang::get("exceptions.unavailable_product_in_cart"));
         }
-        if ($productColor->invoice->stock < $cartItem->count + 1) {
+        if ($productColor->stock->stock < $cartItem->count + 1) {
             throw new BreakException(Lang::get("exceptions.un-stock"));
         }
         return $this->cartItemRepository->increment($cartItem);

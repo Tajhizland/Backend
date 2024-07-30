@@ -41,11 +41,55 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->allowedSorts(['id', 'name', 'url', 'status', 'created_at',
                 AllowedSort::custom("category", new ProductByCategorySort()),
             ])
-            ->paginate();
-    }
-    public function search($query)
-    {
-        return $this->model::where("name","like","%$query%")->limit(config("settings.search_item_limit"))->get();
+            ->paginate($this->pageSize);
     }
 
+    public function search($query)
+    {
+        return $this->model::where("name", "like", "%$query%")->limit(config("settings.search_item_limit"))->get();
+    }
+
+    public function activeProductQuery()
+    {
+        return $this->model::active()->hasColor();
+    }
+
+    public function otherFilter($key, $values, $query)
+    {
+        return $query->whereHas("productFilters", function ($q) use ($key, $values) {
+            $q->where("filter_id", $key)->whereIn("filter_item_id", $values);
+        });
+    }
+
+    public function paginated($query)
+    {
+        return $query->paginate($this->pageSize);
+    }
+
+    public function minPriceFilter($query, $minPrice)
+    {
+       return $query->whereHas("prices", function ($q) use ($minPrice) {
+           $q->where("price",">=", $minPrice);
+       });
+    }
+
+    public function maxPriceFilter($query, $maxPrice)
+    {
+        return $query->whereHas("prices", function ($q) use ($maxPrice) {
+            $q->where("price","<=", $maxPrice);
+        });
+    }
+
+    public function nameFilter($query, $name)
+    {
+        return $query->where("name", "like", "%$name%");
+
+    }
+
+    public function hasStockFilter($query)
+    {
+        return $query->whereHas("stocks", function ($q)   {
+            $q->where("stock",">", 0);
+        });
+    }
 }

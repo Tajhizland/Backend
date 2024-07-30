@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Base;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,22 +10,24 @@ class BaseRepository
      * @var Model
      */
     protected $model;
+    protected $pageSize = 15;
 
     /**
      * Create a new instance.
      *
-     * @param  Model  $model
+     * @param Model $model
      * @return void
      */
     public function __construct(Model $model)
     {
         $this->model = $model;
+        $this->pageSize = config("settings.paginated_size");
     }
 
     /**
      * Retrieve all data of repository.
      *
-     * @param  array  $columns
+     * @param array $columns
      * @return mixed
      */
     public function all($columns = ['*']): mixed
@@ -35,20 +38,20 @@ class BaseRepository
     /**
      * Retrieve all data of repository, paginated.
      *
-     * @param  null  $limit
-     * @param  array  $columns
+     * @param null $limit
+     * @param array $columns
      * @return mixed
      */
     public function paginate($columns = ['*']): mixed
     {
-        $limit=config("settings.paginated_size");
+        $limit = config("settings.paginated_size");
         return $this->model->select($columns)->latest()->paginate($limit);
     }
 
     /**
      * Save a new entity in repository.
      *
-     * @param  array  $data
+     * @param array $data
      * @return mixed
      */
     public function create(array $data): mixed
@@ -59,7 +62,7 @@ class BaseRepository
     /**
      * Return an entity.
      *
-     * @param  int  $id
+     * @param int $id
      * @return mixed
      */
     public function findOrFail(int $id): mixed
@@ -70,8 +73,8 @@ class BaseRepository
     /**
      * Update an entity.
      *
-     * @param  Model  $entity
-     * @param  array  $data
+     * @param Model $entity
+     * @param array $data
      * @return bool
      */
     public function update(Model $entity, array $data): bool
@@ -82,7 +85,7 @@ class BaseRepository
     /**
      * Delete an entity.
      *
-     * @param  Model  $entity
+     * @param Model $entity
      * @return bool|null
      */
     public function delete(Model $entity): bool|null
@@ -93,8 +96,8 @@ class BaseRepository
     /**
      * Update or create an entity.
      *
-     * @param  array  $attributes
-     * @param  array  $values
+     * @param array $attributes
+     * @param array $values
      * @return mixed
      */
     public function updateOrCreate(array $attributes, array $values): mixed
@@ -105,8 +108,8 @@ class BaseRepository
     /**
      * Get entity.
      *
-     * @param  array  $condition
-     * @param  bool  $takeOne
+     * @param array $condition
+     * @param bool $takeOne
      * @return mixed
      */
     public function get(array $condition = [], bool $takeOne = true): mixed
