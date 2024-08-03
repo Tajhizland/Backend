@@ -27,4 +27,20 @@ class ProductService implements ProductServiceInterface
     }
 
 
+    public function findById($id): mixed
+    {
+        return $this->productRepository->findById($id);
+    }
+
+    public function storeProduct($name, $url, $description, $study, $categoryId, $colors): mixed
+    {
+        return 1;
+        // TODO: Implement storeProduct() method.
+    }
+
+    public function updateProduct($id, $name, $url, $description, $study, $categoryId, $colors): mixed
+    {
+        return 1;
+        // TODO: Implement storeProduct() method.
+    }
 }

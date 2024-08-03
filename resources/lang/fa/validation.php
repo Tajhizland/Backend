@@ -114,6 +114,7 @@ return [
     'unique'               => ':attribute قبلا انتخاب شده است.',
     'uploaded'             => 'بارگذاری فایل :attribute موفقیت آمیز نبود.',
     'url'                  => ':attribute معتبر نمی‌باشد.',
+    'hex_color'                  => ':attribute باید معتبر باشد.',
     'uuid'                 => ':attribute باید یک UUID معتبر باشد.',
 
     /*
@@ -156,6 +157,15 @@ return [
         'productId' => 'شناسه محصول',
         'rating' => 'امتیاز',
         'text' => 'متن',
+        'description' => 'توضیحات',
+        'study' => 'بررسی',
+        'categoryId' => 'شناسه دسته بندی',
+        'color.*.name' => 'نام رنگ',
+        'color.*.code' => 'کد رنگ',
+        'color.*.status' => 'وضعیت رنگ',
+        'color.*.price' => 'قیمت رنگ',
+        'color.*.stock' => 'موجودی رنگ',
+        'color.*.discount' => 'تخفیف رنگ',
     ],
     'attributes2' => [
         'name'                  => 'نام',
