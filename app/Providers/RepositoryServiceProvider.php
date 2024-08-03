@@ -12,6 +12,8 @@ use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
 use App\Repositories\Favorite\FavoriteRepositoryInterface;
+use App\Repositories\New\NewRepository;
+use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\MobileVerification\MobileVerificationRepository;
@@ -42,6 +44,8 @@ use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Filter\ListingFilterService;
 use App\Services\Filter\ListingFilterServiceInterface;
+use App\Services\New\NewService;
+use App\Services\New\NewServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\Search\SearchService;
@@ -80,6 +84,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(FavoriteRepositoryInterface::class,FavoriteRepository::class);
 
+        $this->app->bind(NewRepositoryInterface::class,NewRepository::class);
+
 
         /** End Repository */
 
@@ -111,6 +117,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ListingFilterServiceInterface::class,ListingFilterService::class);
 
         $this->app->bind(FavoriteServiceInterface::class,FavoriteService::class);
+
+        $this->app->bind(NewServiceInterface::class,NewService::class);
 
 
         /** End Service */

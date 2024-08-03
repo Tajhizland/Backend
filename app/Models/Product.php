@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CommentStatus;
 use App\Enums\ProductColorStatus;
 use App\Enums\ProductStatus;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,6 +25,14 @@ class Product extends Model
     public function productColors(): HasMany
     {
         return $this->hasMany(ProductColor::class);
+    }
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function confirmedComments(): HasMany
+    {
+        return $this->hasMany(Comment::class)->where("status",CommentStatus::Confirmed->value);
     }
     public function favorites(): HasMany
     {
@@ -58,6 +67,10 @@ class Product extends Model
     public function getMinColorPrice()
     {
         return $this->prices()->min("price");
+    }
+    public function getRatingAvg()
+    {
+        return $this->comments()->Confirmed()->avg("rating");
     }
     public function getMaxColorPrice()
     {

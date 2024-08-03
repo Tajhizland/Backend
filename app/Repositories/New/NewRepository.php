@@ -11,4 +11,12 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
     {
         parent::__construct($model);
     }
+    public function findByUrl($url)
+    {
+        return $this->model::published()->where("url",$url)->first();
+    }
+    public function activePaginate()
+    {
+        return $this->model::published()->latest("id")->paginate($this->pageSize);
+    }
 }

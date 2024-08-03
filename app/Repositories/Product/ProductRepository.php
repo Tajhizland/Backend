@@ -19,7 +19,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findByUrl($url)
     {
-        return $this->get([["url", $url]], 1);
+        return $this->model->active()->where("url",$url)->first();
     }
 
     public function findById($id)

@@ -6,6 +6,7 @@ use App\Http\Controllers\V1\Shop\FavoriteController;
 use App\Http\Controllers\V1\Shop\HomePageController;
 use App\Http\Controllers\V1\Shop\ProductController;
 use App\Http\Controllers\V1\Shop\SearchController;
+use App\Http\Controllers\V1\Shop\NewsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,9 +29,18 @@ Route::group(["prefix" => "favorite", "middleware" => "auth:sanctum"], function 
 });
 
 Route::group(["prefix" => "product"], function () {
-    Route::get('find', [ProductController::class, "find"]);
+
+    Route::get('find/{url}', [ProductController::class, "find"])
+        ->middleware("auth:sanctum")
+        ->where('url', '.*');
+
 });
 
 Route::group(["prefix" => "category"], function () {
     Route::get('find', [CategoryController::class, "index"]);
+});
+
+Route::group(["prefix" => "news"], function () {
+    Route::get('find/{url}', [NewsController::class, "findByUrl"])->where('url', '.*');;
+    Route::get('paginated', [NewsController::class, "paginate"]);
 });
