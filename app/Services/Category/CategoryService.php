@@ -5,6 +5,7 @@ namespace App\Services\Category;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Services\Filter\ListingFilterService;
+use App\Services\Upload\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryService implements CategoryServiceInterface
@@ -12,7 +13,8 @@ class CategoryService implements CategoryServiceInterface
     public function __construct(
         private CategoryRepositoryInterface $categoryRepository,
         private ProductRepositoryInterface  $productRepository,
-        private ListingFilterService        $listingFilterService
+        private ListingFilterService        $listingFilterService,
+        private S3ServiceInterface          $s3Service
     )
     {
     }
@@ -28,5 +30,35 @@ class CategoryService implements CategoryServiceInterface
         $products = $this->productRepository->paginated($productsQuery);
 
         return ["products" => $products, "category" => $category];
+    }
+
+    public function dateTable()
+    {
+        return $this->categoryRepository->dateTable();
+    }
+
+    public function findById($id)
+    {
+        return $this->categoryRepository->findOrFail($id);
+    }
+
+    public function storeCategory($name, $status, $url, $image, $description, $parentId)
+    {
+        $imagePath = null;
+        if ($image) {
+            $imagePath = $this->s3Service->upload($image, "/category/");
+        }
+        return $this->categoryRepository->createCategory($name, $status, $url, $imagePath, $description, $parentId);
+    }
+
+    public function updateCategory($id, $name, $status, $url, $image, $description, $parentId)
+    {
+        $category = $this->categoryRepository->findOrFail($id);
+        $imagePath = $category->image;
+        if ($image) {
+            $this->s3Service->remove($category->image);
+            $imagePath = $this->s3Service->upload($image, "/category/");
+        }
+        return $this->categoryRepository->updateCategory($category, $name, $status, $url, $imagePath, $description, $parentId);
     }
 }

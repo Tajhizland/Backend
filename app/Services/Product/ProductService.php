@@ -2,12 +2,22 @@
 
 namespace App\Services\Product;
 
+use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
+use App\Repositories\ProductColor\ProductColorRepositoryInterface;
+use App\Repositories\Stock\StockRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductService implements ProductServiceInterface
 {
-    public function __construct(private ProductRepositoryInterface $productRepository)
+    public function __construct(
+        private ProductRepositoryInterface         $productRepository,
+        private ProductColorRepositoryInterface    $productColorRepository,
+        private StockRepositoryInterface           $stockRepository,
+        private PriceRepositoryInterface           $priceRepository,
+        private ProductCategoryRepositoryInterface $productCategoryRepository,
+    )
     {
     }
 
@@ -21,9 +31,9 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function getPaginatedFilterable(): mixed
+    public function dateTable(): mixed
     {
-        return $this->productRepository->getPaginated();
+        return $this->productRepository->dateTable();
     }
 
 
@@ -32,15 +42,27 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $categoryId, $colors): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $colors): mixed
     {
-        return 1;
-        // TODO: Implement storeProduct() method.
+        $product = $this->productRepository->createProduct($name, $url, $description, $study, $status);
+        $this->productCategoryRepository->createProductCategory($product->id, $categoryId);
+        foreach ($colors as $item) {
+            $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $product->id, $item["status"]);
+            $this->priceRepository->createPrice($productColor->id, $item["price"], $item["discount"]);
+            $this->stockRepository->createStock($productColor->id, $item["stock"]);
+        }
+        return true;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $categoryId, $colors): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $colors): mixed
     {
-        return 1;
-        // TODO: Implement storeProduct() method.
+        $this->productRepository->updateProduct($id, $name, $url, $description, $study, $status);
+        $this->productCategoryRepository->updateWithProductId($id, $categoryId);
+        foreach ($colors as $item) {
+            $this->productColorRepository->updateProductColor($item["id"], $item["name"], $item["code"], $item["status"]);
+            $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
+            $this->stockRepository->updateStock($item["id"], $item["stock"]);
+        }
+        return true;
     }
 }

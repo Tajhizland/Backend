@@ -3,6 +3,7 @@
 namespace App\Http\Requests\V1\Admin\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -11,16 +12,18 @@ class UpdateProductRequest extends FormRequest
         return [
             'id' => ['required','integer','exists:App\Models\Product'],
             'name' => ['required'],
-            'url' => ['required','unique:App\Models\Product'],
+            'url' => ['required', Rule::unique('products')->ignore($this->id)],
             'description' => ['nullable'],
             'study' => ['nullable'],
-            'categoryId' => ['required','integer'],
+            'status' => ['required','int','in:1,0'],
+            'categoryId' => ['required','integer' , 'exists:App\Models\Category,id'],
+            'color.*.id' => ['required','integer','exists:App\Models\ProductColor'],
             'color.*.name' => ['required','string'],
-            'color.*.code' => ['required','hex_color'],
+            'color.*.code' => ['required'],
             'color.*.status' => ['required','int','in:0,1'],
             'color.*.price' => ['required','int','min:0'],
             'color.*.stock' => ['required','int','min:0'],
-            'color.*.discount' => ['nullable','int','min:0','max:100'],
+            'color.*.discount' => ['required','int','min:0','max:100'],
         ];
     }
 

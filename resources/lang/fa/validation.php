@@ -166,6 +166,8 @@ return [
         'color.*.price' => 'قیمت رنگ',
         'color.*.stock' => 'موجودی رنگ',
         'color.*.discount' => 'تخفیف رنگ',
+        'color.*.id' => 'شناسه رنگ',
+        'id'=>'شناسه'
     ],
     'attributes2' => [
         'name'                  => 'نام',

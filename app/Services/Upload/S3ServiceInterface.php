@@ -2,7 +2,8 @@
 
 namespace App\Services\Upload;
 
-interface UploadServiceInterface
+interface S3ServiceInterface
 {
     public function upload($file, $path): string;
+    public function remove($path): void;
 }

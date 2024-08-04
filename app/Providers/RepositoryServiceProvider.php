@@ -12,20 +12,22 @@ use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
 use App\Repositories\Favorite\FavoriteRepositoryInterface;
-use App\Repositories\New\NewRepository;
-use App\Repositories\New\NewRepositoryInterface;
-use App\Repositories\Stock\StockRepository;
-use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\MobileVerification\MobileVerificationRepository;
 use App\Repositories\MobileVerification\MobileVerificationRepositoryInterface;
+use App\Repositories\New\NewRepository;
+use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\Price\PriceRepository;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\ProductCategory\ProductCategoryRepository;
+use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepository;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use App\Repositories\ResetPassword\ResetPasswordRepository;
 use App\Repositories\ResetPassword\ResetPasswordRepositoryInterface;
+use App\Repositories\Stock\StockRepository;
+use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\Login\LoginService;
@@ -62,29 +64,31 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         /** Repository */
 
-        $this->app->bind(BaseRepositoryInterface::class,BaseRepository::class);
+        $this->app->bind(BaseRepositoryInterface::class, BaseRepository::class);
 
-        $this->app->bind(UserRepositoryInterface::class,UserRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
-        $this->app->bind(CartRepositoryInterface::class,CartRepository::class);
+        $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
 
-        $this->app->bind(CartItemRepositoryInterface::class,CartItemRepository::class);
+        $this->app->bind(CartItemRepositoryInterface::class, CartItemRepository::class);
 
-        $this->app->bind(MobileVerificationRepositoryInterface::class,MobileVerificationRepository::class);
+        $this->app->bind(MobileVerificationRepositoryInterface::class, MobileVerificationRepository::class);
 
-        $this->app->bind(ResetPasswordRepositoryInterface::class,ResetPasswordRepository::class);
+        $this->app->bind(ResetPasswordRepositoryInterface::class, ResetPasswordRepository::class);
 
-        $this->app->bind(ProductRepositoryInterface::class,ProductRepository::class);
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
 
-        $this->app->bind(ProductColorRepositoryInterface::class,ProductColorRepository::class);
+        $this->app->bind(ProductColorRepositoryInterface::class, ProductColorRepository::class);
 
-        $this->app->bind(StockRepositoryInterface::class,StockRepository::class);
+        $this->app->bind(StockRepositoryInterface::class, StockRepository::class);
 
-        $this->app->bind(CategoryRepositoryInterface::class,CategoryRepository::class);
+        $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
 
-        $this->app->bind(FavoriteRepositoryInterface::class,FavoriteRepository::class);
+        $this->app->bind(FavoriteRepositoryInterface::class, FavoriteRepository::class);
 
-        $this->app->bind(NewRepositoryInterface::class,NewRepository::class);
+        $this->app->bind(NewRepositoryInterface::class, NewRepository::class);
+
+        $this->app->bind(ProductCategoryRepositoryInterface::class, ProductCategoryRepository::class);
 
 
         /** End Repository */
@@ -94,31 +98,31 @@ class RepositoryServiceProvider extends ServiceProvider
 
         /** Service */
 
-        $this->app->bind(UserServiceInterface::class,UserService::class);
+        $this->app->bind(UserServiceInterface::class, UserService::class);
 
-        $this->app->bind(RegisterServiceInterface::class,RegisterService::class);
+        $this->app->bind(RegisterServiceInterface::class, RegisterService::class);
 
-        $this->app->bind(LoginServiceInterface::class,LoginService::class);
+        $this->app->bind(LoginServiceInterface::class, LoginService::class);
 
-        $this->app->bind(ResetPasswordServiceInterface::class,ResetPasswordService::class);
+        $this->app->bind(ResetPasswordServiceInterface::class, ResetPasswordService::class);
 
-        $this->app->bind(CartServiceInterface::class,CartService::class);
+        $this->app->bind(CartServiceInterface::class, CartService::class);
 
-        $this->app->bind(SmsServiceInterface::class,Sms::class);
+        $this->app->bind(SmsServiceInterface::class, Sms::class);
 
-        $this->app->bind(ProductServiceInterface::class,ProductService::class);
+        $this->app->bind(ProductServiceInterface::class, ProductService::class);
 
-        $this->app->bind(PriceRepositoryInterface::class,PriceRepository::class);
+        $this->app->bind(PriceRepositoryInterface::class, PriceRepository::class);
 
-        $this->app->bind(SearchServiceInterface::class,SearchService::class);
+        $this->app->bind(SearchServiceInterface::class, SearchService::class);
 
-        $this->app->bind(CategoryServiceInterface::class,CategoryService::class);
+        $this->app->bind(CategoryServiceInterface::class, CategoryService::class);
 
-        $this->app->bind(ListingFilterServiceInterface::class,ListingFilterService::class);
+        $this->app->bind(ListingFilterServiceInterface::class, ListingFilterService::class);
 
-        $this->app->bind(FavoriteServiceInterface::class,FavoriteService::class);
+        $this->app->bind(FavoriteServiceInterface::class, FavoriteService::class);
 
-        $this->app->bind(NewServiceInterface::class,NewService::class);
+        $this->app->bind(NewServiceInterface::class, NewService::class);
 
 
         /** End Service */

@@ -19,7 +19,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findByUrl($url)
     {
-        return $this->model->active()->where("url",$url)->first();
+        return $this->model->active()->where("url", $url)->first();
     }
 
     public function findById($id)
@@ -32,7 +32,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $product->increment('view');
     }
 
-    public function getPaginated()
+    public function dateTable()
     {
         return QueryBuilder::for(Product::class)
             ->select("products.*")
@@ -103,5 +103,27 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $query->whereHas("stocks", function ($q) {
             $q->where("stock", ">", 0);
         });
+    }
+
+    public function createProduct($name, $url, $description, $study ,$status)
+    {
+       return $this->create([
+            "name" => $name,
+            "url" => $url,
+            "description" => $description,
+            "study" => $study,
+            "status" => $status,
+            "view" => 0,
+        ]);
+    }
+    public function updateProduct($id,$name, $url, $description, $study ,$status)
+    {
+       return $this->model::find($id)->update([
+            "name" => $name,
+            "url" => $url,
+            "description" => $description,
+            "study" => $study,
+            "status" => $status,
+        ]);
     }
 }
