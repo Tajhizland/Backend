@@ -48,4 +48,8 @@ return [
     'filter_store_success' => 'فیلتر با موفقیت ایجاد شد',
     'filter_update_success' => 'فیلتر با موفقیت ویرایش شد',
 
+    /****************** Option ******************/
+    'option_store_success' => 'ویژگی با موفقیت ایجاد شد',
+    'option_update_success' => 'ویژگی با موفقیت ویرایش شد',
+
 ];
