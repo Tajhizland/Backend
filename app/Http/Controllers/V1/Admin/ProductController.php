@@ -19,9 +19,9 @@ class ProductController extends Controller
     {
     }
 
-    public function dateTable()
+    public function dataTable()
     {
-        return $this->dataResponse(new ProductCollection($this->productService->dateTable()));
+        return $this->dataResponse(new ProductCollection($this->productService->dataTable()));
     }
 
     public function findById($id)

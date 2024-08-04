@@ -32,9 +32,9 @@ class CategoryService implements CategoryServiceInterface
         return ["products" => $products, "category" => $category];
     }
 
-    public function dateTable()
+    public function dataTable()
     {
-        return $this->categoryRepository->dateTable();
+        return $this->categoryRepository->dataTable();
     }
 
     public function findById($id)

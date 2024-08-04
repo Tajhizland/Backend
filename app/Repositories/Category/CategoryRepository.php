@@ -49,7 +49,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         ]);
     }
 
-    public function dateTable()
+    public function dataTable()
     {
         return QueryBuilder::for(Category::class)
             ->select("categories.*")

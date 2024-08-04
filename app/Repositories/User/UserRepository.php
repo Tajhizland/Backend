@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
@@ -26,10 +27,28 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->get([["username", $username]], 1);
     }
 
+    public function dataTable()
+    {
+        return QueryBuilder::for(User::class)
+            ->select("users.*")
+            ->allowedFilters(['name', 'role', 'username', 'id', 'created_at'])
+            ->allowedSorts(['name', 'role', 'username', 'id', 'created_at'])
+            ->paginate($this->pageSize);
+    }
+
     public function resetPassword($username, $password)
     {
-     return $this->model->where("username", $username)->update([
+        return $this->model->where("username", $username)->update([
             "password" => bcrypt($password)
+        ]);
+    }
+
+    public function updateUser($id, $name, $username, $role)
+    {
+        return $this->model::find($id)->update([
+            "name" => $name,
+            "username" => $username,
+            "role" => $role
         ]);
     }
 }

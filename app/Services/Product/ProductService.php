@@ -31,9 +31,9 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function dateTable(): mixed
+    public function dataTable(): mixed
     {
-        return $this->productRepository->dateTable();
+        return $this->productRepository->dataTable();
     }
 
 
@@ -59,9 +59,15 @@ class ProductService implements ProductServiceInterface
         $this->productRepository->updateProduct($id, $name, $url, $description, $study, $status);
         $this->productCategoryRepository->updateWithProductId($id, $categoryId);
         foreach ($colors as $item) {
-            $this->productColorRepository->updateProductColor($item["id"], $item["name"], $item["code"], $item["status"]);
-            $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
-            $this->stockRepository->updateStock($item["id"], $item["stock"]);
+            if (isset($item["id"])) {
+                $this->productColorRepository->updateProductColor($item["id"], $item["name"], $item["code"], $item["status"]);
+                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
+                $this->stockRepository->updateStock($item["id"], $item["stock"]);
+            } else {
+                $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $id, $item["status"]);
+                $this->priceRepository->createPrice($productColor->id, $item["price"], $item["discount"]);
+                $this->stockRepository->createStock($productColor->id, $item["stock"]);
+            }
         }
         return true;
     }

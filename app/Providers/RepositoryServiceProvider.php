@@ -44,8 +44,6 @@ use App\Services\Favorite\FavoriteService;
 use App\Services\Favorite\FavoriteServiceInterface;
 use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
-use App\Services\Filter\ListingFilterService;
-use App\Services\Filter\ListingFilterServiceInterface;
 use App\Services\New\NewService;
 use App\Services\New\NewServiceInterface;
 use App\Services\Product\ProductService;
@@ -118,7 +116,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CategoryServiceInterface::class, CategoryService::class);
 
-        $this->app->bind(ListingFilterServiceInterface::class, ListingFilterService::class);
+        $this->app->bind(FilterServiceInterface::class, FilterService::class);
 
         $this->app->bind(FavoriteServiceInterface::class, FavoriteService::class);
 

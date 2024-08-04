@@ -20,9 +20,9 @@ class NewsController extends Controller
     {
     }
 
-    public function dateTable()
+    public function dataTable()
     {
-        return $this->dataResponse(new NewsCollection($this->newService->dateTable()));
+        return $this->dataResponse(new NewsCollection($this->newService->dataTable()));
     }
 
     public function findById($id)

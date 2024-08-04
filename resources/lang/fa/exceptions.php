@@ -35,5 +35,8 @@ return [
     "product_not_exist_favorite" => "محصول در لیست علاقه مندی ها موجود نیست ",
     "product_not_find" => "محصول یافت نشد ",
 
+    /****************** Filter ******************/
+
+    "filter_item_filter_id_exception" => "شناسه آیتم فیلتر با این فیلتر مطابقت ندارد ",
 
 ];

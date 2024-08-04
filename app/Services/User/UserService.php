@@ -12,4 +12,16 @@ class UserService implements UserServiceInterface
     )
     {
     }
+    public function updateUser($id,$name, $username, $role)
+    {
+        return $this->repository->updateUser($id,$name,$username,$role);
+    }
+    public function findById($id)
+    {
+        return $this->repository->findOrFail($id);
+    }
+    public function dataTable()
+    {
+        // TODO: Implement dataTable() method.
+    }
 }

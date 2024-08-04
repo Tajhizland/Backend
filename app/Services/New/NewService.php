@@ -30,9 +30,9 @@ class NewService implements NewServiceInterface
         return $this->newRepository->findOrFail($id);
     }
 
-    public function dateTable()
+    public function dataTable()
     {
-        return $this->newRepository->dateTable();
+        return $this->newRepository->dataTable();
     }
 
     public function storeNews($title, $url, $content, $image, $published)

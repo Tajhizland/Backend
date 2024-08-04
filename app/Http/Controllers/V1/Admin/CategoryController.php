@@ -19,9 +19,9 @@ class CategoryController extends Controller
     {
     }
 
-    public function dateTable()
+    public function dataTable()
     {
-        return $this->dataResponse(new CategoryCollection($this->categoryService->dateTable()));
+        return $this->dataResponse(new CategoryCollection($this->categoryService->dataTable()));
     }
 
     public function findById($id)

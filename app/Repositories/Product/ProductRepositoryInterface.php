@@ -10,7 +10,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function findById($id);
 
-    public function dateTable();
+    public function dataTable();
 
     public function incrementViewCount($product);
 

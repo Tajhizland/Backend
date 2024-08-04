@@ -32,7 +32,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $product->increment('view');
     }
 
-    public function dateTable()
+    public function dataTable()
     {
         return QueryBuilder::for(Product::class)
             ->select("products.*")

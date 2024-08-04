@@ -23,7 +23,7 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
         return $this->model::published()->latest("id")->paginate($this->pageSize);
     }
 
-    public function dateTable()
+    public function dataTable()
     {
         return QueryBuilder::for(News::class)
             ->select("news.*")
