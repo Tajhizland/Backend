@@ -12,10 +12,18 @@ use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
 use App\Repositories\Favorite\FavoriteRepositoryInterface;
+use App\Repositories\Filter\FilterRepository;
+use App\Repositories\Filter\FilterRepositoryInterface;
+use App\Repositories\FilterItem\FilterItemRepository;
+use App\Repositories\FilterItem\FilterItemRepositoryInterface;
 use App\Repositories\MobileVerification\MobileVerificationRepository;
 use App\Repositories\MobileVerification\MobileVerificationRepositoryInterface;
 use App\Repositories\New\NewRepository;
 use App\Repositories\New\NewRepositoryInterface;
+use App\Repositories\Option\OptionRepository;
+use App\Repositories\Option\OptionRepositoryInterface;
+use App\Repositories\OptionItem\OptionItemRepository;
+use App\Repositories\OptionItem\OptionItemRepositoryInterface;
 use App\Repositories\Price\PriceRepository;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
@@ -46,6 +54,8 @@ use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\New\NewService;
 use App\Services\New\NewServiceInterface;
+use App\Services\Option\OptionService;
+use App\Services\Option\OptionServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\Search\SearchService;
@@ -88,6 +98,14 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ProductCategoryRepositoryInterface::class, ProductCategoryRepository::class);
 
+        $this->app->bind(FilterRepositoryInterface::class, FilterRepository::class);
+
+        $this->app->bind(FilterItemRepositoryInterface::class, FilterItemRepository::class);
+
+        $this->app->bind(OptionRepositoryInterface::class, OptionRepository::class);
+
+        $this->app->bind(OptionItemRepositoryInterface::class, OptionItemRepository::class);
+
 
         /** End Repository */
 
@@ -121,6 +139,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(FavoriteServiceInterface::class, FavoriteService::class);
 
         $this->app->bind(NewServiceInterface::class, NewService::class);
+
+        $this->app->bind(OptionServiceInterface::class, OptionService::class);
+
 
 
         /** End Service */
