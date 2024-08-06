@@ -16,6 +16,7 @@ Route::get('/f/{url}', [\App\Http\Controllers\V1\Shop\ProductController::class, 
     ->middleware(\App\Http\Middleware\TestMiddleware::class)->where('url', '.*');
 
 
+Route::get('/ad/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "find"]);
 Route::get('/a', [\App\Http\Controllers\V1\Admin\ProductController::class, "update"]);
 
 Route::get('/n', [\App\Http\Controllers\V1\Shop\NewsController::class, "paginate"]);

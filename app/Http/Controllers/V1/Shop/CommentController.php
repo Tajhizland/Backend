@@ -19,6 +19,6 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request)
     {
         $this->commentService->createComment($request->get("productId"),$request->get("text"),$request->get("rating"));
-        return $this->successResponse(Lang::get("responses.comment_send"));
+        return $this->successResponse(Lang::get("action.send",["attr"=>Lang::get("attr.comment")]));
     }
 }

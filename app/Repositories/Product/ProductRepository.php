@@ -105,7 +105,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         });
     }
 
-    public function createProduct($name, $url, $description, $study, $status)
+    public function createProduct($name, $url, $description, $study, $status, $brandId , $metaTitle , $metaDescription)
     {
         return $this->create([
             "name" => $name,
@@ -114,10 +114,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             "study" => $study,
             "status" => $status,
             "view" => 0,
+            "brand_id" => $brandId,
+            "meta_title" => $metaTitle,
+            "meta_description" => $metaDescription,
         ]);
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status)
+    public function updateProduct($id, $name, $url, $description, $study, $status, $brandId , $metaTitle , $metaDescription)
     {
         return $this->model::find($id)->update([
             "name" => $name,
@@ -125,6 +128,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             "description" => $description,
             "study" => $study,
             "status" => $status,
+            "brand_id" => $brandId,
+            "meta_title" => $metaTitle,
+            "meta_description" => $metaDescription,
         ]);
     }
 

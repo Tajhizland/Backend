@@ -26,12 +26,12 @@ class FavoriteController extends Controller
     public function addProduct(ChangeFavoriteRequest $request)
     {
         $this->favoriteService->addProduct($request->get("productId"), Auth::user()->id);
-        return $this->successResponse(Lang::get("responses.add_to_favorite"));
+        return $this->successResponse(Lang::get("action.add_to",["attr"=>Lang::get("attr.product") ,"to"=>Lang::get("attr.favorite")]));
     }
 
     public function removeProduct(ChangeFavoriteRequest $request)
     {
         $this->favoriteService->removeProduct($request->get("productId"), Auth::user()->id);
-        return $this->successResponse(Lang::get("responses.remove_from_favorite"));
-    }
+        return $this->successResponse(Lang::get("action.remove_from",["attr"=>Lang::get("attr.product") ,"from"=>Lang::get("attr.favorite")]));
+     }
 }

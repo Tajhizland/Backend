@@ -22,8 +22,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function paginated($query);
 
-    public function createProduct($name, $url, $description, $study ,$status);
-    public function updateProduct($id,$name, $url, $description, $study ,$status);
+    public function createProduct($name, $url, $description, $study ,$status, $brandId , $metaTitle , $metaDescription);
+    public function updateProduct($id,$name, $url, $description, $study ,$status, $brandId , $metaTitle , $metaDescription);
 
 
     public function getCustomCategoryProduct($categoryId);

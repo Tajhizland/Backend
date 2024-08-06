@@ -15,6 +15,9 @@ class UpdateProductRequest extends FormRequest
             'url' => ['required', Rule::unique('products')->ignore($this->id)],
             'description' => ['nullable'],
             'study' => ['nullable'],
+            'meta_description' => ['nullable'],
+            'meta_title' => ['nullable'],
+            'brand_id' => ['required','integer','exists:App\Models\Brand,id'],
             'status' => ['required','int','in:1,0'],
             'categoryId' => ['required','integer' , 'exists:App\Models\Category,id'],
             'color.*.id' => ['required','integer','exists:App\Models\ProductColor'],
@@ -24,6 +27,8 @@ class UpdateProductRequest extends FormRequest
             'color.*.price' => ['required','int','min:0'],
             'color.*.stock' => ['required','int','min:0'],
             'color.*.discount' => ['required','int','min:0','max:100'],
+            'color.*.delivery_delay' => ['nullable','int' ],
+
         ];
     }
 

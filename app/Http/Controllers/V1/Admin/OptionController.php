@@ -30,12 +30,12 @@ class OptionController extends Controller
     public function store(StoreOptionRequest $request)
     {
         $this->optionService->createOption($request->get("title"),$request->get("category_id"),$request->get("status") ,$request->get("items"));
-        return $this->successResponse(Lang::get("responses.option_store_success"));
-    }
+        return $this->successResponse(Lang::get("action.store",["attr"=>Lang::get("attr.option")]));
+     }
 
     public function update(UpdateOptionRequest $request)
     {
         $this->optionService->updateOption($request->get("id"),$request->get("title"),$request->get("category_id"),$request->get("status") ,$request->get("items"));
-        return $this->successResponse(Lang::get("responses.option_update_success"));
+        return $this->successResponse(Lang::get("action.store",["attr"=>Lang::get("attr.news")]));
     }
 }

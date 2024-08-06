@@ -32,12 +32,12 @@ class FilterController extends Controller
     public function store(StoreFilterRequest $request)
     {
         $this->filterService->createFilter($request->get("name"),$request->get("category_id"),$request->get("status"),$request->get("type"),$request->get("items"));
-        return $this->successResponse(Lang::get("responses.filter_store_success"));
-    }
+        return $this->successResponse(Lang::get("action.store",["attr"=>Lang::get("attr.filter")]));
+     }
 
     public function update(UpdateFilterRequest $request)
     {
         $this->filterService->updateFilter($request->get("id"),$request->get("name"),$request->get("category_id"),$request->get("status"),$request->get("type"),$request->get("items"));
-        return $this->successResponse(Lang::get("responses.filter_update_success"));
+        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.filter")]));
     }
 }

@@ -11,18 +11,19 @@ class ProductColorRepository extends BaseRepository implements ProductColorRepos
     {
         parent::__construct($model);
     }
-    public function createProductColor($name, $code, $productId, $status)
+    public function createProductColor($name, $code, $productId, $status ,$deliveryDelay)
     {
         return $this->create(
             [
                 "color_name"=>$name,
                 "color_code"=>$code,
                 "status"=>$status,
+                "delivery_delay"=>$deliveryDelay,
                 "product_id"=>$productId,
             ]
         );
     }
-    public function updateProductColor($id,$name, $code, $status)
+    public function updateProductColor($id,$name, $code, $status ,$deliveryDelay)
     {
         $this->model::find($id)
             ->update(
@@ -30,6 +31,7 @@ class ProductColorRepository extends BaseRepository implements ProductColorRepos
                     "color_name"=>$name,
                     "color_code"=>$code,
                     "status"=>$status,
+                    "delivery_delay"=>$deliveryDelay,
                 ]
             );
 

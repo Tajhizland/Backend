@@ -13,7 +13,10 @@ return new class extends Migration {
             $table->string('url');
             $table->integer('status');
             $table->integer('view');
+            $table->integer('brand_id');
             $table->text('description')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->string('meta_title')->nullable();
             $table->text('study')->nullable();
             $table->timestamps();
         });

@@ -52,4 +52,10 @@ return [
     'option_store_success' => 'ویژگی با موفقیت ایجاد شد',
     'option_update_success' => 'ویژگی با موفقیت ویرایش شد',
 
+    /****************** Address ******************/
+    'address_store_success' => 'آدرس با موفقیت ایجاد شد',
+    'address_update_success' => 'آدرس با موفقیت ویرایش شد',
+
+    'success' => ':atr با موفقیت ویرایش شد',
+
 ];

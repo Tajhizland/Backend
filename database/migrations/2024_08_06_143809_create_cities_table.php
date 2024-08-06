@@ -7,19 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('product_colors', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->string('color_name');
-            $table->string('color_code');
-            $table->integer('status');
-            $table->integer('delivery_delay');
-            $table->foreignId('product_id');
+            $table->string('name');
+            $table->foreignId('province_id');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('product_colors');
+        Schema::dropIfExists('cities');
     }
 };

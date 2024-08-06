@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Address\AddressRepository;
+use App\Repositories\Address\AddressRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Base\BaseRepositoryInterface;
 use App\Repositories\Brand\BrandRepository;
@@ -12,6 +14,8 @@ use App\Repositories\CartItem\CartItemRepository;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\City\CityRepository;
+use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepository;
@@ -42,6 +46,8 @@ use App\Repositories\ProductCategory\ProductCategoryRepository;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepository;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
+use App\Repositories\Province\ProvinceRepository;
+use App\Repositories\Province\ProvinceRepositoryInterface;
 use App\Repositories\ResetPassword\ResetPasswordRepository;
 use App\Repositories\ResetPassword\ResetPasswordRepositoryInterface;
 use App\Repositories\Setting\SettingRepository;
@@ -50,6 +56,8 @@ use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Address\AddressService;
+use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
 use App\Services\Auth\Login\LoginServiceInterface;
 use App\Services\Auth\Register\RegisterService;
@@ -142,6 +150,12 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(SettingRepositoryInterface::class, SettingRepository::class);
 
+        $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
+
+        $this->app->bind(ProvinceRepositoryInterface::class, ProvinceRepository::class);
+
+        $this->app->bind(AddressRepositoryInterface::class, AddressRepository::class);
+
 
         /** End Repository */
 
@@ -189,6 +203,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(DeliveryServiceInterface::class, DeliveryService::class);
 
         $this->app->bind(GatewayServiceInterface::class, GatewayService::class);
+
+        $this->app->bind(AddressServiceInterface::class, AddressService::class);
 
 
         /** End Service */

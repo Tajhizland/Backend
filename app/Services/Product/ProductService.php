@@ -42,21 +42,21 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $colors): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId , $metaTitle , $metaDescription, $colors): mixed
     {
-        $product = $this->productRepository->createProduct($name, $url, $description, $study, $status);
+        $product = $this->productRepository->createProduct($name, $url, $description, $study, $status, $brandId , $metaTitle , $metaDescription);
         $this->productCategoryRepository->createProductCategory($product->id, $categoryId);
         foreach ($colors as $item) {
-            $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $product->id, $item["status"]);
+            $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $product->id, $item["status"], $item["delivery_delay"]);
             $this->priceRepository->createPrice($productColor->id, $item["price"], $item["discount"]);
             $this->stockRepository->createStock($productColor->id, $item["stock"]);
         }
         return true;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $colors): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId , $metaTitle , $metaDescription, $colors): mixed
     {
-        $this->productRepository->updateProduct($id, $name, $url, $description, $study, $status);
+        $this->productRepository->updateProduct($id, $name, $url, $description, $study, $status , $brandId , $metaTitle , $metaDescription);
         $this->productCategoryRepository->updateWithProductId($id, $categoryId);
         foreach ($colors as $item) {
             if (isset($item["id"])) {

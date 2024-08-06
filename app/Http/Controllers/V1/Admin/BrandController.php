@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Brand\StoreBrandRequest;
+use App\Http\Requests\V1\Brand\UpdateBrandRequest;
+use App\Http\Resources\V1\Brand\BrandCollection;
+use App\Http\Resources\V1\Brand\BrandResource;
 use App\Services\Brand\BrandServiceInterface;
+use Illuminate\Support\Facades\Lang;
 
 class BrandController extends Controller
 {
@@ -16,23 +21,23 @@ class BrandController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new CategoryCollection($this->brandService->dataTable()));
+        return $this->dataResponse(new BrandCollection($this->brandService->dataTable()));
     }
 
     public function findById($id)
     {
-        return $this->dataResponse(new CategoryResource($this->brandService->findById($id)));
+        return $this->dataResponse(new BrandResource($this->brandService->findById($id)));
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreBrandRequest $request)
     {
-        $this->brandService->storeCategory($request->get("name"),$request->get("status"),$request->get("url"),$request->get("image"),$request->get("description"),$request->get("parent_id"));
-        return $this->successResponse(Lang::get("responses.category_store_success"));
+        $this->brandService->storeBrand($request->get("name"),$request->get("url"),$request->get("status"),$request->get("image"),$request->get("description"));
+        return $this->successResponse(Lang::get("action.store",["attr"=>Lang::get("attr.brand")]));
     }
 
-    public function update(UpdateCategoryRequest $request)
+    public function update(UpdateBrandRequest $request)
     {
-        $this->brandService->updateCategory($request->get("id"),$request->get("name"),$request->get("status"),$request->get("url"),$request->get("image"),$request->get("description"),$request->get("parent_id"));
-        return $this->successResponse(Lang::get("responses.category_update_success"));
+        $this->brandService->updateBrand($request->get("id"),$request->get("name"),$request->get("url"),$request->get("status"),$request->get("image"),$request->get("description"));
+        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.brand")]));
     }
 }

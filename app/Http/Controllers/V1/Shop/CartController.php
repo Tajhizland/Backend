@@ -25,30 +25,30 @@ class CartController extends Controller
     public function addToCart(AddToCartRequest $request)
     {
         $this->cartService->addProductToCart(Auth::user()->id, $request->get("productColorId"), $request->get("count"));
-        return $this->successResponse(Lang::get("responses.add_to_cart"));
-    }
+        return $this->successResponse(Lang::get("action.add_to",["attr"=>Lang::get("attr.product") , "to"=>Lang::get("attr.cart")]));
+     }
 
     public function removeItem(UpdateCartItemRequest $request)
     {
         $this->cartService->removeProductFromCart(Auth::user()->id, $request->get("productColorId"));
-        return $this->successResponse(Lang::get("responses.remove_product_cart"));
-    }
+        return $this->successResponse(Lang::get("action.remove_from",["attr"=>Lang::get("attr.product") , "from"=>Lang::get("attr.cart")]));
+     }
 
     public function increase(UpdateCartItemRequest $request)
     {
         $this->cartService->increaseProductInCart(Auth::user()->id, $request->get("productColorId"));
-        return $this->successResponse(Lang::get("responses.update_product_cart"));
+        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.cart")]));
     }
 
     public function decrease(UpdateCartItemRequest $request)
     {
         $this->cartService->decreaseProductInCart(Auth::user()->id, $request->get("productColorId"));
-        return $this->successResponse(Lang::get("responses.update_product_cart"));
+        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.cart")]));
     }
 
     public function clearAll()
     {
         $this->cartService->clearCart(Auth::user()->id);
-        return $this->successResponse(Lang::get("responses.remove_cart"));
+        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.cart")]));
     }
 }
