@@ -25,6 +25,11 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function createProduct($name, $url, $description, $study ,$status);
     public function updateProduct($id,$name, $url, $description, $study ,$status);
 
+
+    public function getCustomCategoryProduct($categoryId);
+    public function getNewProduct();
+    public function getHasDiscountProduct();
+    public function getMostPopularProduct();
     /***Filters***/
 
     public function minPriceFilter($query, $minPrice);

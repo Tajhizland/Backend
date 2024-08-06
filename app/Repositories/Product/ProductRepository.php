@@ -105,9 +105,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         });
     }
 
-    public function createProduct($name, $url, $description, $study ,$status)
+    public function createProduct($name, $url, $description, $study, $status)
     {
-       return $this->create([
+        return $this->create([
             "name" => $name,
             "url" => $url,
             "description" => $description,
@@ -116,14 +116,37 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             "view" => 0,
         ]);
     }
-    public function updateProduct($id,$name, $url, $description, $study ,$status)
+
+    public function updateProduct($id, $name, $url, $description, $study, $status)
     {
-       return $this->model::find($id)->update([
+        return $this->model::find($id)->update([
             "name" => $name,
             "url" => $url,
             "description" => $description,
             "study" => $study,
             "status" => $status,
         ]);
+    }
+
+    public function getNewProduct()
+    {
+        return $this->model::latest("id")->limit(config("settings.home_page_item_limit"))->get();
+    }
+
+    public function getHasDiscountProduct()
+    {
+        return $this->model::hasDiscount()->limit(config("settings.home_page_item_limit"))->get();
+    }
+
+    public function getMostPopularProduct()
+    {
+        return $this->model::mostPopular()->limit(config("settings.home_page_item_limit"))->get();
+    }
+
+    public function getCustomCategoryProduct($categoryId)
+    {
+        return $this->model::whereHas("productCategories", function ($query) use ($categoryId) {
+            $query->where("category_id", $categoryId);
+        })->limit(config("settings.home_page_item_limit"))->get();
     }
 }

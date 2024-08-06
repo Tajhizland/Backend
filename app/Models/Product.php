@@ -27,14 +27,17 @@ class Product extends Model
     {
         return $this->hasMany(ProductColor::class);
     }
+
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
+
     public function confirmedComments(): HasMany
     {
-        return $this->hasMany(Comment::class)->where("status",CommentStatus::Confirmed->value);
+        return $this->hasMany(Comment::class)->where("status", CommentStatus::Confirmed->value);
     }
+
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class);
@@ -64,6 +67,7 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class, 'product_categories');
     }
+
     public function productCategories(): HasOne
     {
         return $this->hasOne(ProductCategory::class);
@@ -73,10 +77,12 @@ class Product extends Model
     {
         return $this->prices()->min("price");
     }
+
     public function getRatingAvg()
     {
         return $this->comments()->Confirmed()->avg("rating");
     }
+
     public function getMaxColorPrice()
     {
         return $this->prices()->max("price");
@@ -91,6 +97,19 @@ class Product extends Model
     {
         return $query->whereHas("productColors", function ($query) {
             $query->where("status", "<>", ProductColorStatus::DeActive->value);
+        });
+    }
+    public function scopeMostPopular(Builder $query): Builder
+    {
+        return $query->orderBy("view","desc");
+    }
+
+    public function scopeHasDiscount(Builder $query): Builder
+    {
+        return $query->whereHas("productColors", function ($query) {
+            $query->where("status", "<>", ProductColorStatus::DeActive->value)
+                ->where("discount", ">", 0)
+                ->orderBy("discount", "desc");
         });
     }
 }

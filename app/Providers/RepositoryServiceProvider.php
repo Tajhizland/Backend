@@ -4,22 +4,32 @@ namespace App\Providers;
 
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Base\BaseRepositoryInterface;
+use App\Repositories\Brand\BrandRepository;
+use App\Repositories\Brand\BrandRepositoryInterface;
 use App\Repositories\Cart\CartRepository;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepository;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Comment\CommentRepository;
+use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Repositories\Delivery\DeliveryRepository;
+use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
 use App\Repositories\Favorite\FavoriteRepositoryInterface;
 use App\Repositories\Filter\FilterRepository;
 use App\Repositories\Filter\FilterRepositoryInterface;
 use App\Repositories\FilterItem\FilterItemRepository;
 use App\Repositories\FilterItem\FilterItemRepositoryInterface;
+use App\Repositories\Gateway\GatewayRepository;
+use App\Repositories\Gateway\GatewayRepositoryInterface;
 use App\Repositories\MobileVerification\MobileVerificationRepository;
 use App\Repositories\MobileVerification\MobileVerificationRepositoryInterface;
 use App\Repositories\New\NewRepository;
 use App\Repositories\New\NewRepositoryInterface;
+use App\Repositories\Notification\NotificationRepository;
+use App\Repositories\Notification\NotificationRepositoryInterface;
 use App\Repositories\Option\OptionRepository;
 use App\Repositories\Option\OptionRepositoryInterface;
 use App\Repositories\OptionItem\OptionItemRepository;
@@ -34,6 +44,8 @@ use App\Repositories\ProductColor\ProductColorRepository;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use App\Repositories\ResetPassword\ResetPasswordRepository;
 use App\Repositories\ResetPassword\ResetPasswordRepositoryInterface;
+use App\Repositories\Setting\SettingRepository;
+use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\User\UserRepository;
@@ -44,22 +56,34 @@ use App\Services\Auth\Register\RegisterService;
 use App\Services\Auth\Register\RegisterServiceInterface;
 use App\Services\Auth\ResetPassword\ResetPasswordService;
 use App\Services\Auth\ResetPassword\ResetPasswordServiceInterface;
+use App\Services\Brand\BrandService;
+use App\Services\Brand\BrandServiceInterface;
 use App\Services\Cart\CartService;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\Delivery\DeliveryService;
+use App\Services\Delivery\DeliveryServiceInterface;
 use App\Services\Favorite\FavoriteService;
 use App\Services\Favorite\FavoriteServiceInterface;
 use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
+use App\Services\Gateway\GatewayService;
+use App\Services\Gateway\GatewayServiceInterface;
+use App\Services\HomePage\HomePageService;
+use App\Services\HomePage\HomePageServiceInterface;
 use App\Services\New\NewService;
 use App\Services\New\NewServiceInterface;
+use App\Services\Notification\NotificationService;
+use App\Services\Notification\NotificationServiceInterface;
 use App\Services\Option\OptionService;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\Search\SearchService;
 use App\Services\Search\SearchServiceInterface;
+use App\Services\Setting\SettingService;
+use App\Services\Setting\SettingServiceInterface;
 use App\Services\Sms\Sms;
 use App\Services\Sms\SmsServiceInterface;
 use App\Services\User\UserService;
@@ -106,6 +130,18 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(OptionItemRepositoryInterface::class, OptionItemRepository::class);
 
+        $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
+
+        $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
+
+        $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
+
+        $this->app->bind(DeliveryRepositoryInterface::class, DeliveryRepository::class);
+
+        $this->app->bind(GatewayRepositoryInterface::class, GatewayRepository::class);
+
+        $this->app->bind(SettingRepositoryInterface::class, SettingRepository::class);
+
 
         /** End Repository */
 
@@ -142,6 +178,17 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(OptionServiceInterface::class, OptionService::class);
 
+        $this->app->bind(NotificationServiceInterface::class, NotificationService::class);
+
+        $this->app->bind(BrandServiceInterface::class, BrandService::class);
+
+        $this->app->bind(HomePageServiceInterface::class, HomePageService::class);
+
+        $this->app->bind(SettingServiceInterface::class, SettingService::class);
+
+        $this->app->bind(DeliveryServiceInterface::class, DeliveryService::class);
+
+        $this->app->bind(GatewayServiceInterface::class, GatewayService::class);
 
 
         /** End Service */
