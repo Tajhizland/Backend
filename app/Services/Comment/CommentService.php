@@ -16,4 +16,21 @@ class CommentService implements CommentServiceInterface
     {
         return $this->commentRepository->createComment($productId, $text, $rating);
     }
+
+    public function dataTable()
+    {
+        return $this->commentRepository->dataTable();
+    }
+
+    public function accept($id)
+    {
+        $comment=$this->commentRepository->findOrFail($id);
+       return $this->commentRepository->accept($comment);
+    }
+
+    public function reject($id)
+    {
+        $comment=$this->commentRepository->findOrFail($id);
+      return  $this->commentRepository->reject($comment);
+    }
 }

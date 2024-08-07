@@ -49,6 +49,6 @@ class CartController extends Controller
     public function clearAll()
     {
         $this->cartService->clearCart(Auth::user()->id);
-        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.cart")]));
+        return $this->successResponse(Lang::get("action.clear",["attr"=>Lang::get("attr.cart")]));
     }
 }
