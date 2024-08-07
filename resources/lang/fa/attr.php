@@ -21,5 +21,7 @@ return
         "address" => 'آدرس',
         "active_address" => ' آدرس فعال',
         "returned" => 'درخواست مرجوعی',
+        "gateway" => 'درگاه پرداخت',
+        "delivery" => 'روش ارسال',
 
     ];
