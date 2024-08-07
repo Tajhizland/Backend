@@ -19,4 +19,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     {
         return $order->update(["status" => $status]);
     }
+    public function onHoldDataTable()
+    {
+        return $this->model::hasOnHoldPending()->latest("id")->paginate($this->pageSize);
+    }
+    public function dataTable(){
+
+    }
 }

@@ -38,6 +38,10 @@ use App\Repositories\Option\OptionRepository;
 use App\Repositories\Option\OptionRepositoryInterface;
 use App\Repositories\OptionItem\OptionItemRepository;
 use App\Repositories\OptionItem\OptionItemRepositoryInterface;
+use App\Repositories\Order\OrderRepository;
+use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\OrderItem\OrderItemRepository;
+use App\Repositories\OrderItem\OrderItemRepositoryInterface;
 use App\Repositories\Price\PriceRepository;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
@@ -50,6 +54,8 @@ use App\Repositories\Province\ProvinceRepository;
 use App\Repositories\Province\ProvinceRepositoryInterface;
 use App\Repositories\ResetPassword\ResetPasswordRepository;
 use App\Repositories\ResetPassword\ResetPasswordRepositoryInterface;
+use App\Repositories\Returned\ReturnedRepository;
+use App\Repositories\Returned\ReturnedRepositoryInterface;
 use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
@@ -84,10 +90,16 @@ use App\Services\New\NewService;
 use App\Services\New\NewServiceInterface;
 use App\Services\Notification\NotificationService;
 use App\Services\Notification\NotificationServiceInterface;
+use App\Services\OnHoldOrder\OnHoldOrderService;
+use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use App\Services\Option\OptionService;
 use App\Services\Option\OptionServiceInterface;
+use App\Services\Order\OrderService;
+use App\Services\Order\OrderServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
+use App\Services\Returned\ReturnedService;
+use App\Services\Returned\ReturnedServiceInterface;
 use App\Services\Search\SearchService;
 use App\Services\Search\SearchServiceInterface;
 use App\Services\Setting\SettingService;
@@ -156,6 +168,12 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(AddressRepositoryInterface::class, AddressRepository::class);
 
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+
+        $this->app->bind(OrderItemRepositoryInterface::class, OrderItemRepository::class);
+
+        $this->app->bind(ReturnedRepositoryInterface::class, ReturnedRepository::class);
+
 
         /** End Repository */
 
@@ -205,6 +223,12 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GatewayServiceInterface::class, GatewayService::class);
 
         $this->app->bind(AddressServiceInterface::class, AddressService::class);
+
+        $this->app->bind(OrderServiceInterface::class, OrderService::class);
+
+        $this->app->bind(OnHoldOrderServiceInterface::class, OnHoldOrderService::class);
+
+        $this->app->bind(ReturnedServiceInterface::class, ReturnedService::class);
 
 
         /** End Service */

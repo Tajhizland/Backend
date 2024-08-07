@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Brand\StoreBrandRequest;
-use App\Http\Requests\V1\Brand\UpdateBrandRequest;
+use App\Http\Requests\V1\Admin\Brand\StoreBrandRequest;
+use App\Http\Requests\V1\Admin\Brand\UpdateBrandRequest;
 use App\Http\Resources\V1\Brand\BrandCollection;
 use App\Http\Resources\V1\Brand\BrandResource;
 use App\Services\Brand\BrandServiceInterface;

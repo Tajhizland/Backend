@@ -27,5 +27,9 @@ class OrderService implements OrderServiceInterface
         Gate::authorize("view",$order);
         return $order;
     }
+    public function dataTable()
+    {
+
+    }
 
 }

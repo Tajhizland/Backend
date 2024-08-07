@@ -44,4 +44,9 @@ class OnHoldOrderService implements OnHoldOrderServiceInterface
         $this->orderRepository->setStatus($onHoldOrder->order,OrderStatus::Rejected->value);
         return $this->onHoldOrderRepository->setReject($onHoldOrder);
     }
+
+    public function dataTable()
+    {
+        
+    }
 }

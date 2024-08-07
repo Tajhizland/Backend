@@ -6,4 +6,5 @@ interface OrderServiceInterface
 {
     public function userOrderPaginate($userId);
     public function findById($id);
+    public function dataTable();
 }

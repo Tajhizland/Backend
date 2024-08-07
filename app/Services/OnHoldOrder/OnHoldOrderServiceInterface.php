@@ -8,6 +8,6 @@ interface OnHoldOrderServiceInterface
     public function removeItem($id);
     public function setReject($id);
     public function setAccept($id);
-
+    public function dataTable();
 
 }

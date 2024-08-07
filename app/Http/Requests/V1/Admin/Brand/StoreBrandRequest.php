@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Requests\V1\Brand;
+namespace App\Http\Requests\V1\Admin\Brand;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBrandRequest extends FormRequest
+class StoreBrandRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'id' => ['required' ,'exists:App\Models\Brand'],
             'name' => ['required'],
             'url' => ['required'],
             'status' => ['required', 'integer'],

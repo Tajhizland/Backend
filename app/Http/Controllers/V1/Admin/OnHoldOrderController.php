@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\OnHoldOrderRequest;
+use App\Http\Requests\V1\Admin\OnHoldOrder\OnHoldOrderRequest;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

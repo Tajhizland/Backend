@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\V1\Shop\Cart;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCartItemRequest extends FormRequest
+class AddToCartRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            "productColorId"=>"required|integer"
-
+            "productColorId" => "required|integer",
+            "count" => "integer|required"
         ];
     }
 

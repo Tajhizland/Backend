@@ -9,4 +9,6 @@ interface OrderRepositoryInterface extends  BaseRepositoryInterface
 {
     public function userOrderPaginate($userId);
     public function setStatus(Order $order,$status);
+    public function dataTable();
+    public function onHoldDataTable();
 }

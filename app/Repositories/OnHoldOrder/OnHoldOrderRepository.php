@@ -3,9 +3,12 @@
 namespace App\Repositories\OnHoldOrder;
 
 use App\Enums\OnHoldOrderStatus;
+use App\Models\News;
 use App\Models\OnHoldOrder;
+use App\Models\Order;
 use App\Repositories\Base\BaseRepository;
 use Carbon\Carbon;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderRepositoryInterface
 {
@@ -13,6 +16,12 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
     {
         parent::__construct($model);
     }
+
+    public function dataTable()
+    {
+
+    }
+
     public function userOnHoldOrderPaginate($userId)
     {
         return $this->model::where("user_id",$userId)->latest("id")->paginate();

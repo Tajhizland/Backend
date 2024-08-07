@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\OnHoldOrderStatus;
 use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -17,6 +19,11 @@ class Order extends Model
     protected function orderInfo(): BelongsTo
     {
         return $this->belongsTo(OrderInfo::class);
+    }
+
+    protected function onHoldOrder(): HasOne
+    {
+        return $this->hasOne(OnHoldOrder::class);
     }
 
     protected function casts()
@@ -34,5 +41,11 @@ class Order extends Model
             OrderStatus::Processing->value,
             OrderStatus::Shipped->value,
         ]);
+    }
+    public function scopeHasOnHoldPending(Builder $query): Builder
+    {
+        return $query->whereHas("onHoldOrder",function ($q){
+           $q->where("status",OnHoldOrderStatus::Pending);
+        });
     }
 }

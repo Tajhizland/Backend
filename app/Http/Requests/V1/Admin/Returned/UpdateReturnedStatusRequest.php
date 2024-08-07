@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests\V1\Shop;
+namespace App\Http\Requests\V1\Admin\Returned;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchRequest extends FormRequest
+class UpdateReturnedStatusRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            "query"=>"required|string"
+            "id"=>['required','integer']
         ];
     }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\UpdateUserRequest;
+use App\Http\Requests\V1\Admin\User\UpdateUserRequest;
 use App\Http\Resources\V1\User\UserCollection;
 use App\Http\Resources\V1\User\UserResource;
 use App\Services\User\UserServiceInterface;

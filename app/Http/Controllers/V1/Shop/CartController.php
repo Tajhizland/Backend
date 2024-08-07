@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddToCartRequest;
-use App\Http\Requests\UpdateCartItemRequest;
+use App\Http\Requests\V1\Shop\Cart\AddToCartRequest;
+use App\Http\Requests\V1\Shop\Cart\UpdateCartItemRequest;
 use App\Http\Resources\CartItemCollection;
 use App\Services\Cart\CartServiceInterface;
 use Illuminate\Support\Facades\Auth;
