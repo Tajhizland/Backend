@@ -18,13 +18,13 @@ class ResetPasswordController extends Controller
     public function sendVerificationCode(SendResetPasswordVerificationCodeRequest $request)
     {
         $this->resetPasswordService->sendVerificationCode($request->get("mobile"));
-        return $this->successResponse(Lang::get("responses.verification_code_sent"));
+        return $this->successResponse(Lang::get("action.send",["attr"=>Lang::get("attr.verify_code")]));
     }
 
     public function verifyCode(ResetPasswordVerifyCodeRequest $request)
     {
         $this->resetPasswordService->verifyCode($request->get("mobile"), $request->get("code"));
-        return $this->successResponse(Lang::get("responses.verification_code_verified"));
+        return $this->successResponse(Lang::get("action.verify",["attr"=>Lang::get("attr.verify_code")]));
     }
 
     public function reset(ResetPasswordRequest $request)
@@ -32,7 +32,7 @@ class ResetPasswordController extends Controller
         $token = $this->resetPasswordService->reset($request->get("mobile"), $request->get("password"));
         return $this->dataResponse(
             ["token" => $token],
-            Lang::get("responses.reset_password_success")
+            Lang::get("action.change",["attr"=>Lang::get("attr.password")])
         );
     }
 }

@@ -18,13 +18,14 @@ class RegisterController extends Controller
     public function sendVerificationCode(SendRegisterVerificationCodeRequest $request)
     {
         $this->registerService->sendVerificationCode($request->get("mobile"));
-        return $this->successResponse(Lang::get("responses.verification_code_sent"));
+        return $this->successResponse(Lang::get("action.send",["attr"=>Lang::get("attr.verify_code")]));
+
     }
 
     public function verifyCode(RegisterVerifyCodeRequest $request)
     {
         $this->registerService->verifyCode($request->get("mobile"), $request->get("code"));
-        return $this->successResponse(Lang::get("responses.verification_code_verified"));
+        return $this->successResponse(Lang::get("action.verify",["attr"=>Lang::get("attr.verify_code")]));
     }
 
     public function register(RegisterRequest $request)
@@ -32,7 +33,7 @@ class RegisterController extends Controller
         $token = $this->registerService->register($request->get("mobile"), $request->get("password"));
         return $this->dataResponse(
             ["token" => $token],
-            Lang::get("responses.registration_success")
+            Lang::get("action.success",["attr"=>Lang::get("attr.register")])
         );
 
     }

@@ -9,5 +9,7 @@ return [
     "add_to" => ':attr با موفقیت به :to اضافه شد',
     "remove" =>  ':attr با موفقیت حذف شد',
     "change" =>  ':attr با موفقیت تغییر کرد',
+    "accept" =>  ':attr با موفقیت تأیید شد',
+    "reject" =>  ':attr با موفقیت رد شد',
     "remove_from" => ':attr با موفقیت از :from حذف شد',
 ];

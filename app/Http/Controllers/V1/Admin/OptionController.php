@@ -36,6 +36,6 @@ class OptionController extends Controller
     public function update(UpdateOptionRequest $request)
     {
         $this->optionService->updateOption($request->get("id"),$request->get("title"),$request->get("category_id"),$request->get("status") ,$request->get("items"));
-        return $this->successResponse(Lang::get("action.store",["attr"=>Lang::get("attr.news")]));
+        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.option")]));
     }
 }

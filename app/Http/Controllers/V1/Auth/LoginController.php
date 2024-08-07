@@ -19,7 +19,7 @@ class LoginController extends Controller
         return $this->dataResponse
         (
             ["token" => $token],
-            Lang::get("responses.login_success")
+            (Lang::get("action.success",["attr"=>Lang::get("attr.login")]))
         );
     }
 }
