@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Notification;
 
-use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Repositories\Base\BaseRepositoryInterface;
 
-interface NotificationRepositoryInterface extends  BrandRepositoryInterface
+interface NotificationRepositoryInterface extends  BaseRepositoryInterface
 {
-
+    public function createNotification($title , $message ,$link ,$type);
+    public function seen();
 }

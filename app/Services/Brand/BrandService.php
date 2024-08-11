@@ -3,7 +3,7 @@
 namespace App\Services\Brand;
 
 use App\Repositories\Brand\BrandRepositoryInterface;
-use App\Services\Upload\S3ServiceInterface;
+use App\Services\S3\S3ServiceInterface;
 
 class BrandService implements BrandServiceInterface
 {

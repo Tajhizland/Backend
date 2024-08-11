@@ -17,6 +17,10 @@ Route::get('/f/{url}', [\App\Http\Controllers\V1\Shop\ProductController::class, 
 
 
 Route::get('/ad/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "find"]);
+Route::get('/g',function (){
+    $zibal=new \App\Services\Payment\Gateways\Zibal\ZibalService();
+   return $zibal->request(123456789,10);
+});
 Route::get('/a', [\App\Http\Controllers\V1\Admin\ProductController::class, "update"]);
 
 Route::get('/n', [\App\Http\Controllers\V1\Shop\NewsController::class, "paginate"]);

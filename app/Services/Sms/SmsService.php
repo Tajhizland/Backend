@@ -5,7 +5,7 @@ namespace App\Services\Sms;
 use Illuminate\Support\Facades\Http;
 
 
-class Sms implements SmsServiceInterface
+class SmsService implements SmsServiceInterface
 {
     private $baseUrl;
     private $token;

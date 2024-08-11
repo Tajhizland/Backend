@@ -3,7 +3,7 @@
 namespace App\Services\Delivery;
 
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
-use App\Services\Upload\S3Service;
+use App\Services\S3\S3Service;
 
 class DeliveryService implements DeliveryServiceInterface
 {

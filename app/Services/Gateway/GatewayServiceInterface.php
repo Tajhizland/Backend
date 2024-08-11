@@ -8,6 +8,8 @@ interface GatewayServiceInterface
 
     public function findById($id);
 
+    public function findActiveGateway();
+
     public function store($name, $status,$description);
 
     public function update($id, $name, $status, $description);

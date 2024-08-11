@@ -6,7 +6,7 @@ use App\Exceptions\BreakException;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
 use App\Repositories\Returned\ReturnedRepositoryInterface;
-use App\Services\Upload\S3ServiceInterface;
+use App\Services\S3\S3ServiceInterface;
 use Illuminate\Support\Facades\Gate;
 
 class ReturnedService implements ReturnedServiceInterface

@@ -3,7 +3,7 @@
 namespace App\Services\New;
 
 use App\Repositories\New\NewRepositoryInterface;
-use App\Services\Upload\S3ServiceInterface;
+use App\Services\S3\S3ServiceInterface;
 
 class NewService implements NewServiceInterface
 {

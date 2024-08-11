@@ -59,4 +59,8 @@ public function __construct(Address $model)
             "address"=>$address,
         ]);
     }
+    public function findActiveByUserId($userId)
+    {
+
+    }
 }

@@ -5,7 +5,7 @@ namespace App\Services\Category;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Services\Filter\ListingFilterService;
-use App\Services\Upload\S3ServiceInterface;
+use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryService implements CategoryServiceInterface

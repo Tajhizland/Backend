@@ -11,4 +11,5 @@ interface OrderRepositoryInterface extends  BaseRepositoryInterface
     public function setStatus(Order $order,$status);
     public function dataTable();
     public function onHoldDataTable();
+    public function createOrder($user_id,$order_info_id,$price,$discount,$total_price,$final_price,$status,$payment_method,$delivery_method,$delivery_price,$order_date,$tracking_number=null);
 }

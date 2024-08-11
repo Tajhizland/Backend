@@ -21,6 +21,11 @@ class GatewayRepository extends BaseRepository implements GatewayRepositoryInter
             ->paginate($this->pageSize);
     }
 
+    public function findActiveGateway()
+    {
+        return $this->model::active()->first();
+    }
+
     public function createGateway($name, $status, $description)
     {
         $this->create(

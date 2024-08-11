@@ -9,6 +9,7 @@ interface GatewayRepositoryInterface extends  BaseRepositoryInterface
 {
     public function dataTable();
     public function activeCountExceptThis($id);
+    public function findActiveGateway();
 
     public function createGateway( $name,$status, $description);
 

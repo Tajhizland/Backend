@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Services\Upload;
+namespace App\Services\S3;
 
+use App\Services\Upload\UploadServiceInterface;
 use Illuminate\Support\Facades\Storage;
 
 class S3Service implements  UploadServiceInterface

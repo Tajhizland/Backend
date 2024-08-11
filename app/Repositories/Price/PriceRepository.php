@@ -34,4 +34,8 @@ class PriceRepository extends BaseRepository implements PriceRepositoryInterface
                 ]
             );
     }
+    public function findByProductColorId($productColorId)
+    {
+        return $this->model::where("product_color_id",$productColorId)->first();
+    }
 }

@@ -40,6 +40,8 @@ use App\Repositories\OptionItem\OptionItemRepository;
 use App\Repositories\OptionItem\OptionItemRepositoryInterface;
 use App\Repositories\Order\OrderRepository;
 use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\OrderInfo\OrderInfoRepository;
+use App\Repositories\OrderInfo\OrderInfoRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepository;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
 use App\Repositories\Price\PriceRepository;
@@ -60,6 +62,8 @@ use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
+use App\Repositories\Transaction\TransactionRepository;
+use App\Repositories\Transaction\TransactionRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Address\AddressService;
@@ -74,6 +78,8 @@ use App\Services\Brand\BrandService;
 use App\Services\Brand\BrandServiceInterface;
 use App\Services\Cart\CartService;
 use App\Services\Cart\CartServiceInterface;
+use App\Services\CartItem\CartItemService;
+use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Delivery\DeliveryService;
@@ -84,6 +90,8 @@ use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Gateway\GatewayService;
 use App\Services\Gateway\GatewayServiceInterface;
+use App\Services\Helper\CartHelper\CartHelperService;
+use App\Services\Helper\CartHelper\CartHelperServiceInterface;
 use App\Services\HomePage\HomePageService;
 use App\Services\HomePage\HomePageServiceInterface;
 use App\Services\New\NewService;
@@ -96,6 +104,12 @@ use App\Services\Option\OptionService;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Order\OrderService;
 use App\Services\Order\OrderServiceInterface;
+use App\Services\Payment\Gateways\GatewaysInterface;
+use App\Services\Payment\Gateways\Strategy\GatewayStrategyServices;
+use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
+use App\Services\Payment\Gateways\Zibal\ZibalService;
+use App\Services\Payment\PaymentService;
+use App\Services\Payment\PaymentServicesInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\Returned\ReturnedService;
@@ -104,7 +118,7 @@ use App\Services\Search\SearchService;
 use App\Services\Search\SearchServiceInterface;
 use App\Services\Setting\SettingService;
 use App\Services\Setting\SettingServiceInterface;
-use App\Services\Sms\Sms;
+use App\Services\Sms\SmsService;
 use App\Services\Sms\SmsServiceInterface;
 use App\Services\User\UserService;
 use App\Services\User\UserServiceInterface;
@@ -174,6 +188,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ReturnedRepositoryInterface::class, ReturnedRepository::class);
 
+        $this->app->bind(OrderInfoRepositoryInterface::class, OrderInfoRepository::class);
+
+        $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
+
 
         /** End Repository */
 
@@ -192,7 +210,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CartServiceInterface::class, CartService::class);
 
-        $this->app->bind(SmsServiceInterface::class, Sms::class);
+        $this->app->bind(SmsServiceInterface::class, SmsService::class);
 
         $this->app->bind(ProductServiceInterface::class, ProductService::class);
 
@@ -229,6 +247,13 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(OnHoldOrderServiceInterface::class, OnHoldOrderService::class);
 
         $this->app->bind(ReturnedServiceInterface::class, ReturnedService::class);
+
+        $this->app->bind(CartItemServiceInterface::class, CartItemService::class);
+
+        $this->app->bind(PaymentServicesInterface::class, PaymentService::class);
+
+        $this->app->bind(GatewayStrategyServicesInterface::class, GatewayStrategyServices::class);
+
 
 
         /** End Service */

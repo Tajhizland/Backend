@@ -11,4 +11,19 @@ class NotificationRepository extends  BaseRepository implements  NotificationRep
     {
         parent::__construct($model);
     }
+
+    public function createNotification($title , $message ,$link ,$type)
+    {
+        $title->create([
+            "title"=>$title,
+            "message"=>$message,
+            "seen"=>0,
+            "link"=>$link,
+            "type"=>$type
+        ]);
+    }
+    public function seen()
+    {
+        $this->model::update(["seen"=>1]);
+    }
 }

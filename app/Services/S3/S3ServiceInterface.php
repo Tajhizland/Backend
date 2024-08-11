@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Upload;
+namespace App\Services\S3;
 
 interface S3ServiceInterface
 {
