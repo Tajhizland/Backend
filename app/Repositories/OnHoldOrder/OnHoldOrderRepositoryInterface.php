@@ -11,4 +11,6 @@ interface OnHoldOrderRepositoryInterface extends  BaseRepositoryInterface
     public function setReject(OnHoldOrder $onHoldModel);
     public function setAccept(OnHoldOrder $onHoldModel);
     public function dataTable();
+    public function createOnHoldOrder($orderId);
+
 }

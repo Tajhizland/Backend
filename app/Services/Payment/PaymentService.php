@@ -2,12 +2,14 @@
 
 namespace App\Services\Payment;
 
+use App\Enums\CartStatus;
 use App\Enums\OrderStatus;
 use App\Events\OrderPaidEvent;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
+use App\Repositories\OnHoldOrder\OnHoldOrderRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\OrderInfo\OrderInfoRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
@@ -35,6 +37,7 @@ class PaymentService implements PaymentServicesInterface
         private StockRepositoryInterface         $stockRepository,
         private TransactionRepositoryInterface   $transactionRepository,
         private CartItemServiceInterface         $cartItemService,
+        private OnHoldOrderRepositoryInterface   $onHoldOrderRepository,
     )
     {
         $this->gatewayService = $this->gatewayStrategyServices->strategy();
@@ -45,46 +48,23 @@ class PaymentService implements PaymentServicesInterface
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->cartItemService->checkAllow($cartItems);
-
+        $limit = $this->cartItemService->checkLimit($cartItems);
         $user = $this->userRepository->findOrFail($userId);
         $address = $this->addressRepository->findActiveByUserId($userId);
-
-        $orderInfo = $this->orderInfoRepository->createOrderInfo
-        (
-            $user->name,
-            $address->mobile,
-            $address->tell,
-            $address->province_id,
-            $address->city_id,
-            $address->address,
-            $address->zip_code
-        );
-
         $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
-
-        $cartPrices=$this->cartItemService->calculatePrice($cartItems);
-        $itemsPrice=$cartPrices["itemsPrice"];
-        $itemsDisacount=$cartPrices["itemsDiscount"];
-        $totalItemsPrice=$cartPrices["totalItemPrice"];
-        $finalPrice=$totalItemsPrice+$delivery->price;
-
-        $order = $this->orderRepository->createOrder
-        (
-            $userId,
-            $orderInfo->id,
-            $itemsPrice,
-            $itemsDisacount,
-            $totalItemsPrice,
-            $finalPrice,
-            OrderStatus::Unpaid->value,
-            $cart->payment_method,
-            $cart->delivery_method,
-            $delivery->price,
-            Carbon::now()
-        );
-
+        $cartPrices = $this->cartItemService->calculatePrice($cartItems);
+        $itemsPrice = $cartPrices["itemsPrice"];
+        $itemsDisacount = $cartPrices["itemsDiscount"];
+        $totalItemsPrice = $cartPrices["totalItemPrice"];
+        $finalPrice = $totalItemsPrice + $delivery->price;
+        $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
+        $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code);
+        $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $itemsPrice, $itemsDisacount, $totalItemsPrice, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, $delivery->price, Carbon::now());
         $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
-
+        if ($limit) {
+            $this->onHoldOrderRepository->createOnHoldOrder($order->id);
+            return true;
+        }
         return $this->gatewayService->request($finalPrice, $order->id);
     }
 
@@ -99,6 +79,8 @@ class PaymentService implements PaymentServicesInterface
             $this->stockRepository->decrement($item->product_color_id, $item->count);
         }
         $this->transactionRepository->createTransaction($order->user_id, $order->id, $request->trackId, $order->final_price);
+        $cart = $this->cartRepository->getCartByUserId($order->user_id);
+        $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
 
         event(new OrderPaidEvent($order));
 

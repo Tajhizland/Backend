@@ -19,4 +19,8 @@ class CartRepository extends BaseRepository implements  CartRepositoryInterface
     {
         return $this->model->create(['user_id' => $userId , "status"=>CartStatus::Active->value]);
     }
+    public function changeStatus(Cart $cart, $status)
+    {
+        return $cart->update(["status"=>$status]);
+    }
 }

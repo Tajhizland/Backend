@@ -21,7 +21,7 @@ class CartItemService implements CartItemServiceInterface
     {
     }
 
-    public function calculatePrice($cartItems):array
+    public function calculatePrice($cartItems): array
     {
         $itemsPrice = 0;
         $itemsDiscount = 0;
@@ -33,18 +33,29 @@ class CartItemService implements CartItemServiceInterface
             $totalItemPrice += ($price->price - ($price->price * ($price->discount / 100))) * $cartItem->count;
         }
         return [
-            "itemsPrice"=>$itemsPrice,
-            "itemsDiscount"=>$itemsDiscount,
-            "totalItemPrice"=>$totalItemPrice,
+            "itemsPrice" => $itemsPrice,
+            "itemsDiscount" => $itemsDiscount,
+            "totalItemPrice" => $totalItemPrice,
         ];
     }
 
-    public function checkAllow($cartItems) :bool
+    public function checkLimit($cartItems): bool
+    {
+        foreach ($cartItems as $cartItem) {
+            $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
+            if ($productColor->status == ProductColorStatus::Limit->value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function checkAllow($cartItems): bool
     {
         foreach ($cartItems as $cartItem) {
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             if
-            ($productColor->stock->stock < $cartItem->count ) {
+            ($productColor->stock->stock < $cartItem->count) {
                 throw  new BreakException(Lang::get("exceptions.product_un_stock_in_cart"));
             }
             if
@@ -58,7 +69,8 @@ class CartItemService implements CartItemServiceInterface
         }
         return true;
     }
-    public function convertCartItemToOrderItem($cartItems , $orderId):bool
+
+    public function convertCartItemToOrderItem($cartItems, $orderId): bool
     {
         foreach ($cartItems as $cartItem) {
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
@@ -72,6 +84,6 @@ class CartItemService implements CartItemServiceInterface
 
             $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count, $totalPrice, $totalDiscount, $finalPrice, $unitPrice, $unitDiscount);
         }
-        return  true;
+        return true;
     }
 }

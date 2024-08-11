@@ -21,6 +21,12 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
     {
 
     }
+    public function createOnHoldOrder($orderId){
+        return $this->create([
+            "order_id"=>$orderId,
+            "status"=>OnHoldOrderStatus::Pending->value
+        ]);
+    }
 
     public function userOnHoldOrderPaginate($userId)
     {
