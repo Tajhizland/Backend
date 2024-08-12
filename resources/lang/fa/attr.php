@@ -19,6 +19,8 @@ return
         "option" => 'آپشن',
         "brand" => 'برند',
         "address" => 'آدرس',
+        "payment_method" => 'درگاه پرداخت',
+        "delivery_method" => 'شیوه ارسال',
         "active_address" => ' آدرس فعال',
         "returned" => 'درخواست مرجوعی',
         "gateway" => 'درگاه پرداخت',

@@ -21,25 +21,11 @@ class AddressService implements AddressServiceInterface
         return $address;
     }
 
-    public function getByUserId($userId)
+    public function findByUserId($userId)
     {
-        return $this->addressRepository->getUserAdresses($userId);
+        return $this->addressRepository->findUserAddress($userId);
     }
 
-    public function setActive($id)
-    {
-        $address = $this->addressRepository->findOrFail($id);
-        Gate::authorize('update', $address);
-        $this->addressRepository->setDeActiveAllByUserId($address->user_id);
-        return  $this->addressRepository->setActive($address);
-    }
-
-    public function remove($id)
-    {
-        $address = $this->addressRepository->findOrFail($id);
-        Gate::authorize('delete', $address);
-        return  $this->addressRepository->delete($address);
-    }
 
     public function store($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
     {
@@ -52,4 +38,8 @@ class AddressService implements AddressServiceInterface
         Gate::authorize('update', $address);
     }
 
+    public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
+    {
+        $this->addressRepository->updateOrCreateByUserId($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address );
+    }
 }

@@ -4,6 +4,7 @@ return [
     "update" => ':attr با موفقیت ویرایش شد',
     "submit" => ':atrr با موفقیت ثبت شد',
     "success" => ':atrr با موفقیت انجام شد',
+    "select" => ':atrr با موفقیت انتخاب شد',
     "send" => ':attr به :to شما ارسال شد',
     "verify" =>':attr با موفقیت تأیید شد',
     "add_to" => ':attr با موفقیت به :to اضافه شد',

@@ -13,6 +13,11 @@ class DeliveryRepository extends BaseRepository implements DeliveryRepositoryInt
         parent::__construct($model);
     }
 
+    public function getActiveDelivery()
+    {
+        return $this->model::active()->get();
+    }
+
     public function dataTable()
     {
         return QueryBuilder::for(Delivery::class)

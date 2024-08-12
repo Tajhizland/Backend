@@ -8,6 +8,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface DeliveryRepositoryInterface extends  BaseRepositoryInterface
 {
     public function dataTable();
+    public function getActiveDelivery();
 
     public function createDelivery($name, $status,$description ,$price ,$logo);
 

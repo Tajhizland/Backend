@@ -29,4 +29,10 @@ class OrderController extends Controller
             new OrderResource($this->orderService->findById($id))
         );
     }
+    public function userOrders()
+    {
+        return $this->dataResponse(
+            new OrderResource($this->orderService->userOrderPaginate(Auth::user()->id))
+        );
+    }
 }

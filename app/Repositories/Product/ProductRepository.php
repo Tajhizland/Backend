@@ -54,6 +54,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model::where("name", "like", "%$query%")->limit(config("settings.search_item_limit"))->get();
     }
 
+    public function searchProductWithCategory($query, $categoryId)
+    {
+        return $this->model::active()->hasColor()->where("name", "like", "%$query%")
+            ->whereHas("productCategories", function ($q) use ($categoryId) {
+                $q->where("id", $categoryId);
+            })->paginate($this->pageSize);
+    }
+
     public function showFavoriteList($userId)
     {
         return $this->model::whereHas("favorites", function ($query) use ($userId) {
@@ -105,7 +113,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         });
     }
 
-    public function createProduct($name, $url, $description, $study, $status, $brandId , $metaTitle , $metaDescription)
+    public function createProduct($name, $url, $description, $study, $status, $brandId, $metaTitle, $metaDescription)
     {
         return $this->create([
             "name" => $name,
@@ -120,7 +128,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         ]);
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $brandId , $metaTitle , $metaDescription)
+    public function updateProduct($id, $name, $url, $description, $study, $status, $brandId, $metaTitle, $metaDescription)
     {
         return $this->model::find($id)->update([
             "name" => $name,

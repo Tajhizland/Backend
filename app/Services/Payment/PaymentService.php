@@ -17,6 +17,7 @@ use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\Transaction\TransactionRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\CartItem\CartItemServiceInterface;
+use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use Carbon\Carbon;
 
@@ -38,6 +39,7 @@ class PaymentService implements PaymentServicesInterface
         private TransactionRepositoryInterface   $transactionRepository,
         private CartItemServiceInterface         $cartItemService,
         private OnHoldOrderRepositoryInterface   $onHoldOrderRepository,
+        private CheckoutServiceInterface         $checkoutService,
     )
     {
         $this->gatewayService = $this->gatewayStrategyServices->strategy();
@@ -47,10 +49,10 @@ class PaymentService implements PaymentServicesInterface
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
-        $this->cartItemService->checkAllow($cartItems);
+        $this->checkoutService->finalCheckout($cart, $cartItems);
         $limit = $this->cartItemService->checkLimit($cartItems);
         $user = $this->userRepository->findOrFail($userId);
-        $address = $this->addressRepository->findActiveByUserId($userId);
+        $address = $this->addressRepository->findUserAddress($userId);
         $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
         $itemsPrice = $cartPrices["itemsPrice"];

@@ -5,6 +5,8 @@ namespace App\Services\CartItem;
 use App\Enums\ProductColorStatus;
 use App\Enums\ProductStatus;
 use App\Exceptions\BreakException;
+use App\Repositories\Cart\CartRepositoryInterface;
+use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
@@ -16,7 +18,9 @@ class CartItemService implements CartItemServiceInterface
     (
         private PriceRepositoryInterface        $priceRepository,
         private ProductColorRepositoryInterface $productColorRepository,
-        private OrderItemRepositoryInterface    $orderItemRepository
+        private OrderItemRepositoryInterface    $orderItemRepository,
+        private CartRepositoryInterface         $cartRepository,
+        private CartItemRepositoryInterface     $cartItemRepository
     )
     {
     }
@@ -84,6 +88,14 @@ class CartItemService implements CartItemServiceInterface
 
             $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count, $totalPrice, $totalDiscount, $finalPrice, $unitPrice, $unitDiscount);
         }
+        return true;
+    }
+
+    public function checkoutCart($userId): bool
+    {
+        $cart = $this->cartRepository->getCartByUserId($userId);
+        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
+        $this->checkAllow($cartItems);
         return true;
     }
 }

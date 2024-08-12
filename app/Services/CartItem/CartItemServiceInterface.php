@@ -8,5 +8,6 @@ interface CartItemServiceInterface
 
     public function checkAllow($cartItems): bool;
     public function checkLimit($cartItems): bool;
+    public function checkoutCart($userId): bool;
     public function convertCartItemToOrderItem($cartItems , $orderId): bool;
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
- use App\Http\Resources\V1\Product\ProductResource;
+use App\Http\Resources\V1\Product\ProductResource;
 use App\Services\Product\ProductServiceInterface;
 
 class ProductController extends  Controller

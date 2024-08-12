@@ -23,4 +23,18 @@ class CartRepository extends BaseRepository implements  CartRepositoryInterface
     {
         return $cart->update(["status"=>$status]);
     }
+
+    public function setDeliveryMethod(Cart $cart, $delivery_method)
+    {
+        $cart->update([
+            "delivery_method" => $delivery_method
+        ]);
+    }
+
+    public function setPaymentMethod(Cart $cart, $payment_method)
+    {
+        $cart->update([
+            "payment_method" => $payment_method
+        ]);
+    }
 }

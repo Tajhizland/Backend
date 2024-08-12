@@ -71,4 +71,8 @@ class ProductService implements ProductServiceInterface
         }
         return true;
     }
+    public function searchProductWithCategory($query, $categoryId): mixed
+    {
+        return  $this->productRepository->searchProductWithCategory($query ,$categoryId);
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Services\Cart;
 
+use App\Models\Cart;
+
 interface CartServiceInterface
 {
     public function getCartItems($userId);
@@ -10,4 +12,6 @@ interface CartServiceInterface
     public function clearCart($userId);
     public function decreaseProductInCart($userId, $productColorId);
     public function increaseProductInCart($userId, $productColorId);
+    public function setDeliveryMethod( $userId, $delivery_method);
+    public function setPaymentMethod( $userId, $payment_method);
 }

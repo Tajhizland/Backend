@@ -9,7 +9,6 @@ class UpdateAddresRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer' , 'exists:App\Models\Address'],
             'city_id' => ['required', 'integer' , 'exists:App\Models\City'],
             'province_id' => ['required', 'integer','exists:App\Models\Province'],
             'tell_code' => ['required'],

@@ -5,44 +5,46 @@ namespace App\Repositories\Address;
 use App\Models\Address;
 use App\Repositories\Base\BaseRepository;
 
-class AddressRepository extends  BaseRepository implements  AddressRepositoryInterface
+class AddressRepository extends BaseRepository implements AddressRepositoryInterface
 {
-public function __construct(Address $model)
-{
-    parent::__construct($model);
-}
-
-    public function getUserAdresses($userId)
+    public function __construct(Address $model)
     {
-        return $this->model::where("user_id",$userId)->latest("id")->get();
+        parent::__construct($model);
     }
 
-    public function deleteAddress(Address $address)
+    public function findUserAddress($userId)
     {
-        $address->delete();
-    }
-    public function setDeActiveAllByUserId($userId)
-    {
-        $this->model::where("user_id",$userId)->update(["active"=>0]);
+        return $this->model::where("user_id", $userId)->first();
     }
 
-    public function setActive(Address $address)
+    public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
     {
-        $address->update(["active" => 1]);
+        $this->updateOrCreate(["user_id" => $userId],
+            [
+                "user_id" => $userId,
+                "city_id" => $cityId,
+                "prvince_id" => $provinceId,
+                "tell_code" => $tellCode,
+                "tell" => $tell,
+                "zip_code" => $zipCode,
+                "mobile" => $mobile,
+                "address" => $address,
+            ]
+        );
     }
 
     public function createAddress($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
     {
         $this->create(
             [
-                "user_id"=>$userId,
-                "city_id"=>$cityId,
-                "prvince_id"=>$provinceId,
-                "tell_code"=>$tellCode,
-                "tell"=>$tell,
-                "zip_code"=>$zipCode,
-                "mobile"=>$mobile,
-                "address"=>$address,
+                "user_id" => $userId,
+                "city_id" => $cityId,
+                "prvince_id" => $provinceId,
+                "tell_code" => $tellCode,
+                "tell" => $tell,
+                "zip_code" => $zipCode,
+                "mobile" => $mobile,
+                "address" => $address,
             ]
         );
     }
@@ -50,17 +52,13 @@ public function __construct(Address $model)
     public function updateAddress(Address $addressModal, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
     {
         $addressModal->update([
-            "city_id"=>$cityId,
-            "prvince_id"=>$provinceId,
-            "tell_code"=>$tellCode,
-            "tell"=>$tell,
-            "zip_code"=>$zipCode,
-            "mobile"=>$mobile,
-            "address"=>$address,
+            "city_id" => $cityId,
+            "prvince_id" => $provinceId,
+            "tell_code" => $tellCode,
+            "tell" => $tell,
+            "zip_code" => $zipCode,
+            "mobile" => $mobile,
+            "address" => $address,
         ]);
-    }
-    public function findActiveByUserId($userId)
-    {
-
     }
 }
