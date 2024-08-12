@@ -17,9 +17,7 @@ class CheckoutController extends Controller
     (
         private  CheckoutServiceInterface $checkoutService,
         private  CartServiceInterface $cartService,
-    )
-    {
-    }
+    ) { }
     public function checkoutOrder()
     {
         return $this->dataResponse(new CheckoutResource($this->checkoutService->checkoutOrder(Auth::user()->id))) ;
