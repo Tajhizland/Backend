@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\Sort;
+namespace App\Services\Sort\Product;
 
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\Sorts\Sort;
 
-class ProductByCategorySort  implements Sort
+class SortProductByCategoryName  implements Sort
 {
     public function __invoke(Builder $query, bool $descending, string $property)
     {

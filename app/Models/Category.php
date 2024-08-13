@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Category extends Model
 {
+    protected $guarded=["id"];
     protected function casts(): array
     {
         return [

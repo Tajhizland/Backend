@@ -12,6 +12,8 @@ Route::get('/', function (Request $request) {
     return $request;
 });
 
+Route::get('/stat', [\App\Http\Controllers\V1\Admin\OrderController::class, "updateStatus"]);
+
 Route::get('/f/{url}', [\App\Http\Controllers\V1\Shop\ProductController::class, "find"])
     ->middleware(\App\Http\Middleware\TestMiddleware::class)->where('url', '.*');
 

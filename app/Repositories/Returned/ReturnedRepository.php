@@ -5,6 +5,12 @@ namespace App\Repositories\Returned;
 use App\Enums\ReturnedStatus;
 use App\Models\Returned;
 use App\Repositories\Base\BaseRepository;
+use App\Services\Sort\Returned\SortReturnedByProductName;
+use App\Services\Sort\Returned\SortReturnedByUserMobile;
+use App\Services\Sort\Returned\SortReturnedByUserName;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ReturnedRepository extends BaseRepository implements ReturnedRepositoryInterface
 {
@@ -30,17 +36,42 @@ class ReturnedRepository extends BaseRepository implements ReturnedRepositoryInt
             "file" => $file,
         ]);
     }
+
     public function setAccept(Returned $returned): mixed
     {
-        return  $returned->update(["status" => ReturnedStatus::Accept->value]);
+        return $returned->update(["status" => ReturnedStatus::Accept->value]);
     }
+
     public function setReject(Returned $returned): mixed
     {
-        return  $returned->update(["status" => ReturnedStatus::Reject->value]);
+        return $returned->update(["status" => ReturnedStatus::Reject->value]);
     }
+
     public function dataTable(): mixed
     {
-        return  1;
+        return QueryBuilder::for(Returned::class)
+            ->allowedFilters(['user_id', 'order_id', 'count', 'description', 'status', 'created_at',
+                AllowedFilter::callback('user', function ($query, $value) {
+                    $query->whereHas('user', function ($query) use ($value) {
+                        $query->where('name', 'like', '%' . $value . '%');
+                    });
+                }), AllowedFilter::callback('mobile', function ($query, $value) {
+                    $query->whereHas('user', function ($query) use ($value) {
+                        $query->where('username', 'like', '%' . $value . '%');
+                    });
+                }),
+                AllowedFilter::callback('product', function ($query, $value) {
+                    $query->whereHas('orderItem', function ($query) use ($value) {
+                        $query->whereHas('product', function ($query) use ($value) {
+                            $query->where('name', 'like', '%' . $value . '%');
+                        });
+                    });
+                })])
+            ->allowedSorts(['user_id', 'order_id', 'count', 'description', 'status', 'created_at'
+                , AllowedSort::custom("product", new SortReturnedByProductName())
+                , AllowedSort::custom("mobile", new SortReturnedByUserMobile())
+                , AllowedSort::custom("user", new SortReturnedByUserName())])
+            ->paginate($this->pageSize);
     }
 
 }

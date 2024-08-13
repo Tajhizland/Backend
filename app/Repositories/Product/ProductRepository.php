@@ -4,7 +4,7 @@ namespace App\Repositories\Product;
 
 use App\Models\Product;
 use App\Repositories\Base\BaseRepository;
-use App\Services\Sort\ProductByCategorySort;
+use App\Services\Sort\Product\SortProductByCategoryName;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -44,7 +44,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 }),
             ])
             ->allowedSorts(['id', 'name', 'url', 'status', 'created_at',
-                AllowedSort::custom("category", new ProductByCategorySort()),
+                AllowedSort::custom("category", new SortProductByCategoryName()),
             ])
             ->paginate($this->pageSize);
     }
