@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\V1\Checkout;
 
-use App\Http\Resources\CartItemCollection;
 use App\Http\Resources\V1\Address\AddressResource;
+use App\Http\Resources\V1\CartItem\CartItemCollection;
 use App\Http\Resources\V1\Delivery\DeliveryCollection;
 use App\Http\Resources\V1\Gateway\GatewayResource;
 use Illuminate\Http\Request;
