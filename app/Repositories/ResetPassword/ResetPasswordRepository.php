@@ -16,12 +16,12 @@ class ResetPasswordRepository extends BaseRepository implements ResetPasswordRep
 
     public function findPendingRequest($mobile)
     {
-        return $this->model->where("mobile", $mobile)->pending()->unExpire()->first();
+        return $this->model->where("username", $mobile)->pending()->unExpire()->first();
     }
 
     public function findInProgressRequest($mobile)
     {
-        return $this->model->where("mobile", $mobile)->inProgress()->unExpire()->first();
+        return $this->model->where("username", $mobile)->inProgress()->unExpire()->first();
      }
 
     public function setVerificationCode($username , $userId, $code)

@@ -13,6 +13,7 @@ class ResetPassword extends Model
 {
     use HasFactory;
 
+    protected $guarded=["id"];
     protected function casts()
     {
         return [
