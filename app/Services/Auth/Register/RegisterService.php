@@ -59,7 +59,7 @@ class RegisterService implements RegisterServiceInterface
         $user = $this->userRepository->register($mobile, $password);
         if ($user) {
             $this->mobileVerificationRepository->setCompleted($pendingRequest->id);
-            $token = $user->createToken('Api')->accessToken;
+            $token = $user->createToken('auth-token')->plainTextToken;
             return $token;
         }
         throw new BreakException(Lang::get("exceptions.register_error"));

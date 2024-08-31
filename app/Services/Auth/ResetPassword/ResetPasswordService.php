@@ -58,7 +58,7 @@ class ResetPasswordService implements ResetPasswordServiceInterface
         if ($user) {
             $user=$this->userRepository->findByUsername($mobile);
             $this->resetPasswordRepository->setCompleted($pendingRequest->id);
-            $token = $user->createToken('Api')->accessToken;
+            $token =  $user->createToken('auth-token')->plainTextToken;
             return $token;
         }
         throw new BreakException(Lang::get("exceptions.reset_password_error"));
