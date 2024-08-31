@@ -27,6 +27,10 @@ class MobileVerification extends Model
     {
         return $query->where("status", MobileVerificationStatus::Pending->value);
     }
+    public function scopeInProgress(Builder $query): Builder
+    {
+        return $query->where("status", MobileVerificationStatus::InProgress->value);
+    }
 
     public function scopeCompleted(Builder $query): Builder
     {
