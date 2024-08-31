@@ -18,7 +18,7 @@ class RegisterController extends Controller
     public function sendVerificationCode(SendRegisterVerificationCodeRequest $request)
     {
         $this->registerService->sendVerificationCode($request->get("mobile"));
-        return $this->successResponse(Lang::get("action.send",["attr"=>Lang::get("attr.verify_code")]));
+        return $this->successResponse(Lang::get("action.send",["attr"=>Lang::get("attr.verify_code") , "to"=>$request->get("mobile")]));
 
     }
 
