@@ -56,6 +56,7 @@ class ResetPasswordService implements ResetPasswordServiceInterface
             throw new BreakException(Lang::get("exceptions.request_not_found"));
         $user = $this->userRepository->resetPassword($mobile, $password);
         if ($user) {
+            $user=$this->userRepository->findByUsername($mobile);
             $this->resetPasswordRepository->setCompleted($pendingRequest->id);
             $token = $user->createToken('Api')->accessToken;
             return $token;
