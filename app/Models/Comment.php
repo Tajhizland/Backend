@@ -35,7 +35,7 @@ class Comment extends Model
 
     public function scopeConfirmed(Builder $query): Builder
     {
-        return $query->where("status", CommentStatus::Confirmed->value);
+        return $query->where("status", CommentStatus::Accepted->value);
     }
 
     public function scopeRejected(Builder $query): Builder
