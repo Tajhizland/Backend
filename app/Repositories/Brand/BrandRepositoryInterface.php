@@ -8,6 +8,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface BrandRepositoryInterface extends BaseRepositoryInterface
 {
     public function dataTable();
+    public function list();
 
     public function storeBrand($name, $url, $status, $image, $description);
 

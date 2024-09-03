@@ -57,4 +57,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             ->allowedSorts(['name', 'url', 'status', 'id', 'created_at', 'parent_id'])
             ->paginate($this->pageSize);
     }
+    public function list()
+    {
+        return $this->model::select("name","id")->all();
+    }
 }

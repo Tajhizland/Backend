@@ -21,4 +21,12 @@ Route::group(["prefix" => "category", "middleware" => "auth:sanctum"], function 
     Route::get("find/{id}",[\App\Http\Controllers\V1\Admin\CategoryController::class ,"findById"]);
     Route::post("store",[\App\Http\Controllers\V1\Admin\CategoryController::class ,"store"]);
     Route::post("update",[\App\Http\Controllers\V1\Admin\CategoryController::class ,"update"]);
+    Route::get("list",[\App\Http\Controllers\V1\Admin\CategoryController::class ,"list"]);
+});
+Route::group(["prefix" => "brand", "middleware" => "auth:sanctum"], function () {
+    Route::get("dataTable",[\App\Http\Controllers\V1\Admin\BrandController::class ,"dataTable"]);
+    Route::get("find/{id}",[\App\Http\Controllers\V1\Admin\BrandController::class ,"findById"]);
+    Route::post("store",[\App\Http\Controllers\V1\Admin\BrandController::class ,"store"]);
+    Route::post("update",[\App\Http\Controllers\V1\Admin\BrandController::class ,"update"]);
+    Route::get("list",[\App\Http\Controllers\V1\Admin\BrandController::class ,"list"]);
 });

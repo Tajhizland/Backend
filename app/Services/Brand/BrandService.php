@@ -15,6 +15,10 @@ class BrandService implements BrandServiceInterface
     {
     }
 
+    public function list()
+    {
+        return $this->brandRepository->list();
+    }
     public function dataTable()
     {
         return $this->brandRepository->dataTable();

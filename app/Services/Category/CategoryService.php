@@ -32,6 +32,11 @@ class CategoryService implements CategoryServiceInterface
         return ["products" => $products, "category" => $category];
     }
 
+    public function list()
+    {
+        return $this->categoryRepository->list();
+    }
+
     public function dataTable()
     {
         return $this->categoryRepository->dataTable();

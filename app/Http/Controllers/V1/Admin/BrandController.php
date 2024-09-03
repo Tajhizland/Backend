@@ -23,6 +23,10 @@ class BrandController extends Controller
     {
         return $this->dataResponse(new BrandCollection($this->brandService->dataTable()));
     }
+    public function list()
+    {
+        return $this->dataResponse(new BrandCollection($this->brandService->list()));
+    }
 
     public function findById($id)
     {

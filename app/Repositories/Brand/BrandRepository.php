@@ -21,6 +21,11 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
             ->paginate($this->pageSize);
     }
 
+    public function list()
+    {
+        return $this->model::select("id", "name")->all();
+    }
+
 
     public function storeBrand($name, $url, $status, $image, $description)
     {

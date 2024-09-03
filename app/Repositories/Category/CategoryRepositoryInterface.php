@@ -10,6 +10,7 @@ interface CategoryRepositoryInterface extends  BaseRepositoryInterface
     public function search($query);
     public function findByUrl($url);
     public function dataTable();
+    public function list();
     public function createCategory($name, $status, $url, $image, $description, $parentId);
     public function updateCategory(Category $category,$name, $status, $url, $image, $description, $parentId);
 }

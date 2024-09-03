@@ -19,6 +19,10 @@ class CategoryController extends Controller
     {
     }
 
+    public function list()
+    {
+        return $this->dataResponse(new CategoryCollection($this->categoryService->list()));
+    }
     public function dataTable()
     {
         return $this->dataResponse(new CategoryCollection($this->categoryService->dataTable()));
