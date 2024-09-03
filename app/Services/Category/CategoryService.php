@@ -4,8 +4,8 @@ namespace App\Services\Category;
 
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
-use App\Services\Filter\ListingFilterService;
-use App\Services\S3\S3ServiceInterface;
+use App\Services\Filter\FilterServiceInterface;
+ use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryService implements CategoryServiceInterface
@@ -13,7 +13,7 @@ class CategoryService implements CategoryServiceInterface
     public function __construct(
         private CategoryRepositoryInterface $categoryRepository,
         private ProductRepositoryInterface  $productRepository,
-        private ListingFilterService        $listingFilterService,
+        private FilterServiceInterface       $filterService,
         private S3ServiceInterface          $s3Service
     )
     {
@@ -26,7 +26,7 @@ class CategoryService implements CategoryServiceInterface
             throw new NotFoundHttpException();
         }
         $productsQuery = $this->productRepository->activeProductQuery();
-        $productsQuery = $this->listingFilterService->apply($productsQuery, $filters);
+        $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
 
         return ["products" => $products, "category" => $category];
