@@ -35,7 +35,7 @@ class Product extends Model
 
     public function confirmedComments(): HasMany
     {
-        return $this->hasMany(Comment::class)->where("status", CommentStatus::Confirmed->value);
+        return $this->hasMany(Comment::class)->where("status", CommentStatus::Accepted->value);
     }
 
     public function favorites(): HasMany
