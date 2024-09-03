@@ -2,10 +2,9 @@
 
 namespace App\Services\S3;
 
-use App\Services\Upload\UploadServiceInterface;
 use Illuminate\Support\Facades\Storage;
 
-class S3Service implements  UploadServiceInterface
+class S3Service implements  S3ServiceInterface
 {
     public function upload($file, $path): string
     {
