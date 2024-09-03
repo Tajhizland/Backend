@@ -114,6 +114,8 @@ use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\Returned\ReturnedService;
 use App\Services\Returned\ReturnedServiceInterface;
+use App\Services\S3\S3Service;
+use App\Services\S3\S3ServiceInterface;
 use App\Services\Search\SearchService;
 use App\Services\Search\SearchServiceInterface;
 use App\Services\Setting\SettingService;
@@ -253,6 +255,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PaymentServicesInterface::class, PaymentService::class);
 
         $this->app->bind(GatewayStrategyServicesInterface::class, GatewayStrategyServices::class);
+
+        $this->app->bind(S3ServiceInterface::class, S3Service::class);
 
 
 
