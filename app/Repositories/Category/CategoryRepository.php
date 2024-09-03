@@ -59,6 +59,6 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     }
     public function list()
     {
-        return $this->model::select("name","id")->all();
+        return $this->model::select("name","id")->get();
     }
 }

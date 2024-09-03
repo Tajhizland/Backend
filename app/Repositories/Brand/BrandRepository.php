@@ -23,7 +23,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 
     public function list()
     {
-        return $this->model::select("id", "name")->all();
+        return $this->model::select("id", "name")->get();
     }
 
 
