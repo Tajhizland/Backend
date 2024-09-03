@@ -152,7 +152,7 @@ trait ApiResponse
         return [
             'success' => $success,
             'message' => $message,
-            'data' => $data,
+            'result' => $data,
         ];
     }
 
