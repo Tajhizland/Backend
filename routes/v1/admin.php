@@ -30,3 +30,9 @@ Route::group(["prefix" => "brand", "middleware" => "auth:sanctum"], function () 
     Route::post("update",[\App\Http\Controllers\V1\Admin\BrandController::class ,"update"]);
     Route::get("list",[\App\Http\Controllers\V1\Admin\BrandController::class ,"list"]);
 });
+Route::group(["prefix" => "news", "middleware" => "auth:sanctum"], function () {
+    Route::get("dataTable",[\App\Http\Controllers\V1\Admin\NewsController::class ,"dataTable"]);
+    Route::get("find/{id}",[\App\Http\Controllers\V1\Admin\NewsController::class ,"findById"]);
+    Route::post("store",[\App\Http\Controllers\V1\Admin\NewsController::class ,"store"]);
+    Route::post("update",[\App\Http\Controllers\V1\Admin\NewsController::class ,"update"]); 
+});
