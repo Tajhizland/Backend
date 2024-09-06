@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\Category;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CategoryCollection extends ResourceCollection
 {
