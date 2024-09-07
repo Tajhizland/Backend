@@ -52,6 +52,6 @@ class NewService implements NewServiceInterface
             $this->s3Service->remove($imagePath);
             $imagePath = $this->s3Service->upload($image, "/news/");
         }
-        $this->newRepository->updateNews($id, $title, $url, $content, $imagePath, $published);
+        $this->newRepository->updateNews($news, $title, $url, $content, $imagePath, $published);
     }
 }
