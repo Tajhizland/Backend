@@ -17,6 +17,6 @@ class TransactionController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new TransactionCollection($this->transactionService->dataTable()));
+        return $this->dataResponseCollection(new TransactionCollection($this->transactionService->dataTable()));
     }
 }

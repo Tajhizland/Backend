@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new UserCollection($this->userService->dataTable()));
+        return $this->dataResponseCollection(new UserCollection($this->userService->dataTable()));
     }
 
     public function findById($id)

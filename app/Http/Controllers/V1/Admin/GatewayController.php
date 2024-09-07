@@ -19,7 +19,7 @@ class GatewayController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new GatewayCollection($this->gatewayService->dataTable()));
+        return $this->dataResponseCollection(new GatewayCollection($this->gatewayService->dataTable()));
     }
 
     public function findById($id)

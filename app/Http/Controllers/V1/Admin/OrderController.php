@@ -20,7 +20,7 @@ class OrderController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new OrderCollection($this->orderService->dataTable()));
+        return $this->dataResponseCollection(new OrderCollection($this->orderService->dataTable()));
     }
 
     public function findById($id)

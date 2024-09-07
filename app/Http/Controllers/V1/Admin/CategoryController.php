@@ -25,7 +25,7 @@ class CategoryController extends Controller
     }
     public function dataTable()
     {
-        return $this->dataResponse(new CategoryCollection($this->categoryService->dataTable()));
+        return $this->dataResponseCollection(new CategoryCollection($this->categoryService->dataTable()));
     }
 
     public function findById($id)

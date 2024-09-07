@@ -21,7 +21,7 @@ class DeliveryController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new DeliveryCollection($this->deliveryService->dataTable()));
+        return $this->dataResponseCollection(new DeliveryCollection($this->deliveryService->dataTable()));
     }
 
     public function findById($id)

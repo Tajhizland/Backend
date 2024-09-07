@@ -21,7 +21,7 @@ class BrandController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new BrandCollection($this->brandService->dataTable()));
+        return $this->dataResponseCollection(new BrandCollection($this->brandService->dataTable()));
     }
     public function list()
     {

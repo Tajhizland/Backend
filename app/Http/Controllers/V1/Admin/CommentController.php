@@ -19,7 +19,7 @@ class CommentController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new CommentCollection($this->commentService->dataTable()));
+        return $this->dataResponseCollection(new CommentCollection($this->commentService->dataTable()));
     }
 
     public function accept(UpdateCommentStatusRequest $request)

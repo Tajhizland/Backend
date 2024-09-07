@@ -21,7 +21,7 @@ class FilterController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new FilterCollection($this->filterService->dataTable()));
+        return $this->dataResponseCollection(new FilterCollection($this->filterService->dataTable()));
     }
 
     public function findById($id)

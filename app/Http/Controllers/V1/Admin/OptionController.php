@@ -19,7 +19,7 @@ class OptionController extends Controller
     {}
     public function dataTable()
     {
-        return $this->dataResponse(new OptionCollection($this->optionService->dataTable()));
+        return $this->dataResponseCollection(new OptionCollection($this->optionService->dataTable()));
     }
 
     public function findById($id)

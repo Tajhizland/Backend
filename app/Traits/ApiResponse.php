@@ -33,6 +33,12 @@ trait ApiResponse
 
     protected function dataResponse($data , $message="success")
     {
+        $response = $this->successEnvelope(true, ["data"=>$data], $message);
+
+        return response()->json($response, 200);
+    }
+   protected function dataResponseCollection($data , $message="success")
+    {
         $response = $this->successEnvelope(true, $data, $message);
 
         return response()->json($response, 200);
