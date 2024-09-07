@@ -17,8 +17,8 @@ class DeliveryResource extends JsonResource
             'status' => $this->status,
             'price' => $this->price,
             'logo' => $this->logo,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
 }

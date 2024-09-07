@@ -21,8 +21,8 @@ class OrderResource extends JsonResource
             'payment_method' => $this->payment_method,
             'order_date' => $this->order_date,
             'tracking_number' => $this->tracking_number,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
 }

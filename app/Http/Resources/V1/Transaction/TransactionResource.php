@@ -16,8 +16,8 @@ class TransactionResource extends JsonResource
             'order_id' => $this->order_id,
             'track_id' => $this->track_id,
             'price' => $this->price,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
 }

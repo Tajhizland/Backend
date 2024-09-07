@@ -17,8 +17,8 @@ class CommentResource extends JsonResource
             'rating' => $this->rating,
             'text' => $this->text,
             'status' => $this->status->label(),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
 }

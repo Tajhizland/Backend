@@ -19,8 +19,8 @@ class ReturnedResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
             'file' => $this->file,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
 }
