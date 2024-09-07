@@ -34,5 +34,17 @@ Route::group(["prefix" => "news", "middleware" => "auth:sanctum"], function () {
     Route::get("dataTable",[\App\Http\Controllers\V1\Admin\NewsController::class ,"dataTable"]);
     Route::get("find/{id}",[\App\Http\Controllers\V1\Admin\NewsController::class ,"findById"]);
     Route::post("store",[\App\Http\Controllers\V1\Admin\NewsController::class ,"store"]);
-    Route::post("update",[\App\Http\Controllers\V1\Admin\NewsController::class ,"update"]); 
+    Route::post("update",[\App\Http\Controllers\V1\Admin\NewsController::class ,"update"]);
+});
+
+Route::group(["prefix" => "option", "middleware" => "auth:sanctum"], function () {
+    Route::get("dataTable",[\App\Http\Controllers\V1\Admin\OptionController::class ,"dataTable"]);
+    Route::get("find/{id}",[\App\Http\Controllers\V1\Admin\OptionController::class ,"findById"]);
+    Route::post("store",[\App\Http\Controllers\V1\Admin\OptionController::class ,"store"]);
+    Route::post("update",[\App\Http\Controllers\V1\Admin\OptionController::class ,"update"]);
+});
+Route::group(["prefix" => "user", "middleware" => "auth:sanctum"], function () {
+    Route::get("dataTable",[\App\Http\Controllers\V1\Admin\UserController::class ,"dataTable"]);
+    Route::get("find/{id}",[\App\Http\Controllers\V1\Admin\UserController::class ,"findById"]);
+    Route::post("update",[\App\Http\Controllers\V1\Admin\UserController::class ,"update"]);
 });
