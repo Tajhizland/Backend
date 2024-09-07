@@ -3,6 +3,7 @@
 namespace App\Http\Requests\V1\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'id' => ['required','integer','exists:App\Models\User'],
             'name' => ['required','string'],
-            'username' => ['required', 'string', 'regex:/^09\d{9}$/', 'unique:App\Models\User'],
+            'username' => ['required', 'string', 'regex:/^09\d{9}$/', Rule::unique('username')->ignore($this->id)],
             'role' => ['required', 'string', 'in:admin,user'],
         ];
     }
