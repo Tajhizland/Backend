@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\Gateway;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\Gateway */
 class GatewayResource extends JsonResource

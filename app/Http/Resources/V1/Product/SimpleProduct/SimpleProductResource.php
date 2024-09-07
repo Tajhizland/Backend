@@ -9,6 +9,7 @@ use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\Stock\StockResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\Product */
 class SimpleProductResource extends JsonResource

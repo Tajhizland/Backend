@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\User */
 class UserResource extends JsonResource

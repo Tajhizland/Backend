@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\Stock;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\Stock */
 class StockResource extends JsonResource

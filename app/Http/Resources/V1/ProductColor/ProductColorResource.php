@@ -5,6 +5,7 @@ namespace App\Http\Resources\V1\ProductColor;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\ProductColor */
 class ProductColorResource extends JsonResource
