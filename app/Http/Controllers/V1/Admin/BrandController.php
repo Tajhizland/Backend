@@ -25,7 +25,7 @@ class BrandController extends Controller
     }
     public function list()
     {
-        return $this->dataResponse(new BrandCollection($this->brandService->list()));
+        return $this->dataResponseCollection(new BrandCollection($this->brandService->list()));
     }
 
     public function findById($id)
