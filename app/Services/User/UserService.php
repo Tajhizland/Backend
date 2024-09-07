@@ -22,6 +22,6 @@ class UserService implements UserServiceInterface
     }
     public function dataTable()
     {
-        // TODO: Implement dataTable() method.
+        return $this->repository->dataTable();
     }
 }
