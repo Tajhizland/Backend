@@ -17,7 +17,7 @@ class ReturnedController extends Controller
     {
     }
 
-    public function dateTable()
+    public function dataTable()
     {
         return $this->dataResponse(new ReturnedCollection($this->returnedService->dataTable()));
     }
