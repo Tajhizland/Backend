@@ -15,6 +15,10 @@ class OnHoldOrderService implements OnHoldOrderServiceInterface
     )
     {
     }
+    public function findById($id)
+    {
+        return $this->onHoldOrderRepository->findOrFail($id);
+    }
 
     public function userHoldOnPaginate($userId)
     {
@@ -47,6 +51,6 @@ class OnHoldOrderService implements OnHoldOrderServiceInterface
 
     public function dataTable()
     {
-        
+
     }
 }

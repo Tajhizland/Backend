@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function (Request $request) {
-    return "Welcome Admin" . $request->get("id");
+
+Route::group(["prefix" => "notification", "middleware" => "auth:sanctum"], function () {
+    Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NotificationController::class, "dataTable"]);
+    Route::get("unseen", [\App\Http\Controllers\V1\Admin\NotificationController::class, "findById"]);
 });
-Route::get('/me', [\App\Http\Controllers\V1\Auth\MeController::class, "me"]);
 
 
 Route::group(["prefix" => "product", "middleware" => "auth:sanctum"], function () {
@@ -77,4 +77,10 @@ Route::group(["prefix" => "order", "middleware" => "auth:sanctum"], function () 
     Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OrderController::class, "dataTable"]);
     Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OrderController::class, "findById"]);
     Route::post("update/status", [\App\Http\Controllers\V1\Admin\OrderController::class, "updateStatus"]);
+});
+Route::group(["prefix" => "onHoldOrder", "middleware" => "auth:sanctum"], function () {
+    Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "dataTable"]);
+    Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "findById"]);
+    Route::post("accept", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "accept"]);
+    Route::post("reject", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "reject"]);
 });

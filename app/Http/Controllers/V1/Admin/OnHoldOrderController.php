@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\OnHoldOrder\OnHoldOrderRequest;
+use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderCollection;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
@@ -18,7 +19,11 @@ class OnHoldOrderController extends Controller
 
     public function dataTable()
     {
-
+        return $this->successResponse(new OnHoldOrderCollection($this->onHoldOrderService->dataTable())) ;
+    }
+    public function findById($id)
+    {
+        return $this->successResponse(new OnHoldOrderCollection($this->onHoldOrderService->findById($id))) ;
     }
     public function accept(OnHoldOrderRequest $request)
     {
