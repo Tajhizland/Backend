@@ -7,6 +7,7 @@ use App\Enums\ProductColorStatus;
 use App\Enums\ProductStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -71,6 +72,11 @@ class Product extends Model
     public function productCategories(): HasOne
     {
         return $this->hasOne(ProductCategory::class);
+    }
+
+    protected function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     public function getMinColorPrice()
