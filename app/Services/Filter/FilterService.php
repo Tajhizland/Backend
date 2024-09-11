@@ -6,15 +6,17 @@ use App\Exceptions\BreakException;
 use App\Repositories\Filter\FilterRepositoryInterface;
 use App\Repositories\FilterItem\FilterItemRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\ProductFilter\ProductFilterRepositoryInterface;
 use Illuminate\Support\Facades\Lang;
 
 class FilterService implements FilterServiceInterface
 {
     public function __construct
     (
-        private ProductRepositoryInterface    $productRepository,
-        private FilterRepositoryInterface     $filterRepository,
-        private FilterItemRepositoryInterface $filterItemRepository
+        private ProductRepositoryInterface       $productRepository,
+        private FilterRepositoryInterface        $filterRepository,
+        private ProductFilterRepositoryInterface $productFilterRepository,
+        private FilterItemRepositoryInterface    $filterItemRepository
     )
     {
     }
@@ -93,5 +95,22 @@ class FilterService implements FilterServiceInterface
                 $this->filterItemRepository->createFilterItem($id, $item['value'], $item['status']);
         }
         return true;
+    }
+
+    public function getByProductId($productId)
+    {
+        return $this->filterRepository->getByProductId($productId);
+    }
+
+    public function setFilterToProduct($productId, $filters):void
+    {
+        foreach ($filters as $filter) {
+            $productFilter = $this->productFilterRepository->findProductFilter($productId, $filter->id);
+            if ($productFilter) {
+                $this->productFilterRepository->updateFilterItem($productFilter, $filter->item_id);
+                continue;
+            }
+            $this->productFilterRepository->store($productId, $filter->id, $filter->item_id);
+        }
     }
 }

@@ -10,4 +10,7 @@ interface FilterServiceInterface
     public function dataTable();
     public function createFilter($name,$categoryId,$status,$type,$items);
     public function updateFilter($id,$name,$categoryId,$status,$type,$items);
+    public function getByProductId($productId);
+    public function setFilterToProduct($productId , $filters):void;
+
 }

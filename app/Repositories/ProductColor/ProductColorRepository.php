@@ -36,4 +36,8 @@ class ProductColorRepository extends BaseRepository implements ProductColorRepos
             );
 
     }
+    public function getByProductId($productId){
+        return $this->model::where("product_id",$productId)->get();
+    }
+
 }

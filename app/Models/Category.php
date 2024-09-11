@@ -19,7 +19,7 @@ class Category extends Model
         ];
     }
 
-    protected function productCategory(): HasOne
+    public function productCategory(): HasOne
     {
         return $this->hasOne(ProductCategory::class);
     }
@@ -29,7 +29,7 @@ class Category extends Model
         return $this->belongsToMany(Product::class, 'product_categories');
     }
 
-    protected function filters(): HasMany
+    public function filters(): HasMany
     {
         return $this->hasMany(Filter::class);
     }

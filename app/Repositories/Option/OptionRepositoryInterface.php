@@ -9,4 +9,5 @@ interface OptionRepositoryInterface extends  BaseRepositoryInterface
     public function createOption($title, $categoryId, $status);
     public function updateOption($id,$title, $categoryId, $status);
     public function dataTable();
+    public function getByProductId($productId);
 }

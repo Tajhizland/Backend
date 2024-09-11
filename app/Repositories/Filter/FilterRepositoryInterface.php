@@ -9,4 +9,5 @@ interface FilterRepositoryInterface extends BaseRepositoryInterface
     public function createFilter($name, $categoryId, $status, $type);
     public function updateFilter($id,$name, $categoryId, $status, $type);
     public function dataTable();
+    public function getByProductId($productId);
 }

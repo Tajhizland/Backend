@@ -18,6 +18,7 @@ return
         "user" => 'کاربر',
         "filter" => 'فیلتر',
         "option" => 'آپشن',
+        "color" => 'رنگ محصول',
         "brand" => 'برند',
         "address" => 'آدرس',
         "payment_method" => 'درگاه پرداخت',

@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Filter;
 
-use App\Models\Category;
 use App\Models\Filter;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -45,5 +44,18 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
             ->allowedFilters(['name', 'category_id', 'status', 'type', 'created_at', 'updated_at'])
             ->allowedSorts(['name', 'category_id', 'status', 'type', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
+    }
+
+    public function getByProductId($productId)
+    {
+        return $this->model::whereHas("category", function ($query) use ($productId) {
+            $query->whereHas("productCategory", function ($query2) use ($productId) {
+                $query2->where("product_id", $productId);
+            });
+        })
+            ->with(["items"])
+            ->with(["productFilters" => function ($query) use ($productId) {
+                $query->where("product_id", $productId);
+            }])->get();
     }
 }

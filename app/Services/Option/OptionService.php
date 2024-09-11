@@ -11,7 +11,7 @@ class OptionService implements OptionServiceInterface
     public function __construct
     (
         private OptionRepositoryInterface     $optionRepository,
-        private OptionItemRepositoryInterface $optionItemRepository
+        private OptionItemRepositoryInterface $optionItemRepository,
     )
     {
     }
@@ -45,5 +45,13 @@ class OptionService implements OptionServiceInterface
                 $this->optionItemRepository->createFilterItem($id, $item["title"], $item["status"]);
         }
         return true;
+    }
+    public function getByProductId($productId)
+    {
+      return  $this->optionRepository->getByProductId($productId);
+    }
+    public function setOptionToProduct($productId, $options):void
+    {
+
     }
 }

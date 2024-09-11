@@ -22,6 +22,8 @@ use App\Repositories\Delivery\DeliveryRepository;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
 use App\Repositories\Favorite\FavoriteRepositoryInterface;
+use App\Repositories\FileManager\FileManagerRepository;
+use App\Repositories\FileManager\FileManagerRepositoryInterface;
 use App\Repositories\Filter\FilterRepository;
 use App\Repositories\Filter\FilterRepositoryInterface;
 use App\Repositories\FilterItem\FilterItemRepository;
@@ -52,6 +54,10 @@ use App\Repositories\ProductCategory\ProductCategoryRepository;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepository;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
+use App\Repositories\ProductFilter\ProductFilterRepository;
+use App\Repositories\ProductFilter\ProductFilterRepositoryInterface;
+use App\Repositories\ProductImage\ProductImageRepository;
+use App\Repositories\ProductImage\ProductImageRepositoryInterface;
 use App\Repositories\Province\ProvinceRepository;
 use App\Repositories\Province\ProvinceRepositoryInterface;
 use App\Repositories\ResetPassword\ResetPasswordRepository;
@@ -86,6 +92,8 @@ use App\Services\Delivery\DeliveryService;
 use App\Services\Delivery\DeliveryServiceInterface;
 use App\Services\Favorite\FavoriteService;
 use App\Services\Favorite\FavoriteServiceInterface;
+use App\Services\FileManager\FileManagerService;
+use App\Services\FileManager\FileManagerServiceInterface;
 use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Gateway\GatewayService;
@@ -112,6 +120,10 @@ use App\Services\Payment\PaymentService;
 use App\Services\Payment\PaymentServicesInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
+use App\Services\ProductColor\ProductColorService;
+use App\Services\ProductColor\ProductColorServiceInterface;
+use App\Services\ProductImage\ProductImageService;
+use App\Services\ProductImage\ProductImageServiceInterface;
 use App\Services\Returned\ReturnedService;
 use App\Services\Returned\ReturnedServiceInterface;
 use App\Services\S3\S3Service;
@@ -194,6 +206,12 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
 
+        $this->app->bind(ProductImageRepositoryInterface::class, ProductImageRepository::class);
+
+        $this->app->bind(FileManagerRepositoryInterface::class, FileManagerRepository::class);
+
+        $this->app->bind(ProductFilterRepositoryInterface::class, ProductFilterRepository::class);
+
 
         /** End Repository */
 
@@ -257,6 +275,12 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GatewayStrategyServicesInterface::class, GatewayStrategyServices::class);
 
         $this->app->bind(S3ServiceInterface::class, S3Service::class);
+
+        $this->app->bind(ProductColorServiceInterface::class, ProductColorService::class);
+
+        $this->app->bind(ProductImageServiceInterface::class, ProductImageService::class);
+
+        $this->app->bind(FileManagerServiceInterface::class, FileManagerService::class);
 
 
 

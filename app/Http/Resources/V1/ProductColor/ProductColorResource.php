@@ -17,6 +17,7 @@ class ProductColorResource extends JsonResource
             'product_id' => $this->product_id,
             'color_name' => $this->color_name,
             'color_code' => $this->color_code,
+            'delivery_delay' => $this->delivery_delay,
             'status' => $this->status,
             'price' => $this->price?->price,
             'discount' => $this->price?->discount,

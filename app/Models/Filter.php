@@ -7,6 +7,7 @@ use App\Enums\FilterType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Filter extends Model
 {
@@ -17,15 +18,19 @@ class Filter extends Model
             'status' => FilterStatus::class
         ];
     }
-    protected function category(): BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
-    protected function items(): HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(FilterItem::class);
     }
-    protected function activeItems(): HasMany
+    public function productFilters(): HasOne
+    {
+        return $this->hasOne(ProductFilter::class);
+    }
+    public function activeItems(): HasMany
     {
         return $this->hasMany(FilterItem::class)->where("status",);
     }
