@@ -105,12 +105,12 @@ class FilterService implements FilterServiceInterface
     public function setFilterToProduct($productId, $filters):void
     {
         foreach ($filters as $filter) {
-            $productFilter = $this->productFilterRepository->findProductFilter($productId, $filter->id);
+            $productFilter = $this->productFilterRepository->findProductFilter($productId, $filter["id"]);
             if ($productFilter) {
-                $this->productFilterRepository->updateFilterItem($productFilter, $filter->item_id);
+                $this->productFilterRepository->updateFilterItem($productFilter, $filter["item_id"]);
                 continue;
             }
-            $this->productFilterRepository->store($productId, $filter->id, $filter->item_id);
+            $this->productFilterRepository->store($productId, $filter["id"], $filter["item_id"]);
         }
     }
 }

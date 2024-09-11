@@ -18,13 +18,6 @@ class StoreProductRequest extends FormRequest
             'status' => ['required','int','in:1,0'],
             'category_id' => ['required','integer','exists:App\Models\Category,id'],
             'brand_id' => ['required','integer','exists:App\Models\Brand,id'],
-            'color.*.name' => ['required','string'],
-            'color.*.code' => ['required'],
-            'color.*.status' => ['required','int','in:0,1'],
-            'color.*.price' => ['required','int','min:0'],
-            'color.*.stock' => ['required','int','min:0'],
-            'color.*.discount' => ['nullable','int','min:0','max:100'],
-            'color.*.delivery_delay' => ['nullable','int' ],
         ];
     }
 

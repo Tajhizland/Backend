@@ -9,9 +9,9 @@ class ProductFilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "product_id"=>["required","exists:App\Models\Product"],
+            "product_id"=>["required"],
             "filter.*.id"=>["required","numeric","exists:App\Models\Filter"],
-            "filter.*.item_id"=>["nullable","numeric","exists:App\Models\FilterItem"],
+            "filter.*.item_id"=>["nullable","numeric"],
         ];
     }
 
