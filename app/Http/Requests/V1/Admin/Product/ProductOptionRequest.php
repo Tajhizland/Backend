@@ -10,7 +10,7 @@ class ProductOptionRequest extends FormRequest
     {
         return [
             "product_id"=>["required","exists:App\Models\Product"],
-            "option.*.item_id"=>["numeric","exists:App\Models\OptionItem"],
+            "option.*.item_id"=>["numeric","exists:App\Models\OptionItem,id"],
             "option.*.value"=>["string"],
         ];
     }
