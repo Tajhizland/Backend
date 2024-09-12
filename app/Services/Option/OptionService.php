@@ -55,7 +55,7 @@ class OptionService implements OptionServiceInterface
     public function setOptionToProduct($productId, $options):void
     {
        foreach ($options as $option) {
-            $productOption = $this->productOptionRepository->findProductOption($productId, $option["id"]);
+            $productOption = $this->productOptionRepository->findProductOption($productId, $option["item_id"]);
             if ($productOption) {
                 $this->productOptionRepository->updateValue($productOption, $option["value"]);
                 continue;
