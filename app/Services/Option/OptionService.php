@@ -60,7 +60,7 @@ class OptionService implements OptionServiceInterface
                 $this->productOptionRepository->updateValue($productOption, $option["value"]);
                 continue;
             }
-            $this->productOptionRepository->store($productId, $option["id"], $option["item_id"]);
+            $this->productOptionRepository->store($productId, $option["item_id"], $option["value"]);
         }
     }
 }
