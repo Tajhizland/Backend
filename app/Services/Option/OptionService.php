@@ -4,6 +4,7 @@ namespace App\Services\Option;
 
 use App\Repositories\Option\OptionRepositoryInterface;
 use App\Repositories\OptionItem\OptionItemRepositoryInterface;
+use App\Repositories\ProductOption\ProductOptionRepositoryInterface;
 
 class OptionService implements OptionServiceInterface
 {
@@ -12,6 +13,7 @@ class OptionService implements OptionServiceInterface
     (
         private OptionRepositoryInterface     $optionRepository,
         private OptionItemRepositoryInterface $optionItemRepository,
+        private ProductOptionRepositoryInterface $productOptionRepository,
     )
     {
     }
@@ -52,6 +54,13 @@ class OptionService implements OptionServiceInterface
     }
     public function setOptionToProduct($productId, $options):void
     {
-
+       foreach ($options as $option) {
+            $productOption = $this->productOptionRepository->findProductOption($productId, $option["id"]);
+            if ($productOption) {
+                $this->productOptionRepository->updateValue($productOption, $option["value"]);
+                continue;
+            }
+            $this->productOptionRepository->store($productId, $option["id"], $option["item_id"]);
+        }
     }
 }
