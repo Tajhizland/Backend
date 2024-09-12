@@ -58,6 +58,7 @@ use App\Repositories\ProductFilter\ProductFilterRepository;
 use App\Repositories\ProductFilter\ProductFilterRepositoryInterface;
 use App\Repositories\ProductImage\ProductImageRepository;
 use App\Repositories\ProductImage\ProductImageRepositoryInterface;
+use App\Repositories\ProductOption\ProductOptionRepository;
 use App\Repositories\ProductOption\ProductOptionRepositoryInterface;
 use App\Repositories\Province\ProvinceRepository;
 use App\Repositories\Province\ProvinceRepositoryInterface;
