@@ -58,6 +58,7 @@ use App\Repositories\ProductFilter\ProductFilterRepository;
 use App\Repositories\ProductFilter\ProductFilterRepositoryInterface;
 use App\Repositories\ProductImage\ProductImageRepository;
 use App\Repositories\ProductImage\ProductImageRepositoryInterface;
+use App\Repositories\ProductOption\ProductOptionRepositoryInterface;
 use App\Repositories\Province\ProvinceRepository;
 use App\Repositories\Province\ProvinceRepositoryInterface;
 use App\Repositories\ResetPassword\ResetPasswordRepository;
@@ -211,6 +212,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(FileManagerRepositoryInterface::class, FileManagerRepository::class);
 
         $this->app->bind(ProductFilterRepositoryInterface::class, ProductFilterRepository::class);
+
+        $this->app->bind(ProductOptionRepositoryInterface::class, ProductOptionRepository::class);
 
 
         /** End Repository */
