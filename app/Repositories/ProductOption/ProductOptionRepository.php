@@ -30,4 +30,9 @@ class ProductOptionRepository extends BaseRepository implements ProductOptionRep
     {
        return $productFilter->update(["value" => $value]);
     }
+    public function deleteValue(ProductOption $productFilter)
+    {
+       return $productFilter->delete();
+    }
+    
 }

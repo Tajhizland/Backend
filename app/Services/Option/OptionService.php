@@ -57,9 +57,15 @@ class OptionService implements OptionServiceInterface
        foreach ($options as $option) {
             $productOption = $this->productOptionRepository->findProductOption($productId, $option["item_id"]);
             if ($productOption) {
+                if($option["value"])
+
                 $this->productOptionRepository->updateValue($productOption, $option["value"]);
+                else
+                $this->productOptionRepository->deleteValue($productOption);
+
                 continue;
             }
+            if($option["value"])
             $this->productOptionRepository->store($productId, $option["item_id"], $option["value"]);
         }
     }
