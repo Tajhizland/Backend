@@ -11,7 +11,7 @@ class ProductOptionRequest extends FormRequest
         return [
             "product_id"=>["required","exists:App\Models\Product,id"],
             "option.*.item_id"=>["numeric","exists:App\Models\OptionItem,id"],
-            "option.*.value"=>["string"],
+            "option.*.value"=>["string" , "nullable"],
         ];
     }
 
