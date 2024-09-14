@@ -104,4 +104,10 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("accept", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "accept"]);
         Route::post("reject", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "reject"]);
     });
+    Route::group(["prefix" => "slider"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SliderController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\SliderController::class, "findById"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\SliderController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\SliderController::class, "update"]);
+    });
 });

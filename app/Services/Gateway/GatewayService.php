@@ -18,7 +18,7 @@ class GatewayService implements GatewayServiceInterface
 
     public function dataTable()
     {
-        // TODO: Implement dataTable() method.
+        return $this->gatewayRepository->dataTable();
     }
 
     public function findActiveGateway()

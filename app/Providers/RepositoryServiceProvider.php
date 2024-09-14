@@ -68,6 +68,8 @@ use App\Repositories\Returned\ReturnedRepository;
 use App\Repositories\Returned\ReturnedRepositoryInterface;
 use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Setting\SettingRepositoryInterface;
+use App\Repositories\Slider\SliderRepository;
+use App\Repositories\Slider\SliderRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\Transaction\TransactionRepository;
@@ -134,6 +136,8 @@ use App\Services\Search\SearchService;
 use App\Services\Search\SearchServiceInterface;
 use App\Services\Setting\SettingService;
 use App\Services\Setting\SettingServiceInterface;
+use App\Services\Slider\SliderService;
+use App\Services\Slider\SliderServiceInterface;
 use App\Services\Sms\SmsService;
 use App\Services\Sms\SmsServiceInterface;
 use App\Services\User\UserService;
@@ -216,6 +220,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ProductOptionRepositoryInterface::class, ProductOptionRepository::class);
 
+        $this->app->bind(SliderRepositoryInterface::class, SliderRepository::class);
+
 
         /** End Repository */
 
@@ -285,6 +291,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductImageServiceInterface::class, ProductImageService::class);
 
         $this->app->bind(FileManagerServiceInterface::class, FileManagerService::class);
+
+        $this->app->bind(SliderServiceInterface::class, SliderService::class);
 
 
 
