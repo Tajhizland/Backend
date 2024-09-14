@@ -10,4 +10,6 @@ interface FilterItemRepositoryInterface extends BaseRepositoryInterface
     public function createFilterItem($filterId, $value, $status);
 
     public function updateFilterItem(FilterItem $filterItem, $value, $status);
+
+    public function find($id);
 }

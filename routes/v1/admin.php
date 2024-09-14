@@ -35,6 +35,13 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\CategoryController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CategoryController::class, "update"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\CategoryController::class, "list"]);
+
+        Route::get("filter/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getFilter"]);
+        Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getOption"]);
+
+        Route::post("filter/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFilter"]);
+        Route::post("option/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setOption"]);
+
     });
     Route::group(["prefix" => "brand"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BrandController::class, "dataTable"]);

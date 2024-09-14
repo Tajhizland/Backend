@@ -16,4 +16,9 @@ interface OptionServiceInterface
 
     public function setOptionToProduct($productId, $options): void;
 
+    public function getCategoryOptions($categoryId);
+
+    public function setOption($categoryId , $options): void;
+
+
 }

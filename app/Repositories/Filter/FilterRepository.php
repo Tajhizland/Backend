@@ -14,17 +14,16 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
         parent::__construct($model);
     }
 
-    public function createFilter($name, $categoryId, $status, $type)
+    public function createFilter($name, $categoryId, $status)
     {
         $this->create([
             "name" => $name,
             "category_id" => $categoryId,
             "status" => $status,
-            "type" => $type,
         ]);
     }
 
-    public function updateFilter($id, $name, $categoryId, $status, $type)
+    public function updateFilter($id, $name, $categoryId, $status)
     {
         return $this->model::where("id", $id)
             ->update(
@@ -32,7 +31,6 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
                     "name" => $name,
                     "category_id" => $categoryId,
                     "status" => $status,
-                    "type" => $type,
                 ]
             );
     }
@@ -57,5 +55,13 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
             ->with(["productFilters" => function ($query) use ($productId) {
                 $query->where("product_id", $productId);
             }])->get();
+    }
+    public function getCategoryFilters($categoryId)
+    {
+        return $this->model::where("category_id", $categoryId)->with("items")->get();
+    }
+    public function find($id)
+    {
+        return $this->model::find($id);
     }
 }

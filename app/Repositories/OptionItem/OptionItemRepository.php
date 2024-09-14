@@ -31,4 +31,8 @@ class OptionItemRepository extends BaseRepository implements OptionItemRepositor
             ]
         );
     }
+    public function find($id)
+    {
+        return $this->model::find($id);
+    }
 }

@@ -113,4 +113,30 @@ class FilterService implements FilterServiceInterface
             $this->productFilterRepository->store($productId, $filter["id"], $filter["item_id"]);
         }
     }
+
+    public function getCategoryFilters($categoryId){
+        return $this->filterRepository->getCategoryFilters($categoryId);
+    }
+
+    public function setFilter($categoryId, $filters):void
+    {
+        foreach ($filters as $filter) {
+            $existFilter = $this->filterRepository->find($filter["id"]);
+            if ($existFilter) {
+                $this->filterRepository->updateFilter($filter["id"], $filter["name"], $categoryId, $filter["status"] );
+                continue;
+            }
+            $this->filterRepository->createFilter( $filter["name"], $categoryId, $filter["status"] );
+
+            $filterItems=$filter["items"];
+            foreach ($filterItems as $filterItem) {
+                $existFilterItem=$this->filterItemRepository->find($filterItem["id"]);
+                if($existFilterItem){
+                    $this->filterItemRepository->updateFilterItem($existFilterItem, $filterItem["value"], $filterItem["status"]);
+                    continue;
+                }
+                $this->filterItemRepository->createFilterItem($filter["id"], $filterItem["value"], $filterItem["status"]);
+            }
+        }
+    }
 }

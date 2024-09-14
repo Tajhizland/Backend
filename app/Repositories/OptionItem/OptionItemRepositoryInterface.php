@@ -10,4 +10,5 @@ interface OptionItemRepositoryInterface extends BaseRepositoryInterface
     public function createFilterItem($optionId, $title, $status);
 
     public function updateFilterItem(OptionItem $optionItem, $title, $status);
+    public function find($id);
 }

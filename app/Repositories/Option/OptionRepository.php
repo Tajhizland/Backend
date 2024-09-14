@@ -57,4 +57,12 @@ class OptionRepository extends BaseRepository implements OptionRepositoryInterfa
             }]);
         }])->get();
     }
+    public function getCategoryOptions($categoryId)
+    {
+        return $this->model::where("category_id",$categoryId)->with("optionItems")->get();
+    }
+    public function find($id)
+    {
+        return $this->model::find($id);
+    }
 }

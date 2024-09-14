@@ -30,4 +30,8 @@ class FilterItemRepository extends BaseRepository implements FilterItemRepositor
                 ]
             );
     }
+    public function find($id)
+    {
+        return $this->model::find($id);
+    }
 }
