@@ -14,11 +14,11 @@ class NotificationService implements NotificationServiceInterface
 
     public function getUnSeen()
     {
-        return $this->getUnSeen();
+        return $this->notificationRepository->getUnSeen();
     }
 
     public function dataTable()
     {
-        return $this->dataTable();
+        return $this->notificationRepository->dataTable();
     }
 }
