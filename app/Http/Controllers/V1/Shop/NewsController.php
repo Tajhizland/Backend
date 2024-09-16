@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\News\NewsCollection;
 use App\Http\Resources\V1\News\NewsResource;
 use App\Services\New\NewServiceInterface;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -21,8 +22,8 @@ class NewsController extends Controller
         return $this->dataResponse(new NewsCollection($this->newService->activePaginate()));
     }
 
-    public function findByUrl($url)
+    public function findByUrl(Request $request)
     {
-        return $this->dataResponse(new NewsResource($this->newService->findByUrl($url)));
+        return $this->dataResponse(new NewsResource($this->newService->findByUrl($request->url)));
     }
 }

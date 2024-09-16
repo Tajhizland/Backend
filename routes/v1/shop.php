@@ -38,6 +38,6 @@ Route::group(["prefix" => "category"], function () {
 });
 
 Route::group(["prefix" => "news"], function () {
-    Route::get('find/{url}', [NewsController::class, "findByUrl"])->where('url', '.*');;
+    Route::post('find', [NewsController::class, "findByUrl"]);
     Route::get('paginated', [NewsController::class, "paginate"]);
 });
