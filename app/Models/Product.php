@@ -23,6 +23,10 @@ class Product extends Model
             'status' => ProductStatus::class
         ];
     }
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 
     public function productColors(): HasMany
     {
