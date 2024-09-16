@@ -11,7 +11,7 @@ class CartItemCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'cartItems' => $this->collection,
+            'data' => $this->collection,
         ];
     }
 }
