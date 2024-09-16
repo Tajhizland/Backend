@@ -30,11 +30,7 @@ Route::group(["prefix" => "favorite", "middleware" => "auth:sanctum"], function 
 });
 
 Route::group(["prefix" => "product"], function () {
-
-    Route::get('find/{url}', [ProductController::class, "find"])
-        ->middleware("auth:sanctum")
-        ->where('url', '.*');
-
+    Route::post('find', [ProductController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
 });
 
 Route::group(["prefix" => "category"], function () {
