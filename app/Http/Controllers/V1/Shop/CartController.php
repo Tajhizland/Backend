@@ -19,7 +19,7 @@ class CartController extends Controller
     public function get()
     {
         $cart = $this->cartService->getCartItems(Auth::user()->id);
-        return $this->dataResponse(new CartItemCollection($cart));
+        return $this->dataResponseCollection(new CartItemCollection($cart));
     }
 
     public function addToCart(AddToCartRequest $request)
