@@ -13,8 +13,8 @@ class CartItemResource extends JsonResource
         return [
             'id' => $this->id,
             'product' => [
-                'name' => $this->product->title,
-                'url' => $this->product->url,
+                'name' => $this?->product?->title,
+                'url' => $this?->product?->url,
             ],
             'color' => [
                 "title" => $this->productColor->color_name,
