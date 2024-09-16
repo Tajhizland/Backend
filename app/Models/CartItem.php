@@ -20,9 +20,15 @@ class CartItem extends Model
     {
         return $this->belongsTo(ProductColor::class);
     }
-    protected function product():  HasOneThrough
+    protected function product(): HasOneThrough
     {
-        return $this->hasOneThrough(Product::class, ProductColor::class ,"product_id","id","product_color_id");
-
+        return $this->hasOneThrough(
+            Product::class,            // جدول نهایی (Product)
+            ProductColor::class,       // جدول واسطه (ProductColor)
+            'id',                      // کلید خارجی در جدول واسطه (ProductColor) که به Product اشاره می‌کند
+            'id',                      // کلید اصلی در جدول نهایی (Product)
+            'product_color_id',        // کلید خارجی در جدول CartItem که به ProductColor اشاره می‌کند
+            'product_id'               // کلید خارجی در جدول ProductColor که به Product اشاره می‌کند
+        );
     }
 }
