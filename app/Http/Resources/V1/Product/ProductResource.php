@@ -4,6 +4,8 @@ namespace App\Http\Resources\V1\Product;
 
 use App\Http\Resources\V1\Comment\CommentCollection;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
+use App\Http\Resources\V1\ProductImage\ProductImageCollection;
+use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -34,11 +36,13 @@ class ProductResource extends JsonResource
             'rating' => $this->getRatingAvg(),
             'favorite' => $isFavorite,
             'study' => $this->study,
-            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
-            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
+            'review' => $this->review,
+            'productOptions' => new ProductOptionCollection($this->productOptions),
             'colors' => new ProductColorCollection($this->activeProductColors),
             'comments' => new CommentCollection($this->confirmedComments),
-
+            'images' => new ProductImageCollection($this->images),
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
 }

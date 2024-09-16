@@ -14,6 +14,7 @@ class ProductOptionResource extends JsonResource
             'id' => $this->id,
             'product_id' => $this->product_id,
             'option_item_id' => $this->option_item_id,
+            'option_title' => $this->optionItem->title,
             'value' => $this->value,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

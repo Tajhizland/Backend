@@ -27,6 +27,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+    public function productOptions(): HasMany
+    {
+        return $this->hasMany(ProductOption::class);
+    }
 
     public function productColors(): HasMany
     {
