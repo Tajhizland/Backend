@@ -24,6 +24,6 @@ class NewsController extends Controller
 
     public function findByUrl(Request $request)
     {
-        return $this->dataResponse(new NewsResource($this->newService->findByUrl($request->url)));
+        return $this->dataResponseCollection(new NewsResource($this->newService->findByUrl($request->url)));
     }
 }
