@@ -19,11 +19,11 @@ class NewsController extends Controller
 
     public function paginate()
     {
-        return $this->dataResponse(new NewsCollection($this->newService->activePaginate()));
+        return $this->dataResponseCollection(new NewsCollection($this->newService->activePaginate()));
     }
 
     public function findByUrl(Request $request)
     {
-        return $this->dataResponseCollection(new NewsResource($this->newService->findByUrl($request->url)));
+        return $this->dataResponse(new NewsResource($this->newService->findByUrl($request->url)));
     }
 }
