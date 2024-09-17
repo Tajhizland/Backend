@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\V1\Order;
 
+use App\Http\Resources\V1\OptionItem\OptionItemCollection;
+use App\Http\Resources\V1\OrderInfo\OrderInfoResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
@@ -22,7 +24,10 @@ class OrderResource extends JsonResource
             'payment_method' => $this->payment_method,
             'order_date' => $this->order_date,
             'tracking_number' => $this->tracking_number,
-             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'orderItems' => new OptionItemCollection($this->whenLoaded('orderItems')),
+            'orderInfo' => new OrderInfoResource($this->whenLoaded('orderInfo')),
+
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
