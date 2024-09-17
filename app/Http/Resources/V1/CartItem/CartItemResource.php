@@ -18,6 +18,7 @@ class CartItemResource extends JsonResource
                 'image' => $this?->product?->images?->first()?->url,
             ],
             'color' => [
+                "id" => $this->productColor->id,
                 "title" => $this->productColor->color_name,
                 "code" => $this->productColor->color_code,
                 "price" => $this->productColor->price?->price,

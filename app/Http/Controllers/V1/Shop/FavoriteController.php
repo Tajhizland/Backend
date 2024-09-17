@@ -20,7 +20,7 @@ class FavoriteController extends Controller
     public function index()
     {
         $response = $this->favoriteService->showProducts(Auth::user()->id);
-        return $this->dataResponse(new ProductCollection($response));
+        return $this->dataResponseCollection(new ProductCollection($response));
     }
 
     public function addProduct(ChangeFavoriteRequest $request)

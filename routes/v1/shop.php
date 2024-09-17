@@ -34,10 +34,10 @@ Route::group(["prefix" => "product"], function () {
 });
 
 Route::group(["prefix" => "category"], function () {
-    Route::get('find', [CategoryController::class, "index"]);
+    Route::post('find', [CategoryController::class, "index"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
 });
 
 Route::group(["prefix" => "news"], function () {
-    Route::post('find', [NewsController::class, "findByUrl"]);
+    Route::post('find', [NewsController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('paginated', [NewsController::class, "paginate"]);
 });

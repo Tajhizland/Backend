@@ -18,3 +18,5 @@ Route::post('/register', [\App\Http\Controllers\V1\Auth\RegisterController::clas
 Route::post('/reset_password/send_code', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"sendVerificationCode"]);
 Route::post('/reset_password/verify_code', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"verifyCode"]);
 Route::post('/reset_password', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"reset"]);
+
+Route::post('/change_password', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"reset"]);
