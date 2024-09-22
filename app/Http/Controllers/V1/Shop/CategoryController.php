@@ -23,7 +23,7 @@ class CategoryController extends Controller
         $categoryResource = new CategoryResource($listing["category"]);
         $productCollection = new SimpleProductCollection($listing["products"]);
 
-        return $this->dataResponseCollection([
+        return $this->dataResponse([
             "category" => $categoryResource,
             "products" => $productCollection,
         ]);
