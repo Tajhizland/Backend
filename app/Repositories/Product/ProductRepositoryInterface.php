@@ -18,7 +18,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function showFavoriteList($userId);
 
-    public function activeProductQuery();
+    public function activeProductQuery($categoryId);
 
     public function paginated($query);
 

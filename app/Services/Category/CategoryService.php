@@ -25,7 +25,7 @@ class CategoryService implements CategoryServiceInterface
         if (!$category) {
             throw new NotFoundHttpException();
         }
-        $productsQuery = $this->productRepository->activeProductQuery();
+        $productsQuery = $this->productRepository->activeProductQuery($category->id);
         $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
 
