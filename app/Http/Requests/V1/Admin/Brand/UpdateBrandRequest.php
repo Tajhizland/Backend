@@ -3,6 +3,7 @@
 namespace App\Http\Requests\V1\Admin\Brand;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateBrandRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateBrandRequest extends FormRequest
         return [
             'id' => ['required' ,'exists:App\Models\Brand'],
             'name' => ['required'],
-            'url' => ['required'],
+            'url' => ['required' , Rule::unique('brands')->ignore($this->id)],
             'status' => ['required', 'integer'],
             'image' => ['nullable'],
             'description' => ['nullable'],

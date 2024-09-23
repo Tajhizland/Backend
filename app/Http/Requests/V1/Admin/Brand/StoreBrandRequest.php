@@ -3,6 +3,7 @@
 namespace App\Http\Requests\V1\Admin\Brand;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreBrandRequest extends FormRequest
 {
@@ -10,7 +11,7 @@ class StoreBrandRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'url' => ['required'],
+            'url' => ['required','unique:App\Models\Category'],
             'status' => ['required', 'integer'],
             'image' => ['nullable'],
             'description' => ['nullable'],

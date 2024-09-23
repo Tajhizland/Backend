@@ -42,33 +42,17 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId , $metaTitle , $metaDescription, $colors): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId , $metaTitle , $metaDescription): mixed
     {
         $product = $this->productRepository->createProduct($name, $url, $description, $study, $status, $brandId , $metaTitle , $metaDescription);
         $this->productCategoryRepository->createProductCategory($product->id, $categoryId);
-        foreach ($colors as $item) {
-            $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $product->id, $item["status"], $item["delivery_delay"]);
-            $this->priceRepository->createPrice($productColor->id, $item["price"], $item["discount"]);
-            $this->stockRepository->createStock($productColor->id, $item["stock"]);
-        }
         return true;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId , $metaTitle , $metaDescription, $colors): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId , $metaTitle , $metaDescription): mixed
     {
         $this->productRepository->updateProduct($id, $name, $url, $description, $study, $status , $brandId , $metaTitle , $metaDescription);
         $this->productCategoryRepository->updateWithProductId($id, $categoryId);
-        foreach ($colors as $item) {
-            if (isset($item["id"])) {
-                $this->productColorRepository->updateProductColor($item["id"], $item["name"], $item["code"], $item["status"]);
-                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
-                $this->stockRepository->updateStock($item["id"], $item["stock"]);
-            } else {
-                $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $id, $item["status"]);
-                $this->priceRepository->createPrice($productColor->id, $item["price"], $item["discount"]);
-                $this->stockRepository->createStock($productColor->id, $item["stock"]);
-            }
-        }
         return true;
     }
     public function searchProductWithCategory($query, $categoryId): mixed
