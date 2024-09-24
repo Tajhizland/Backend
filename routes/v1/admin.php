@@ -110,4 +110,30 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\SliderController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\SliderController::class, "update"]);
     });
+    Route::group(["prefix" => "special_product"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "dataTable"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "delete"]);
+        Route::post("add", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "add"]);
+    });
+    Route::group(["prefix" => "popular_category"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PopularCategoryController::class, "dataTable"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\PopularCategoryController::class, "delete"]);
+        Route::post("add", [\App\Http\Controllers\V1\Admin\PopularCategoryController::class, "add"]);
+    });
+    Route::group(["prefix" => "popular_product"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PopularProductController::class, "dataTable"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\PopularProductController::class, "delete"]);
+        Route::post("add", [\App\Http\Controllers\V1\Admin\PopularProductController::class, "add"]);
+    });
+    Route::group(["prefix" => "homepage_category"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "dataTable"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "delete"]);
+        Route::post("add", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "add"]);
+    });
+    Route::group(["prefix" => "menu"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\MenuController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\MenuController::class, "findById"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\MenuController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\MenuController::class, "update"]);
+    });
 });

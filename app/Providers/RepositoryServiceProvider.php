@@ -30,6 +30,10 @@ use App\Repositories\FilterItem\FilterItemRepository;
 use App\Repositories\FilterItem\FilterItemRepositoryInterface;
 use App\Repositories\Gateway\GatewayRepository;
 use App\Repositories\Gateway\GatewayRepositoryInterface;
+use App\Repositories\HomepageCategory\HomepageCategoryRepository;
+use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
+use App\Repositories\Menu\MenuRepository;
+use App\Repositories\Menu\MenuRepositoryInterface;
 use App\Repositories\MobileVerification\MobileVerificationRepository;
 use App\Repositories\MobileVerification\MobileVerificationRepositoryInterface;
 use App\Repositories\New\NewRepository;
@@ -46,6 +50,10 @@ use App\Repositories\OrderInfo\OrderInfoRepository;
 use App\Repositories\OrderInfo\OrderInfoRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepository;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
+use App\Repositories\PopularCategory\PopularCategoryRepository;
+use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
+use App\Repositories\PopularProduct\PopularProductRepository;
+use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
 use App\Repositories\Price\PriceRepository;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
@@ -70,6 +78,8 @@ use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\Slider\SliderRepository;
 use App\Repositories\Slider\SliderRepositoryInterface;
+use App\Repositories\SpecialProduct\SpecialProductRepository;
+use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\Transaction\TransactionRepository;
@@ -106,6 +116,10 @@ use App\Services\Helper\CartHelper\CartHelperService;
 use App\Services\Helper\CartHelper\CartHelperServiceInterface;
 use App\Services\HomePage\HomePageService;
 use App\Services\HomePage\HomePageServiceInterface;
+use App\Services\HomepageCategory\HomepageCategoryService;
+use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
+use App\Services\Menu\MenuService;
+use App\Services\Menu\MenuServiceInterface;
 use App\Services\New\NewService;
 use App\Services\New\NewServiceInterface;
 use App\Services\Notification\NotificationService;
@@ -116,12 +130,14 @@ use App\Services\Option\OptionService;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Order\OrderService;
 use App\Services\Order\OrderServiceInterface;
-use App\Services\Payment\Gateways\GatewaysInterface;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServices;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
-use App\Services\Payment\Gateways\Zibal\ZibalService;
 use App\Services\Payment\PaymentService;
 use App\Services\Payment\PaymentServicesInterface;
+use App\Services\PopularCategory\PopularCategoryService;
+use App\Services\PopularCategory\PopularCategoryServiceInterface;
+use App\Services\PopularProduct\PopularProductService;
+use App\Services\PopularProduct\PopularProductServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\ProductColor\ProductColorService;
@@ -140,6 +156,8 @@ use App\Services\Slider\SliderService;
 use App\Services\Slider\SliderServiceInterface;
 use App\Services\Sms\SmsService;
 use App\Services\Sms\SmsServiceInterface;
+use App\Services\SpecialProduct\SpecialProductService;
+use App\Services\SpecialProduct\SpecialProductServiceInterface;
 use App\Services\User\UserService;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Support\ServiceProvider;
@@ -222,6 +240,16 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(SliderRepositoryInterface::class, SliderRepository::class);
 
+        $this->app->bind(PopularProductRepositoryInterface::class, PopularProductRepository::class);
+
+        $this->app->bind(PopularCategoryRepositoryInterface::class, PopularCategoryRepository::class);
+
+        $this->app->bind(SpecialProductRepositoryInterface::class, SpecialProductRepository::class);
+
+        $this->app->bind(HomepageCategoryRepositoryInterface::class, HomepageCategoryRepository::class);
+
+        $this->app->bind(MenuRepositoryInterface::class, MenuRepository::class);
+
 
         /** End Repository */
 
@@ -294,6 +322,15 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(SliderServiceInterface::class, SliderService::class);
 
+        $this->app->bind(PopularProductServiceInterface::class, PopularProductService::class);
+
+        $this->app->bind(PopularCategoryServiceInterface::class, PopularCategoryService::class);
+
+        $this->app->bind(SpecialProductServiceInterface::class, SpecialProductService::class);
+
+        $this->app->bind(HomepageCategoryServiceInterface::class, HomepageCategoryService::class);
+
+        $this->app->bind(MenuServiceInterface::class, MenuService::class);
 
 
         /** End Service */
