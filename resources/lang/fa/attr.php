@@ -16,6 +16,7 @@ return
         "category" => 'دسته بندی',
         "list" => 'لیست',
         "menu" => 'منو',
+        "concept" => 'کانسپت',
         "news" => 'بلاگ',
         "user" => 'کاربر',
         "filter" => 'فیلتر',

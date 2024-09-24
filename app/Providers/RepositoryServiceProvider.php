@@ -14,10 +14,14 @@ use App\Repositories\CartItem\CartItemRepository;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\CategoryConcept\CategoryConceptRepository;
+use App\Repositories\CategoryConcept\CategoryConceptRepositoryInterface;
 use App\Repositories\City\CityRepository;
 use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Repositories\Concept\ConceptRepository;
+use App\Repositories\Concept\ConceptRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepository;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
@@ -102,6 +106,8 @@ use App\Services\CartItem\CartItemService;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\Concept\ConceptService;
+use App\Services\Concept\ConceptServiceInterface;
 use App\Services\Delivery\DeliveryService;
 use App\Services\Delivery\DeliveryServiceInterface;
 use App\Services\Favorite\FavoriteService;
@@ -250,6 +256,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(MenuRepositoryInterface::class, MenuRepository::class);
 
+        $this->app->bind(ConceptRepositoryInterface::class, ConceptRepository::class);
+
+        $this->app->bind(CategoryConceptRepositoryInterface::class, CategoryConceptRepository::class);
+
 
         /** End Repository */
 
@@ -331,6 +341,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(HomepageCategoryServiceInterface::class, HomepageCategoryService::class);
 
         $this->app->bind(MenuServiceInterface::class, MenuService::class);
+
+        $this->app->bind(ConceptServiceInterface::class, ConceptService::class);
 
 
         /** End Service */
