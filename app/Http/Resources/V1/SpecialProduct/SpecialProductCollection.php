@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\V1\PopularCategory;
+namespace App\Http\Resources\V1\SpecialProduct;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-/** @see \App\Models\PopularCategory */
-class PopularCategoryCollection extends ResourceCollection
+/** @see \App\Models\SpecialProduct */
+class SpecialProductCollection extends ResourceCollection
 {
     public function toArray(Request $request): array
     {
