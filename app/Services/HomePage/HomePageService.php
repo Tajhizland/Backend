@@ -2,46 +2,47 @@
 
 namespace App\Services\HomePage;
 
+use App\Repositories\Concept\ConceptRepositoryInterface;
+use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
+use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
+use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Setting\SettingRepositoryInterface;
+use App\Repositories\Slider\SliderRepositoryInterface;
+use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 
 class HomePageService implements HomePageServiceInterface
 {
     public function __construct
     (
-        private ProductRepositoryInterface $productRepository,
-        private SettingRepositoryInterface $settingRepository,
+        private ProductRepositoryInterface          $productRepository,
+        private SettingRepositoryInterface          $settingRepository,
+        private PopularProductRepositoryInterface   $popularProductRepository,
+        private PopularCategoryRepositoryInterface  $popularCategoryRepository,
+        private HomepageCategoryRepositoryInterface $homepageCategoryRepository,
+        private SliderRepositoryInterface           $sliderRepository,
+        private SpecialProductRepositoryInterface   $specialProductRepository,
+        private ConceptRepositoryInterface          $conceptRepository
     )
     {
     }
 
-    public function getData()
+
+    public function buildData()
     {
-        $setting = $this->settingRepository->findSetting();
-        $homepageMostPopularProducts = [];
-        $homepageHasDiscountProducts = [];
-        $homepageNewProducts = [];
-        $homepageCustomCategoryProducts = [];
-
-        if ($setting->homepage_most_popular_products) {
-            $homepageMostPopularProducts = $this->productRepository->getMostPopularProduct();
-        }
-        if ($setting->homepage_has_discount_products) {
-            $homepageHasDiscountProducts = $this->productRepository->getHasDiscountProduct();
-        }
-        if ($setting->homepage_new_products) {
-            $homepageNewProducts = $this->productRepository->getNewProduct();
-        }
-        if ($setting->homepage_custom_category_products) {
-            $homepageCustomCategoryId = $setting->homepage_custom_category_id;
-            $homepageCustomCategoryProducts = $this->productRepository->getCustomCategoryProduct($homepageCustomCategoryId);
-        }
-
-        return [
-            "homepageMostPopularProducts" => $homepageMostPopularProducts,
-            "homepageHasDiscountProducts" => $homepageHasDiscountProducts,
-            "homepageNewProducts" => $homepageNewProducts,
-            "homepageCustomCategoryProducts" => $homepageCustomCategoryProducts
+        $popularProducts = $this->popularProductRepository->getWithProduct();
+        $popularCategories = $this->popularCategoryRepository->getWithCategory();
+        $homepageCategories = $this->homepageCategoryRepository->getWithCategory();
+        $specialProducts = $this->specialProductRepository->getWithProduct();
+        $sliders = $this->sliderRepository->all();
+        $concepts = $this->conceptRepository->all();
+         return [
+            "popularProducts" => $popularProducts,
+            "popularCategories" => $popularCategories,
+            "homepageCategories" => $homepageCategories,
+            "sliders" => $sliders,
+            "concepts" => $concepts,
+            "specialProducts" => $specialProducts
         ];
     }
 }

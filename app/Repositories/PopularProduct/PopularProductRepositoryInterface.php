@@ -8,4 +8,5 @@ interface PopularProductRepositoryInterface extends  BaseRepositoryInterface
 {
     public function add($productId);
     public function dataTable();
+    public function getWithProduct();
 }

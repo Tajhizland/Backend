@@ -33,4 +33,8 @@ class PopularProductRepository extends BaseRepository implements PopularProductR
                 }),])
             ->paginate($this->pageSize);
     }
+    public function getWithProduct()
+    {
+        return $this->model::with("product")->get();
+    }
 }

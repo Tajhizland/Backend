@@ -12,7 +12,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function dataTable();
     public function searchProductWithCategory($query , $categoryId);
-    public function incrementViewCount($product);
+     public function incrementViewCount($product);
 
     public function search($query);
 

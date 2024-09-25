@@ -4,5 +4,5 @@ namespace App\Services\HomePage;
 
 interface HomePageServiceInterface
 {
-    public function getData();
+    public function buildData();
 }

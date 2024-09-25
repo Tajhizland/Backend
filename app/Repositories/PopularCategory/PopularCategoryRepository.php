@@ -33,4 +33,8 @@ class PopularCategoryRepository extends BaseRepository implements PopularCategor
             "category_id" => $categoryId
         ]);
     }
+    public function getWithCategory()
+    {
+        return $this->model::with("category")->get();
+    }
 }

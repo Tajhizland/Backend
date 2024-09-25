@@ -17,7 +17,6 @@ class HomePageController extends Controller
 
     public function index()
     {
-        $homePageResponse = $this->homePageService->getData();
-        return $this->dataResponse(new HomePageResource($homePageResponse));
+        return $this->dataResponse(new HomePageResource($this->homePageService->buildData()));
     }
 }

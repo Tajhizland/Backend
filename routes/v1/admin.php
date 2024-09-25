@@ -136,4 +136,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\MenuController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\MenuController::class, "update"]);
     });
+    Route::group(["prefix" => "search"], function () {
+        Route::post("category", [\App\Http\Controllers\V1\Admin\MenuController::class, "dataTable"]);
+        Route::post("product", [\App\Http\Controllers\V1\Admin\MenuController::class, "findById"]);
+    });
 });

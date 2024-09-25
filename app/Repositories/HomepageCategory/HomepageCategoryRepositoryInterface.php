@@ -8,4 +8,5 @@ interface HomepageCategoryRepositoryInterface extends  BaseRepositoryInterface
 {
     public function dataTable();
     public function add($categoryId);
+    public function getWithCategory();
 }

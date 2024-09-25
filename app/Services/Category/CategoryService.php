@@ -18,6 +18,10 @@ class CategoryService implements CategoryServiceInterface
     )
     {
     }
+    public function searchCategory($query)
+    {
+        return $this->categoryRepository->search($query);
+    }
 
     public function listing($url, $filters)
     {

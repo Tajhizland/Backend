@@ -33,4 +33,8 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
             "category_id" => $categoryId
         ]);
     }
+    public function getWithCategory()
+    {
+        return $this->model::with("category")->get();
+    }
 }

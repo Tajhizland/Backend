@@ -8,4 +8,6 @@ interface SpecialProductRepositoryInterface extends  BaseRepositoryInterface
 {
     public function dataTable();
     public function add($productId);
+    public function getWithProduct();
+
 }

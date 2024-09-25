@@ -22,6 +22,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model->active()->where("url", $url)->first();
     }
 
+
     public function findById($id)
     {
         return $this->model::find($id);
