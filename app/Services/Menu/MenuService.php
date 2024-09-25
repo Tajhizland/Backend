@@ -43,4 +43,8 @@ class MenuService implements MenuServiceInterface
         }
         return $this->menuRepository->updateMenu($menu, $title, $parentId, $url, $bannerTitle, $bannerUrl, $logoPath);
     }
+    public function buildMenu()
+    {
+        return $this->menuRepository->getWithChildren();
+    }
 }

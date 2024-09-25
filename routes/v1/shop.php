@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/search', [SearchController::class, "index"]);
 
 Route::get('/homepage', [HomePageController::class, "index"]);
+Route::get('/menu', [\App\Http\Controllers\V1\Shop\MenuController::class, "get"]);
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);

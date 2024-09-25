@@ -27,6 +27,11 @@ class MenuRepository extends BaseRepository implements MenuRepositoryInterface
             ->paginate($this->pageSize);
     }
 
+    public function getWithChildren()
+    {
+        return $this->model::where("parent_id", 0)->with("children.children.children")->get();
+    }
+
     public function store($title, $parentId, $url, $bannerTitle, $bannerUrl, $logoPath)
     {
         return $this->model::create([
