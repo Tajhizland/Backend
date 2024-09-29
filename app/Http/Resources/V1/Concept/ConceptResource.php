@@ -16,7 +16,7 @@ class ConceptResource extends JsonResource
             'updated_at' => $this->updated_at,
             'id' => $this->id,
             'title' => $this->title,
-            'category' => new CategoryCollection($this->whenLoaded('category')),
+            'categories' => new CategoryCollection($this->whenLoaded('categories')),
             'description' => $this->description,
             'status' => $this->status,
             'image' => $this->image,

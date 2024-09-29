@@ -14,7 +14,7 @@ class ConceptRepository extends  BaseRepository implements  ConceptRepositoryInt
     }
     public function getActiveWithCategory()
     {
-        return $this->model::active()->with("category")->get();
+        return $this->model::active()->with("categories")->get();
     }
 
     public function dataTable()

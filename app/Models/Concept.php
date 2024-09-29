@@ -11,7 +11,7 @@ class Concept extends Model
 {
     protected $guarded=["id"];
 
-    protected function category(): BelongsToMany
+    protected function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_concepts');
     }
