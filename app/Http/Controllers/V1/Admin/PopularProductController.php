@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\PopularProduct\PopularProductRequest;
 use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
+use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
@@ -16,7 +17,7 @@ class PopularProductController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new PopularCategoryCollection($this->popularProductService->dataTable()));
+        return $this->dataResponseCollection(new PopularProductCollection($this->popularProductService->dataTable()));
     }
     public function add(PopularProductRequest $request)
     {
