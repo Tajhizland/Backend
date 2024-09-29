@@ -53,4 +53,8 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
                 ]
             );
     }
+    public function getAllActive()
+    {
+        return $this->model::where('status', 1)->get();
+    }
 }

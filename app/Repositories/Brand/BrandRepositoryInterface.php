@@ -10,6 +10,8 @@ interface BrandRepositoryInterface extends BaseRepositoryInterface
     public function dataTable();
     public function list();
 
+    public function getAllActive();
+
     public function storeBrand($name, $url, $status, $image, $description);
 
     public function updateBrand(Brand $brand, $name, $url, $status, $image, $description);

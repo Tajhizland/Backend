@@ -2,6 +2,7 @@
 
 namespace App\Services\HomePage;
 
+use App\Repositories\Brand\BrandRepositoryInterface;
 use App\Repositories\Concept\ConceptRepositoryInterface;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
 use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
@@ -22,7 +23,8 @@ class HomePageService implements HomePageServiceInterface
         private HomepageCategoryRepositoryInterface $homepageCategoryRepository,
         private SliderRepositoryInterface           $sliderRepository,
         private SpecialProductRepositoryInterface   $specialProductRepository,
-        private ConceptRepositoryInterface          $conceptRepository
+        private ConceptRepositoryInterface          $conceptRepository,
+        private BrandRepositoryInterface          $brandRepository
     )
     {
     }
@@ -36,12 +38,14 @@ class HomePageService implements HomePageServiceInterface
         $specialProducts = $this->specialProductRepository->getWithProduct();
         $sliders = $this->sliderRepository->all();
         $concepts = $this->conceptRepository->all();
+        $brands = $this->brandRepository->getAllActive();
          return [
             "popularProducts" => $popularProducts,
             "popularCategories" => $popularCategories,
             "homepageCategories" => $homepageCategories,
             "sliders" => $sliders,
             "concepts" => $concepts,
+            "brands" => $brands,
             "specialProducts" => $specialProducts
         ];
     }
