@@ -12,6 +12,10 @@ class ConceptRepository extends  BaseRepository implements  ConceptRepositoryInt
     {
         parent::__construct($model);
     }
+    public function getActiveWithCategory()
+    {
+        return $this->model::active()->with("category")->get();
+    }
 
     public function dataTable()
     {

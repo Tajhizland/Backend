@@ -37,7 +37,7 @@ class HomePageService implements HomePageServiceInterface
         $homepageCategories = $this->homepageCategoryRepository->getWithCategory();
         $specialProducts = $this->specialProductRepository->getWithProduct();
         $sliders = $this->sliderRepository->all();
-        $concepts = $this->conceptRepository->all();
+        $concepts = $this->conceptRepository->getActiveWithCategory();
         $brands = $this->brandRepository->getAllActive();
          return [
             "popularProducts" => $popularProducts,

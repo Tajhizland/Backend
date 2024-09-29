@@ -8,6 +8,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface ConceptRepositoryInterface extends BaseRepositoryInterface
 {
     public function dataTable();
+    public function getActiveWithCategory();
 
     public function store($title, $description, $status, $image);
 
