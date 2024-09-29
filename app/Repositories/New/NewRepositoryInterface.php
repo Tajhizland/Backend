@@ -9,6 +9,7 @@ interface NewRepositoryInterface extends BaseRepositoryInterface
 {
     public function findByUrl($url);
     public function activePaginate();
+    public function getLastActiveNews();
     public function dataTable();
     public function createNews($title,$url,$content,$image,$published);
     public function updateNews(News $news,$title,$url,$content,$image,$published);

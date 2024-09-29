@@ -5,6 +5,7 @@ namespace App\Services\HomePage;
 use App\Repositories\Brand\BrandRepositoryInterface;
 use App\Repositories\Concept\ConceptRepositoryInterface;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
+use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
@@ -24,7 +25,8 @@ class HomePageService implements HomePageServiceInterface
         private SliderRepositoryInterface           $sliderRepository,
         private SpecialProductRepositoryInterface   $specialProductRepository,
         private ConceptRepositoryInterface          $conceptRepository,
-        private BrandRepositoryInterface          $brandRepository
+        private BrandRepositoryInterface            $brandRepository,
+        private NewRepositoryInterface              $newRepository
     )
     {
     }
@@ -39,13 +41,15 @@ class HomePageService implements HomePageServiceInterface
         $sliders = $this->sliderRepository->all();
         $concepts = $this->conceptRepository->getActiveWithCategory();
         $brands = $this->brandRepository->getAllActive();
-         return [
+        $lastNews = $this->newRepository->getLastActiveNews();
+        return [
             "popularProducts" => $popularProducts,
             "popularCategories" => $popularCategories,
             "homepageCategories" => $homepageCategories,
             "sliders" => $sliders,
             "concepts" => $concepts,
             "brands" => $brands,
+            "news" => $lastNews,
             "specialProducts" => $specialProducts
         ];
     }

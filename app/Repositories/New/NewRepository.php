@@ -53,4 +53,8 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
             "published" => $published,
         ]);
     }
+    public function getLastActiveNews()
+    {
+        return $this->model::published()->latest("id")->limit(4)->get();
+    }
 }
