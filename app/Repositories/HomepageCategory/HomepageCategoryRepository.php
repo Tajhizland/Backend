@@ -35,6 +35,11 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
     }
     public function getWithCategory()
     {
-        return $this->model::with("category")->get();
+        return $this->model::with([
+            'category',
+            'category.products' => function ($query) {
+                $query->limit(12);
+            }
+        ])->get();
     }
 }

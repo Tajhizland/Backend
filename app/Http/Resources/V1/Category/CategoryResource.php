@@ -4,7 +4,6 @@ namespace App\Http\Resources\V1\Category;
 
 use App\Http\Resources\V1\Filter\FilterCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
-use App\Http\Resources\V1\Product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
@@ -27,6 +26,8 @@ class CategoryResource extends JsonResource
             'minPrice'=> $this->getMinProductPrice(),
             'maxPrice'=> $this->getMaxProductPrice(),
             'filters' => new FilterCollection($this->filters),
+            'products' => new ProductCollection($this->whenLoaded('products')),
+
         ];
     }
 }
