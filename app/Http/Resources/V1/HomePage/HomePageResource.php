@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1\HomePage;
 
+use App\Http\Resources\V1\Brand\BrandCollection;
 use App\Http\Resources\V1\Concept\ConceptCollection;
 use App\Http\Resources\V1\HomepageCategory\HomepageCategoryCollection;
 use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
@@ -21,6 +22,7 @@ class HomePageResource extends JsonResource
             "homepageCategories" => new HomepageCategoryCollection($this["homepageCategories"]),
             "sliders" => new SliderCollection($this["sliders"]),
             "concepts" => new ConceptCollection($this["concepts"]),
+            "brands" => new BrandCollection($this["brands"]),
             "specialProducts" => new SimpleProductCollection($this["specialProducts"]),
         ];
     }
