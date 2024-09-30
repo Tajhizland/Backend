@@ -55,7 +55,7 @@ class CategoryService implements CategoryServiceInterface
     {
         $imagePath = null;
         if ($image) {
-            $imagePath = $this->s3Service->upload($image, "/category/");
+            $imagePath = $this->s3Service->upload($image, "category");
         }
         return $this->categoryRepository->createCategory($name, $status, $url, $imagePath, $description, $parentId);
     }
@@ -65,8 +65,8 @@ class CategoryService implements CategoryServiceInterface
         $category = $this->categoryRepository->findOrFail($id);
         $imagePath = $category->image;
         if ($image) {
-            $this->s3Service->remove($category->image);
-            $imagePath = $this->s3Service->upload($image, "/category/");
+            $this->s3Service->remove("category/".$category->image);
+            $imagePath = $this->s3Service->upload($image, "category");
         }
         return $this->categoryRepository->updateCategory($category, $name, $status, $url, $imagePath, $description, $parentId);
     }

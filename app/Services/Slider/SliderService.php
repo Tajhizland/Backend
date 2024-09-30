@@ -34,8 +34,10 @@ class SliderService implements SliderServiceInterface
     {
         $slider = $this->sliderRepository->findOrFail($id);
         $imagePath = $slider->image;
-        if ($image)
+        if ($image) {
+            $this->s3Service->remove("slider/".$slider->image);
             $imagePath = $this->s3Service->upload($image, "slider");
+        }
         return $this->sliderRepository->updateSlider($slider, $title, $url, $status, $imagePath);
     }
 }

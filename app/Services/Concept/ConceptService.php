@@ -29,7 +29,7 @@ class ConceptService implements ConceptServiceInterface
         $imagePath=$concept->image;
         if($image)
         {
-            $this->s3Service->remove($imagePath);
+            $this->s3Service->remove("concept/".$imagePath);
             $this->s3Service->upload($image,"concept");
         }
         $this->conceptRepository->updateConcept($concept,$title, $description, $status, $imagePath);

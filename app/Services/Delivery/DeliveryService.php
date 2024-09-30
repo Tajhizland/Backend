@@ -40,9 +40,9 @@ class DeliveryService implements DeliveryServiceInterface
         $delivery=$this->deliveryRepository->findOrFail($id);
         $logoPath = $delivery->logo;
         if ($logo) {
-            $this->s3Service->remove($logoPath);
+            $this->s3Service->remove("delivery/".$logoPath);
             $logoPath = $this->s3Service->upload($logo, "delivery");
         }
-      return  $this->deliveryRepository->updateDelivery($delivery,$name, $status, $description, $price, $logo);
+      return  $this->deliveryRepository->updateDelivery($delivery,$name, $status, $description, $price, $logoPath);
     }
 }

@@ -14,7 +14,7 @@ class UpdateNewsRequest extends FormRequest
             "title" => ["required","string"],
             "url" => ["required","string" , Rule::unique('news')->ignore($this->id)],
             "content" => ["required","string"],
-            "img" => ["nullable","file"],
+            "img" => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
             "published" => ["required","integer","in:1,0"],
             "static" => ["nullable"],
         ];

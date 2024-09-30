@@ -13,7 +13,7 @@ class UpdateConceptRequest extends FormRequest
             'title' => ['required'],
             'description' => ['nullable'],
             'status' => ['required', 'integer'],
-            'image' => ['nullable'],
+            'image' => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
         ];
     }
 

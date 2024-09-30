@@ -33,7 +33,7 @@ class BrandService implements BrandServiceInterface
     {
         $imagePath = null;
         if ($image) {
-            $imagePath = $this->s3Service->upload($image, "/brand/");
+            $imagePath = $this->s3Service->upload($image, "brand");
         }
         return $this->brandRepository->storeBrand($name, $url, $status, $imagePath, $description);
     }
@@ -43,8 +43,8 @@ class BrandService implements BrandServiceInterface
         $brand = $this->brandRepository->findOrFail($id);
         $imagePath = $brand->image;
         if ($image) {
-            $this->s3Service->remove($brand->image);
-            $imagePath = $this->s3Service->upload($image, "/brand/");
+            $this->s3Service->remove("brand/".$brand->image);
+            $imagePath = $this->s3Service->upload($image, "brand");
         }
         return $this->brandRepository->updateBrand($brand, $name, $url, $status, $imagePath, $description);
     }

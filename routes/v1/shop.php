@@ -43,4 +43,3 @@ Route::group(["prefix" => "news"], function () {
     Route::post('find', [NewsController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('paginated', [NewsController::class, "paginate"]);
 });
-

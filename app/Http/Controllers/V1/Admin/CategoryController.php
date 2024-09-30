@@ -44,13 +44,13 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        $this->categoryService->storeCategory($request->get("name"), $request->get("status"), $request->get("url"), $request->get("image"), $request->get("description"), $request->get("parent_id"));
+        $this->categoryService->storeCategory($request->get("name"), $request->get("status"), $request->get("url"), $request->file("image"), $request->get("description"), $request->get("parent_id"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.category")]));
     }
 
     public function update(UpdateCategoryRequest $request)
     {
-        $this->categoryService->updateCategory($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"), $request->get("image"), $request->get("description"), $request->get("parent_id"));
+        $this->categoryService->updateCategory($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"), $request->file("image"), $request->get("description"), $request->get("parent_id"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
     }
 

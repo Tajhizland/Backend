@@ -39,10 +39,12 @@ class MenuService implements MenuServiceInterface
         $menu = $this->menuRepository->findOrFail($id);
         $logoPath = $menu->banner_logo;
         if ($bannerLogo) {
+            $this->s3Service->remove("menu/" . $bannerLogo);
             $logoPath = $this->s3Service->upload($bannerLogo, "menu");
         }
         return $this->menuRepository->updateMenu($menu, $title, $parentId, $url, $bannerTitle, $bannerUrl, $logoPath);
     }
+
     public function buildMenu()
     {
         return $this->menuRepository->getWithChildren();
