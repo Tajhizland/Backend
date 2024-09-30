@@ -15,10 +15,10 @@ class FileManagerService implements FileManagerServiceInterface
     {
     }
 
-    public function upload($file, $path, $type, $modelType, $modelId)
+    public function upload($file, $path, $modelType, $modelId)
     {
         $this->s3Service->upload($file, $path);
-        $this->fileManagerRepository->store($path, $type, $modelType, $modelId);
+        $this->fileManagerRepository->store($path, $modelType, $modelId);
         return true;
     }
 

@@ -23,6 +23,7 @@ return
         "slider" => 'اسلایدر',
         "option" => 'آپشن',
         "color" => 'رنگ محصول',
+        "file" => 'فایل',
         "brand" => 'برند',
         "address" => 'آدرس',
         "payment_method" => 'درگاه پرداخت',

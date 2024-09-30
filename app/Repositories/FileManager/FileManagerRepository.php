@@ -17,12 +17,11 @@ class FileManagerRepository extends BaseRepository implements FileManagerReposit
         return $this->model::where("model_id", $modelId)->where("model_type", $modelType)->get();
     }
 
-    public function store($path, $type, $model_type, $model_id)
+    public function store($path, $model_type, $model_id)
     {
         return $this->create([
             "path" => $path,
-            "type" => $type,
-            "model_type" => $model_type,
+             "model_type" => $model_type,
             "model_id" => $model_id
         ]);
     }

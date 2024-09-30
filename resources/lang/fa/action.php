@@ -2,6 +2,7 @@
 return [
     "store" => ':attr با موفقیت ایجاد شد',
     "update" => ':attr با موفقیت ویرایش شد',
+    "upload" => ':attr با موفقیت آپلود شد',
     "submit" => ':attr با موفقیت ثبت شد',
     "success" => ':attr با موفقیت انجام شد',
     "select" => ':attr با موفقیت انتخاب شد',
