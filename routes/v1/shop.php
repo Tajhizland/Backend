@@ -7,6 +7,7 @@ use App\Http\Controllers\V1\Shop\HomePageController;
 use App\Http\Controllers\V1\Shop\NewsController;
 use App\Http\Controllers\V1\Shop\ProductController;
 use App\Http\Controllers\V1\Shop\SearchController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,3 +43,4 @@ Route::group(["prefix" => "news"], function () {
     Route::post('find', [NewsController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('paginated', [NewsController::class, "paginate"]);
 });
+
