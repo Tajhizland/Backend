@@ -9,6 +9,7 @@ interface ProductServiceInterface
     public function searchProductWithCategory($query , $categoryId):mixed;
     public function searchProduct($query):mixed;
     public function findById($id):mixed;
+    public function getRelatedProducts($id):mixed;
     public function storeProduct($name , $url , $description , $study ,$status, $categoryId , $brandId , $metaTitle , $metaDescription ):mixed;
     public function updateProduct($id,$name , $url , $description , $study , $status,$categoryId , $brandId , $metaTitle , $metaDescription):mixed;
 }

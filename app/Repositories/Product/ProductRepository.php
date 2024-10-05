@@ -28,6 +28,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model::find($id);
     }
 
+    public function getByCategoryId($id)
+    {
+        return $this->model::whereHas("productCategories", function ($query) use ($id) {
+            $query->where("category_id",$id);
+        })->limit(10)->get();
+    }
+
     public function incrementViewCount($product)
     {
         return $product->increment('view');

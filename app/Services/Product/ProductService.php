@@ -2,6 +2,7 @@
 
 namespace App\Services\Product;
 
+use App\Exceptions\BreakException;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
@@ -35,9 +36,10 @@ class ProductService implements ProductServiceInterface
     {
         return $this->productRepository->dataTable();
     }
+
     public function searchProduct($query): mixed
     {
-        return  $this->productRepository->search($query);
+        return $this->productRepository->search($query);
     }
 
     public function findById($id): mixed
@@ -45,21 +47,30 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId , $metaTitle , $metaDescription): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription): mixed
     {
-        $product = $this->productRepository->createProduct($name, $url, $description, $study, $status, $brandId , $metaTitle , $metaDescription);
+        $product = $this->productRepository->createProduct($name, $url, $description, $study, $status, $brandId, $metaTitle, $metaDescription);
         $this->productCategoryRepository->createProductCategory($product->id, $categoryId);
         return true;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId , $metaTitle , $metaDescription): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription): mixed
     {
-        $this->productRepository->updateProduct($id, $name, $url, $description, $study, $status , $brandId , $metaTitle , $metaDescription);
+        $this->productRepository->updateProduct($id, $name, $url, $description, $study, $status, $brandId, $metaTitle, $metaDescription);
         $this->productCategoryRepository->updateWithProductId($id, $categoryId);
         return true;
     }
+
     public function searchProductWithCategory($query, $categoryId): mixed
     {
-        return  $this->productRepository->searchProductWithCategory($query ,$categoryId);
+        return $this->productRepository->searchProductWithCategory($query, $categoryId);
+    }
+
+    public function getRelatedProducts($id): mixed
+    {
+        $productCategory = $this->productCategoryRepository->findByProductId($id);
+        if (!$productCategory)
+            throw  new BreakException(\Lang::get("exceptions.product_not_find"));
+        return $this->productRepository->getByCategoryId($productCategory->category_id);
     }
 }

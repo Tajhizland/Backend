@@ -24,4 +24,9 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
     {
         return $this->model::where("product_id", $productId)->update(["category_id" => $categoryId]);
     }
+
+    public function findByProductId($productId)
+    {
+        return $this->model::where("product_id", $productId)->first();
+    }
 }
