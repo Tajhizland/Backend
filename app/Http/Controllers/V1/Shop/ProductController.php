@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function find(Request $request)
     {
         $productResponse = $this->productService->findProductByUrl($request->url);
-        $relatedProductResponse = $this->productService->getRelatedProducts($productResponse);
+        $relatedProductResponse = $this->productService->getRelatedProducts($productResponse->id);
         return $this->dataResponse([
             "product" => new ProductResource($productResponse),
             "relatedProduct" => new ProductCollection($relatedProductResponse),
