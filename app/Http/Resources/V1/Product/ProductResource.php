@@ -16,8 +16,8 @@ class ProductResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $user = Auth::user();
-        $isFavorite = false;
+         $user= Auth::guard('sanctum')->user();
+         $isFavorite = false;
          if ($user)
             $isFavorite = $user->favorites()->where('product_id', $this->id)->exists();
 
