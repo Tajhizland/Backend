@@ -54,11 +54,11 @@ class ConceptService implements ConceptServiceInterface
 
     public function setItem($categoryId, $conceptId)
     {
-        $item = $this->categoryConceptRepository->findByCategoryId($conceptId ,$categoryId);
+        $item = $this->categoryConceptRepository->findByCategoryId($conceptId , $categoryId);
         if ($item) {
             throw new BreakException(\Lang::get("exceptions.category_already_exist"));
         }
-        return $this->categoryConceptRepository->store($categoryId, $conceptId);
+        return $this->categoryConceptRepository->store( $conceptId , $categoryId);
     }
 
     public function deleteItem($id)
