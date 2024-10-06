@@ -2,14 +2,17 @@
 
 namespace App\Services\Concept;
 
+use App\Exceptions\BreakException;
+use App\Repositories\CategoryConcept\CategoryConceptRepositoryInterface;
 use App\Repositories\Concept\ConceptRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
 class ConceptService implements ConceptServiceInterface
 {
     public function __construct(
-        private ConceptRepositoryInterface $conceptRepository,
-        private S3ServiceInterface         $s3Service
+        private ConceptRepositoryInterface         $conceptRepository,
+        private CategoryConceptRepositoryInterface $categoryConceptRepository,
+        private S3ServiceInterface                 $s3Service
     )
     {
     }
@@ -25,22 +28,42 @@ class ConceptService implements ConceptServiceInterface
 
     public function update($id, $title, $description, $status, $image)
     {
-        $concept=$this->conceptRepository->findOrFail($id);
-        $imagePath=$concept->image;
-        if($image)
-        {
-            $this->s3Service->remove("concept/".$imagePath);
-            $this->s3Service->upload($image,"concept");
+        $concept = $this->conceptRepository->findOrFail($id);
+        $imagePath = $concept->image;
+        if ($image) {
+            $this->s3Service->remove("concept/" . $imagePath);
+            $this->s3Service->upload($image, "concept");
         }
-        $this->conceptRepository->updateConcept($concept,$title, $description, $status, $imagePath);
+        $this->conceptRepository->updateConcept($concept, $title, $description, $status, $imagePath);
     }
 
     public function dataTable()
     {
         return $this->conceptRepository->dataTable();
     }
+
     public function findById($id)
     {
         return $this->conceptRepository->findOrFail($id);
+    }
+
+    public function getItemsById($id)
+    {
+        return $this->categoryConceptRepository->getByConceptId($id);
+    }
+
+    public function setItem($categoryId, $conceptId)
+    {
+        $item = $this->categoryConceptRepository->findByCategoryId($categoryId, $conceptId);
+        if ($item) {
+            throw new BreakException(\Lang::get("exception.already_exist"));
+        }
+        return $this->categoryConceptRepository->store($categoryId, $conceptId);
+    }
+
+    public function deleteItem($id)
+    {
+        $item = $this->categoryConceptRepository->findOrFail($id);
+        return $this->categoryConceptRepository->delete($item);
     }
 }

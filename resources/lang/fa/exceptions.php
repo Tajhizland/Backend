@@ -48,4 +48,9 @@ return [
     "product_deactive_in_cart" => "در سبد خرید محصول غیر فعال وجود دارد ",
     "product_un_stock_in_cart" => "در سبد خرید محصول ناموجود وجود دارد ",
 
+    /****************** CategoryConcept  ******************/
+
+    "category_already_exist" => "این دسته بندی قبلا ثبت شده است ",
+
+
 ];
