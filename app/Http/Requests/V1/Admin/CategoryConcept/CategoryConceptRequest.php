@@ -9,8 +9,8 @@ class CategoryConceptRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'concept_id' => ['required', 'exists:concepts'],
-            'category_id' => ['required', 'exists:categories'],
+            'concept_id' => ['required', 'exists:concepts,id'],
+            'category_id' => ['required', 'exists:categories,id'],
         ];
     }
 
