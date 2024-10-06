@@ -9,6 +9,7 @@ use App\Http\Requests\V1\Admin\Filter\SetFilterRequest;
 use App\Http\Requests\V1\Admin\Option\SetOptionRequest;
 use App\Http\Resources\V1\Category\CategoryCollection;
 use App\Http\Resources\V1\Category\CategoryResource;
+use App\Http\Resources\V1\CategoryList\CategoryListCollection;
 use App\Http\Resources\V1\Filter\FilterCollection;
 use App\Http\Resources\V1\Option\OptionCollection;
 use App\Services\Category\CategoryServiceInterface;
@@ -29,7 +30,7 @@ class CategoryController extends Controller
 
     public function list()
     {
-        return $this->dataResponseCollection(new CategoryCollection($this->categoryService->list()));
+        return $this->dataResponseCollection(new CategoryListCollection($this->categoryService->list()));
     }
 
     public function dataTable()
