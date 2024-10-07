@@ -13,6 +13,7 @@ class FilterItemResource extends JsonResource
         return [
             'id' => $this->id,
             'value' => $this->value,
+            'status' => $this->status,
         ];
     }
 }
