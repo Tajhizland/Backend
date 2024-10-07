@@ -84,7 +84,7 @@ class OptionService implements OptionServiceInterface
             else {
                 $this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
             }
-            $optionItems = $option["optionItems"];
+            $optionItems = $option["item"];
             foreach ($optionItems as $optionItem) {
                 if(@$optionItem["id"]) {
                     $existOptionItem = $this->optionItemRepository->find($optionItem["id"]);
