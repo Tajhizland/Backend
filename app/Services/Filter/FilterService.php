@@ -131,6 +131,7 @@ class FilterService implements FilterServiceInterface
             $this->filterRepository->createFilter( $filter["name"], $categoryId, $filter["status"] );
 
             $filterItems=$filter["item"];
+            dd($filterItems);
             foreach ($filterItems as $filterItem) {
                 $existFilterItem=$this->filterItemRepository->find($filterItem["id"]);
                 if($existFilterItem){
