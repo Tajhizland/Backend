@@ -10,11 +10,13 @@ use App\Http\Requests\V1\Admin\Product\ProductImageRequest;
 use App\Http\Requests\V1\Admin\Product\ProductOptionRequest;
 use App\Http\Requests\V1\Admin\Product\StoreProductRequest;
 use App\Http\Requests\V1\Admin\Product\UpdateProductRequest;
+use App\Http\Resources\V1\Filemanager\FilemanagerCollection;
 use App\Http\Resources\V1\Filter\FilterCollection;
 use App\Http\Resources\V1\Option\OptionCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
+use App\Http\Resources\V1\ProductImage\ProductImageCollection;
 use App\Services\FileManager\FileManagerServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
@@ -77,12 +79,12 @@ class ProductController extends Controller
 
     public function getImage($id)
     {
-        return $this->dataResponseCollection($this->productImageService->getByProductId($id));
+        return $this->dataResponseCollection(new ProductImageCollection($this->productImageService->getByProductId($id)));
     }
 
     public function getFiles($id)
     {
-        return $this->dataResponseCollection($this->fileManagerService->geyByModelId($id, "product"));
+        return $this->dataResponseCollection(new FilemanagerCollection($this->fileManagerService->geyByModelId($id, "product")));
     }
 
     public function setFilter(ProductFilterRequest $request)
