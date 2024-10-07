@@ -80,15 +80,18 @@ class OptionService implements OptionServiceInterface
             $existOption = $this->optionRepository->find($option["id"]);
             if ($existOption) {
                 $this->optionRepository->updateOption($option["id"], $option["title"], $categoryId, $option["status"]);
-                continue;
+             }
+            else {
+                $this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
             }
-            $this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
             $optionItems = $option["optionItems"];
             foreach ($optionItems as $optionItem) {
-                $existOptionItem = $this->optionItemRepository->find($optionItem["id"]);
-                if ($existOptionItem) {
-                    $this->optionItemRepository->updateFilterItem($existOptionItem, $optionItem["title"], $optionItem["status"]);
-                    continue;
+                if(@$optionItem["id"]) {
+                    $existOptionItem = $this->optionItemRepository->find($optionItem["id"]);
+                    if ($existOptionItem) {
+                        $this->optionItemRepository->updateFilterItem($existOptionItem, $optionItem["title"], $optionItem["status"]);
+                        continue;
+                    }
                 }
                 $this->optionItemRepository->createFilterItem($existOptionItem, $optionItem["title"], $optionItem["status"]);
             }
