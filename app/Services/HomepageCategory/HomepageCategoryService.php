@@ -12,7 +12,7 @@ class HomepageCategoryService implements HomepageCategoryServiceInterface
 
     public function dataTable()
     {
-        $this->homepageCategoryRepository->dataTable();
+      return  $this->homepageCategoryRepository->dataTable();
     }
 
     public function add($categoryId)
@@ -23,6 +23,6 @@ class HomepageCategoryService implements HomepageCategoryServiceInterface
     public function delete($id)
     {
         $item = $this->homepageCategoryRepository->findOrFail($id);
-        $this->homepageCategoryRepository->delete($item);
+        return $this->homepageCategoryRepository->delete($item);
     }
 }
