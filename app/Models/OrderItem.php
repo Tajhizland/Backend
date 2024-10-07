@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItem extends Model
 {
+    protected $guarded=["id"];
+
     protected function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

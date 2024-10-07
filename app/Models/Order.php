@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
+    protected $guarded=["id"];
+
     protected function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends Model
 {
+    protected $guarded=["id"];
+
     protected function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

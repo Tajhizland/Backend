@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FilterItem extends Model
 {
+    protected $guarded=["id"];
+
     protected function filter(): BelongsTo
     {
         return $this->belongsTo(Filter::class);

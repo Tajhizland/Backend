@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OnHoldOrder extends Model
 {
+    protected $guarded=["id"];
+
     protected function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
