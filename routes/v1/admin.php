@@ -87,6 +87,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
     Route::group(["prefix" => "comment"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CommentController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CommentController::class, "findById"]);
         Route::post("accept", [\App\Http\Controllers\V1\Admin\CommentController::class, "accept"]);
         Route::post("reject", [\App\Http\Controllers\V1\Admin\CommentController::class, "reject"]);
     });

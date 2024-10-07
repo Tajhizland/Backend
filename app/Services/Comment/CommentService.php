@@ -33,4 +33,8 @@ class CommentService implements CommentServiceInterface
         $comment=$this->commentRepository->findOrFail($id);
       return  $this->commentRepository->reject($comment);
     }
+    public function findById($id)
+    {
+        return $this->commentRepository->findOrFail($id);
+    }
 }
