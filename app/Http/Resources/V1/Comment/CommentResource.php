@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1\Comment;
 
+use App\Http\Resources\V1\Product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
@@ -15,6 +16,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'user' => $this->user->name,
             'product_id' => $this->product_id,
+            'product' => new ProductResource($this->whenLoaded($this->product)),
             'rating' => $this->rating,
             'text' => $this->text,
             'status' => $this->status->label(),
