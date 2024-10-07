@@ -69,4 +69,8 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
             "status" => CommentStatus::Rejected->value
         ]);
     }
+    public function findWithProduct($id)
+    {
+        return $this->model::with("product")->findOrFail($id);
+    }
 }

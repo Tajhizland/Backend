@@ -9,6 +9,7 @@ interface CommentRepositoryInterface extends BaseRepositoryInterface
 {
     public function createComment($productId,$text,$rating);
     public function dataTable();
+    public function findWithProduct($id);
     public function accept(Comment $comment);
     public function reject(Comment $comment);
 }

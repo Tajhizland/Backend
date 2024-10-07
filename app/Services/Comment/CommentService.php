@@ -35,6 +35,6 @@ class CommentService implements CommentServiceInterface
     }
     public function findById($id)
     {
-        return $this->commentRepository->findOrFail($id);
+        return $this->commentRepository->findWithProduct($id);
     }
 }
