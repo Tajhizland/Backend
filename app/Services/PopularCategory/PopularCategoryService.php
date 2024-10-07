@@ -12,7 +12,7 @@ class PopularCategoryService implements PopularCategoryServiceInterface
 
     public function dataTable()
     {
-        $this->popularCategoryRepository->dataTable();
+       return $this->popularCategoryRepository->dataTable();
     }
 
     public function add($categoryId)
@@ -23,6 +23,6 @@ class PopularCategoryService implements PopularCategoryServiceInterface
     public function delete($id)
     {
         $item= $this->popularCategoryRepository->findOrFail($id);
-        $this->popularCategoryRepository->delete($item);
+       return $this->popularCategoryRepository->delete($item);
     }
 }
