@@ -93,7 +93,7 @@ class OptionService implements OptionServiceInterface
                         continue;
                     }
                 }
-                $this->optionItemRepository->createFilterItem($existOptionItem, $optionItem["title"], $optionItem["status"]);
+                $this->optionItemRepository->createFilterItem($option["id"], $optionItem["title"], $optionItem["status"]);
             }
         }
     }
