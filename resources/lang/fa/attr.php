@@ -7,6 +7,7 @@ return
         "login" => 'لاگین',
         "password" => 'کلمه ی عبور',
         "product" => 'محصول',
+        "profile" => 'پروفایل',
         "order" => 'سفارش',
         "order_status" => 'وضعیت سفارش',
         "order_request" => 'درخواست ثبت سفارش',

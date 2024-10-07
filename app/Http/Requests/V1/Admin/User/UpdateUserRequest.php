@@ -12,6 +12,8 @@ class UpdateUserRequest extends FormRequest
         return [
             'id' => ['required','integer','exists:App\Models\User'],
             'name' => ['required','string'],
+            'email' => ['nullable','string' ,'email'],
+            'gender' => ['numeric','in:0,1','nullable'],
             'username' => ['required', 'string', 'regex:/^09\d{9}$/', Rule::unique('users')->ignore($this->id)],
             'role' => ['required', 'string', 'in:admin,user'],
         ];

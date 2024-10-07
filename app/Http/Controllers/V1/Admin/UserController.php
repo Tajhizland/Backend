@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request)
     {
-        $this->userService->updateUser($request->get("id"), $request->get("name"), $request->get("username"), $request->get("role"));
+        $this->userService->updateUser($request->get("id"), $request->get("name"), $request->get("username"), $request->get("email"), $request->get("gender"), $request->get("role"));
         return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.user")]));
     }
 }

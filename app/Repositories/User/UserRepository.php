@@ -15,7 +15,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function register($username, $password)
     {
-      return  $this->create([
+        return $this->create([
             "username" => $username,
             "password" => bcrypt($password),
             "role" => "user"
@@ -43,12 +43,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         ]);
     }
 
-    public function updateUser($id, $name, $username, $role)
+    public function updateUser($id, $name, $username, $email, $gender, $role)
     {
         return $this->model::find($id)->update([
             "name" => $name,
             "username" => $username,
-            "role" => $role
+            "role" => $role,
+            "gender" => $gender,
+            "email" => $email,
         ]);
     }
 }

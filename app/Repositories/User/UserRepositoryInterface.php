@@ -14,6 +14,6 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
 
     public function dataTable();
 
-    public function updateUser($id, $name, $username, $role);
+    public function updateUser($id, $name, $username, $email, $gender, $role);
 
 }
