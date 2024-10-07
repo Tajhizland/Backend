@@ -106,6 +106,8 @@ use App\Services\CartItem\CartItemService;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\Comment\CommentService;
+use App\Services\Comment\CommentServiceInterface;
 use App\Services\Concept\ConceptService;
 use App\Services\Concept\ConceptServiceInterface;
 use App\Services\Delivery\DeliveryService;
@@ -309,6 +311,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GatewayServiceInterface::class, GatewayService::class);
 
         $this->app->bind(AddressServiceInterface::class, AddressService::class);
+
+        $this->app->bind(CommentServiceInterface::class, CommentService::class);
 
         $this->app->bind(OrderServiceInterface::class, OrderService::class);
 
