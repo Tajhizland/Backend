@@ -6,5 +6,5 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface CityRepositoryInterface extends  BaseRepositoryInterface
 {
-
+    public function getByProvinceId($provinceId);
 }

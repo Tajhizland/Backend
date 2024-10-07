@@ -3,13 +3,17 @@
 namespace App\Services\Address;
 
 use App\Repositories\Address\AddressRepositoryInterface;
+use App\Repositories\City\CityRepositoryInterface;
+use App\Repositories\Province\ProvinceRepositoryInterface;
 use Illuminate\Support\Facades\Gate;
 
 class AddressService implements AddressServiceInterface
 {
     public function __construct
     (
-        private AddressRepositoryInterface $addressRepository
+        private AddressRepositoryInterface  $addressRepository,
+        private ProvinceRepositoryInterface $provinceRepository,
+        private CityRepositoryInterface     $cityRepository
     )
     {
     }
@@ -40,6 +44,16 @@ class AddressService implements AddressServiceInterface
 
     public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
     {
-        $this->addressRepository->updateOrCreateByUserId($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address );
+        $this->addressRepository->updateOrCreateByUserId($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address);
+    }
+
+    public function getCities($provinceId)
+    {
+        return $this->cityRepository->getByProvinceId($provinceId);
+    }
+
+    public function getProvinces()
+    {
+        return $this->provinceRepository->all();
     }
 }

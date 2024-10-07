@@ -9,4 +9,7 @@ interface AddressServiceInterface
     public function store($userId , $cityId,$provinceId,$tellCode,$tell ,$zipCode ,$mobile , $address);
     public function updateOrCreateByUserId($userId , $cityId,$provinceId,$tellCode,$tell ,$zipCode ,$mobile , $address);
     public function update($id , $cityId,$provinceId,$tellCode,$tell ,$zipCode ,$mobile , $address);
+
+    public function getCities($provinceId);
+    public function getProvinces();
 }

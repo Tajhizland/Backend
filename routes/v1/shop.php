@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/search', [SearchController::class, "index"]);
-
 Route::get('/homepage', [HomePageController::class, "index"]);
 Route::get('/menu', [\App\Http\Controllers\V1\Shop\MenuController::class, "get"]);
+Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "getCities"]);
+Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
+
+Route::post('address/update', [\App\Http\Controllers\V1\Shop\AddressController::class, "createOrUpdate"])->middleware("auth:sanctum");
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
@@ -42,3 +45,4 @@ Route::group(["prefix" => "news"], function () {
     Route::post('find', [NewsController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('paginated', [NewsController::class, "paginate"]);
 });
+
