@@ -12,6 +12,7 @@ class SetFilterRequest extends FormRequest
             "category_id" => "required|exists:categories,id",
             "filter.*.id"=>"numeric|exists:filters,id|nullable",
             "filter.*.name"=>"string|required",
+            "filter.*.status"=>"numeric|in:0,1|required",
             "filter.*.item.*.id"=>"numeric|exists:filter_items,id|nullable",
             "filter.*.item.*.value"=>"string|required",
             "filter.*.item.*.status"=>"numeric|in:0,1|required",
