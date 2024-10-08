@@ -86,4 +86,9 @@ class CheckoutService implements CheckoutServiceInterface
 
         return $this->gatewayRepository->findActiveGateway();
     }
+
+    public function checkoutIndex($userId)
+    {
+        // TODO: Implement checkoutIndex() method.
+    }
 }
