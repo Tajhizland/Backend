@@ -44,6 +44,8 @@ use App\Repositories\New\NewRepository;
 use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\Notification\NotificationRepository;
 use App\Repositories\Notification\NotificationRepositoryInterface;
+use App\Repositories\OnHoldOrder\OnHoldOrderRepository;
+use App\Repositories\OnHoldOrder\OnHoldOrderRepositoryInterface;
 use App\Repositories\Option\OptionRepository;
 use App\Repositories\Option\OptionRepositoryInterface;
 use App\Repositories\OptionItem\OptionItemRepository;
@@ -178,6 +180,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(BaseRepositoryInterface::class, BaseRepository::class);
 
+        $this->app->bind(BaseRepositoryInterface::class, BaseRepository::class);
+
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
         $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
@@ -229,6 +233,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(AddressRepositoryInterface::class, AddressRepository::class);
 
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+
+        $this->app->bind(OnHoldOrderRepositoryInterface::class, OnHoldOrderRepository::class);
 
         $this->app->bind(OrderItemRepositoryInterface::class, OrderItemRepository::class);
 
