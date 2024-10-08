@@ -9,8 +9,8 @@ class UpdateAddresRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'city_id' => ['required', 'integer' , 'exists:App\Models\City'],
-            'province_id' => ['required', 'integer','exists:App\Models\Province'],
+            'city_id' => ['required', 'integer' , 'exists:App\Models\City,id'],
+            'province_id' => ['required', 'integer','exists:App\Models\Province,id'],
             'tell' => ['required'],
             'mobile' => ['required','string','regex:/^09\d{9}$/'],
             'zip_code' => ['required'],
