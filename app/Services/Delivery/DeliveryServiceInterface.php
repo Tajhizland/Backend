@@ -8,6 +8,8 @@ interface DeliveryServiceInterface
 
     public function findById($id);
 
+    public function getActives();
+
     public function store($name, $status,$description ,$price ,$logo);
 
     public function update($id, $name, $status, $description,$price ,$logo);

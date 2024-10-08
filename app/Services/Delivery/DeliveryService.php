@@ -45,4 +45,9 @@ class DeliveryService implements DeliveryServiceInterface
         }
       return  $this->deliveryRepository->updateDelivery($delivery,$name, $status, $description, $price, $logoPath);
     }
+
+    public function getActives()
+    {
+        return $this->deliveryRepository->getActiveDelivery();
+    }
 }

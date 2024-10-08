@@ -16,7 +16,6 @@ Route::get('/menu', [\App\Http\Controllers\V1\Shop\MenuController::class, "get"]
 Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "getCities"]);
 Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
 
-Route::post('address/update', [\App\Http\Controllers\V1\Shop\AddressController::class, "createOrUpdate"])->middleware("auth:sanctum");
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
@@ -46,3 +45,11 @@ Route::group(["prefix" => "news"], function () {
     Route::get('paginated', [NewsController::class, "paginate"]);
 });
 
+Route::group(["prefix" => "address", "middleware" => "auth:sanctum"], function () {
+    Route::post('update', [\App\Http\Controllers\V1\Shop\AddressController::class, "createOrUpdate"]);
+    Route::get('find', [\App\Http\Controllers\V1\Shop\AddressController::class, "find"]);
+});
+
+Route::group(["prefix" => "delivery" ], function () {
+     Route::get('get', [\App\Http\Controllers\V1\Shop\DeliveryController::class, "getActives"]);
+});

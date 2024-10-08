@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Shop\Address\StoreAddressRequest;
 use App\Http\Requests\V1\Shop\Address\UpdateAddresRequest;
+use App\Http\Resources\V1\Address\AddressResource;
 use App\Http\Resources\V1\City\CityCollection;
 use App\Http\Resources\V1\Province\ProvinceCollection;
 use App\Services\Address\AddressServiceInterface;
@@ -20,9 +21,10 @@ class AddressController extends Controller
     {
     }
 
-    public function find($id)
+    public function find()
     {
-        return $this->addressService->findById($id);
+        $userId=Auth::user()->id;
+        return $this->dataResponse(new AddressResource($this->addressService->findByUserId($userId)));
     }
 
     public function createOrUpdate(UpdateAddresRequest $request)
