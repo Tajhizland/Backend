@@ -53,3 +53,4 @@ Route::group(["prefix" => "address", "middleware" => "auth:sanctum"], function (
 Route::group(["prefix" => "delivery" ], function () {
      Route::get('get', [\App\Http\Controllers\V1\Shop\DeliveryController::class, "getActives"]);
 });
+
