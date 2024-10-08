@@ -30,26 +30,14 @@ class AddressService implements AddressServiceInterface
         $address= $this->addressRepository->findUserAddress($userId);
         if(!$address)
         {
-            $address=$this->addressRepository->createAddress($userId,1,1," "," "," "," "," ");
+            $address=$this->addressRepository->createAddress($userId,1,1," "," "," "," ");
         }
         return $address;
     }
 
-
-    public function store($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
+    public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
     {
-        $this->addressRepository->createAddress($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address);
-    }
-
-    public function update($id, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
-    {
-        $address = $this->addressRepository->findOrFail($id);
-        Gate::authorize('update', $address);
-    }
-
-    public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address)
-    {
-        $this->addressRepository->updateOrCreateByUserId($userId, $cityId, $provinceId, $tellCode, $tell, $zipCode, $mobile, $address);
+        $this->addressRepository->updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address);
     }
 
     public function getCities($provinceId)

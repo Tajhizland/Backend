@@ -24,7 +24,6 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
                 "user_id" => $userId,
                 "city_id" => $cityId,
                 "province_id" => $provinceId,
-                "tell_code" => $tellCode,
                 "tell" => $tell,
                 "zip_code" => $zipCode,
                 "mobile" => $mobile,
@@ -40,7 +39,6 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
                 "user_id" => $userId,
                 "city_id" => $cityId,
                 "province_id" => $provinceId,
-                "tell_code" => $tellCode,
                 "tell" => $tell,
                 "zip_code" => $zipCode,
                 "mobile" => $mobile,
@@ -54,7 +52,6 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
         $addressModal->update([
             "city_id" => $cityId,
             "prvince_id" => $provinceId,
-            "tell_code" => $tellCode,
             "tell" => $tell,
             "zip_code" => $zipCode,
             "mobile" => $mobile,
