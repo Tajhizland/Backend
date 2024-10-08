@@ -29,7 +29,7 @@ class AddressController extends Controller
 
     public function createOrUpdate(UpdateAddresRequest $request)
     {
-        $this->addressService->update($request->get("id"), $request->get("city_id"), $request->get("province_id"), $request->get("tell_code"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"));
+        $this->addressService->updateOrCreateByUserId($request->get("id"), $request->get("city_id"), $request->get("province_id") , $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"));
         return Lang::get('action.update', ['attr' => Lang::get("attr.address")]);
     }
 
