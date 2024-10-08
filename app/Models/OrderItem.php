@@ -9,17 +9,17 @@ class OrderItem extends Model
 {
     protected $guarded=["id"];
 
-    protected function product(): BelongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    protected function productColor(): BelongsTo
+    public function productColor(): BelongsTo
     {
         return $this->belongsTo(ProductColor::class);
     }
 
-    protected function order(): BelongsTo
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
