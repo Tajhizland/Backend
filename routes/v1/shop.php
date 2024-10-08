@@ -50,6 +50,11 @@ Route::group(["prefix" => "address", "middleware" => "auth:sanctum"], function (
     Route::get('find', [\App\Http\Controllers\V1\Shop\AddressController::class, "find"]);
 });
 
-Route::group(["prefix" => "delivery" ], function () {
-     Route::get('get', [\App\Http\Controllers\V1\Shop\DeliveryController::class, "getActives"]);
+Route::group(["prefix" => "delivery"], function () {
+    Route::get('get', [\App\Http\Controllers\V1\Shop\DeliveryController::class, "getActives"]);
+});
+
+Route::group(["prefix" => "payment"], function () {
+    Route::post('request', [\App\Http\Controllers\V1\Shop\PaymentController::class, "requestPayment"])->middleware("auth:sanctum");
+    Route::get('verify', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyPayment"]);
 });
