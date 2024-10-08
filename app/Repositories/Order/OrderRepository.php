@@ -79,4 +79,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         $order->update(["status" => $status]);
     }
 
+    public function findWithDetails($id){
+        $this->model::with("orderInfo")->with("orderItems")->where("id",$id)->first();
+    }
 }

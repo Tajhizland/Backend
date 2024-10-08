@@ -25,7 +25,7 @@ class OrderController extends Controller
 
     public function findById($id)
     {
-        return $this->dataResponse(new OrderResource($this->orderService->findById($id)));
+        return $this->dataResponse(new OrderResource($this->orderService->findWithDetails($id)));
     }
 
     public function updateStatus(UpdateOrderStatusRequest $request)
