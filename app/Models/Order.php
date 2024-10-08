@@ -14,21 +14,21 @@ class Order extends Model
 {
     protected $guarded=["id"];
 
-    protected function user(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    protected function orderInfo(): BelongsTo
+    public function orderInfo(): BelongsTo
     {
         return $this->belongsTo(OrderInfo::class);
     }
-    protected function orderItems(): HasMany
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    protected function onHoldOrder(): HasOne
+    public function onHoldOrder(): HasOne
     {
         return $this->hasOne(OnHoldOrder::class);
     }
