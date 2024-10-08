@@ -30,7 +30,7 @@ class CartCheckHandler implements CheckoutHandlerInterface
         $this->nextHandler=$handler;
     }
 
-    public function handle(Cart $cart , CartItem $cartItem)
+    public function handle(Cart $cart ,   $cartItem)
     {
          $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         foreach ($cartItems as $cartItem) {

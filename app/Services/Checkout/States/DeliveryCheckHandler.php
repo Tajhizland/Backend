@@ -21,7 +21,7 @@ class DeliveryCheckHandler implements CheckoutHandlerInterface
         $this->nextHandler = $handler;
     }
 
-    public function handle(Cart $cart, CartItem $cartItem)
+    public function handle(Cart $cart,   $cartItem)
     {
         if (!$cart->delivery_method)
             throw  new  BreakException();

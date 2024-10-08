@@ -23,7 +23,7 @@ class GatewayCheckHandler implements CheckoutHandlerInterface
     }
 
     public
-    function handle(Cart $cart, CartItem $cartItem)
+    function handle(Cart $cart,   $cartItem)
     {
         if (!$cart->payment_method)
             throw  new BreakException();

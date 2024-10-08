@@ -8,5 +8,5 @@ use App\Models\CartItem;
 interface CheckoutHandlerInterface
 {
     public function setNext(CheckoutHandlerInterface $handler): void;
-    public function handle(Cart $cart, CartItem $cartItem);
+    public function handle(Cart $cart,   $cartItem);
 }

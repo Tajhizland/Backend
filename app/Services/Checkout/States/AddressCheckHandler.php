@@ -21,7 +21,7 @@ class AddressCheckHandler implements CheckoutHandlerInterface
         $this->nextHandler = $handler;
     }
 
-    public function handle(Cart $cart, CartItem $cartItem)
+    public function handle(Cart $cart,   $cartItem)
     {
         $address = $this->addressRepository->findUserAddress($cart->user_id);
         if (!$address || !$address->city_id || !$address->province_id || !$address->tell_code || !$address->tell || !$address->mobile || !$address->zip_code || !$address->address) {
