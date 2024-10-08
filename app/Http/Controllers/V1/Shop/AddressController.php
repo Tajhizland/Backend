@@ -31,7 +31,7 @@ class AddressController extends Controller
     {
         $userId = Auth::user()->id;
         $this->addressService->updateOrCreateByUserId($userId, $request->get("city_id"), $request->get("province_id") , $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"));
-        return Lang::get('action.update', ['attr' => Lang::get("attr.address")]);
+        return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
     }
     public function getCities($id)
     {
@@ -41,6 +41,5 @@ class AddressController extends Controller
     public function getProvinces()
     {
         return $this->dataResponseCollection(new ProvinceCollection($this->addressService->getProvinces()));
-
     }
 }
