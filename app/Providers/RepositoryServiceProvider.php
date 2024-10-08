@@ -108,6 +108,8 @@ use App\Services\CartItem\CartItemService;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\Checkout\CheckoutService;
+use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Comment\CommentService;
 use App\Services\Comment\CommentServiceInterface;
 use App\Services\Concept\ConceptService;
@@ -353,6 +355,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(MenuServiceInterface::class, MenuService::class);
 
         $this->app->bind(ConceptServiceInterface::class, ConceptService::class);
+
+        $this->app->bind(CheckoutServiceInterface::class, CheckoutService::class);
 
 
         /** End Service */
