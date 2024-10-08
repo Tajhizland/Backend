@@ -29,7 +29,7 @@ class AddressService implements AddressServiceInterface
     {
         $address = $this->addressRepository->findUserAddress($userId);
         if (!$address) {
-            $address = $this->addressRepository->createAddress($userId, 1, 1, " a", "w ", " e", "f ");
+            $address = $this->addressRepository->createAddress($userId, 1, 1, "", "", "", "");
         }
         return $address;
     }
