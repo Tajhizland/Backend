@@ -17,9 +17,9 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
         return $this->model::where("user_id", $userId)->first();
     }
 
-    public function updateOrCreateByUserId($userId , $cityId,$provinceId,$tell ,$zipCode ,$mobile , $address)
+    public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
     {
-        $this->updateOrCreate(["user_id" => $userId],
+        return $this->updateOrCreate(["user_id" => $userId],
             [
                 "user_id" => $userId,
                 "city_id" => $cityId,
@@ -32,9 +32,9 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
         );
     }
 
-    public function createAddress($userId , $cityId,$provinceId,$tell ,$zipCode ,$mobile , $address)
+    public function createAddress($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
     {
-        $this->create(
+        return $this->model::create(
             [
                 "user_id" => $userId,
                 "city_id" => $cityId,
@@ -47,9 +47,9 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
         );
     }
 
-    public function updateAddress(Address $addressModal  , $cityId,$provinceId,$tell ,$zipCode ,$mobile , $address)
+    public function updateAddress(Address $addressModal, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
     {
-        $addressModal->update([
+        return $addressModal->update([
             "city_id" => $cityId,
             "prvince_id" => $provinceId,
             "tell" => $tell,
