@@ -2,10 +2,16 @@
 
 namespace App\Repositories\OrderItem;
 
+use App\Models\OrderItem;
 use App\Repositories\Base\BaseRepository;
 
 class OrderItemRepository extends BaseRepository implements OrderItemRepositoryInterface
 {
+    public function __construct(OrderItem $model)
+    {
+        parent::__construct($model);
+    }
+
     public function createOrderItem($order_id, $product_id, $product_color_id, $count, $price, $dicount, $final_price, $unit_price, $unit_discount)
     {
         $this->create([
