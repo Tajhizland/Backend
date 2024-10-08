@@ -80,6 +80,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     }
 
     public function findWithDetails($id){
-        return $this->model::with("orderInfo")->with("orderItems")->where("id",$id)->first();
+        return $this->model::with(["orderInfo", "orderItems.product", "orderItems.color"])
+    ->where("id", $id)
+    ->first(); 
     }
 }
