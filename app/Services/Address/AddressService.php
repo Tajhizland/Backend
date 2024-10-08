@@ -28,7 +28,7 @@ class AddressService implements AddressServiceInterface
     public function findByUserId($userId)
     {
         $address= $this->addressRepository->findUserAddress($userId);
-        if(!$address)
+        if(!isset($address))
         {
             $address=$this->addressRepository->createAddress($userId,"1","1"," "," "," "," ");
         }
