@@ -39,7 +39,7 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
             [
                 "user_id" => $userId,
                 "city_id" => $cityId,
-                "prvince_id" => $provinceId,
+                "province_id" => $provinceId,
                 "tell_code" => $tellCode,
                 "tell" => $tell,
                 "zip_code" => $zipCode,
