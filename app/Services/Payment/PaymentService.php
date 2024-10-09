@@ -61,7 +61,7 @@ class PaymentService implements PaymentServicesInterface
         $finalPrice = $totalItemsPrice + $delivery->price;
         $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
         $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code);
-        $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, $delivery->price, Carbon::now());
+        $order = $this->orderRepository->createOrder($userId, $orderInfo->id,$totalItemsPrice,$delivery->price,$finalPrice ,$orderStatus ,$cart->payment_method,$cart->delivery_method,Carbon::now(),Carbon::now(),"" );
         $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
         if ($limit) {
             $this->onHoldOrderRepository->createOnHoldOrder($order->id);
