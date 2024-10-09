@@ -52,6 +52,8 @@ class PaymentService implements PaymentServicesInterface
         $this->checkoutService->finalCheckout($cart, $cartItems);
         $limit = $this->cartItemService->checkLimit($cartItems);
         $user = $this->userRepository->findOrFail($userId);
+        dd("YES");
+
         $address = $this->addressRepository->findUserAddress($userId);
         $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
@@ -65,7 +67,6 @@ class PaymentService implements PaymentServicesInterface
             $this->onHoldOrderRepository->createOnHoldOrder($order->id);
             return true;
         }
-        dd("YES");
         return $this->gatewayService->request($finalPrice, $order->id);
     }
 
