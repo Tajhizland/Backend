@@ -19,7 +19,7 @@ class OrderController extends Controller
 
     public function userOrderPaginate()
     {
-        return $this->dataResponse(
+        return $this->dataResponseCollection(
             new OrderCollection($this->orderService->userOrderPaginate(Auth::user()->id))
         );
     }

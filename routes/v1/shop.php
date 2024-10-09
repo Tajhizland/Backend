@@ -15,6 +15,7 @@ Route::get('/homepage', [HomePageController::class, "index"]);
 Route::get('/menu', [\App\Http\Controllers\V1\Shop\MenuController::class, "get"]);
 Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "getCities"]);
 Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
+Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
 
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
@@ -58,3 +59,4 @@ Route::group(["prefix" => "payment"], function () {
     Route::post('request', [\App\Http\Controllers\V1\Shop\PaymentController::class, "requestPayment"])->middleware("auth:sanctum");
     Route::get('verify', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyPayment"]);
 });
+ 
