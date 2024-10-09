@@ -27,6 +27,10 @@ class OrderService implements OrderServiceInterface
         return $order;
     }
 
+    public function findWithDetails($id)
+    {
+        return  $this->orderRepository->findWithDetails($id); 
+    }
     public function dataTable()
     {
         return $this->orderRepository->dataTable();

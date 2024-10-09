@@ -8,7 +8,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface OrderRepositoryInterface extends  BaseRepositoryInterface
 {
     public function updateOrderStatus(Order $order , $status);
-
+    public function findWithDetails($id);
     public function userOrderPaginate($userId);
     public function setStatus(Order $order,$status);
     public function dataTable();

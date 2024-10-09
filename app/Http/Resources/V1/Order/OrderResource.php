@@ -6,6 +6,7 @@ use App\Http\Resources\V1\Delivery\DeliveryResource;
 use App\Http\Resources\V1\Gateway\GatewayResource;
 use App\Http\Resources\V1\OptionItem\OptionItemCollection;
 use App\Http\Resources\V1\OrderInfo\OrderInfoResource;
+use App\Http\Resources\V1\OrderItem\OrderItemCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
@@ -28,7 +29,7 @@ class OrderResource extends JsonResource
             'order_date' => $this->order_date,
             'delivery_date' => $this->delivery_date,
             'tracking_number' => $this->tracking_number,
-            'orderItems' => new OptionItemCollection($this->whenLoaded('orderItems')),
+            'orderItems' => new OrderItemCollection($this->whenLoaded('orderItems')),
             'orderInfo' => new OrderInfoResource($this->whenLoaded('orderInfo')),
             'delivery' => new DeliveryResource($this->whenLoaded('delivery')),
             'payment' => new GatewayResource($this->whenLoaded('gateway')),
