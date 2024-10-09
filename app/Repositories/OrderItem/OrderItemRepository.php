@@ -12,7 +12,7 @@ class OrderItemRepository extends BaseRepository implements OrderItemRepositoryI
         parent::__construct($model);
     }
 
-    public function createOrderItem($order_id, $product_id, $product_color_id, $count, $price, $dicount, $final_price, $unit_price, $unit_discount)
+    public function createOrderItem($order_id, $product_id, $product_color_id, $count, $price, $dicount, $final_price )
     {
         $this->create([
             "order_id" => $order_id,
@@ -21,9 +21,7 @@ class OrderItemRepository extends BaseRepository implements OrderItemRepositoryI
             "count" => $count,
             "price" => $price,
             "dicount" => $dicount,
-            "final_price" => $final_price,
-            "unit_price" => $unit_price,
-            "unit_discount" => $unit_discount,
+            "final_price" => $final_price
         ]);
     }
 
