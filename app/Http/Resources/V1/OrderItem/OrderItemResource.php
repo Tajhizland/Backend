@@ -17,10 +17,8 @@ class OrderItemResource extends JsonResource
             'id' => $this->id,
             'count' => $this->count,
             'price' => $this->price,
-            'dicount' => $this->dicount,
+            'discount' => $this->discount,
             'final_price' => $this->final_price,
-            'unit_price' => $this->unit_price,
-            'unit_discount' => $this->unit_discount,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 

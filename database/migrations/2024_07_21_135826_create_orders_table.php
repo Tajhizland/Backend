@@ -12,11 +12,13 @@ return new class extends Migration {
             $table->foreignId('user_id');
             $table->foreignId('order_info_id');
             $table->integer('price');
-            $table->integer('discount');
+            $table->integer('delivery_price');
             $table->integer('final_price');
             $table->integer('status');
             $table->integer('payment_method');
+            $table->integer('delivery_method');
             $table->timestamp('order_date');
+            $table->timestamp('delivery_date');
             $table->string('tracking_number');
             $table->timestamps();
         });

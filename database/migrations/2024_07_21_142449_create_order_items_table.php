@@ -13,10 +13,8 @@ return new class extends Migration {
             $table->foreignId('product_color_id');
             $table->integer('count');
             $table->integer('price');
-            $table->integer('dicount');
+            $table->integer('discount');
             $table->integer('final_price');
-            $table->integer('unit_price');
-            $table->integer('unit_discount');
             $table->foreignId('order_id');
             $table->timestamps();
         });
