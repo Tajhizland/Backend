@@ -51,6 +51,6 @@ class OnHoldOrderService implements OnHoldOrderServiceInterface
 
     public function dataTable()
     {
-
+        return $this->onHoldOrderRepository->dataTable();
     }
 }
