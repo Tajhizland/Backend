@@ -28,17 +28,14 @@ class CartItemService implements CartItemServiceInterface
     public function calculatePrice($cartItems): array
     {
         $itemsPrice = 0;
-        $itemsDiscount = 0;
         $totalItemPrice = 0;
         foreach ($cartItems as $cartItem) {
             $price = $this->priceRepository->findByProductColorId($cartItem->product_color_id);
             $itemsPrice += $price->price * $cartItem->count;
-            $itemsDiscount += ($price->price * ($price->discount / 100)) * $cartItem->count;
             $totalItemPrice += ($price->price - ($price->price * ($price->discount / 100))) * $cartItem->count;
         }
         return [
             "itemsPrice" => $itemsPrice,
-            "itemsDiscount" => $itemsDiscount,
             "totalItemPrice" => $totalItemPrice,
         ];
     }

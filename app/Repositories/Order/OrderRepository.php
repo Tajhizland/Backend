@@ -3,7 +3,6 @@
 namespace App\Repositories\Order;
 
 use App\Models\Order;
-use App\Models\Transaction;
 use App\Repositories\Base\BaseRepository;
 use App\Services\Sort\Transaction\SortTransactionByUserMobile;
 use App\Services\Sort\Transaction\SortTransactionByUserName;
@@ -57,31 +56,34 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             ->paginate($this->pageSize);
     }
 
-    public function createOrder($user_id, $order_info_id, $price, $discount,$total_price, $final_price, $status, $payment_method,  $delivery_method, $delivery_price ,$order_date, $tracking_number=null)
+    public function createOrder($user_id, $order_info_id, $price, $delivery_price, $final_price, $status, $payment_method, $delivery_method, $order_date, $delivery_date, $tracking_number)
     {
-       return $this->create(
+        return $this->create(
             [
                 "user_id" => $user_id,
                 "order_info_id" => $order_info_id,
                 "price" => $price,
-                "discount" => $discount,
+                "delivery_price" => $delivery_price,
                 "final_price" => $final_price,
                 "status" => $status,
                 "payment_method" => $payment_method,
                 "delivery_method" => $delivery_method,
-                "delivery_price" => $delivery_price,
                 "order_date" => $order_date,
+                "delivery_date" => $delivery_date,
                 "tracking_number" => $tracking_number,
             ]
         );
     }
-    public function updateOrderStatus(Order $order , $status){
+
+    public function updateOrderStatus(Order $order, $status)
+    {
         return $order->update(["status" => $status]);
     }
 
-    public function findWithDetails($id){
-        return $this->model::with(["delivery", "payment","orderInfo", "orderInfo.city",  "orderInfo.province", "orderItems.product", "orderItems.productColor"])
-    ->where("id", $id)
-    ->first();
+    public function findWithDetails($id)
+    {
+        return $this->model::with(["delivery", "payment", "orderInfo", "orderInfo.city", "orderInfo.province", "orderItems.product", "orderItems.productColor"])
+            ->where("id", $id)
+            ->first();
     }
 }
