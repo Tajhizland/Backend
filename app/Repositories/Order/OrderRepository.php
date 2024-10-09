@@ -21,7 +21,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     public function userOrderPaginate($userId)
     {
-        return $this->model::where("user_id", $userId)->paid()->latest("id")->paginate($this->pageSize);
+        return $this->model::with(["orderItems.product", "orderItems.productColor"])->where("user_id", $userId)->paid()->latest("id")->paginate($this->pageSize);
     }
 
     public function setStatus(Order $order, $status)
