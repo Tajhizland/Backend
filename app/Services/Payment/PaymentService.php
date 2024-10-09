@@ -51,8 +51,6 @@ class PaymentService implements PaymentServicesInterface
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->checkoutService->finalCheckout($cart, $cartItems);
-        dd("YES");
-
         $limit = $this->cartItemService->checkLimit($cartItems);
         $user = $this->userRepository->findOrFail($userId);
 

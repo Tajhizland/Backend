@@ -83,8 +83,6 @@ class CheckoutService implements CheckoutServiceInterface
         $this->deliveryCheckHandler->setNext($this->addressCheckHandler);
         $this->addressCheckHandler->setNext($this->gatewayCheckHandler);
         $this->cartCheckHandler->handle($cart, $cartItems);
-
-        return $this->gatewayRepository->findActiveGateway();
     }
 
     public function checkoutIndex($userId)
