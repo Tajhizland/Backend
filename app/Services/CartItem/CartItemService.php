@@ -76,10 +76,8 @@ class CartItemService implements CartItemServiceInterface
         foreach ($cartItems as $cartItem) {
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             $price = $productColor->price;
-            $totalPrice = $price->price * $cartItem->count;
-            $totalDiscount = ($price->price * ($price->discount / 100)) * $cartItem->count;
-            $finalPrice = ($price->price - ($price->price * ($price->discount / 100))) * $cartItem->count;
-            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count, $totalPrice, $totalDiscount, $finalPrice );
+            $finalPrice = ($price->price - ($price->price * ($price->discount / 100)))  ;
+            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count,$price->price , $price->discount , $finalPrice );
         }
         return true;
     }
