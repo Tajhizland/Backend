@@ -4,6 +4,8 @@ namespace App\Http\Resources\V1\OnHoldOrder;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 /** @see \App\Models\OnHoldOrder */
 class OnHoldOrderCollection extends ResourceCollection
