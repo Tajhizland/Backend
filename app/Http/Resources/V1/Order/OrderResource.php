@@ -4,7 +4,6 @@ namespace App\Http\Resources\V1\Order;
 
 use App\Http\Resources\V1\Delivery\DeliveryResource;
 use App\Http\Resources\V1\Gateway\GatewayResource;
-use App\Http\Resources\V1\OptionItem\OptionItemCollection;
 use App\Http\Resources\V1\OrderInfo\OrderInfoResource;
 use App\Http\Resources\V1\OrderItem\OrderItemCollection;
 use Illuminate\Http\Request;
@@ -26,8 +25,8 @@ class OrderResource extends JsonResource
             'status' => $this->status,
             'payment_method' => $this->payment_method,
             'delivery_method' => $this->delivery_method,
-            'order_date' => $this->order_date,
-            'delivery_date' => $this->delivery_date,
+            'order_date' => Jalalian::fromDateTime($this->order_date)->format('Y/m/d'),
+            'delivery_date' => Jalalian::fromDateTime($this->delivery_date)->format('Y/m/d'),
             'tracking_number' => $this->tracking_number,
             'orderItems' => new OrderItemCollection($this->whenLoaded('orderItems')),
             'orderInfo' => new OrderInfoResource($this->whenLoaded('orderInfo')),
