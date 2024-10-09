@@ -23,6 +23,14 @@ class Order extends Model
     {
         return $this->belongsTo(OrderInfo::class);
     }
+    public function delivery(): BelongsTo
+    {
+        return $this->belongsTo(Delivery::class , "delivery_method" , "id");
+    }
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(Gateway::class , "payment_method" ,"id");
+    }
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);

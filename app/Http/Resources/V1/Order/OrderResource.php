@@ -32,7 +32,7 @@ class OrderResource extends JsonResource
             'orderItems' => new OrderItemCollection($this->whenLoaded('orderItems')),
             'orderInfo' => new OrderInfoResource($this->whenLoaded('orderInfo')),
             'delivery' => new DeliveryResource($this->whenLoaded('delivery')),
-            'payment' => new GatewayResource($this->whenLoaded('gateway')),
+            'payment' => new GatewayResource($this->whenLoaded('payment')),
 
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
