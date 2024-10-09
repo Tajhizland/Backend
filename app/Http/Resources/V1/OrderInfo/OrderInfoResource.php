@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\V1\OrderInfo;
 
+use App\Http\Resources\V1\City\CityResource;
+use App\Http\Resources\V1\Province\ProvinceResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,6 +23,9 @@ class OrderInfoResource extends JsonResource
             'zip_code' => $this->zip_code,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+
+            'city'=>new CityResource($this->whenLoaded("city")),
+            'province'=>new ProvinceResource($this->whenLoaded("province")),
         ];
     }
 }
