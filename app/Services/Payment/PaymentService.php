@@ -47,11 +47,12 @@ class PaymentService implements PaymentServicesInterface
 
     public function request($userId)
     {
-        dd("YES");
 
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->checkoutService->finalCheckout($cart, $cartItems);
+        dd("YES");
+
         $limit = $this->cartItemService->checkLimit($cartItems);
         $user = $this->userRepository->findOrFail($userId);
 
