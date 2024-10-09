@@ -21,7 +21,7 @@ class ZibalService implements GatewaysInterface
         );
         $response = $this->callApi(config("Gateway.zibal.request_url"), $parameters);
         if ($response["result"] == 100) {
-            return Redirect::to(config("Gateway.zibal.payment_url") . $response["trackId"]);
+            return  (config("Gateway.zibal.payment_url") . $response["trackId"]);
         }
         throw  new BreakException(Lang::get("exceptions.gateway_error"));
     }
