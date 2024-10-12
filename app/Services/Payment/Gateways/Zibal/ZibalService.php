@@ -33,7 +33,7 @@ class ZibalService implements GatewaysInterface
             "trackId" => $trackId,
         );
         $response = $this->callApi(config("Gateway.zibal.verify_url"), $parameters);
-        if ($response["result"] == 100) {
+         if ($response["result"] == 100) {
             return $response;
         }
         throw  new BreakException(Lang::get("exceptions.gateway_error"));
@@ -45,17 +45,17 @@ class ZibalService implements GatewaysInterface
         $orderId = $request->get("orderId");
         $trackId = $request->get("trackId");
         $status = $request->get("status");
-        if (!$status || !$orderId || $success || $trackId)
+         if (!$status || !$orderId || !$success || !$trackId)
         {
-            throw new BreakException();
+             throw new BreakException();
         }
         if ($success != 1)
             throw new BreakException();
 
-        return [
-            "orderId"=>$orderId,
-            "trackId"=>$trackId
-        ];
+        $result=new \stdClass();
+        $result->trackId=$trackId;
+        $result->orderId=$orderId;
+        return $result;
     }
 
     private function callApi($path, $parameters)

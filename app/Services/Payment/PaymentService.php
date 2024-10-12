@@ -49,13 +49,11 @@ class PaymentService implements PaymentServicesInterface
 
     public function request($userId)
     {
-
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->checkoutService->finalCheckout($cart, $cartItems);
         $limit = $this->cartItemService->checkLimit($cartItems);
         $user = $this->userRepository->findOrFail($userId);
-
         $address = $this->addressRepository->findUserAddress($userId);
         $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
@@ -64,6 +62,7 @@ class PaymentService implements PaymentServicesInterface
         $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
         $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code);
         $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now(), "");
+        $this->cartRepository->update($cart,["order_id"=>$order->id]);
         $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
         if ($limit) {
             $this->onHoldOrderRepository->createOnHoldOrder($order->id);
@@ -95,7 +94,7 @@ class PaymentService implements PaymentServicesInterface
     public function verifyPayment($request)
     {
         $request = $this->gatewayService->callbackParams($request);
-        $this->gatewayService->verify($request->trackId);
+//          $this->gatewayService->verify($request->trackId);
         $order = $this->orderRepository->findOrFail($request->orderId);
         $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
         $orderItems = $this->orderItemRepository->getByOrderId($order->id);
@@ -103,7 +102,7 @@ class PaymentService implements PaymentServicesInterface
             $this->stockRepository->decrement($item->product_color_id, $item->count);
         }
         $this->transactionRepository->createTransaction($order->user_id, $order->id, $request->trackId, $order->final_price);
-        $cart = $this->cartRepository->getCartByUserId($order->user_id);
+        $cart = $this->cartRepository->getCartByOrderId($order->orderId);
         $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
 
         event(new OrderPaidEvent($order));

@@ -18,7 +18,7 @@ class TransactionMiddleware
     {
         DB::beginTransaction();
         $response = $next($request);
-        if ($response->isSuccessful()) {
+        if ($response->isSuccessful() || $response->isRedirection()) {
              DB::commit();
          } else {
             DB::rollBack();

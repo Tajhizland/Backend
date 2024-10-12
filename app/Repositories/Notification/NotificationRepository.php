@@ -15,7 +15,7 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
 
     public function createNotification($title, $message, $link, $type)
     {
-        $title->create([
+        $this->create([
             "title" => $title,
             "message" => $message,
             "seen" => 0,
