@@ -6,5 +6,5 @@ interface PaymentServicesInterface
 {
     public function request($userId);
     public function verifyPayment($request);
-
+    public function onHoldOrderRequest($id, $userId);
 }

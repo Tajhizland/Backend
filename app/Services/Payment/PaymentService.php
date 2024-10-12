@@ -3,8 +3,10 @@
 namespace App\Services\Payment;
 
 use App\Enums\CartStatus;
+use App\Enums\OnHoldOrderStatus;
 use App\Enums\OrderStatus;
 use App\Events\OrderPaidEvent;
+use App\Exceptions\BreakException;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
@@ -57,17 +59,37 @@ class PaymentService implements PaymentServicesInterface
         $address = $this->addressRepository->findUserAddress($userId);
         $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
-         $totalItemsPrice = $cartPrices["totalItemPrice"];
+        $totalItemsPrice = $cartPrices["totalItemPrice"];
         $finalPrice = $totalItemsPrice + $delivery->price;
         $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
         $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code);
-        $order = $this->orderRepository->createOrder($userId, $orderInfo->id,$totalItemsPrice,$delivery->price,$finalPrice ,$orderStatus ,$cart->payment_method,$cart->delivery_method,Carbon::now(),Carbon::now(),"" );
+        $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now(), "");
         $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
         if ($limit) {
             $this->onHoldOrderRepository->createOnHoldOrder($order->id);
             return true;
         }
         return $this->gatewayService->request($finalPrice, $order->id);
+    }
+
+    public function onHoldOrderRequest($id, $userId)
+    {
+        $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
+        if($onHoldOrder->expire_date < Carbon::now()){
+            throw new BreakException(\Lang::get("exceptions.expired_order"));
+        }
+        if($onHoldOrder->status!=OnHoldOrderStatus::Accept->value){
+            throw new BreakException(\Lang::get("exceptions.reject_order"));
+        }
+        $orderId = $onHoldOrder->order_id;
+        $cart = $this->cartRepository->getCartByOrderId($orderId);
+        if ($cart->user_id != $userId) {
+            throw new BreakException(\Lang::get("exceptions.not_your_order"));
+        }
+        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
+        $this->checkoutService->finalCheckout($cart, $cartItems);
+        $order = $this->orderRepository->findOrFail($orderId);
+        return $this->gatewayService->request($order->final_price, $orderId);
     }
 
     public function verifyPayment($request)

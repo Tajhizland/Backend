@@ -8,6 +8,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface CartRepositoryInterface extends BaseRepositoryInterface
 {
     public function getCartByUserId($userId);
+    public function getCartByOrderId($orderId);
     public function createCart($userId);
     public function changeStatus(Cart $cart,$status);
     public function setDeliveryMethod(Cart $cart, $delivery_method);

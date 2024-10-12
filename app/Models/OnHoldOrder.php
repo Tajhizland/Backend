@@ -9,7 +9,7 @@ class OnHoldOrder extends Model
 {
     protected $guarded=["id"];
 
-    protected function order(): BelongsTo
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }

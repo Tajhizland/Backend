@@ -31,7 +31,9 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
 
     public function userOnHoldOrderPaginate($userId)
     {
-        return $this->model::where("user_id",$userId)->latest("id")->paginate();
+        return $this->model::with([
+            "order","order.orderItems.product","order.orderItems.productColor","order.orderItems.productColor.productColor","order.orderItems"
+        ])->where("user_id",$userId)->latest("id")->paginate();
     }
 
     public function setReject(OnHoldOrder $onHoldModel)

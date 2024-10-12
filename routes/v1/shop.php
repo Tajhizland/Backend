@@ -59,4 +59,8 @@ Route::group(["prefix" => "payment"], function () {
     Route::post('request', [\App\Http\Controllers\V1\Shop\PaymentController::class, "requestPayment"])->middleware("auth:sanctum");
     Route::get('verify', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyPayment"]);
 });
- 
+
+Route::group(["prefix" => "on-hold-order", "middleware" => "auth:sanctum"], function () {
+    Route::get('get', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "userHoldOnPaginate"]);
+    Route::post('payment/{id}', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "payment"]);
+});
