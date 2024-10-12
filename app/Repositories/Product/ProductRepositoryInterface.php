@@ -16,10 +16,12 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
      public function incrementViewCount($product);
 
     public function search($query);
+    public function searchPaginate($query);
 
     public function showFavoriteList($userId);
 
     public function activeProductQuery($categoryId);
+    public function activeProductByBrandQuery($brandId);
 
     public function paginated($query);
 

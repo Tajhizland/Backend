@@ -84,6 +84,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 $query->where("category_id", $categoryId);
             });
     }
+  public function activeProductByBrandQuery($brandId)
+    {
+        return $this->model::active()->hasColor()
+            ->where("brand_id", $brandId);
+    }
+
 
     public function otherFilter($key, $values, $query)
     {
@@ -174,4 +180,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $query->where("category_id", $categoryId);
         })->limit(config("settings.home_page_item_limit"))->get();
     }
+
+   public function searchPaginate($query)
+   {
+       return $this->model::where("name", "like", "%$query%")->latest("id")->paginate($this->pageSize);
+   }
 }

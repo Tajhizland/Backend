@@ -25,7 +25,10 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     {
         return $this->model::select("id", "name")->get();
     }
-
+    public function findByUrl($url)
+    {
+        return $this->model::where('url', $url)->first();
+    }
 
     public function storeBrand($name, $url, $status, $image, $description)
     {

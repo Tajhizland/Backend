@@ -10,7 +10,6 @@ use App\Http\Controllers\V1\Shop\SearchController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/search', [SearchController::class, "index"]);
 Route::get('/homepage', [HomePageController::class, "index"]);
 Route::get('/menu', [\App\Http\Controllers\V1\Shop\MenuController::class, "get"]);
 Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "getCities"]);
@@ -32,6 +31,10 @@ Route::group(["prefix" => "favorite", "middleware" => "auth:sanctum"], function 
     Route::post('add-item', [FavoriteController::class, "addProduct"]);
     Route::post('remove-item', [FavoriteController::class, "removeProduct"]);
 });
+Route::group(["prefix" => "search"], function () {
+    Route::post('/', [SearchController::class, "index"]);
+    Route::post('/paginate', [SearchController::class, "paginate"]);
+});
 
 Route::group(["prefix" => "product"], function () {
     Route::post('find', [ProductController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
@@ -39,6 +42,9 @@ Route::group(["prefix" => "product"], function () {
 
 Route::group(["prefix" => "category"], function () {
     Route::post('find', [CategoryController::class, "index"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+});
+Route::group(["prefix" => "brand"], function () {
+    Route::post('find', [\App\Http\Controllers\V1\Shop\BrandController::class, "index"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
 });
 
 Route::group(["prefix" => "news"], function () {

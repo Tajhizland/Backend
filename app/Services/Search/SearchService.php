@@ -9,20 +9,17 @@ class SearchService implements SearchServiceInterface
 {
     public function __construct(
         private ProductRepositoryInterface $productRepository ,
-        private CategoryRepositoryInterface $categoryRepository ,
     )
     {
     }
 
     public function searchQuery($query)
     {
-        $products=$this->productRepository->search($query);
-        $category=$this->categoryRepository->search($query);
-        $data=[
-            "products"=>$products,
-            "categories"=>$category
-        ];
-        return $data;
+        return $this->productRepository->search($query);
+    }
+    public function searchPaginate($query)
+    {
+        return $this->productRepository->search($query);
     }
 
 }
