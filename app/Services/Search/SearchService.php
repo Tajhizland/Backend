@@ -19,7 +19,7 @@ class SearchService implements SearchServiceInterface
     }
     public function searchPaginate($query)
     {
-        return $this->productRepository->search($query);
+        return $this->productRepository->searchPaginate($query);
     }
 
 }
