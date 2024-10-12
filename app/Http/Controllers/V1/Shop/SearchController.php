@@ -17,11 +17,11 @@ class SearchController extends Controller
 
     public function index(SearchRequest $request)
     {
-        return $this->dataResponse(new ProductCollection($this->searchService->searchQuery($request->get("query"))));
+        return $this->dataResponseCollection(new ProductCollection($this->searchService->searchQuery($request->get("query"))));
     }
 
     public function paginate(SearchRequest $request)
     {
-        return $this->dataResponse(new ProductCollection($this->searchService->searchPaginate($request->get("query"))));
+        return $this->dataResponseCollection(new ProductCollection($this->searchService->searchPaginate($request->get("query"))));
     }
 }
