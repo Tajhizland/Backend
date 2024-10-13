@@ -25,7 +25,8 @@ class CategoryResource extends JsonResource
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
             'minPrice'=> $this->getMinProductPrice(),
             'maxPrice'=> $this->getMaxProductPrice(),
-            'filters' => new FilterCollection($this->filters),
+
+            'filters' => new FilterCollection($this->whenLoaded("filters")),
             'products' => new ProductCollection($this->whenLoaded('products')),
 
         ];

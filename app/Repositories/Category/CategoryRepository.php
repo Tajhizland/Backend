@@ -20,7 +20,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function findByUrl($url)
     {
-        return $this->model::where("url", $url)->active()->first();
+        return $this->model::with(["filters","filters.items"])->where("url", $url)->active()->first();
     }
 
     public function createCategory($name, $status, $url, $image, $description, $parentId)
