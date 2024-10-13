@@ -22,18 +22,22 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
             ->allowedSorts(['order_id', 'expire_date', 'status'])
             ->paginate($this->pageSize);
     }
-    public function createOnHoldOrder($orderId){
+
+    public function createOnHoldOrder($orderId)
+    {
         return $this->create([
-            "order_id"=>$orderId,
-            "status"=>OnHoldOrderStatus::Pending->value
+            "order_id" => $orderId,
+            "status" => OnHoldOrderStatus::Pending->value
         ]);
     }
 
     public function userOnHoldOrderPaginate($userId)
     {
         return $this->model::with([
-            "order","order.orderItems.product","order.orderItems.productColor","order.orderItems.productColor.productColor","order.orderItems"
-        ])->where("user_id",$userId)->latest("id")->paginate();
+            "order", "order.orderItems.product", "order.orderItems.productColor", "order.orderItems.productColor.productColor", "order.orderItems"
+        ])->whereHas("order", function ($query) use ($userId) {
+            $query->where("user_id", $userId);
+        })->latest("id")->paginate();
     }
 
     public function setReject(OnHoldOrder $onHoldModel)
