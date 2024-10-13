@@ -27,7 +27,8 @@ class CategoryResource extends JsonResource
             'maxPrice'=> $this->getMaxProductPrice(),
 
             'filters' => new FilterCollection($this->whenLoaded("filters")),
-            'products' => new ProductCollection($this->whenLoaded('products')?? []),
+            'products' => new ProductCollection($this->whenLoaded("products")),
+
 
         ];
     }
