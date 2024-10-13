@@ -74,7 +74,7 @@ class PaymentService implements PaymentServicesInterface
     public function onHoldOrderRequest($id, $userId)
     {
         $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
-        if($onHoldOrder->expire_date < Carbon::now()){
+        if(Carbon::parse($onHoldOrder->expire_date) < Carbon::now()){
             throw new BreakException(\Lang::get("exceptions.expired_order"));
         }
         if($onHoldOrder->status!=OnHoldOrderStatus::Accept->value){
