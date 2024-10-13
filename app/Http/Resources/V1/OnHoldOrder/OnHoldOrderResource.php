@@ -17,6 +17,7 @@ class OnHoldOrderResource extends JsonResource
             'order_id' => $this->order_id,
             'order' => new OrderResource($this->whenLoaded('order')),
             'status' => $this->status,
+            'expire_date_time' =>$this->expire_date,
             'expire_date' => Jalalian::fromDateTime($this->expire_date)->format('Y/m/d H:i:s'),
             'review_date' => Jalalian::fromDateTime($this->review_date)->format('Y/m/d H:i:s'),
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
