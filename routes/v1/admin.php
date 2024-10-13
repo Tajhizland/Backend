@@ -42,6 +42,9 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("filter/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFilter"]);
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setOption"]);
 
+        Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getFiles"]);
+        Route::post("file/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFile"]);
+
     });
     Route::group(["prefix" => "brand"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BrandController::class, "dataTable"]);
@@ -49,12 +52,17 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\BrandController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\BrandController::class, "update"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\BrandController::class, "list"]);
+        Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\BrandController::class, "getFiles"]);
+        Route::post("file/set", [\App\Http\Controllers\V1\Admin\BrandController::class, "setFile"]);
+
     });
     Route::group(["prefix" => "news"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NewsController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\NewsController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\NewsController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\NewsController::class, "update"]);
+        Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\NewsController::class, "getFiles"]);
+        Route::post("file/set", [\App\Http\Controllers\V1\Admin\NewsController::class, "setFile"]);
     });
 
     Route::group(["prefix" => "option"], function () {
@@ -146,6 +154,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("items/set", [\App\Http\Controllers\V1\Admin\ConceptController::class, "setItem"]);
         Route::delete("items/delete/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "deleteItem"]);
         Route::get("items/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "getItems"]);
+        Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "getFiles"]);
+        Route::post("file/set", [\App\Http\Controllers\V1\Admin\ConceptController::class, "setFile"]);
     });
     Route::group(["prefix" => "search"], function () {
         Route::post("category", [\App\Http\Controllers\V1\Admin\SearchController::class, "searchCategory"]);
