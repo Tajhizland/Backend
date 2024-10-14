@@ -5,5 +5,6 @@ namespace App\Services\FileManager;
 interface FileManagerServiceInterface
 {
     public function geyByModelId($modelId ,$modelType);
-    public function upload($file, $path, $modelType, $modelId);
+    public function remove($id);
+    public function upload($file,  $modelType, $modelId);
 }

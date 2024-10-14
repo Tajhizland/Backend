@@ -64,15 +64,5 @@ class ConceptController extends Controller
         $this->conceptService->deleteItem($id);
         return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.category"), "from" => Lang::get("attr.list")]));
     }
-    public function getFiles($id)
-    {
-        return $this->dataResponseCollection(new FilemanagerCollection($this->fileManagerService->geyByModelId($id, "category")));
-    }
-
-    public function setFile(NewsFileRequest $request)
-    {
-        $this->fileManagerService->upload($request->file("file"), "concept", "concept", $request->get("concept_id"));
-        return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
-    }
 
 }

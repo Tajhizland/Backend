@@ -8,43 +8,30 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NotificationController::class, "dataTable"]);
         Route::get("unseen", [\App\Http\Controllers\V1\Admin\NotificationController::class, "findById"]);
     });
-
-
     Route::group(["prefix" => "product"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\ProductController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\ProductController::class, "update"]);
-
         Route::get("filter/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getFilter"]);
         Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getOption"]);
         Route::get("color/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getColor"]);
         Route::get("image/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getImage"]);
         Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getFiles"]);
-
         Route::post("filter/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setFilter"]);
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setOption"]);
         Route::post("color/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setColor"]);
-        Route::post("image/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
-        Route::post("file/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setFile"]);
     });
-
     Route::group(["prefix" => "category"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CategoryController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\CategoryController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CategoryController::class, "update"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\CategoryController::class, "list"]);
-
         Route::get("filter/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getFilter"]);
         Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getOption"]);
-
         Route::post("filter/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFilter"]);
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setOption"]);
-
-        Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getFiles"]);
-        Route::post("file/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFile"]);
-
     });
     Route::group(["prefix" => "brand"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BrandController::class, "dataTable"]);
@@ -52,17 +39,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\BrandController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\BrandController::class, "update"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\BrandController::class, "list"]);
-        Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\BrandController::class, "getFiles"]);
-        Route::post("file/set", [\App\Http\Controllers\V1\Admin\BrandController::class, "setFile"]);
-
     });
     Route::group(["prefix" => "news"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NewsController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\NewsController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\NewsController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\NewsController::class, "update"]);
-        Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\NewsController::class, "getFiles"]);
-        Route::post("file/set", [\App\Http\Controllers\V1\Admin\NewsController::class, "setFile"]);
     });
 
     Route::group(["prefix" => "option"], function () {
@@ -154,11 +136,14 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("items/set", [\App\Http\Controllers\V1\Admin\ConceptController::class, "setItem"]);
         Route::delete("items/delete/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "deleteItem"]);
         Route::get("items/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "getItems"]);
-        Route::get("file/get/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "getFiles"]);
-        Route::post("file/set", [\App\Http\Controllers\V1\Admin\ConceptController::class, "setFile"]);
     });
     Route::group(["prefix" => "search"], function () {
         Route::post("category", [\App\Http\Controllers\V1\Admin\SearchController::class, "searchCategory"]);
         Route::post("product", [\App\Http\Controllers\V1\Admin\SearchController::class, "searchProduct"]);
+    });
+    Route::group(["prefix" => "file"], function () {
+        Route::post("upload", [\App\Http\Controllers\V1\Admin\FileManagerController::class, "upload"]);
+        Route::post("get", [\App\Http\Controllers\V1\Admin\FileManagerController::class, "get"]);
+        Route::delete("remove/{id}", [\App\Http\Controllers\V1\Admin\FileManagerController::class, "remove"]);
     });
 });

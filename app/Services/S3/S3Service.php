@@ -11,7 +11,7 @@ class S3Service implements  S3ServiceInterface
         $fileName = time() . '.' . $file->getClientOriginalExtension();
         $filePath = $path . '/' . $fileName;
         Storage::disk('s3')->put($filePath, file_get_contents($file));
-        return Storage::disk('s3')->url($filePath);
+        return $fileName;
     }
     public function remove( $path): void
     {

@@ -4,9 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
-use App\Http\Requests\V1\Admin\Product\ProductFileRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
-use App\Http\Requests\V1\Admin\Product\ProductImageRequest;
 use App\Http\Requests\V1\Admin\Product\ProductOptionRequest;
 use App\Http\Requests\V1\Admin\Product\StoreProductRequest;
 use App\Http\Requests\V1\Admin\Product\UpdateProductRequest;
@@ -17,7 +15,6 @@ use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
-use App\Services\FileManager\FileManagerServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Product\ProductServiceInterface;
@@ -34,7 +31,6 @@ class ProductController extends Controller
         private FilterServiceInterface       $filterService,
         private ProductColorServiceInterface $productColorService,
         private ProductImageServiceInterface $productImageService,
-        private FileManagerServiceInterface  $fileManagerService,
     )
     {
     }
@@ -103,17 +99,5 @@ class ProductController extends Controller
     {
         $this->productColorService->setProductColor($request->get("product_id"), $request->get("color"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.color")]));
-    }
-
-    public function setImage(ProductImageRequest $request)
-    {
-        $this->productImageService->create($request->get("product_id"), $request->file("image"));
-        return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
-    }
-
-    public function setFile(ProductFileRequest $request)
-    {
-        $this->fileManagerService->upload($request->file("file"), "product", "product", $request->get("product_id"));
-        return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
 }
