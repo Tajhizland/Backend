@@ -92,6 +92,15 @@ class Product extends Model
         return $this->prices()->min("price");
     }
 
+    public function getMinDiscountedPrice()
+    {
+        $minPriceColor = $this->prices()->orderBy('discount',"desc")->first();
+        if ($minPriceColor) {
+            return $minPriceColor->price - ($minPriceColor->price * ($minPriceColor->discount / 100));
+        }
+        return null;
+    }
+
     public function getRatingAvg()
     {
         return $this->comments()->Confirmed()->avg("rating");
