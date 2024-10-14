@@ -21,7 +21,7 @@ class ProductColorResource extends JsonResource
             'status' => $this->status,
             'price' => $this->price?->price,
             'discount' => $this->price?->discount,
-            'stock' => $this->stock?->stock,
+            'stock' => $this->stock?->stock??0,
              'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
