@@ -94,7 +94,7 @@ class Product extends Model
 
     public function getMinDiscountedPrice()
     {
-        $minPriceColor = $this->prices()->orderBy('discount',"desc")->first();
+        $minPriceColor = $this->prices()->orderBy('price' )->first();
         if ($minPriceColor) {
             return $minPriceColor->price - ($minPriceColor->price * ($minPriceColor->discount / 100));
         }

@@ -13,7 +13,7 @@ class ProductColorResource extends JsonResource
     public function toArray(Request $request): array
     {
         $statusLabel = "";
-        if (!$this->stock || $this->stock->stock < 1 || !$this->price || $this->price <= 0) {
+        if (!$this->stock || $this->stock->stock < 1 || !$this->price || $this->price->price <= 0) {
             $statusLabel = "disable";
         } else if ($this->price->discount > 0) {
             $statusLabel = "discount";
