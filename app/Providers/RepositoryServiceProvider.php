@@ -124,8 +124,6 @@ use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Gateway\GatewayService;
 use App\Services\Gateway\GatewayServiceInterface;
-use App\Services\Helper\CartHelper\CartHelperService;
-use App\Services\Helper\CartHelper\CartHelperServiceInterface;
 use App\Services\HomePage\HomePageService;
 use App\Services\HomePage\HomePageServiceInterface;
 use App\Services\HomepageCategory\HomepageCategoryService;
