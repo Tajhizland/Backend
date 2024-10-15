@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
+use App\Http\Requests\V1\Admin\Product\ProductImageRequest;
 use App\Http\Requests\V1\Admin\Product\ProductOptionRequest;
 use App\Http\Requests\V1\Admin\Product\StoreProductRequest;
 use App\Http\Requests\V1\Admin\Product\UpdateProductRequest;
@@ -47,13 +48,13 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("category_id"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("color"));
+        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("category_id"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description") );
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.product")]));
     }
 
     public function update(UpdateProductRequest $request)
     {
-        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("status"), $request->get("study"), $request->get("category_id"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("color"));
+        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("status"), $request->get("study"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
     }
 
@@ -78,11 +79,6 @@ class ProductController extends Controller
         return $this->dataResponseCollection(new ProductImageCollection($this->productImageService->getByProductId($id)));
     }
 
-    public function getFiles($id)
-    {
-        return $this->dataResponseCollection(new FilemanagerCollection($this->fileManagerService->geyByModelId($id, "product")));
-    }
-
     public function setFilter(ProductFilterRequest $request)
     {
         $this->filterService->setFilterToProduct($request->get("product_id"), $request->get("filter"));
@@ -99,5 +95,15 @@ class ProductController extends Controller
     {
         $this->productColorService->setProductColor($request->get("product_id"), $request->get("color"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.color")]));
+    }
+    public function setImage(ProductImageRequest $request)
+    {
+        $this->productImageService->create($request->get("product_id"), $request->get("image"));
+        return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
+    }
+    public function removeImage($id)
+    {
+        $this->productImageService->remove($id);
+        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.file")]));
     }
 }
