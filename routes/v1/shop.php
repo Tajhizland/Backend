@@ -7,6 +7,7 @@ use App\Http\Controllers\V1\Shop\HomePageController;
 use App\Http\Controllers\V1\Shop\NewsController;
 use App\Http\Controllers\V1\Shop\ProductController;
 use App\Http\Controllers\V1\Shop\SearchController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,6 +17,13 @@ Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::cl
 Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
 Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
 
+
+
+Route::post('s', function (Request $request) {
+     $ImageResizeService=new \App\Services\ImageResize\ImageResizeService();
+    return$ImageResizeService->resize($request->file("file"),650,650 ,"/product/650/");
+
+});
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
@@ -70,3 +78,4 @@ Route::group(["prefix" => "on-hold-order", "middleware" => "auth:sanctum"], func
     Route::get('get', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "userHoldOnPaginate"]);
     Route::post('payment/{id}', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "payment"]);
 });
+

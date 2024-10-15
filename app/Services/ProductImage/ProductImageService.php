@@ -3,13 +3,15 @@
 namespace App\Services\ProductImage;
 
 use App\Repositories\ProductImage\ProductImageRepositoryInterface;
+use App\Services\ImageResize\ImageResizeServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 
 class ProductImageService implements ProductImageServiceInterface
 {
     public function __construct(
         private ProductImageRepositoryInterface $productImageRepository,
-        private S3ServiceInterface              $s3Service
+        private S3ServiceInterface              $s3Service,
+        private ImageResizeServiceInterface     $imageResizeService,
     )
     {
     }
@@ -19,9 +21,16 @@ class ProductImageService implements ProductImageServiceInterface
         return $this->productImageRepository->getByProductId($productId);
     }
 
-    public function create($productId, $image)
+    public function upload($productId, $image)
     {
         $imagePath = $this->s3Service->upload($image, "product");
+
+        $_800X = $this->imageResizeService->resize($image, 800, 800);
+        $this->s3Service->upload($_800X, "product/800", $imagePath);
+
+        $_300X = $this->imageResizeService->resize($image, 300, 300);
+        $this->s3Service->upload($_300X, "product/300", $imagePath);
+
         return $this->productImageRepository->create(["product_id" => $productId, "url" => $imagePath]);
     }
 
@@ -29,6 +38,8 @@ class ProductImageService implements ProductImageServiceInterface
     {
         $image = $this->productImageRepository->findOrFail($id);
         $this->s3Service->remove("product/" . $image->url);
+        $this->s3Service->remove("product/800/" . $image->url);
+        $this->s3Service->remove("product/300/" . $image->url);
         $this->productImageRepository->delete($image);
     }
 
