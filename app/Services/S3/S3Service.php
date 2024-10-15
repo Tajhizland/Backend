@@ -9,7 +9,7 @@ class S3Service implements S3ServiceInterface
     public function upload($file, $path, $fileName = ""): string
     {
         if ($fileName = "")
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $fileName = time() . "_" . rand(10000, 99999) . '.' . $file->getClientOriginalExtension();
         $filePath = $path . '/' . $fileName;
         Storage::disk('s3')->put($filePath, file_get_contents($file));
         return $fileName;
