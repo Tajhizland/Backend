@@ -114,6 +114,8 @@ use App\Services\Comment\CommentService;
 use App\Services\Comment\CommentServiceInterface;
 use App\Services\Concept\ConceptService;
 use App\Services\Concept\ConceptServiceInterface;
+use App\Services\Contact\ContactService;
+use App\Services\Contact\ContactServiceInterface;
 use App\Services\Delivery\DeliveryService;
 use App\Services\Delivery\DeliveryServiceInterface;
 use App\Services\Favorite\FavoriteService;
@@ -359,6 +361,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CheckoutServiceInterface::class, CheckoutService::class);
 
         $this->app->bind(ImageResizeServiceInterface::class, ImageResizeService::class);
+
+        $this->app->bind(ContactServiceInterface::class, ContactService::class);
 
 
         /** End Service */
