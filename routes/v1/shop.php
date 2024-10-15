@@ -14,6 +14,7 @@ Route::get('/homepage', [HomePageController::class, "index"]);
 Route::get('/menu', [\App\Http\Controllers\V1\Shop\MenuController::class, "get"]);
 Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "getCities"]);
 Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
+Route::post('contact', [\App\Http\Controllers\V1\Shop\ContactController::class, "store"]);
 Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
 Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {
     $images = \App\Models\ProductImage2::where("set", 0)->get();
@@ -21,13 +22,13 @@ Route::get("test", function (\App\Services\ProductImage\ProductImageService $pro
         $response = Http::get("https://tajhizland.com/upload/$item->url");
         if ($response->successful()) {
             $imageContent = $response->body();
-            $productImage->upload($item->product_id,$imageContent);
-            $item->update(["set",1]);
+            $productImage->upload2($item->product_id,$imageContent);
+            \App\Models\ProductImage2::where("id",$item->id)->update(["set"=>1]);
         } else {
             dd($item);
         }
     }
-});
+})->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
     Route::post('remove-item', [CartController::class, "removeItem"]);

@@ -7,6 +7,7 @@ use App\Http\Requests\V1\Shop\Profile\UpdateProfileRequest;
 use App\Http\Resources\V1\User\UserResource;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MeController extends Controller
 {
@@ -15,6 +16,13 @@ class MeController extends Controller
         private UserServiceInterface $userService
     )
     {
+    }
+
+    public function logout()
+    {
+        $user = Auth::user();
+        $user->currentAccessToken()->delete();
+        return $this->successResponse(\Lang::get("action.success", ["attr" => \Lang::get("attr.logout")]));
     }
 
     public function me(Request $request)
