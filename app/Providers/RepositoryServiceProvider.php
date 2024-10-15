@@ -22,6 +22,8 @@ use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Concept\ConceptRepository;
 use App\Repositories\Concept\ConceptRepositoryInterface;
+use App\Repositories\Contact\ContactRepository;
+use App\Repositories\Contact\ContactRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepository;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
@@ -271,6 +273,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ConceptRepositoryInterface::class, ConceptRepository::class);
 
         $this->app->bind(CategoryConceptRepositoryInterface::class, CategoryConceptRepository::class);
+
+        $this->app->bind(ContactRepositoryInterface::class, ContactRepository::class);
 
 
         /** End Repository */
