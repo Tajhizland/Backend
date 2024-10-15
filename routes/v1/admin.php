@@ -21,7 +21,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setOption"]);
         Route::post("color/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setColor"]);
         Route::post("image/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
-        Route::post("image/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "removeImage"]);
+        Route::delete("image/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "removeImage"]);
     });
     Route::group(["prefix" => "category"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CategoryController::class, "dataTable"]);
