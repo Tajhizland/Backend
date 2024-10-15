@@ -130,6 +130,8 @@ use App\Services\HomePage\HomePageService;
 use App\Services\HomePage\HomePageServiceInterface;
 use App\Services\HomepageCategory\HomepageCategoryService;
 use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
+use App\Services\ImageResize\ImageResizeService;
+use App\Services\ImageResize\ImageResizeServiceInterface;
 use App\Services\Menu\MenuService;
 use App\Services\Menu\MenuServiceInterface;
 use App\Services\New\NewService;
@@ -357,6 +359,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ConceptServiceInterface::class, ConceptService::class);
 
         $this->app->bind(CheckoutServiceInterface::class, CheckoutService::class);
+
+        $this->app->bind(ImageResizeServiceInterface::class, ImageResizeService::class);
 
 
         /** End Service */
