@@ -16,6 +16,6 @@ class ContactController extends Controller
     public function store(StoreContactRequest $request)
     {
         $this->contactService->store($request->get("name") , $request->get("email") , $request->get("message"));
-        return $this->successResponse(Lang::get("action.send",["attr"=>Lang::get("attr.message")]));
+        return $this->successResponse(Lang::get("action.submit",["attr"=>Lang::get("attr.message")]));
     }
 }
