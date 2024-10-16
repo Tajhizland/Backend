@@ -150,7 +150,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     Route::group(["prefix" => "contact"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ContactController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\ContactController::class, "find"]);
-        Route::delete("remove/{id}", [\App\Http\Controllers\V1\Admin\ContactController::class, "remove"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\ContactController::class, "remove"]);
     });
     Route::group(["prefix" => "page"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PageController::class, "dataTable"]);
