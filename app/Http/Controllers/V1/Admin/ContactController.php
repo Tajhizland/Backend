@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Concept\ConceptResource;
 use App\Http\Resources\V1\Contact\ContactCollection;
+use App\Http\Resources\V1\Contact\ContactResource;
 use App\Services\Contact\ContactServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
@@ -21,7 +21,7 @@ class ContactController extends Controller
 
     public function find($id)
     {
-        return $this->dataResponse(new ConceptResource($this->contactService->find($id)));
+        return $this->dataResponse(new ContactResource($this->contactService->find($id)));
     }
 
     public function remove($id)

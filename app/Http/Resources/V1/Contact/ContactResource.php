@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\Contact;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\Contact */
 class ContactResource extends JsonResource
@@ -15,8 +16,9 @@ class ContactResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'message' => $this->message,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
+
         ];
     }
 }
