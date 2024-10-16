@@ -32,6 +32,7 @@ class PageRepository extends BaseRepository implements PageRepositoryInterface
       return  $this->model::create([
             "title"=>$title,
             "url"=>$url,
+            "content"=>$content,
             "image"=>$image,
             "status"=>$status,
         ]);
