@@ -10,6 +10,11 @@ class CartItemResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $hasStock=true;
+        if($this->count > $this->productColor->stock->stock)
+        {
+            $hasStock=false;
+        }
         return [
             'id' => $this->id,
             'product' => [
@@ -26,6 +31,7 @@ class CartItemResource extends JsonResource
                 "discountedPrice" =>$this->productColor?->price?->price - ($this->productColor?->price?->price * ($this->productColor?->price?->discount / 100))
             ],
             'count' => $this->count,
+            'hasStock' => $hasStock,
         ];
     }
 }
