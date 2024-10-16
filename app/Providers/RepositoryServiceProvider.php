@@ -26,6 +26,8 @@ use App\Repositories\Contact\ContactRepository;
 use App\Repositories\Contact\ContactRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepository;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
+use App\Repositories\Faq\FaqRepository;
+use App\Repositories\Faq\FaqRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
 use App\Repositories\Favorite\FavoriteRepositoryInterface;
 use App\Repositories\FileManager\FileManagerRepository;
@@ -58,6 +60,8 @@ use App\Repositories\OrderInfo\OrderInfoRepository;
 use App\Repositories\OrderInfo\OrderInfoRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepository;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
+use App\Repositories\Page\PageRepository;
+use App\Repositories\Page\PageRepositoryInterface;
 use App\Repositories\PopularCategory\PopularCategoryRepository;
 use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepository;
@@ -120,6 +124,8 @@ use App\Services\Contact\ContactService;
 use App\Services\Contact\ContactServiceInterface;
 use App\Services\Delivery\DeliveryService;
 use App\Services\Delivery\DeliveryServiceInterface;
+use App\Services\Faq\FaqService;
+use App\Services\Faq\FaqServiceInterface;
 use App\Services\Favorite\FavoriteService;
 use App\Services\Favorite\FavoriteServiceInterface;
 use App\Services\FileManager\FileManagerService;
@@ -146,6 +152,8 @@ use App\Services\Option\OptionService;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Order\OrderService;
 use App\Services\Order\OrderServiceInterface;
+use App\Services\Page\PageService;
+use App\Services\Page\PageServiceInterface;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServices;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use App\Services\Payment\PaymentService;
@@ -276,6 +284,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ContactRepositoryInterface::class, ContactRepository::class);
 
+        $this->app->bind(FaqRepositoryInterface::class, FaqRepository::class);
+
+        $this->app->bind(PageRepositoryInterface::class, PageRepository::class);
+
 
         /** End Repository */
 
@@ -367,6 +379,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ImageResizeServiceInterface::class, ImageResizeService::class);
 
         $this->app->bind(ContactServiceInterface::class, ContactService::class);
+
+        $this->app->bind(FaqServiceInterface::class, FaqService::class);
+
+        $this->app->bind(PageServiceInterface::class, PageService::class);
 
 
         /** End Service */

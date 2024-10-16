@@ -152,4 +152,16 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\ContactController::class, "find"]);
         Route::delete("remove/{id}", [\App\Http\Controllers\V1\Admin\ContactController::class, "remove"]);
     });
+    Route::group(["prefix" => "page"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PageController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PageController::class, "findById"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\PageController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\PageController::class, "update"]);
+    });
+    Route::group(["prefix" => "faq"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\FaqController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\FaqController::class, "findById"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\FaqController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\FaqController::class, "update"]);
+    });
 });

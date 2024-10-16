@@ -16,19 +16,19 @@ Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::cl
 Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
 Route::post('contact', [\App\Http\Controllers\V1\Shop\ContactController::class, "store"]);
 Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
-Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {
-    $images = \App\Models\ProductImage2::where("set", 0)->get();
-    foreach ($images as $item) {
-        $response = Http::get("https://tajhizland.com/upload/$item->url");
-        if ($response->successful()) {
-            $imageContent = $response->body();
-            $productImage->upload2($item->product_id,$imageContent);
-            \App\Models\ProductImage2::where("id",$item->id)->update(["set"=>1]);
-        } else {
-            dd($item);
-        }
-    }
-})->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);
+//Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {
+//    $images = \App\Models\ProductImage2::where("set", 0)->get();
+//    foreach ($images as $item) {
+//        $response = Http::get("https://tajhizland.com/upload/$item->url");
+//        if ($response->successful()) {
+//            $imageContent = $response->body();
+//            $productImage->upload2($item->product_id, $imageContent);
+//            \App\Models\ProductImage2::where("id", $item->id)->update(["set" => 1]);
+//        } else {
+//            dd($item);
+//        }
+//    }
+//})->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
     Route::post('remove-item', [CartController::class, "removeItem"]);
@@ -62,6 +62,14 @@ Route::group(["prefix" => "brand"], function () {
 Route::group(["prefix" => "news"], function () {
     Route::post('find', [NewsController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('paginated', [NewsController::class, "paginate"]);
+});
+
+Route::group(["prefix" => "page"], function () {
+    Route::post('find', [\App\Http\Controllers\V1\Shop\PageController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+});
+
+Route::group(["prefix" => "faq"], function () {
+    Route::post('get', [\App\Http\Controllers\V1\Shop\FaqController::class, "getActive"]);
 });
 
 Route::group(["prefix" => "address", "middleware" => "auth:sanctum"], function () {
