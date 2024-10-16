@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\Page;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\Page */
 class PageResource extends JsonResource
@@ -17,8 +18,9 @@ class PageResource extends JsonResource
             'image' => $this->image,
             'content' => $this->content,
             'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
+
         ];
     }
 }
