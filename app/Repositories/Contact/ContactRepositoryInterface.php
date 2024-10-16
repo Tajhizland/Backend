@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Contact;
 
-use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Repositories\Base\BaseRepositoryInterface;
 
-interface ContactRepositoryInterface extends  BrandRepositoryInterface
+interface ContactRepositoryInterface extends  BaseRepositoryInterface
 {
     public function dataTable();
     public function store($name , $email , $message);
