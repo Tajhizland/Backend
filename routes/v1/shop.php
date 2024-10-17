@@ -91,3 +91,6 @@ Route::group(["prefix" => "on-hold-order", "middleware" => "auth:sanctum"], func
     Route::post('payment/{id}', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "payment"]);
 });
 
+Route::group(["prefix" => "comment"], function () {
+    Route::post('submit', [\App\Http\Controllers\V1\Shop\CommentController::class, "store"])->middleware("auth:sanctum");
+ });
