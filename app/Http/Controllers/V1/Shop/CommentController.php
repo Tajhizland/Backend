@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Shop\Comment\StoreCommentRequest;
 use App\Services\Comment\CommentServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Auth;
+
 
 class CommentController extends Controller
 {
