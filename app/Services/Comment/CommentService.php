@@ -12,9 +12,9 @@ class CommentService implements CommentServiceInterface
     {
     }
 
-    public function createComment($productId, $text, $rating)
+    public function createComment($productId, $text, $rating ,$userId)
     {
-        return $this->commentRepository->createComment($productId, $text, $rating);
+        return $this->commentRepository->createComment($productId, $text, $rating , $userId);
     }
 
     public function dataTable()

@@ -19,12 +19,13 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
         parent::__construct($model);
     }
 
-    public function createComment($productId, $text, $rating)
+    public function createComment($productId, $text, $rating ,$userId)
     {
         return $this->model::create([
             "product_id" => $productId,
             "text" => $text,
             "status" => CommentStatus::Pending->value,
+            "user_id"=>$userId,
             "rating" => $rating
         ]);
 
