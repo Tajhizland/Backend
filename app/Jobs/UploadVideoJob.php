@@ -32,6 +32,7 @@ class UploadVideoJob implements ShouldQueue
         } catch (\Throwable $throwable) {
             $title="خطا در آپلود ویدیو";
             $message="ویدیوی محصول $this->productId به دلیل بروز خطا آپلود نشد ! ";
+            $message.=$throwable->getMessage();
             $link="/admin/product/video/$this->productId";
             $type="error";
             $notificationRepository->createNotification($title, $message, $link, $type);
