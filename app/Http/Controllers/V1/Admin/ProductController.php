@@ -17,6 +17,7 @@ use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
+use App\Jobs\UploadVideoJob;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Product\ProductServiceInterface;
@@ -109,7 +110,7 @@ class ProductController extends Controller
     }
     public function setVideo(SetVideoRequest $request)
     {
-        $this->productService->setVideo($request->get("productId"),$request->get("file"),$request->get("type"));
+        UploadVideoJob::dispatch($request->get("productId"),$request->get("file"),$request->get("type"));
         return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
 }
