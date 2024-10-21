@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Shop\Comment\StoreCommentRequest;
 use App\Services\Comment\CommentServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Auth;
+
 
 class CommentController extends Controller
 {
@@ -19,7 +21,7 @@ class CommentController extends Controller
 
     public function store(StoreCommentRequest $request)
     {
-        $this->commentService->createComment($request->get("productId"),$request->get("text"),$request->get("rating"));
+        $this->commentService->createComment($request->get("productId"),$request->get("text"),$request->get("rating"),Auth::user()->id);
         event(new CommentSubmitEvent());
         return $this->successResponse(Lang::get("action.send",["attr"=>Lang::get("attr.comment")]));
     }
