@@ -110,7 +110,9 @@ class ProductController extends Controller
     }
     public function setVideo(SetVideoRequest $request)
     {
-        UploadVideoJob::dispatch($request->get("productId"),$request->file("file"),$request->get("type"));
+        $fileContents = file_get_contents($request->file('file')->getRealPath());
+         $fileData = base64_encode($fileContents);
+        UploadVideoJob::dispatch($request->get("productId"),$fileData,$request->get("type"));
         return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
 }

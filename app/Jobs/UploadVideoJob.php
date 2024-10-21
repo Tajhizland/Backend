@@ -22,7 +22,8 @@ class UploadVideoJob implements ShouldQueue
     public function handle(ProductServiceInterface $productService , NotificationRepositoryInterface $notificationRepository): void
     {
         try {
-            $productService->setVideo($this->productId, $this->file, $this->type);
+            $file = base64_decode($this->file);
+            $productService->setVideo($this->productId, $file, $this->type);
             $title=" آپلود ویدیو";
             $message="ویدیوی محصول $this->productId با موفقیت آپلود شد  ";
             $link="/admin/product/video/$this->productId";
