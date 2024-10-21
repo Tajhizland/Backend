@@ -21,9 +21,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setOption"]);
         Route::post("color/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setColor"]);
         Route::post("image/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
-        Route::post("unboxing_video/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
-        Route::post("intro_video/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
-        Route::post("usage_video/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
+        Route::post("video/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setVideo"]);
         Route::delete("image/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "removeImage"]);
     });
     Route::group(["prefix" => "category"], function () {
