@@ -12,4 +12,5 @@ interface ProductServiceInterface
     public function getRelatedProducts($id):mixed;
     public function storeProduct($name , $url , $description , $study ,$status, $categoryId , $brandId , $metaTitle , $metaDescription ):mixed;
     public function updateProduct($id,$name , $url , $description , $study , $status,$categoryId , $brandId , $metaTitle , $metaDescription):mixed;
+    public function setVideo($productId,$file,$type):mixed;
 }

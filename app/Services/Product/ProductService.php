@@ -8,6 +8,7 @@ use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use App\Repositories\Stock\StockRepositoryInterface;
+use App\Services\S3\S3ServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductService implements ProductServiceInterface
@@ -18,6 +19,7 @@ class ProductService implements ProductServiceInterface
         private StockRepositoryInterface           $stockRepository,
         private PriceRepositoryInterface           $priceRepository,
         private ProductCategoryRepositoryInterface $productCategoryRepository,
+        private S3ServiceInterface                 $s3Service,
     )
     {
     }
@@ -72,5 +74,31 @@ class ProductService implements ProductServiceInterface
         if (!$productCategory)
             throw  new BreakException(\Lang::get("exceptions.product_not_find"));
         return $this->productRepository->getByCategoryId($productCategory->category_id);
+    }
+
+    public function setVideo($productId, $file, $type): mixed
+    {
+        $product = $this->productRepository->findOrFail($productId);
+        switch ($type) {
+            case "intro":
+                $videoPath = $product->intro_video;
+                $this->s3Service->remove("product/video/intro/$videoPath");
+                $videoPath = $this->s3Service->upload($file, "product/video/intro");
+                $this->productRepository->update($product, ["intro_video" => $videoPath]);
+                return true;
+            case "unboxing":
+                $videoPath = $product->intro_video;
+                $this->s3Service->remove("product/video/unboxing/$videoPath");
+                $videoPath = $this->s3Service->upload($file, "product/video/unboxing");
+                $this->productRepository->update($product, ["unboxing_video" => $videoPath]);
+                return true;
+            case "usage":
+                $videoPath = $product->intro_video;
+                $this->s3Service->remove("product/video/usage/$videoPath");
+                $videoPath = $this->s3Service->upload($file, "product/video/usage");
+                $this->productRepository->update($product, ["usage_video" => $videoPath]);
+                return true;
+        }
+        throw new BreakException(\Lang::get("exceptions.type_not_find"));
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
 use App\Http\Requests\V1\Admin\Product\ProductImageRequest;
 use App\Http\Requests\V1\Admin\Product\ProductOptionRequest;
+use App\Http\Requests\V1\Admin\Product\SetVideoRequest;
 use App\Http\Requests\V1\Admin\Product\StoreProductRequest;
 use App\Http\Requests\V1\Admin\Product\UpdateProductRequest;
 use App\Http\Resources\V1\Filemanager\FilemanagerCollection;
@@ -105,5 +106,10 @@ class ProductController extends Controller
     {
         $this->productImageService->remove($id);
         return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.file")]));
+    }
+    public function setVideo(SetVideoRequest $request)
+    {
+        $this->productService->setVideo($request->get("productId"),$request->get("file"),$request->get("type"));
+        return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
 }
