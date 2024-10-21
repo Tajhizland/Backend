@@ -10,7 +10,7 @@ class SetVideoRequest extends FormRequest
     {
         return [
             "type"=>"required|string|in:unboxing,intro,usage",
-            "productId"=>"required|numeric|exists:App\Models\Product:id",
+            "productId"=>"required|numeric",
             "file"=>"required|file",
         ];
     }
