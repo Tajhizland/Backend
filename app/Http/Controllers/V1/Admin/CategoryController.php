@@ -12,6 +12,7 @@ use App\Http\Resources\V1\Category\CategoryResource;
 use App\Http\Resources\V1\CategoryList\CategoryListCollection;
 use App\Http\Resources\V1\Filter\FilterCollection;
 use App\Http\Resources\V1\Option\OptionCollection;
+use App\Http\Resources\V1\Product\ProductCollection;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
@@ -31,6 +32,11 @@ class CategoryController extends Controller
     public function list()
     {
         return $this->dataResponseCollection(new CategoryListCollection($this->categoryService->list()));
+    }
+
+    public function productList($id)
+    {
+        return $this->dataResponseCollection(new ProductCollection($this->categoryService->productList($id)));
     }
 
     public function dataTable()

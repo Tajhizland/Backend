@@ -185,4 +185,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
    {
        return $this->model::where("name", "like", "%$query%")->latest("id")->paginate($this->pageSize);
    }
+
+    public function getAllByCategoryId($id)
+    {
+        return $this->model::whereHas("productCategories", function ($query) use ($id) {
+        $query->where("category_id",$id);
+    })->orderBy("sort")->get();
+    }
 }

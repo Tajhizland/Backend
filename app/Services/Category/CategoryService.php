@@ -70,4 +70,9 @@ class CategoryService implements CategoryServiceInterface
         }
         return $this->categoryRepository->updateCategory($category, $name, $status, $url, $imagePath, $description, $parentId);
     }
+
+    public function productList($id)
+    {
+        $this->productRepository->getAllByCategoryId($id);
+    }
 }
