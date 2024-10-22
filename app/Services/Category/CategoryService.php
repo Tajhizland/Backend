@@ -73,6 +73,6 @@ class CategoryService implements CategoryServiceInterface
 
     public function productList($id)
     {
-        $this->productRepository->getAllByCategoryId($id);
+      return  $this->productRepository->getAllByCategoryId($id);
     }
 }
