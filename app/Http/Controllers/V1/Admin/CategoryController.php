@@ -42,7 +42,7 @@ class CategoryController extends Controller
     public function productSort(ProductSortRequest $request)
     {
         $this->categoryService->productSort($request->get("product"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.category")]));
     }
 
     public function dataTable()
