@@ -75,4 +75,11 @@ class CategoryService implements CategoryServiceInterface
     {
       return  $this->productRepository->getAllByCategoryId($id);
     }
+    public function productSort($array)
+    {
+        foreach ($array as $item) {
+            $this->productRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
 }

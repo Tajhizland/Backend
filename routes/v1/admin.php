@@ -35,6 +35,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getOption"]);
         Route::post("filter/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFilter"]);
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setOption"]);
+        Route::post("sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "productSort"]);
     });
     Route::group(["prefix" => "brand"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BrandController::class, "dataTable"]);

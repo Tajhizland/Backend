@@ -11,6 +11,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function findById($id);
     public function getByCategoryId($id);
     public function getAllByCategoryId($id);
+    public function sort($id , $sort);
 
     public function dataTable();
     public function searchProductWithCategory($query , $categoryId);

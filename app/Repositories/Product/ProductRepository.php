@@ -192,4 +192,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $query->where("category_id",$id);
     })->orderBy("sort")->get();
     }
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
+    }
 }

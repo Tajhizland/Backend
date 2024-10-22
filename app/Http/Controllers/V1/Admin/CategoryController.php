@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Category\ProductSortRequest;
 use App\Http\Requests\V1\Admin\Category\StoreCategoryRequest;
 use App\Http\Requests\V1\Admin\Category\UpdateCategoryRequest;
 use App\Http\Requests\V1\Admin\Filter\SetFilterRequest;
@@ -37,6 +38,11 @@ class CategoryController extends Controller
     public function productList($id)
     {
         return $this->dataResponseCollection(new ProductCollection($this->categoryService->productList($id)));
+    }
+    public function productSort(ProductSortRequest $request)
+    {
+        $this->categoryService->productSort($request->get("product"));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
     }
 
     public function dataTable()
