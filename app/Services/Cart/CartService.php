@@ -3,7 +3,6 @@
 namespace App\Services\Cart;
 
 use App\Exceptions\BreakException;
-use App\Models\Cart;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
@@ -101,14 +100,16 @@ class CartService implements CartServiceInterface
         }
         return $this->cartItemRepository->clearItems($cart->id);
     }
-    public function setDeliveryMethod( $userId, $delivery_method)
+
+    public function setDeliveryMethod($userId, $delivery_method)
     {
-        $cart=$this->cartRepository->getCartByUserId($userId);
-        $this->cartRepository->setDeliveryMethod($cart,$delivery_method);
+        $cart = $this->cartRepository->getCartByUserId($userId);
+        return $this->cartRepository->setDeliveryMethod($cart, $delivery_method);
     }
-    public function setPaymentMethod( $userId, $payment_method)
+
+    public function setPaymentMethod($userId, $payment_method)
     {
-        $cart=$this->cartRepository->getCartByUserId($userId);
-        $this->cartRepository->setPaymentMethod($cart,$payment_method);
+        $cart = $this->cartRepository->getCartByUserId($userId);
+        return $this->cartRepository->setPaymentMethod($cart, $payment_method);
     }
 }
