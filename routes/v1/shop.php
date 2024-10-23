@@ -79,7 +79,7 @@ Route::group(["prefix" => "address", "middleware" => "auth:sanctum"], function (
 
 Route::group(["prefix" => "delivery"], function () {
     Route::get('get', [\App\Http\Controllers\V1\Shop\DeliveryController::class, "getActives"]);
-    Route::post('select', [\App\Http\Controllers\V1\Shop\DeliveryController::class, "select"]);
+    Route::post('select', [\App\Http\Controllers\V1\Shop\DeliveryController::class, "select"])->middleware("auth:sanctum");
 });
 
 Route::group(["prefix" => "payment"], function () {
