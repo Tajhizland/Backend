@@ -59,7 +59,7 @@ class Product extends Model
 
     public function activeProductColors(): HasMany
     {
-        return $this->hasMany(ProductColor::class)->where("status", 1);
+        return $this->hasMany(ProductColor::class)->whereIn("status", [ProductColorStatus::Active->value , ProductColorStatus::Limit->value]);
     }
 
     public function prices(): HasManyThrough
