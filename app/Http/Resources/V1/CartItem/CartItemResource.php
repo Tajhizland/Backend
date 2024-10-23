@@ -28,6 +28,7 @@ class CartItemResource extends JsonResource
                 "title" => $this->productColor->color_name,
                 "code" => $this->productColor->color_code,
                 "status" => $this->productColor->status,
+                "delivery_delay" => $this->productColor->delivery_delay,
                 "price" => $this->productColor->price?->price,
                 "discount" => $this->productColor->price?->discount,
                 "discountedPrice" =>$this->productColor?->price?->price - ($this->productColor?->price?->price * ($this->productColor?->price?->discount / 100))

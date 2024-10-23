@@ -29,13 +29,19 @@ class CartItemService implements CartItemServiceInterface
     {
         $itemsPrice = 0;
         $totalItemPrice = 0;
+        $maxDeliveryDelay = 0;
         foreach ($cartItems as $cartItem) {
             $price = $this->priceRepository->findByProductColorId($cartItem->product_color_id);
             $itemsPrice += $price->price * $cartItem->count;
             $totalItemPrice += ($price->price - ($price->price * ($price->discount / 100))) * $cartItem->count;
+            if($cartItem->productColor->delivery_delay > $maxDeliveryDelay)
+            {
+                $maxDeliveryDelay=$cartItem->productColor->delivery_delay;
+            }
         }
         return [
             "itemsPrice" => $itemsPrice,
+            "maxDeliveryDelay" => $maxDeliveryDelay,
             "totalItemPrice" => $totalItemPrice,
         ];
     }
