@@ -18,9 +18,10 @@ class CartRepository extends BaseRepository implements CartRepositoryInterface
         return $this->model->where('user_id', $userId)->active()->first();
     }
 
-    public function createCart($userId)
+    public function createCart($userId , $payment=null)
     {
-        return $this->model->create(['user_id' => $userId, "status" => CartStatus::Active->value]);
+        $payment = $payment ?? config("settings.default_gateway");
+        return $this->model->create(['user_id' => $userId, "status" => CartStatus::Active->value , "payment_method"=>$payment]);
     }
 
     public function changeStatus(Cart $cart, $status)

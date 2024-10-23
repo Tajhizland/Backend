@@ -82,7 +82,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model::active()->hasColor()
             ->whereHas("productCategories", function ($query) use ($categoryId) {
                 $query->where("category_id", $categoryId);
-            });
+            })->orderBy("sort");
     }
   public function activeProductByBrandQuery($brandId)
     {
