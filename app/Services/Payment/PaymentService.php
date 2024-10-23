@@ -62,22 +62,28 @@ class PaymentService implements PaymentServicesInterface
         $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
         $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code);
         $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now(), "");
-        $this->cartRepository->update($cart,["order_id"=>$order->id]);
+        $this->cartRepository->update($cart, ["order_id" => $order->id]);
         $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
         if ($limit) {
             $this->onHoldOrderRepository->createOnHoldOrder($order->id);
-            return true;
+            return [
+                "path" => "/thank_you_page",
+                "type" => "limit"
+            ];
         }
-        return $this->gatewayService->request($finalPrice, $order->id);
+        return [
+            "path" => $this->gatewayService->request($finalPrice, $order->id),
+            "type" => "payment"
+        ];
     }
 
     public function onHoldOrderRequest($id, $userId)
     {
         $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
-        if(Carbon::parse($onHoldOrder->expire_date) < Carbon::now()){
+        if (Carbon::parse($onHoldOrder->expire_date) < Carbon::now()) {
             throw new BreakException(\Lang::get("exceptions.expired_order"));
         }
-        if($onHoldOrder->status!=OnHoldOrderStatus::Accept->value){
+        if ($onHoldOrder->status != OnHoldOrderStatus::Accept->value) {
             throw new BreakException(\Lang::get("exceptions.reject_order"));
         }
         $orderId = $onHoldOrder->order_id;

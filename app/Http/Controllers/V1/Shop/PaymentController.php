@@ -20,11 +20,7 @@ class PaymentController extends Controller
     public function requestPayment()
     {
         $paymentPath = $this->paymentServices->request(Auth::user()->id);
-        return $this->dataResponse(
-            [
-                "path" => $paymentPath
-            ]
-        );
+        return $this->dataResponse($paymentPath);
     }
 
     public function verifyPayment(Request $request)
