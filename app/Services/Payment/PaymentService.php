@@ -6,6 +6,7 @@ use App\Enums\CartStatus;
 use App\Enums\OnHoldOrderStatus;
 use App\Enums\OrderStatus;
 use App\Events\OrderPaidEvent;
+use App\Events\OrderRequestEvent;
 use App\Exceptions\BreakException;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Repositories\Cart\CartRepositoryInterface;
@@ -66,7 +67,8 @@ class PaymentService implements PaymentServicesInterface
         $this->cartRepository->update($cart, ["order_id" => $order->id]);
         $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
         if ($limit) {
-            $this->onHoldOrderRepository->createOnHoldOrder($order->id);
+            $onHoldOrder=$this->onHoldOrderRepository->createOnHoldOrder($order->id);
+            event(new OrderRequestEvent($onHoldOrder));
             return [
                 "path" => "/thank_you_page",
                 "type" => "limit"

@@ -17,7 +17,7 @@ class SendOrderConfirmationNotification
     public function handle(OrderPaidEvent $event): void
     {
         $title = config("notification.order.title");
-        $link = config("notification.order.link");
+        $link = config("notification.order.link").$event->order->id;
         $message = config("notification.order.message");
         $type = config("notification.order.type");
         $this->notificationRepository->createNotification($title, $message, $link, $type);
