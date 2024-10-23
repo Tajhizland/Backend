@@ -24,10 +24,10 @@ class DeliveryCheckHandler implements CheckoutHandlerInterface
     public function handle(Cart $cart,   $cartItem)
     {
         if (!$cart->delivery_method)
-            throw  new  BreakException();
+            throw  new  BreakException(\Lang::get("exceptions.delivery_not_find"));
         $deliveryMethod = $this->deliveryRepository->findOrFail($cart->delivery_method);
         if ($deliveryMethod->status == DeliveryStatus::DeActive->value)
-            throw  new  BreakException();
+            throw  new  BreakException(\Lang::get("exceptions.delivery_not_find"));
         if ($this->nextHandler) {
             return $this->nextHandler->handle($cart, $cartItem);
         }
