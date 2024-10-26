@@ -15,6 +15,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "morilog/jalali": "^3.4",
         "php-ffmpeg/php-ffmpeg": "^1.2",
+        "spatie/laravel-backup": "^9.1",
         "spatie/laravel-query-builder": "^6.0"
     },
     "require-dev": {
