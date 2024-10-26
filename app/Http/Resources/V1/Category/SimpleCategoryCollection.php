@@ -3,11 +3,11 @@
 namespace App\Http\Resources\V1\Category;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /** @mixin \App\Models\Category */
-class SimpleCategoryCollection extends JsonResource
+class SimpleCategoryCollection extends ResourceCollection
 {
     public function toArray(Request $request): array
     {
