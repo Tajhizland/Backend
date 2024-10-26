@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1\Concept;
 
 use App\Http\Resources\V1\Category\CategoryCollection;
+use App\Http\Resources\V1\Category\SimpleCategoryCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +17,7 @@ class ConceptResource extends JsonResource
             'updated_at' => $this->updated_at,
             'id' => $this->id,
             'title' => $this->title,
-            'categories' => new CategoryCollection($this->whenLoaded('categories')),
+            'categories' => new SimpleCategoryCollection($this->whenLoaded('categories')),
             'description' => $this->description,
             'status' => $this->status,
             'image' => $this->image,
