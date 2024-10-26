@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1\PopularCategory;
 
 use App\Http\Resources\V1\Category\CategoryResource;
+use App\Http\Resources\V1\Category\SimpleCategoryResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +19,7 @@ class PopularCategoryResource extends JsonResource
 
             'category_id' => $this->category_id,
 
-            'category' => new CategoryResource($this->whenLoaded('category')),
+            'category' => new SimpleCategoryResource($this->whenLoaded('category')),
         ];
     }
 }
