@@ -2,12 +2,15 @@
 
 namespace App\Repositories\Order;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Repositories\Base\BaseRepository;
 use App\Services\Sort\Transaction\SortTransactionByUserMobile;
 use App\Services\Sort\Transaction\SortTransactionByUserName;
 use App\Services\Sort\TransactionByUserMobileSort;
 use App\Services\Sort\TransactionByUserSort;
+use Carbon\Carbon;
+use Morilog\Jalali\Jalalian;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -86,5 +89,41 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return $this->model::with(["delivery", "payment", "orderInfo", "orderInfo.city", "orderInfo.province", "orderItems.product", "orderItems.productColor"])
             ->where("id", $id)
             ->first();
+    }
+    public function totalPriceChartData()
+    {
+        $thirtyDaysAgo = Carbon::now()->subDays(30);
+
+        return Order::where('order_date', '>=', $thirtyDaysAgo)
+            ->where("status",">=",OrderStatus::Paid->value)
+            ->get()
+            ->groupBy(function ($order) {
+                return Jalalian::fromDateTime($order->order_date)->format('Y/m/d');
+            })
+            ->map(function ($orders, $date) {
+                return [
+                    'date' => $date,
+                    'value' => $orders->sum("final_price"),
+                ];
+            })
+            ->values();
+
+    }
+    public function totalCountChartData()
+    {   $thirtyDaysAgo = Carbon::now()->subDays(30);
+
+        return Order::where('order_date', '>=', $thirtyDaysAgo)
+            ->where("status",">=",OrderStatus::Paid->value)
+            ->get()
+            ->groupBy(function ($order) {
+                return Jalalian::fromDateTime($order->order_date)->format('Y/m/d');
+            })
+            ->map(function ($orders, $date) {
+                return [
+                    'date' => $date,
+                    'value' => $orders->count(),
+                ];
+            })
+            ->values();
     }
 }

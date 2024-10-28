@@ -122,6 +122,8 @@ use App\Services\Concept\ConceptService;
 use App\Services\Concept\ConceptServiceInterface;
 use App\Services\Contact\ContactService;
 use App\Services\Contact\ContactServiceInterface;
+use App\Services\Dashboard\DashboardService;
+use App\Services\Dashboard\DashboardServiceInterface;
 use App\Services\Delivery\DeliveryService;
 use App\Services\Delivery\DeliveryServiceInterface;
 use App\Services\Faq\FaqService;
@@ -383,6 +385,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(FaqServiceInterface::class, FaqService::class);
 
         $this->app->bind(PageServiceInterface::class, PageService::class);
+
+        $this->app->bind(DashboardServiceInterface::class, DashboardService::class);
 
 
         /** End Service */

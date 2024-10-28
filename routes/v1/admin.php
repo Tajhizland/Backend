@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(["middleware" => "auth:sanctum"], function () {
 
+    Route::get('/dashboard', [\App\Http\Controllers\V1\Admin\DashboardController::class, "index"]);
+
     Route::group(["prefix" => "notification"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NotificationController::class, "dataTable"]);
         Route::get("unseen", [\App\Http\Controllers\V1\Admin\NotificationController::class, "unSeen"]);
