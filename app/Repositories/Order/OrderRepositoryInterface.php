@@ -17,4 +17,5 @@ interface OrderRepositoryInterface extends  BaseRepositoryInterface
 
     public function totalPriceChartData();
     public function totalCountChartData();
+    public function todayOrderCount();
 }

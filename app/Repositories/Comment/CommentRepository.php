@@ -8,6 +8,7 @@ use App\Repositories\Base\BaseRepository;
 use App\Services\Sort\Comment\SortCommentByProductName;
 use App\Services\Sort\Comment\SortCommentByUserMobile;
 use App\Services\Sort\Comment\SortCommentByUserName;
+use Carbon\Carbon;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -73,5 +74,10 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
     public function findWithProduct($id)
     {
         return $this->model::with("product")->where("id",$id)->first();
+    }
+
+    public function todayCommentCount()
+    {
+        return $this->model::whereDate('created_at', Carbon::today())->count();
     }
 }

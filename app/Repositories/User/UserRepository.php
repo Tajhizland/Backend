@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
+use Carbon\Carbon;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
@@ -52,5 +53,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             "gender" => $gender,
             "email" => $email,
         ]);
+    }
+
+    public function todayUserCount()
+    {
+        return $this->model::whereDate('created_at', Carbon::today())->count();
+
     }
 }

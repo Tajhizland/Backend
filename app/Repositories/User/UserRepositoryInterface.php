@@ -13,6 +13,7 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
     public function findByUsername($username);
 
     public function dataTable();
+    public function todayUserCount();
 
     public function updateUser($id, $name, $username, $email, $gender, $role);
 

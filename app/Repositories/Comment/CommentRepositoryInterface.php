@@ -12,4 +12,5 @@ interface CommentRepositoryInterface extends BaseRepositoryInterface
     public function findWithProduct($id);
     public function accept(Comment $comment);
     public function reject(Comment $comment);
+    public function todayCommentCount();
 }

@@ -60,4 +60,9 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
             ]
         );
     }
+
+    public function todayOnHoldOrderCount()
+    {
+        return $this->model::whereDate('created_at', Carbon::today())->count();
+    }
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/homepage', [HomePageController::class, "index"]);
 Route::get('/menu', [\App\Http\Controllers\V1\Shop\MenuController::class, "get"]);
+Route::get('/d', [\App\Http\Controllers\V1\Admin\DashboardController::class, "index"]);
 Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "getCities"]);
 Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
 Route::post('contact', [\App\Http\Controllers\V1\Shop\ContactController::class, "store"]);

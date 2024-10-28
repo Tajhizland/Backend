@@ -94,8 +94,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     {
         $thirtyDaysAgo = Carbon::now()->subDays(30);
 
-        return Order::where('order_date', '>=', $thirtyDaysAgo)
-            ->where("status",">=",OrderStatus::Paid->value)
+        return $this->model::where('order_date', '>=', $thirtyDaysAgo)
+            ->paid()
             ->get()
             ->groupBy(function ($order) {
                 return Jalalian::fromDateTime($order->order_date)->format('Y/m/d');
@@ -112,8 +112,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function totalCountChartData()
     {   $thirtyDaysAgo = Carbon::now()->subDays(30);
 
-        return Order::where('order_date', '>=', $thirtyDaysAgo)
-            ->where("status",">=",OrderStatus::Paid->value)
+        return $this->model::where('order_date', '>=', $thirtyDaysAgo)
+            ->paid()
             ->get()
             ->groupBy(function ($order) {
                 return Jalalian::fromDateTime($order->order_date)->format('Y/m/d');
@@ -125,5 +125,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 ];
             })
             ->values();
+    }
+
+    public function todayOrderCount()
+    {
+        return $this->model::whereDate('order_date', Carbon::today())->paid()->count();
     }
 }
