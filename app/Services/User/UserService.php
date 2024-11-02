@@ -24,6 +24,7 @@ class UserService implements UserServiceInterface
     {
 
         $user = $this->repository->findOrFail($id);
+        return ;
         $avatarPath = $user->avatar;
         return $this->updateProfile($id, $name, $email, $gender, $avatarPath);
 
