@@ -8,6 +8,7 @@ use App\Http\Resources\V1\User\UserResource;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 
 class MeController extends Controller
 {
@@ -34,7 +35,7 @@ class MeController extends Controller
 
     public function update(UpdateProfileRequest $request)
     {
-        $this->userService->updateProfile(\Auth::user()->id, $request->get("name"), $request->get("email"), $request->get("gender"), $request->file("avatar"));
-        return $this->successResponse(\Lang::get("action.update", ["attr" => \Lang::get("attr.profile")]));
+        $this->userService->updateProfile(Auth::user()->id, $request->get("name"), $request->get("email"), $request->get("gender"), $request->file("avatar"));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.profile")]));
     }
 }
