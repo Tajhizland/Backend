@@ -47,6 +47,9 @@ class GuarantyService implements GuarantyServiceInterface
             $this->s3Service->remove("guaranty/".$iconPath);
             $iconPath = $this->s3Service->upload($icon, "guaranty");
         }
+        else{
+            dd("NIST");
+        }
         return $this->guarantyRepository->update($guaranty,[
             "name" => $name,
             "description" => $description,
