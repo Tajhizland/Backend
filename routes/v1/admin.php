@@ -54,6 +54,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
     Route::group(["prefix" => "guaranty"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "dataTable"]);
+        Route::get("list", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "list"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "update"]);

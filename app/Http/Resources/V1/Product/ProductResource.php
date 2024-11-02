@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1\Product;
 
 use App\Http\Resources\V1\Comment\CommentCollection;
+use App\Http\Resources\V1\Guaranty\GuarantyResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
 use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
@@ -32,6 +33,7 @@ class ProductResource extends JsonResource
             'brand' => $this->brand->name ?? "",
             'category_id' => $this->categories->first()->id ?? "",
             'brand_id' => $this->brand_id,
+            'guaranty_id' => $this->guaranty_id,
             'min_price' => $this->getMinColorPrice(),
             'min_discounted_price' => $this->getMinDiscountedPrice(),
             'rating' => $this->getRatingAvg(),
@@ -41,6 +43,7 @@ class ProductResource extends JsonResource
             'intro_video' => $this->intro_video,
             'usage_video' => $this->usage_video,
             'review' => $this->review,
+            'guaranty' => new GuarantyResource($this->guaranty),
             'productOptions' => new ProductOptionCollection($this->productOptions),
             'colors' => new ProductColorCollection($this->activeProductColors),
             'comments' => new CommentCollection($this->confirmedComments),

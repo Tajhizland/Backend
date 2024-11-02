@@ -54,4 +54,9 @@ class GuarantyService implements GuarantyServiceInterface
             "status" => $status
         ]);
     }
+
+    public function getActives()
+    {
+        return $this->guarantyRepository->getActives();
+    }
 }

@@ -82,9 +82,13 @@ class Product extends Model
         return $this->hasOne(ProductCategory::class);
     }
 
-    protected function brand(): BelongsTo
+    public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
+    }
+    public function guaranty(): BelongsTo
+    {
+        return $this->belongsTo(Guaranty::class);
     }
 
     public function getMinColorPrice()

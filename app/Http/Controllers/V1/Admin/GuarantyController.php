@@ -23,6 +23,10 @@ class GuarantyController extends Controller
     {
         return $this->dataResponseCollection(new GuarantyCollection($this->guarantyService->dataTable()));
     }
+    public function list()
+    {
+        return $this->dataResponseCollection(new GuarantyCollection($this->guarantyService->getActives()));
+    }
 
     public function findById($id)
     {
