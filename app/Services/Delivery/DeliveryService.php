@@ -32,18 +32,31 @@ class DeliveryService implements DeliveryServiceInterface
         if ($logo) {
             $logoPath = $this->s3Service->upload($logo, "delivery");
         }
-       return $this->deliveryRepository->createDelivery($name,$status,$description,$price,$logoPath);
+        return $this->deliveryRepository->create([
+            "name" => $name,
+            "status" => $status,
+            "description" => $description,
+            "price" => $price,
+            "logo" => $logoPath,
+        ]);
     }
 
     public function update($id, $name, $status, $description, $price, $logo)
     {
-        $delivery=$this->deliveryRepository->findOrFail($id);
+        $delivery = $this->deliveryRepository->findOrFail($id);
         $logoPath = $delivery->logo;
         if ($logo) {
-            $this->s3Service->remove("delivery/".$logoPath);
+            $this->s3Service->remove("delivery/" . $logoPath);
             $logoPath = $this->s3Service->upload($logo, "delivery");
         }
-      return  $this->deliveryRepository->updateDelivery($delivery,$name, $status, $description, $price, $logoPath);
+        return $this->deliveryRepository->update($delivery,
+            [
+                "name" => $name,
+                "status" => $status,
+                "description" => $description,
+                "price" => $price,
+                "logo" => $logoPath,
+            ]);
     }
 
     public function getActives()

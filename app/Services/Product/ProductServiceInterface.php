@@ -10,7 +10,7 @@ interface ProductServiceInterface
     public function searchProduct($query):mixed;
     public function findById($id):mixed;
     public function getRelatedProducts($id):mixed;
-    public function storeProduct($name , $url , $description , $study ,$status, $categoryId , $brandId , $metaTitle , $metaDescription ):mixed;
-    public function updateProduct($id,$name , $url , $description , $study , $status,$categoryId , $brandId , $metaTitle , $metaDescription):mixed;
+    public function storeProduct($name , $url , $description , $study ,$status, $categoryId , $brandId , $metaTitle , $metaDescription,$guaranty_id ):mixed;
+    public function updateProduct($id,$name , $url , $description , $study , $status,$categoryId , $brandId , $metaTitle , $metaDescription ,$guaranty_id):mixed;
     public function setVideo($productId,$file,$type):mixed;
 }

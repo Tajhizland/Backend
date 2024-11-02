@@ -10,14 +10,12 @@ use App\Http\Requests\V1\Admin\Product\ProductOptionRequest;
 use App\Http\Requests\V1\Admin\Product\SetVideoRequest;
 use App\Http\Requests\V1\Admin\Product\StoreProductRequest;
 use App\Http\Requests\V1\Admin\Product\UpdateProductRequest;
-use App\Http\Resources\V1\Filemanager\FilemanagerCollection;
 use App\Http\Resources\V1\Filter\FilterCollection;
 use App\Http\Resources\V1\Option\OptionCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
-use App\Jobs\UploadVideoJob;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Product\ProductServiceInterface;
@@ -50,7 +48,7 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("category_id"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description") );
+        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("category_id"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.product")]));
     }
 
@@ -98,19 +96,22 @@ class ProductController extends Controller
         $this->productColorService->setProductColor($request->get("product_id"), $request->get("color"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.color")]));
     }
+
     public function setImage(ProductImageRequest $request)
     {
         $this->productImageService->upload($request->get("product_id"), $request->get("image"));
         return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
+
     public function removeImage($id)
     {
         $this->productImageService->remove($id);
         return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.file")]));
     }
+
     public function setVideo(SetVideoRequest $request)
     {
-        $this->productService->setVideo($request->get("productId"),$request->file("file"),$request->get("type"));
+        $this->productService->setVideo($request->get("productId"), $request->file("file"), $request->get("type"));
         return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
 }

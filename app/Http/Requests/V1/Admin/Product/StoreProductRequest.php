@@ -15,6 +15,7 @@ class StoreProductRequest extends FormRequest
             'meta_description' => ['nullable'],
             'meta_title' => ['nullable'],
             'study' => ['nullable'],
+            'guaranty_id' => ['nullable'],
             'status' => ['required','int','in:1,0'],
             'category_id' => ['required','integer','exists:App\Models\Category,id'],
             'brand_id' => ['required','integer','exists:App\Models\Brand,id'],

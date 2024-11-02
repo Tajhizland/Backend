@@ -36,6 +36,7 @@ return
         "active_address" => ' آدرس فعال',
         "returned" => 'درخواست مرجوعی',
         "gateway" => 'درگاه پرداخت',
+        "guaranty" => 'گارانتی',
         "delivery" => 'روش ارسال',
 
     ];

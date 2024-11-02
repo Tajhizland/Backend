@@ -31,7 +31,14 @@ class MenuService implements MenuServiceInterface
         if ($bannerLogo) {
             $logoPath = $this->s3Service->upload($bannerLogo, "menu");
         }
-        return $this->menuRepository->store($title, $parentId, $url, $bannerTitle, $bannerUrl, $logoPath);
+        return $this->menuRepository->create([
+            "title" => $title,
+            "parent_id" => $parentId,
+            "url" => $url,
+            "banner_title" => $bannerTitle,
+            "banner_link" => $bannerUrl,
+            "banner_logo" => $logoPath
+        ]);
     }
 
     public function update($id, $title, $parentId, $url, $bannerTitle, $bannerUrl, $bannerLogo)
@@ -42,7 +49,15 @@ class MenuService implements MenuServiceInterface
             $this->s3Service->remove("menu/" . $bannerLogo);
             $logoPath = $this->s3Service->upload($bannerLogo, "menu");
         }
-        return $this->menuRepository->updateMenu($menu, $title, $parentId, $url, $bannerTitle, $bannerUrl, $logoPath);
+        return $this->menuRepository->update($menu,
+            [
+                "title" => $title,
+                "parent_id" => $parentId,
+                "url" => $url,
+                "banner_title" => $bannerTitle,
+                "banner_link" => $bannerUrl,
+                "banner_logo" => $logoPath
+            ]);
     }
 
     public function buildMenu()

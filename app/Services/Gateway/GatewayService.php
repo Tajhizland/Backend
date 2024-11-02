@@ -33,7 +33,11 @@ class GatewayService implements GatewayServiceInterface
 
     public function store($name, $status, $description)
     {
-        return $this->gatewayRepository->createGateway($name, $status, $description);
+        return $this->gatewayRepository->create([
+            "name" => $name,
+            "status" => $status,
+            "description" => $description,
+        ]);
     }
 
     public function update($id, $name, $status, $description)
@@ -42,9 +46,13 @@ class GatewayService implements GatewayServiceInterface
         if ($status == GatewayStatus::DeActive->value) {
             $count = $this->gatewayRepository->activeCountExceptThis($id);
             if ($count == 0) {
-                throw new BreakException();
+                throw new BreakException("یه درگاه فعال باید موجود باشد");
             }
         }
-        $this->gatewayRepository->updateGateway($gateway, $name, $status, $description);
+        $this->gatewayRepository->update($gateway, [
+            "name" => $name,
+            "status" => $status,
+            "description" => $description,
+        ]);
     }
 }

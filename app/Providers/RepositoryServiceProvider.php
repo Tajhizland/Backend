@@ -38,6 +38,8 @@ use App\Repositories\FilterItem\FilterItemRepository;
 use App\Repositories\FilterItem\FilterItemRepositoryInterface;
 use App\Repositories\Gateway\GatewayRepository;
 use App\Repositories\Gateway\GatewayRepositoryInterface;
+use App\Repositories\Guaranty\GuarantyRepository;
+use App\Repositories\Guaranty\GuarantyRepositoryInterface;
 use App\Repositories\HomepageCategory\HomepageCategoryRepository;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
 use App\Repositories\Menu\MenuRepository;
@@ -136,6 +138,8 @@ use App\Services\Filter\FilterService;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Gateway\GatewayService;
 use App\Services\Gateway\GatewayServiceInterface;
+use App\Services\Guaranty\GuarantyService;
+use App\Services\Guaranty\GuarantyServiceInterface;
 use App\Services\HomePage\HomePageService;
 use App\Services\HomePage\HomePageServiceInterface;
 use App\Services\HomepageCategory\HomepageCategoryService;
@@ -290,6 +294,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(PageRepositoryInterface::class, PageRepository::class);
 
+        $this->app->bind(GuarantyRepositoryInterface::class, GuarantyRepository::class);
+
 
         /** End Repository */
 
@@ -388,6 +394,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(DashboardServiceInterface::class, DashboardService::class);
 
+        $this->app->bind(GuarantyServiceInterface::class, GuarantyService::class);
 
         /** End Service */
 

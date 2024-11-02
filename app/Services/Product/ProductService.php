@@ -3,11 +3,8 @@
 namespace App\Services\Product;
 
 use App\Exceptions\BreakException;
-use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
-use App\Repositories\ProductColor\ProductColorRepositoryInterface;
-use App\Repositories\Stock\StockRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -15,9 +12,6 @@ class ProductService implements ProductServiceInterface
 {
     public function __construct(
         private ProductRepositoryInterface         $productRepository,
-        private ProductColorRepositoryInterface    $productColorRepository,
-        private StockRepositoryInterface           $stockRepository,
-        private PriceRepositoryInterface           $priceRepository,
         private ProductCategoryRepositoryInterface $productCategoryRepository,
         private S3ServiceInterface                 $s3Service,
     )
@@ -49,16 +43,42 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id): mixed
     {
-        $product = $this->productRepository->createProduct($name, $url, $description, $study, $status, $brandId, $metaTitle, $metaDescription);
-        $this->productCategoryRepository->createProductCategory($product->id, $categoryId);
-        return true;
+        $product = $this->productRepository->create([
+            "name" => $name,
+            "url" => $url,
+            "description" => $description,
+            "study" => $study,
+            "status" => intval($status),
+            "view" => 0,
+            "brand_id" => $brandId,
+            "guaranty_id" => $guaranty_id,
+            "meta_title" => $metaTitle,
+            "meta_description" => $metaDescription,
+        ]);
+        $this->productCategoryRepository->create([
+            "product_id" => $product->id,
+            "category_id" => $categoryId
+        ]);
+        return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id): mixed
     {
-        $this->productRepository->updateProduct($id, $name, $url, $description, $study, $status, $brandId, $metaTitle, $metaDescription);
+        $product = $this->productRepository->findOrFail($id);
+        $this->productRepository->update($product,
+            [
+                "name" => $name,
+                "url" => $url,
+                "description" => $description,
+                "study" => $study,
+                "status" => intval($status),
+                "brand_id" => $brandId,
+                "meta_title" => $metaTitle,
+                "guaranty_id" => $guaranty_id,
+                "meta_description" => $metaDescription,
+            ]);
         $this->productCategoryRepository->updateWithProductId($id, $categoryId);
         return true;
     }

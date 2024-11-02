@@ -22,17 +22,25 @@ class FaqService implements FaqServiceInterface
 
     public function findById($id)
     {
-        return $this->findById($id);
+        return $this->faqRepository->findOrFail($id);
     }
 
     public function store($question, $answer, $status)
     {
-        return $this->store($question, $answer, $status);
+        return $this->faqRepository->create([
+            "question" => $question,
+            "answer" => $answer,
+            "status" => $status
+        ]);
     }
 
     public function update($id, $question, $answer, $status)
     {
         $faq = $this->faqRepository->findOrFail($id);
-        return $this->faqRepository->updateFaq($faq, $question, $answer, $status);
+        return $this->faqRepository->update($faq, [
+            "question" => $question,
+            "answer" => $answer,
+            "status" => $status
+        ]);
     }
 }

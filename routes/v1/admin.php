@@ -52,6 +52,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\NewsController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\NewsController::class, "update"]);
     });
+    Route::group(["prefix" => "guaranty"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "findById"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "update"]);
+    });
 
     Route::group(["prefix" => "option"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OptionController::class, "dataTable"]);

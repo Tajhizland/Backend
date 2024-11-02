@@ -27,7 +27,7 @@ class SliderService implements SliderServiceInterface
     public function store($title, $url, $status, $image)
     {
         $imagePath = $this->s3Service->upload($image, "slider");
-        return $this->sliderRepository->store($title, $url, $status, $imagePath);
+        return $this->sliderRepository->create(["title"=>$title , "url"=>$url , "image"=>$imagePath , "status"=>$status]);
     }
 
     public function update($id, $title, $url, $status, $image)
@@ -38,6 +38,6 @@ class SliderService implements SliderServiceInterface
             $this->s3Service->remove("slider/".$slider->image);
             $imagePath = $this->s3Service->upload($image, "slider");
         }
-        return $this->sliderRepository->updateSlider($slider, $title, $url, $status, $imagePath);
+        return $this->sliderRepository->update($slider, ["title"=>$title , "url"=>$url , "image"=>$imagePath , "status"=>$status]);
     }
 }

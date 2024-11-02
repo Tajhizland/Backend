@@ -54,7 +54,15 @@ class BrandService implements BrandServiceInterface
         if ($image) {
             $imagePath = $this->s3Service->upload($image, "brand");
         }
-        return $this->brandRepository->storeBrand($name, $url, $status, $imagePath, $description);
+        return $this->brandRepository->create(
+            [
+                "name" => $name,
+                "url" => $url,
+                "status" => $status,
+                "description" => $description,
+                "image" => $imagePath,
+            ]
+        );
     }
 
     public function updateBrand($id, $name, $url, $status, $image, $description)
@@ -65,6 +73,15 @@ class BrandService implements BrandServiceInterface
             $this->s3Service->remove("brand/" . $brand->image);
             $imagePath = $this->s3Service->upload($image, "brand");
         }
-        return $this->brandRepository->updateBrand($brand, $name, $url, $status, $imagePath, $description);
+        return $this->brandRepository
+            ->update($brand,
+                [
+                    "name" => $name,
+                    "url" => $url,
+                    "status" => $status,
+                    "description" => $description,
+                    "image" => $imagePath,
+                ]
+            );
     }
 }

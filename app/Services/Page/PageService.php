@@ -33,7 +33,15 @@ class PageService implements PageServiceInterface
         $imagePath = "";
         if ($image)
             $imagePath = $this->s3Service->upload($image, "page");
-        return $this->pageRepository->store($title, $url, $imagePath, $content, $status);
+        return $this->pageRepository->create(
+            [
+                "title"=>$title,
+                "url"=>$url,
+                "content"=>$content,
+                "image"=>$imagePath,
+                "status"=>$status,
+            ]
+        );
     }
 
     public function update($id, $title, $url, $image, $content, $status)
@@ -44,6 +52,12 @@ class PageService implements PageServiceInterface
             $this->s3Service->remove("page/$imagePath");
             $imagePath = $this->s3Service->upload($image, "page");
         }
-        return $this->pageRepository->store($title, $url, $imagePath, $content, $status);
+        return $this->pageRepository->update($page ,  [
+            "title"=>$title,
+            "url"=>$url,
+            "content"=>$content,
+            "image"=>$imagePath,
+            "status"=>$status,
+        ]);
     }
 }

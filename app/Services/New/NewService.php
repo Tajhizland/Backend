@@ -41,7 +41,13 @@ class NewService implements NewServiceInterface
         if ($image) {
             $imagePath = $this->s3Service->upload($image, "news");
         }
-        $this->newRepository->createNews($title, $url, $content, $imagePath, $published);
+        $this->newRepository->create([
+            "title" => $title,
+            "url" => $url,
+            "content" => $content,
+            "image" => $imagePath,
+            "published" => $published,
+        ]);
     }
 
     public function updateNews($id, $title, $url, $content, $image, $published)
@@ -52,6 +58,12 @@ class NewService implements NewServiceInterface
             $this->s3Service->remove("news/".$imagePath);
             $imagePath = $this->s3Service->upload($image, "news");
         }
-        $this->newRepository->updateNews($news, $title, $url, $content, $imagePath, $published);
+        $this->newRepository->update($news, [
+            "title" => $title,
+            "url" => $url,
+            "content" => $content,
+            "image" => $imagePath,
+            "published" => $published,
+        ]);
     }
 }

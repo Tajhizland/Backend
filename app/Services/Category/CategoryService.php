@@ -5,7 +5,7 @@ namespace App\Services\Category;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Services\Filter\FilterServiceInterface;
- use App\Services\S3\S3ServiceInterface;
+use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryService implements CategoryServiceInterface
@@ -13,11 +13,12 @@ class CategoryService implements CategoryServiceInterface
     public function __construct(
         private CategoryRepositoryInterface $categoryRepository,
         private ProductRepositoryInterface  $productRepository,
-        private FilterServiceInterface       $filterService,
+        private FilterServiceInterface      $filterService,
         private S3ServiceInterface          $s3Service
     )
     {
     }
+
     public function searchCategory($query)
     {
         return $this->categoryRepository->search($query);
@@ -57,7 +58,16 @@ class CategoryService implements CategoryServiceInterface
         if ($image) {
             $imagePath = $this->s3Service->upload($image, "category");
         }
-        return $this->categoryRepository->createCategory($name, $status, $url, $imagePath, $description, $parentId);
+        return $this->categoryRepository->create(
+            [
+                "name" => $name,
+                "status" => $status,
+                "url" => $url,
+                "image" => $imagePath,
+                "description" => $description,
+                "parent_id" => $parentId
+            ]
+        );
     }
 
     public function updateCategory($id, $name, $status, $url, $image, $description, $parentId)
@@ -65,16 +75,25 @@ class CategoryService implements CategoryServiceInterface
         $category = $this->categoryRepository->findOrFail($id);
         $imagePath = $category->image;
         if ($image) {
-            $this->s3Service->remove("category/".$category->image);
+            $this->s3Service->remove("category/" . $category->image);
             $imagePath = $this->s3Service->upload($image, "category");
         }
-        return $this->categoryRepository->updateCategory($category, $name, $status, $url, $imagePath, $description, $parentId);
+        return $this->categoryRepository->update($category,
+            [
+                "name" => $name,
+                "status" => $status,
+                "url" => $url,
+                "image" => $imagePath,
+                "description" => $description,
+                "parent_id" => $parentId
+            ]);
     }
 
     public function productList($id)
     {
-      return  $this->productRepository->getAllByCategoryId($id);
+        return $this->productRepository->getAllByCategoryId($id);
     }
+
     public function productSort($array)
     {
         foreach ($array as $item) {

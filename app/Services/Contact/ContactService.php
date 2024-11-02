@@ -17,7 +17,13 @@ class ContactService implements ContactServiceInterface
 
     public function store($name, $email, $message)
     {
-        return $this->contactRepository->store($name, $email, $message);
+        return $this->contactRepository->create(
+            [
+                "name" => $name,
+                "email" => $email,
+                "message" => $message,
+            ]
+        );
     }
 
     public function remove($id)
