@@ -2,8 +2,7 @@
 
 namespace App\Repositories\Guaranty;
 
-use App\Models\Contact;
-use App\Models\guaranty;
+use App\Models\Guaranty;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\QueryBuilder;
 
