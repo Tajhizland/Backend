@@ -4,13 +4,12 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\CategoryConcept\CategoryConceptRequest;
+use App\Http\Requests\V1\Admin\Concept\SetDisplayRequest;
 use App\Http\Requests\V1\Admin\Concept\StoreConceptRequest;
 use App\Http\Requests\V1\Admin\Concept\UpdateConceptRequest;
-use App\Http\Requests\V1\Admin\News\NewsFileRequest;
 use App\Http\Resources\V1\CategoryConcept\CategoryConceptCollection;
 use App\Http\Resources\V1\Concept\ConceptCollection;
 use App\Http\Resources\V1\Concept\ConceptResource;
-use App\Http\Resources\V1\Filemanager\FilemanagerCollection;
 use App\Services\Concept\ConceptServiceInterface;
 use App\Services\FileManager\FileManagerServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -63,6 +62,12 @@ class ConceptController extends Controller
     {
         $this->conceptService->deleteItem($id);
         return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.category"), "from" => Lang::get("attr.list")]));
+    }
+
+    public function display(SetDisplayRequest $request)
+    {
+        $this->conceptService->setDisplay($request->get("id"), $request->get("display"));
+        return $this->successResponse(Lang::get("action.submit", ["attr" => Lang::get("attr.display")]));
     }
 
 }

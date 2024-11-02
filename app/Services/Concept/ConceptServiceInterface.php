@@ -11,4 +11,5 @@ interface ConceptServiceInterface
     public function getItemsById($id);
     public function deleteItem($id);
     public function setItem($categoryId , $conceptId);
+    public function setDisplay($id , $display);
 }

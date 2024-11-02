@@ -39,7 +39,7 @@ class ConceptService implements ConceptServiceInterface
         $imagePath = $concept->image;
         if ($image) {
             $this->s3Service->remove("concept/" . $imagePath);
-            $imagePath=$this->s3Service->upload($image, "concept");
+            $imagePath = $this->s3Service->upload($image, "concept");
         }
         $this->conceptRepository->update($concept,
             [
@@ -67,16 +67,22 @@ class ConceptService implements ConceptServiceInterface
 
     public function setItem($categoryId, $conceptId)
     {
-        $item = $this->categoryConceptRepository->findByCategoryId($conceptId , $categoryId);
+        $item = $this->categoryConceptRepository->findByCategoryId($conceptId, $categoryId);
         if ($item) {
             throw new BreakException(\Lang::get("exceptions.category_already_exist"));
         }
-        return $this->categoryConceptRepository->store( $conceptId , $categoryId);
+        return $this->categoryConceptRepository->store($conceptId, $categoryId);
     }
 
     public function deleteItem($id)
     {
         $item = $this->categoryConceptRepository->findOrFail($id);
         return $this->categoryConceptRepository->delete($item);
+    }
+
+    public function setDisplay($id, $display)
+    {
+        $categoryConcept = $this->categoryConceptRepository->findOrFail($id);
+        return $this->categoryConceptRepository->update($categoryConcept, ["display" => $display]);
     }
 }

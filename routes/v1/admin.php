@@ -149,6 +149,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("items/set", [\App\Http\Controllers\V1\Admin\ConceptController::class, "setItem"]);
         Route::delete("items/delete/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "deleteItem"]);
         Route::get("items/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "getItems"]);
+        Route::post("display", [\App\Http\Controllers\V1\Admin\ConceptController::class, "display"]);
+
     });
     Route::group(["prefix" => "search"], function () {
         Route::post("category", [\App\Http\Controllers\V1\Admin\SearchController::class, "searchCategory"]);

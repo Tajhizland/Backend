@@ -16,6 +16,7 @@ return
         "comment" => 'نظر',
         "message" => 'پیام',
         "category" => 'دسته بندی',
+        "display" => 'نام نمایشی',
         "list" => 'لیست',
         "menu" => 'منو',
         "concept" => 'کانسپت',
