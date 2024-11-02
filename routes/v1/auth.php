@@ -8,7 +8,7 @@ Route::get('/', function (Request $request) {
 });
 
 Route::get('/me', [\App\Http\Controllers\V1\Auth\MeController::class,"me"])->middleware("auth:sanctum");
-Route::get('/profile/update', [\App\Http\Controllers\V1\Auth\MeController::class,"update"])->middleware("auth:sanctum");
+Route::get('/update', [\App\Http\Controllers\V1\Auth\MeController::class,"update"])->middleware("auth:sanctum");
 Route::post('/logout', [\App\Http\Controllers\V1\Auth\MeController::class,"logout"]);
 
 
