@@ -22,8 +22,11 @@ class UserService implements UserServiceInterface
 
     public function updateProfile($id, $name, $email, $gender, $avatar)
     {
+
         $user = $this->repository->findOrFail($id);
         $avatarPath = $user->avatar;
+        return $this->updateProfile($id, $name, $email, $gender, $avatarPath);
+
         if ($avatar) {
             $this->s3Service->remove($avatarPath);
             $avatarPath = $this->s3Service->upload($avatar, "avatar");

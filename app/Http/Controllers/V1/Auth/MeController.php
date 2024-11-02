@@ -35,7 +35,6 @@ class MeController extends Controller
 
     public function update(UpdateProfileRequest $request)
     {
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.profile")]));
 
         $this->userService->updateProfile(Auth::user()->id, $request->get("name"), $request->get("email"), $request->get("gender"), $request->file("avatar"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.profile")]));
