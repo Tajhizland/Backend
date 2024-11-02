@@ -46,7 +46,7 @@ class GuarantyService implements GuarantyServiceInterface
         if ($icon) {
             $this->s3Service->remove("guaranty/".$iconPath);
             $iconPath = $this->s3Service->upload($icon, "guaranty");
-            var_dump($iconPath);
+            var_dump($icon);
             die();
             return  $iconPath;
         }
