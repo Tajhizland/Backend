@@ -20,6 +20,7 @@ class SimpleCategoryResource extends JsonResource
             'image' => $this->image,
             'parent_id' => $this->parent_id,
             'description' => $this->description,
+            'display_name' => $this->pivot->display ?? null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
