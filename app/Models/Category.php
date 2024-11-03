@@ -24,6 +24,11 @@ class Category extends Model
         return $this->hasOne(ProductCategory::class);
     }
 
+    public function categoryConcepts(): HasOne
+    {
+        return $this->hasOne(ProductCategory::class);
+    }
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_categories');
