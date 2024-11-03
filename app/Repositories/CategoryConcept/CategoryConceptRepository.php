@@ -14,7 +14,11 @@ class CategoryConceptRepository extends BaseRepository implements CategoryConcep
 
     public function getByConceptId($id)
     {
-        return $this->model::where("concept_id", $id)->with("category")->get();
+        return $this->model::where("concept_id", $id)->with([
+            'category' => function ($query) {
+                $query->withPivot('display');
+            }
+        ])->get();
     }
 
     public function findByCategoryId($conceptId, $categoryId)

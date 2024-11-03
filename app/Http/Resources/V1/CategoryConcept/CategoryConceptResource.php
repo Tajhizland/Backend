@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1\CategoryConcept;
 
 use App\Http\Resources\V1\Category\CategoryResource;
+use App\Http\Resources\V1\Category\SimpleCategoryResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class CategoryConceptResource extends JsonResource
             'concept_id' => $this->concept_id,
             'category_id' => $this->category_id,
 
-            'category' => new CategoryResource($this->whenLoaded('category')),
+            'category' => new SimpleCategoryResource($this->whenLoaded('category')),
         ];
     }
 }
