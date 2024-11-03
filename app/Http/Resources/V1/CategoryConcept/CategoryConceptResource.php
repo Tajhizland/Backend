@@ -19,6 +19,7 @@ class CategoryConceptResource extends JsonResource
 
             'concept_id' => $this->concept_id,
             'category_id' => $this->category_id,
+            'display' => $this->display,
 
             'category' => new SimpleCategoryResource($this->whenLoaded('category')),
         ];

@@ -16,6 +16,6 @@ class CategoryConcept extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class)->withPivot('display');
+        return $this->belongsTo(Category::class);
     }
 }
