@@ -54,7 +54,7 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request)
     {
-        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("status"), $request->get("study"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"),$request->get("guaranty_id"));
+        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"),$request->get("guaranty_id"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
     }
 
