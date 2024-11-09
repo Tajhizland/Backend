@@ -202,4 +202,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
+    public function getDiscountedProducts()
+    {
+        return $this->model::active()->hasDiscount()->paginate($this->pageSize);
+    }
 }

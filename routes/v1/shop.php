@@ -51,6 +51,7 @@ Route::group(["prefix" => "search"], function () {
 
 Route::group(["prefix" => "product"], function () {
     Route::post('find', [ProductController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+    Route::get('discount', [ProductController::class, "getDiscountedProducts"]);
 });
 
 Route::group(["prefix" => "category"], function () {

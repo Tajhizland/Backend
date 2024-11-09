@@ -23,4 +23,8 @@ class ProductController extends Controller
             "relatedProduct" => new ProductCollection($relatedProductResponse),
         ]);
     }
+    public function getDiscountedProducts()
+    {
+        return $this->dataResponseCollection(new ProductCollection($this->productService->getDiscountedProducts()));
+    }
 }

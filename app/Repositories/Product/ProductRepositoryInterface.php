@@ -35,6 +35,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getNewProduct();
     public function getHasDiscountProduct();
     public function getMostPopularProduct();
+    public function getDiscountedProducts();
     /***Filters***/
 
     public function categoryFilter($query, $categoryId);

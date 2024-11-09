@@ -18,6 +18,11 @@ class ProductService implements ProductServiceInterface
     {
     }
 
+    public function getDiscountedProducts():mixed
+    {
+        return $this->productRepository->getDiscountedProducts();
+    }
+
     public function findProductByUrl(string $url): mixed
     {
         $product = $this->productRepository->findByUrl($url);
@@ -73,7 +78,7 @@ class ProductService implements ProductServiceInterface
                 "url" => $url,
                 "description" => $description,
                 "study" => $study,
-                "status" =>$status,
+                "status" => $status,
                 "brand_id" => $brandId,
                 "meta_title" => $metaTitle,
                 "guaranty_id" => $guaranty_id,
