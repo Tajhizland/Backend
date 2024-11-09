@@ -38,6 +38,10 @@ class AddressService implements AddressServiceInterface
     {
         $this->addressRepository->updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address);
     }
+    public function updateOrCreateByUserIdFast($userId, $cityId, $provinceId, $address)
+    {
+        $this->addressRepository->updateOrCreateByUserIdFast($userId, $cityId, $provinceId,   $address);
+    }
 
     public function getCities($provinceId)
     {

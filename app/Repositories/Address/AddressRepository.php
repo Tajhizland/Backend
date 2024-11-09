@@ -31,6 +31,17 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
             ]
         );
     }
+    public function updateOrCreateByUserIdFast($userId, $cityId, $provinceId, $address)
+    {
+        return $this->updateOrCreate(["user_id" => $userId],
+            [
+                "user_id" => $userId,
+                "city_id" => $cityId,
+                "province_id" => $provinceId,
+                "address" => $address,
+            ]
+        );
+    }
 
     public function createAddress($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
     {

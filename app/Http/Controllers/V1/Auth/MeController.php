@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Shop\Profile\UpdateProfileRequest;
 use App\Http\Resources\V1\User\UserResource;
+use App\Services\Address\AddressServiceInterface;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,9 @@ class MeController extends Controller
 {
     public function __construct
     (
-        private UserServiceInterface $userService
+        private UserServiceInterface $userService,
+        private AddressServiceInterface $addressService
+
     )
     {
     }
@@ -37,6 +40,7 @@ class MeController extends Controller
     {
 
         $this->userService->updateProfile(Auth::user()->id, $request->get("name"), $request->get("email"), $request->get("gender"), $request->file("avatar"));
+        $this->addressService->updateOrCreateByUserIdFast(Auth::user()->id, $request->get("city"), $request->get("province"),$request->get("address"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.profile")]));
     }
 }
