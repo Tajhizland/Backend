@@ -141,6 +141,8 @@ class Product extends Model
             $query->where("status", "<>", ProductColorStatus::DeActive->value)
                 ->whereHas("price", function ($q) {
                     $q->where("discount", ">", 0)->orderBy("discount", "desc");
+                })->whereHas("stock", function ($q) {
+                    $q->where("stock", ">", 0);
                 });
         });
     }
