@@ -32,7 +32,7 @@ class UserService implements UserServiceInterface
             "name" => $name,
             "email" => $email,
             "gender" => $gender,
-            "avatarPath" => $avatarPath,
+            "avatar" => $avatarPath,
         ]);
     }
 
