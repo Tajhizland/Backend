@@ -3,6 +3,7 @@
 namespace App\Services\Brand;
 
 use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\S3\S3ServiceInterface;
@@ -12,10 +13,11 @@ class BrandService implements BrandServiceInterface
 {
 
     public function __construct(
-        private BrandRepositoryInterface   $brandRepository,
-        private ProductRepositoryInterface $productRepository,
-        private FilterServiceInterface     $filterService,
-        private S3ServiceInterface         $s3Service
+        private BrandRepositoryInterface    $brandRepository,
+        private ProductRepositoryInterface  $productRepository,
+        private FilterServiceInterface      $filterService,
+        private CategoryRepositoryInterface $categoryRepository,
+        private S3ServiceInterface          $s3Service
     )
     {
     }
@@ -35,7 +37,9 @@ class BrandService implements BrandServiceInterface
         $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
 
-        return ["products" => $products, "brand" => $brand];
+        $categorys=$this->categoryRepository->getByBrandId($brand->id);
+
+        return ["products" => $products, "brand" => $brand, "categories" => $categorys];
     }
 
     public function dataTable()

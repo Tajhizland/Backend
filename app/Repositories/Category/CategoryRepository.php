@@ -20,7 +20,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function findByUrl($url)
     {
-        return $this->model::with(["filters","filters.items"])->where("url", $url)->active()->first();
+        return $this->model::with(["filters", "filters.items"])->where("url", $url)->active()->first();
     }
 
     public function createCategory($name, $status, $url, $image, $description, $parentId)
@@ -57,8 +57,16 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             ->allowedSorts(['name', 'url', 'status', 'id', 'created_at', 'parent_id'])
             ->paginate($this->pageSize);
     }
+
     public function list()
     {
-        return $this->model::select("name","id")->get();
+        return $this->model::select("name", "id")->get();
+    }
+
+    public function getByBrandId($brandId)
+    {
+        $this->model::active()->whereHas('products', function ($query) use ($brandId) {
+            $query->active()->hasColor()->where("brand_id", $brandId);
+        })->get();
     }
 }
