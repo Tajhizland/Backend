@@ -21,11 +21,11 @@ class BrandController extends Controller
 
     public function index(Request $request)
     {
-        $listing = $this->brandService->listing($request->get("url"), $request->get("filter"));
+        $listing = $this->brandService->listing("ziman", []);
 
         $brandResource = new BrandResource($listing["brand"]);
         $productCollection = new ProductCollection($listing["products"]);
-        $categoryCollection = new SimpleCategoryCollection($listing["categories"]);
+        $categoryCollection = $listing["categories"]?new SimpleCategoryCollection($listing["categories"]):$listing["categories"];
 
         return $this->dataResponse([
             "brand" => $brandResource,
