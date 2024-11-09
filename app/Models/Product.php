@@ -23,10 +23,12 @@ class Product extends Model
             'status' => ProductStatus::class
         ];
     }
+
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class);
     }
+
     public function productOptions(): HasMany
     {
         return $this->hasMany(ProductOption::class);
@@ -59,7 +61,7 @@ class Product extends Model
 
     public function activeProductColors(): HasMany
     {
-        return $this->hasMany(ProductColor::class)->whereIn("status", [ProductColorStatus::Active->value , ProductColorStatus::Limit->value]);
+        return $this->hasMany(ProductColor::class)->whereIn("status", [ProductColorStatus::Active->value, ProductColorStatus::Limit->value]);
     }
 
     public function prices(): HasManyThrough
@@ -86,6 +88,7 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+
     public function guaranty(): BelongsTo
     {
         return $this->belongsTo(Guaranty::class);
@@ -98,7 +101,7 @@ class Product extends Model
 
     public function getMinDiscountedPrice()
     {
-        $minPriceColor = $this->prices()->orderBy('price' )->first();
+        $minPriceColor = $this->prices()->orderBy('price')->first();
         if ($minPriceColor) {
             return $minPriceColor->price - ($minPriceColor->price * ($minPriceColor->discount / 100));
         }
@@ -126,17 +129,19 @@ class Product extends Model
             $query->where("status", "<>", ProductColorStatus::DeActive->value);
         });
     }
+
     public function scopeMostPopular(Builder $query): Builder
     {
-        return $query->orderBy("view","desc");
+        return $query->orderBy("view", "desc");
     }
 
     public function scopeHasDiscount(Builder $query): Builder
     {
         return $query->whereHas("productColors", function ($query) {
             $query->where("status", "<>", ProductColorStatus::DeActive->value)
-                ->where("discount", ">", 0)
-                ->orderBy("discount", "desc");
+                ->whereHas("price", function ($q) {
+                    $q->where("discount", ">", 0)->orderBy("discount", "desc");
+                });
         });
     }
 }
