@@ -116,6 +116,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $q->where("price", "<=", $maxPrice);
         });
     }
+  public function categoryFilter($query, $categoryId)
+    {
+        return $query->whereHas("productCategories", function ($q) use ($categoryId) {
+            $q->where("category_id",$categoryId);
+        });
+    }
 
     public function nameFilter($query, $name)
     {

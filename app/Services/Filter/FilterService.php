@@ -23,7 +23,7 @@ class FilterService implements FilterServiceInterface
 
     public function apply($productQuery, $filters)
     {
-        if($filters) {
+        if ($filters) {
             foreach ($filters as $filter => $value) {
                 /** Dynamic Filters **/
 
@@ -38,6 +38,11 @@ class FilterService implements FilterServiceInterface
                 if ($filter == "minPrice") {
                     /** Example : filter[minPrice]=10 */
                     $this->productRepository->minPriceFilter($productQuery, $value);
+                    continue;
+                }
+                if ($filter == "category") {
+                    /** Example : filter[category]=10 */
+                    $this->productRepository->categoryFilter($productQuery, $value);
                     continue;
                 }
 
@@ -104,7 +109,7 @@ class FilterService implements FilterServiceInterface
         return $this->filterRepository->getByProductId($productId);
     }
 
-    public function setFilterToProduct($productId, $filters):void
+    public function setFilterToProduct($productId, $filters): void
     {
         foreach ($filters as $filter) {
             $productFilter = $this->productFilterRepository->findProductFilter($productId, $filter["id"]);
@@ -116,23 +121,23 @@ class FilterService implements FilterServiceInterface
         }
     }
 
-    public function getCategoryFilters($categoryId){
+    public function getCategoryFilters($categoryId)
+    {
         return $this->filterRepository->getCategoryFilters($categoryId);
     }
 
-    public function setFilter($categoryId, $filters):void
+    public function setFilter($categoryId, $filters): void
     {
         foreach ($filters as $filter) {
-             $existFilter = $this->filterRepository->find($filter["id"]);
+            $existFilter = $this->filterRepository->find($filter["id"]);
             if ($existFilter) {
-                $this->filterRepository->updateFilter($filter["id"], $filter["name"], $categoryId, $filter["status"] );
-             }
-            else {
+                $this->filterRepository->updateFilter($filter["id"], $filter["name"], $categoryId, $filter["status"]);
+            } else {
                 $this->filterRepository->createFilter($filter["name"], $categoryId, $filter["status"]);
             }
-            $filterItems=$filter["item"];
+            $filterItems = $filter["item"];
             foreach ($filterItems as $filterItem) {
-                if(@$filterItem["id"]) {
+                if (@$filterItem["id"]) {
                     $existFilterItem = $this->filterItemRepository->find($filterItem["id"]);
                     if ($existFilterItem) {
                         $this->filterItemRepository->updateFilterItem($existFilterItem, $filterItem["value"], $filterItem["status"]);
