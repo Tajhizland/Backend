@@ -6,7 +6,7 @@ use App\Models\Guaranty;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class GuarantyRepository extends  BaseRepository implements  GuarantyRepositoryInterface
+class GuarantyRepository extends BaseRepository implements GuarantyRepositoryInterface
 {
     public function __construct(Guaranty $model)
     {
@@ -24,5 +24,10 @@ class GuarantyRepository extends  BaseRepository implements  GuarantyRepositoryI
     public function getActives()
     {
         return $this->model::active()->latest("id")->get();
+    }
+
+    public function findByUrl($url)
+    {
+        return $this->model::active()->where("url", $url)->first();
     }
 }

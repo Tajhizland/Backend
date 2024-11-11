@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->string('name');
             $table->text('description');
             $table->string('icon');
+            $table->string('url');
             $table->integer('status');
             $table->timestamps();
         });

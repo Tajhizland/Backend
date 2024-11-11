@@ -97,3 +97,7 @@ Route::group(["prefix" => "on-hold-order", "middleware" => "auth:sanctum"], func
 Route::group(["prefix" => "comment"], function () {
     Route::post('submit', [\App\Http\Controllers\V1\Shop\CommentController::class, "store"])->middleware("auth:sanctum");
  });
+
+Route::group(["prefix" => "guaranty"], function () {
+    Route::post('find', [\App\Http\Controllers\V1\Shop\GuarantyController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+ });

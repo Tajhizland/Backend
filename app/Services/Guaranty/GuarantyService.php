@@ -4,6 +4,7 @@ namespace App\Services\Guaranty;
 
 use App\Repositories\Guaranty\GuarantyRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GuarantyService implements GuarantyServiceInterface
 {
@@ -20,6 +21,15 @@ class GuarantyService implements GuarantyServiceInterface
         return $this->guarantyRepository->dataTable();
     }
 
+    public function findByUrl($url)
+    {
+        $data=$this->guarantyRepository->findByUrl($url);
+        if(!$data)
+        {
+            throw  new NotFoundHttpException();
+        }
+        return  $data;
+    }
     public function findById($id)
     {
         return $this->guarantyRepository->findOrFail($id);

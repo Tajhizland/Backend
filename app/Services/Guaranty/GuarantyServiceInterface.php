@@ -8,6 +8,8 @@ interface GuarantyServiceInterface
 
     public function findById($id);
 
+    public function findByUrl($url);
+
     public function getActives();
 
     public function store($name, $description, $icon, $status);
