@@ -16,6 +16,7 @@ class GuarantyResource extends JsonResource
             'description' => $this->description,
             'icon' => $this->icon,
             'status' => $this->status,
+            'url' => $this->url,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
