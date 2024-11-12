@@ -181,6 +181,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
     Route::group(["prefix" => "banner"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BannerController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\BannerController::class, "find"]);
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\BannerController::class, "delete"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\BannerController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\BannerController::class, "update"]);

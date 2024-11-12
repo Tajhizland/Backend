@@ -48,4 +48,9 @@ class BannerService implements BannerServiceInterface
             "url" => $url
         ]);
     }
+
+    public function findById($id)
+    {
+        return $this->bannerRepository->findOrFail($id);
+    }
 }

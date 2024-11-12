@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Banner\StoreBannerRequest;
 use App\Http\Requests\V1\Admin\Banner\UpdateBannerRequest;
 use App\Http\Resources\V1\Banner\BannerCollection;
+use App\Http\Resources\V1\Banner\BannerResource;
 use App\Services\Banner\BannerServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
@@ -27,6 +28,11 @@ class BannerController extends Controller
     {
         $this->bannerService->delete($id);
         return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.banner")]));
+    }
+
+    public function find($id)
+    {
+        return $this->dataResponse(new BannerResource($this->bannerService->findById($id)));
     }
 
     public function store(StoreBannerRequest $request)
