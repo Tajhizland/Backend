@@ -10,7 +10,7 @@ class StoreMenuRequest extends FormRequest
     {
         return [
             'title' => ['required'],
-            'parent_id' => ['nullable', 'integer',"exists:App\Models\Menu,id"],
+            'parent_id' => ['nullable','integer'],
             'url' => ['nullable'],
             'banner_title' => ['nullable'],
             'banner_link' => ['nullable'],
