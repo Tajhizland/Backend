@@ -139,7 +139,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\MenuController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\MenuController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\MenuController::class, "update"]);
-        Route::post("list", [\App\Http\Controllers\V1\Admin\MenuController::class, "list"]);
+        Route::get("list", [\App\Http\Controllers\V1\Admin\MenuController::class, "list"]);
     });
     Route::group(["prefix" => "concept"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ConceptController::class, "dataTable"]);
