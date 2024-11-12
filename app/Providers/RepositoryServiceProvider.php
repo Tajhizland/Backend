@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\Address\AddressRepository;
 use App\Repositories\Address\AddressRepositoryInterface;
+use App\Repositories\Banner\BannerRepository;
+use App\Repositories\Banner\BannerRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Base\BaseRepositoryInterface;
 use App\Repositories\Brand\BrandRepository;
@@ -108,6 +110,8 @@ use App\Services\Auth\Register\RegisterService;
 use App\Services\Auth\Register\RegisterServiceInterface;
 use App\Services\Auth\ResetPassword\ResetPasswordService;
 use App\Services\Auth\ResetPassword\ResetPasswordServiceInterface;
+use App\Services\Banner\BannerService;
+use App\Services\Banner\BannerServiceInterface;
 use App\Services\Brand\BrandService;
 use App\Services\Brand\BrandServiceInterface;
 use App\Services\Cart\CartService;
@@ -296,6 +300,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(GuarantyRepositoryInterface::class, GuarantyRepository::class);
 
+        $this->app->bind(BannerRepositoryInterface::class, BannerRepository::class);
+
 
         /** End Repository */
 
@@ -395,6 +401,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(DashboardServiceInterface::class, DashboardService::class);
 
         $this->app->bind(GuarantyServiceInterface::class, GuarantyService::class);
+
+        $this->app->bind(BannerServiceInterface::class, BannerService::class);
 
         /** End Service */
 
