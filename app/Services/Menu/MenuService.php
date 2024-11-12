@@ -64,4 +64,9 @@ class MenuService implements MenuServiceInterface
     {
         return $this->menuRepository->getWithChildren();
     }
+
+    public function list()
+    {
+        return $this->menuRepository->allActiveList();
+    }
 }

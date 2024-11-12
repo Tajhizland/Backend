@@ -55,4 +55,9 @@ class MenuRepository extends BaseRepository implements MenuRepositoryInterface
             "banner_logo" => $logoPath
         ]);
     }
+
+    public function allActiveList()
+    {
+       return $this->model::active()->get();
+    }
 }

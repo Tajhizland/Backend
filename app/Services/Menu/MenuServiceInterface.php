@@ -6,6 +6,8 @@ interface MenuServiceInterface
 {
     public function dataTable();
 
+    public function list();
+
     public function findById($id);
 
     public function store($title, $parentId, $url, $bannerTitle, $bannerUrl, $bannerLogo);

@@ -24,6 +24,11 @@ class MenuController extends Controller
         return $this->dataResponseCollection(new MenuCollection($this->menuService->dataTable()));
     }
 
+    public function list()
+    {
+        return $this->dataResponseCollection(new MenuCollection($this->menuService->list()));
+    }
+
     public function store(StoreMenuRequest $request)
     {
         $this->menuService->store($request->get("title"),$request->get("parent_id"),$request->get("url"),$request->get("banner_title"),$request->get("banner_link"),$request->get("banner_logo"));
