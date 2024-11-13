@@ -7,6 +7,7 @@ use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductColor\ProductColorResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\OrderItem */
 class OrderItemResource extends JsonResource
@@ -18,8 +19,8 @@ class OrderItemResource extends JsonResource
             'count' => $this->count,
             'price' => $this->price,
             'final_price' => $this->final_price,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
 
             'product_id' => $this->product_id,
             'product_color_id' => $this->product_color_id,

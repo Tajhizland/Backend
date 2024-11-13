@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\Notification;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\Notification */
 class NotificationResource extends JsonResource
@@ -17,8 +18,8 @@ class NotificationResource extends JsonResource
             'link' => $this->link,
             'seen' => $this->seen,
             'type' => $this->type,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
 }

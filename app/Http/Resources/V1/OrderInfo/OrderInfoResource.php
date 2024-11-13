@@ -6,6 +6,7 @@ use App\Http\Resources\V1\City\CityResource;
 use App\Http\Resources\V1\Province\ProvinceResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin \App\Models\OrderInfo */
 class OrderInfoResource extends JsonResource
@@ -21,8 +22,8 @@ class OrderInfoResource extends JsonResource
             'city_id' => $this->city_id,
             'address' => $this->address,
             'zip_code' => $this->zip_code,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
 
             'city'=>new CityResource($this->whenLoaded("city")),
             'province'=>new ProvinceResource($this->whenLoaded("province")),
