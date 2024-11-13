@@ -24,7 +24,7 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
                         $query->where('name', 'like', '%' . $value . '%');
                     });
                 }),])
-            ->allowedSorts(['product_id' ,'status', 'id', 'created_at'])
+            ->allowedSorts(['product_id' ,'homepage', 'id', 'created_at'])
 
             ->paginate($this->pageSize);
     }
