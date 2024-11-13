@@ -17,6 +17,7 @@ class SpecialProductResource extends JsonResource
             'id' => $this->id,
 
             'product_id' => $this->product_id,
+            'homepage' => $this->homepage,
 
             'product' => new ProductResource($this->whenLoaded('product')),
         ];

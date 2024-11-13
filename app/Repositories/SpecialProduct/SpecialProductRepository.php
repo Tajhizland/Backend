@@ -33,8 +33,9 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
             "product_id" => $productId
         ]);
     }
+
     public function getWithProduct()
     {
-        return $this->model::with("product")->get();
+        return $this->model::where("homepage", 1)->with("product")->get();
     }
 }

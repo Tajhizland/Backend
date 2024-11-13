@@ -7,7 +7,6 @@ use App\Repositories\Brand\BrandRepositoryInterface;
 use App\Repositories\Concept\ConceptRepositoryInterface;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
 use App\Repositories\New\NewRepositoryInterface;
-use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
 use App\Repositories\Slider\SliderRepositoryInterface;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
@@ -17,7 +16,6 @@ class HomePageService implements HomePageServiceInterface
     public function __construct
     (
         private PopularProductRepositoryInterface   $popularProductRepository,
-        private PopularCategoryRepositoryInterface  $popularCategoryRepository,
         private HomepageCategoryRepositoryInterface $homepageCategoryRepository,
         private SliderRepositoryInterface           $sliderRepository,
         private SpecialProductRepositoryInterface   $specialProductRepository,
@@ -33,7 +31,6 @@ class HomePageService implements HomePageServiceInterface
     public function buildData()
     {
         $popularProducts = $this->popularProductRepository->getWithProduct();
-//        $popularCategories = $this->popularCategoryRepository->getWithCategory();
         $homepageCategories = $this->homepageCategoryRepository->getWithCategory();
         $specialProducts = $this->specialProductRepository->getWithProduct();
         $sliders = $this->sliderRepository->all();
@@ -43,7 +40,6 @@ class HomePageService implements HomePageServiceInterface
         $lastNews = $this->newRepository->getLastActiveNews();
         return [
             "popularProducts" => $popularProducts,
-//            "popularCategories" => $popularCategories,
             "homepageCategories" => $homepageCategories,
             "sliders" => $sliders,
             "concepts" => $concepts,

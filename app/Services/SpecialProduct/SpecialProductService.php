@@ -4,7 +4,7 @@ namespace App\Services\SpecialProduct;
 
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 
-class SpecialProductService implements  SpecialProductServiceInterface
+class SpecialProductService implements SpecialProductServiceInterface
 {
     public function __construct(private SpecialProductRepositoryInterface $specialProductRepository)
     {
@@ -22,7 +22,13 @@ class SpecialProductService implements  SpecialProductServiceInterface
 
     public function delete($id)
     {
-        $item= $this->specialProductRepository->findOrFail($id);
+        $item = $this->specialProductRepository->findOrFail($id);
         return $this->specialProductRepository->delete($item);
+    }
+
+    public function showHomepage($id, $value)
+    {
+        $item = $this->specialProductRepository->findOrFail($id);
+        return $this->specialProductRepository->update($item, ["homepage" => $value]);
     }
 }
