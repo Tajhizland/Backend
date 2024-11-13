@@ -59,6 +59,7 @@ Route::group(["prefix" => "category"], function () {
 });
 Route::group(["prefix" => "brand"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\BrandController::class, "index"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+    Route::get('list', [\App\Http\Controllers\V1\Shop\BrandController::class, "list"]);
 });
 
 Route::group(["prefix" => "news"], function () {
