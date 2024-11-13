@@ -15,7 +15,6 @@ class UpdateVlogRequest extends FormRequest
             'url' => ['required'],
             'video' => ['required'],
             'status' => ['required', 'integer'],
-            'view' => ['required', 'integer'],
         ];
     }
 

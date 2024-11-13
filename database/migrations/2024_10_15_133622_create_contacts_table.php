@@ -12,6 +12,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email');
             $table->text('message');
+            $table->foreignId('province_id');
+            $table->foreignId('city_id');
             $table->timestamps();
         });
     }

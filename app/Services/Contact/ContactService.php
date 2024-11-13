@@ -15,13 +15,15 @@ class ContactService implements ContactServiceInterface
         return $this->contactRepository->dataTable();
     }
 
-    public function store($name, $email, $message)
+    public function store($name, $email, $message ,$cityId,$provinceId)
     {
         return $this->contactRepository->create(
             [
                 "name" => $name,
                 "email" => $email,
                 "message" => $message,
+                "city_id" => $cityId,
+                "province_id" => $provinceId,
             ]
         );
     }

@@ -10,6 +10,8 @@ class StoreContactRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'province_id' => ['required' ,'exists:App\Models\Province,id'],
+            'city_id' => ['required' ,'exists:App\Models\City,id'],
             'email' => ['required', 'email', 'max:254'],
             'message' => ['required'],
         ];
