@@ -179,6 +179,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\FaqController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\FaqController::class, "update"]);
     });
+    Route::group(["prefix" => "vlog"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\VlogController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\VlogController::class, "findById"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\VlogController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\VlogController::class, "update"]);
+    });
     Route::group(["prefix" => "banner"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BannerController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\BannerController::class, "find"]);

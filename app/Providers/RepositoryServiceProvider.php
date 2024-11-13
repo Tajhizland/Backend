@@ -102,6 +102,8 @@ use App\Repositories\Transaction\TransactionRepository;
 use App\Repositories\Transaction\TransactionRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\Vlog\VlogRepository;
+use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
@@ -194,6 +196,8 @@ use App\Services\SpecialProduct\SpecialProductService;
 use App\Services\SpecialProduct\SpecialProductServiceInterface;
 use App\Services\User\UserService;
 use App\Services\User\UserServiceInterface;
+use App\Services\Vlog\VlogService;
+use App\Services\Vlog\VlogServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -302,6 +306,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(BannerRepositoryInterface::class, BannerRepository::class);
 
+        $this->app->bind(VlogRepositoryInterface::class, VlogRepository::class);
+
 
         /** End Repository */
 
@@ -403,6 +409,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GuarantyServiceInterface::class, GuarantyService::class);
 
         $this->app->bind(BannerServiceInterface::class, BannerService::class);
+
+        $this->app->bind(VlogServiceInterface::class, VlogService::class);
 
         /** End Service */
 

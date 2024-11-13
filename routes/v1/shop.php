@@ -101,3 +101,8 @@ Route::group(["prefix" => "comment"], function () {
 Route::group(["prefix" => "guaranty"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\GuarantyController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
  });
+
+Route::group(["prefix" => "vlog"], function () {
+    Route::post('find', [\App\Http\Controllers\V1\Shop\VlogController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+    Route::get('listing', [\App\Http\Controllers\V1\Shop\VlogController::class, "listing"]);
+ });
