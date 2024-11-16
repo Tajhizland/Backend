@@ -10,17 +10,17 @@ class Address extends Model
 {
     protected $guarded=["id"];
 
-    protected function city(): BelongsTo
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
     }
 
-    protected function province(): BelongsTo
+    public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
     }
 
-    protected function user(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
