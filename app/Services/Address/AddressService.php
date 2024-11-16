@@ -66,4 +66,29 @@ class AddressService implements AddressServiceInterface
         $this->addressRepository->disableAllAddress($userId);
         return $this->addressRepository->update($address, ["active" => 1]);
     }
+
+    public function updateOrCreate($id, $userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
+    {
+        if ($id) {
+            $address = $this->addressRepository->findOrFail($id);
+            return $this->addressRepository->update($address, [
+                "city_id" => $cityId,
+                "province_id" => $provinceId,
+                "tell" => $tell,
+                "zip_code" => $zipCode,
+                "mobile" => $mobile,
+                "address" => $address,
+            ]);
+        } else {
+            return $this->addressRepository->create([
+                "user_id" => $userId,
+                "city_id" => $cityId,
+                "province_id" => $provinceId,
+                "tell" => $tell,
+                "zip_code" => $zipCode,
+                "mobile" => $mobile,
+                "address" => $address,
+            ]);
+        }
+    }
 }

@@ -76,7 +76,8 @@ Route::group(["prefix" => "faq"], function () {
 });
 
 Route::group(["prefix" => "address", "middleware" => "auth:sanctum"], function () {
-    Route::post('update', [\App\Http\Controllers\V1\Shop\AddressController::class, "createOrUpdate"]);
+//    Route::post('update', [\App\Http\Controllers\V1\Shop\AddressController::class, "createOrUpdate"]);
+    Route::post('update', [\App\Http\Controllers\V1\Shop\AddressController::class, "updateOrCreate"]);
     Route::get('find', [\App\Http\Controllers\V1\Shop\AddressController::class, "find"]);
     Route::get('all', [\App\Http\Controllers\V1\Shop\AddressController::class, "getAll"]);
     Route::post('active/change', [\App\Http\Controllers\V1\Shop\AddressController::class, "changeActive"]);
