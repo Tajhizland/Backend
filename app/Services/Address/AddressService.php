@@ -52,4 +52,9 @@ class AddressService implements AddressServiceInterface
     {
         return $this->provinceRepository->all();
     }
+
+    public function getByUserId($userId)
+    {
+        return $this->addressRepository->getUserAddress($userId);
+    }
 }

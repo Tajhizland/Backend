@@ -69,4 +69,10 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
             "address" => $address,
         ]);
     }
+
+    public function getUserAddress($userId)
+    {
+        return $this->model::with(["city","province"])->where("user_id", $userId)->get();
+
+    }
 }

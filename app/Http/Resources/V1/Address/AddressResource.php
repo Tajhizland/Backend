@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\V1\Address;
 
+use App\Http\Resources\V1\City\CityResource;
+use App\Http\Resources\V1\Province\ProvinceResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
@@ -20,8 +22,11 @@ class AddressResource extends JsonResource
             'mobile' => $this->mobile,
             'zip_code' => $this->zip_code,
             'address' => $this->address,
-             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
+
+            'city' => new CityResource($this->whenLoaded("city")),
+            'province' => new ProvinceResource($this->whenLoaded("province")),
         ];
     }
 }

@@ -7,6 +7,7 @@ interface AddressServiceInterface
     public function findById($id);
 
     public function findByUserId($userId);
+    public function getByUserId($userId);
 
     public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address);
     public function updateOrCreateByUserIdFast($userId, $cityId, $provinceId,  $address);
