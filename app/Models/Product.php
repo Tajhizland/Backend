@@ -88,6 +88,10 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+    public function special(): HasOne
+    {
+        return $this->hasOne(SpecialProduct::class);
+    }
 
     public function guaranty(): BelongsTo
     {

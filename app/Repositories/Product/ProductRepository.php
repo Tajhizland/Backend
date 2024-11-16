@@ -206,4 +206,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::active()->hasDiscount()->paginate($this->pageSize);
     }
+
+    public function getSpecial()
+    {
+        return $this->model::active()->whereHas("special")->latest("id")->paginate($this->pageSize);
+    }
 }

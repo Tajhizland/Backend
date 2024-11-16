@@ -126,4 +126,9 @@ class ProductService implements ProductServiceInterface
         }
         throw new BreakException(\Lang::get("exceptions.type_not_find"));
     }
+
+    public function special(): mixed
+    {
+        return  $this->productRepository->getSpecial();
+    }
 }
