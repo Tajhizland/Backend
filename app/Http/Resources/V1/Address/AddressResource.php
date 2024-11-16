@@ -22,6 +22,7 @@ class AddressResource extends JsonResource
             'mobile' => $this->mobile,
             'zip_code' => $this->zip_code,
             'address' => $this->address,
+            'active' => $this->active,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
 
