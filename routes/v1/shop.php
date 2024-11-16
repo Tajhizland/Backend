@@ -78,7 +78,7 @@ Route::group(["prefix" => "faq"], function () {
 Route::group(["prefix" => "address", "middleware" => "auth:sanctum"], function () {
     Route::post('update', [\App\Http\Controllers\V1\Shop\AddressController::class, "createOrUpdate"]);
     Route::get('find', [\App\Http\Controllers\V1\Shop\AddressController::class, "find"]);
-    Route::get('all', [\App\Http\Controllers\V1\Shop\AddressController::class, "all"]);
+    Route::get('all', [\App\Http\Controllers\V1\Shop\AddressController::class, "getAll"]);
 });
 
 Route::group(["prefix" => "delivery"], function () {
