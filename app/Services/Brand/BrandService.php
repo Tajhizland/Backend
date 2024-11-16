@@ -87,4 +87,9 @@ class BrandService implements BrandServiceInterface
                 ]
             );
     }
+
+    public function getAllActive()
+    {
+        return $this->brandRepository->getAllActive();
+    }
 }

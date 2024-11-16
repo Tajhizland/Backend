@@ -36,6 +36,6 @@ class BrandController extends Controller
 
     public function list()
     {
-        return $this->dataResponseCollection(new BrandCollection($this->brandService->list()));
+        return $this->dataResponseCollection(new BrandCollection($this->brandService->getAllActive()));
     }
 }
