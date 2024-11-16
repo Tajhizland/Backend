@@ -76,6 +76,7 @@ class AddressService implements AddressServiceInterface
                 "address" => $address,
             ]);
         } else {
+            $this->addressRepository->disableAllAddress($userId);
             return $this->addressRepository->create([
                 "user_id" => $userId,
                 "city_id" => $cityId,
@@ -84,6 +85,7 @@ class AddressService implements AddressServiceInterface
                 "zip_code" => $zipCode,
                 "mobile" => $mobile,
                 "address" => $address,
+                "active" => 1
             ]);
         }
     }
