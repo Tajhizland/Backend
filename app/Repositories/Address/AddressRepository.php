@@ -12,9 +12,9 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
         parent::__construct($model);
     }
 
-    public function findUserAddress($userId)
+    public function findActiveByUserId($userId)
     {
-        return $this->model::where("user_id", $userId)->first();
+        return $this->model::where("user_id", $userId)->where("active",1)->first();
     }
 
     public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)

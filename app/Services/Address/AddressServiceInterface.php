@@ -6,7 +6,7 @@ interface AddressServiceInterface
 {
     public function findById($id);
 
-    public function findByUserId($userId);
+    public function findActiveByUserId($userId);
     public function getByUserId($userId);
     public function changeActiveAddress($id ,$userId);
 

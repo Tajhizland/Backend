@@ -29,10 +29,10 @@ class AddressController extends Controller
         return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
     }
 
-    public function find()
+    public function findActive()
     {
         $userId = Auth::user()->id;
-        return $this->dataResponse(new AddressResource($this->addressService->findByUserId($userId)));
+        return $this->dataResponse(new AddressResource($this->addressService->findActiveByUserId($userId)));
     }
 
     public function getAll()
