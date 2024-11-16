@@ -13,4 +13,5 @@ interface AddressRepositoryInterface extends  BaseRepositoryInterface
     public function updateOrCreateByUserId($userId , $cityId,$provinceId,$tell ,$zipCode ,$mobile , $address);
     public function updateOrCreateByUserIdFast($userId , $cityId,$provinceId, $address);
     public function updateAddress(Address $addressModal  , $cityId,$provinceId,$tell ,$zipCode ,$mobile , $address);
+    public function disableAllAddress($userId);
 }

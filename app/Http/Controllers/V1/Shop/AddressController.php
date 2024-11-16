@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Address\StoreAddressRequest;
+use App\Http\Requests\V1\Shop\Address\ChangeActiveAddressRequest;
 use App\Http\Requests\V1\Shop\Address\UpdateAddresRequest;
 use App\Http\Resources\V1\Address\AddressCollection;
 use App\Http\Resources\V1\Address\AddressResource;
@@ -22,6 +22,13 @@ class AddressController extends Controller
     {
     }
 
+    public function changeActive(ChangeActiveAddressRequest $request)
+    {
+        $userId = Auth::user()->id;
+        $this->addressService->changeActiveAddress($request->get("id"), $userId);
+        return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
+    }
+
     public function find()
     {
         $userId = Auth::user()->id;
@@ -37,9 +44,10 @@ class AddressController extends Controller
     public function createOrUpdate(UpdateAddresRequest $request)
     {
         $userId = Auth::user()->id;
-        $this->addressService->updateOrCreateByUserId($userId, $request->get("city_id"), $request->get("province_id") , $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"));
+        $this->addressService->updateOrCreateByUserId($userId, $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"));
         return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
     }
+
     public function getCities($id)
     {
         return $this->dataResponseCollection(new CityCollection($this->addressService->getCities($id)));

@@ -38,9 +38,10 @@ class AddressService implements AddressServiceInterface
     {
         $this->addressRepository->updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address);
     }
+
     public function updateOrCreateByUserIdFast($userId, $cityId, $provinceId, $address)
     {
-        $this->addressRepository->updateOrCreateByUserIdFast($userId, $cityId, $provinceId,   $address);
+        $this->addressRepository->updateOrCreateByUserIdFast($userId, $cityId, $provinceId, $address);
     }
 
     public function getCities($provinceId)
@@ -56,5 +57,13 @@ class AddressService implements AddressServiceInterface
     public function getByUserId($userId)
     {
         return $this->addressRepository->getUserAddress($userId);
+    }
+
+    public function changeActiveAddress($id, $userId)
+    {
+        $address = $this->addressRepository->findOrFail($id);
+        Gate::authorize('view', $address);
+        $this->addressRepository->disableAllAddress($userId);
+        return $this->addressRepository->update($address, ["active" => 1]);
     }
 }

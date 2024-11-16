@@ -75,4 +75,9 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
         return $this->model::with(["city","province"])->where("user_id", $userId)->get();
 
     }
+
+    public function disableAllAddress($userId)
+    {
+        return $this->model::where("user_id",$userId)->update(["active"=>0]);
+    }
 }
