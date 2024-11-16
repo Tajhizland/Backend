@@ -35,7 +35,7 @@ class CheckoutService implements CheckoutServiceInterface
         $cartItem = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->cartCheckHandler->handle($cart, $cartItem);
         $deliveries = $this->deliveryRepository->getActiveDelivery();
-        $address = $this->addressRepository->findUserAddress($userId);
+        $address = $this->addressRepository->findActiveByUserId($userId);
         $gateway = $this->gatewayRepository->findActiveGateway();
         return
             [
@@ -62,7 +62,7 @@ class CheckoutService implements CheckoutServiceInterface
         $this->cartCheckHandler->setNext($this->deliveryCheckHandler);
         $this->cartCheckHandler->handle($cart, $cartItem);
 
-        return $this->addressRepository->findUserAddress($userId);
+        return $this->addressRepository->findActiveByUserId($userId);
     }
 
     public function gatewayCheckout($userId)
@@ -81,7 +81,7 @@ class CheckoutService implements CheckoutServiceInterface
     {
         $this->cartCheckHandler->setNext($this->deliveryCheckHandler);
         $this->deliveryCheckHandler->setNext($this->addressCheckHandler);
-//        $this->addressCheckHandler->setNext($this->gatewayCheckHandler);
+         $this->addressCheckHandler->setNext($this->gatewayCheckHandler);
         $this->cartCheckHandler->handle($cart, $cartItems);
     }
 
