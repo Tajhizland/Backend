@@ -10,4 +10,5 @@ interface VlogRepositoryInterface extends  BaseRepositoryInterface
     public function dataTable();
     public function findByUrl($url);
     public function listing();
+    public function getLastActives();
 }

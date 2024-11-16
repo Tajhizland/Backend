@@ -11,6 +11,7 @@ use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
 use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
 use App\Http\Resources\V1\Slider\SliderCollection;
 use App\Http\Resources\V1\SpecialProduct\SpecialProductCollection;
+use App\Http\Resources\V1\Vlog\VlogCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,6 +26,7 @@ class HomePageResource extends JsonResource
             "sliders" => new SliderCollection($this["sliders"]),
             "concepts" => new ConceptCollection($this["concepts"]),
             "news" => new NewsCollection($this["news"]),
+            "vlogs" => new VlogCollection($this["vlogs"]),
             "brands" => new BrandCollection($this["brands"]),
             "banners" => new BannerCollection($this["banners"]),
             "specialProducts" => new SpecialProductCollection($this["specialProducts"]),

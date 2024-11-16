@@ -10,6 +10,7 @@ use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
 use App\Repositories\Slider\SliderRepositoryInterface;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
+use App\Repositories\Vlog\VlogRepositoryInterface;
 
 class HomePageService implements HomePageServiceInterface
 {
@@ -22,7 +23,8 @@ class HomePageService implements HomePageServiceInterface
         private ConceptRepositoryInterface          $conceptRepository,
         private BrandRepositoryInterface            $brandRepository,
         private BannerRepositoryInterface           $bannerRepository,
-        private NewRepositoryInterface              $newRepository
+        private VlogRepositoryInterface              $vlogRepository,
+        private NewRepositoryInterface              $newRepository,
     )
     {
     }
@@ -38,6 +40,7 @@ class HomePageService implements HomePageServiceInterface
         $brands = $this->brandRepository->getAllActive();
         $banners = $this->bannerRepository->all();
         $lastNews = $this->newRepository->getLastActiveNews();
+        $lastVlogs = $this->vlogRepository->getLastActives();
         return [
             "popularProducts" => $popularProducts,
             "homepageCategories" => $homepageCategories,
@@ -45,6 +48,7 @@ class HomePageService implements HomePageServiceInterface
             "concepts" => $concepts,
             "brands" => $brands,
             "news" => $lastNews,
+            "vlogs" => $lastVlogs,
             "specialProducts" => $specialProducts,
             "banners" => $banners
         ];
