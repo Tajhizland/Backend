@@ -31,7 +31,7 @@ class AddressController extends Controller
     public function getAll()
     {
         $userId = Auth::user()->id;
-        return $this->dataResponse(new AddressCollection($this->addressService->getByUserId($userId)));
+        return $this->dataResponseCollection(new AddressCollection($this->addressService->getByUserId($userId)));
     }
 
     public function createOrUpdate(UpdateAddresRequest $request)
