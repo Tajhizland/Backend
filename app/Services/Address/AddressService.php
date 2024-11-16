@@ -70,8 +70,8 @@ class AddressService implements AddressServiceInterface
     public function updateOrCreate($id, $userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
     {
         if ($id) {
-            $address = $this->addressRepository->findOrFail($id);
-            return $this->addressRepository->update($address, [
+            $addressModal = $this->addressRepository->findOrFail($id);
+            return $this->addressRepository->update($addressModal, [
                 "city_id" => $cityId,
                 "province_id" => $provinceId,
                 "tell" => $tell,
