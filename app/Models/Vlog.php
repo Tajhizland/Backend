@@ -10,7 +10,7 @@ class Vlog extends Model
 {
     protected $guarded=["id"];
 
-    public function scope(Builder $query): Builder
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where("status",VlogStatus::Active->value);
 
