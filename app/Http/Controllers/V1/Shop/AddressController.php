@@ -32,7 +32,10 @@ class AddressController extends Controller
     public function findActive()
     {
         $userId = Auth::user()->id;
-        return $this->dataResponse(new AddressResource($this->addressService->findActiveByUserId($userId)));
+        $address = $this->addressService->findActiveByUserId($userId);
+        if ($address)
+            $address = new AddressResource($address);
+        return $this->dataResponse($address);
     }
 
     public function getAll()
@@ -44,9 +47,10 @@ class AddressController extends Controller
     public function updateOrCreate(UpdateAddresRequest $request)
     {
         $userId = Auth::user()->id;
-        $this->addressService->updateOrCreate($request->get("id"),$userId, $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"));
+        $this->addressService->updateOrCreate($request->get("id"), $userId, $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"));
         return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
     }
+
     public function createOrUpdate(UpdateAddresRequest $request)
     {
         $userId = Auth::user()->id;

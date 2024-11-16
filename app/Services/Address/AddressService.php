@@ -6,7 +6,6 @@ use App\Repositories\Address\AddressRepositoryInterface;
 use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\Province\ProvinceRepositoryInterface;
 use Illuminate\Support\Facades\Gate;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AddressService implements AddressServiceInterface
 {
@@ -28,10 +27,7 @@ class AddressService implements AddressServiceInterface
 
     public function findActiveByUserId($userId)
     {
-        $address=$this->addressRepository->findActiveByUserId($userId);
-        if(!$address)
-            throw new NotFoundHttpException();
-        return $address;
+        return $this->addressRepository->findActiveByUserId($userId);
     }
 
     public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
