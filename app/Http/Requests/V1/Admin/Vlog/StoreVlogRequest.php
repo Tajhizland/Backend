@@ -13,6 +13,7 @@ class StoreVlogRequest extends FormRequest
             'description' => ['nullable'],
             'url' => ['required'],
             'video' => ['required'],
+            'poster' => ['required'],
             'status' => ['required', 'integer'],
         ];
     }

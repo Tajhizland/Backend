@@ -31,13 +31,13 @@ class VlogController extends Controller
 
     public function store(StoreVlogRequest $request)
     {
-        $this->vlogService->store($request->get("title"), $request->get("description"), $request->file("video"), $request->get("url"), $request->get("status"));
+        $this->vlogService->store($request->get("title"), $request->get("description"), $request->file("video"), $request->get("poster"), $request->get("url"), $request->get("status"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.vlog")]));
     }
 
     public function update(UpdateVlogRequest $request)
     {
-        $this->vlogService->update($request->get("id"), $request->get("title"), $request->get("description"), $request->file("video"), $request->get("url"), $request->get("status"));
+        $this->vlogService->update($request->get("id"), $request->get("title"), $request->get("description"), $request->file("video"), $request->get("poster"), $request->get("url"), $request->get("status"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.vlog")]));
     }
 }
