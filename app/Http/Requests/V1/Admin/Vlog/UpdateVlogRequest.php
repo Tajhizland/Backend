@@ -13,8 +13,8 @@ class UpdateVlogRequest extends FormRequest
             'title' => ['required'],
             'description' => ['nullable'],
             'url' => ['required'],
-            'video' => ['required'],
-            'poster' => ['required'],
+            'video' => ['nullable'],
+            'poster' => ['nullable'],
             'status' => ['required', 'integer'],
         ];
     }
