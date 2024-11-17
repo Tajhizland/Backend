@@ -17,6 +17,7 @@ class VlogResource extends JsonResource
             'description' => $this->description,
             'url' => $this->url,
             'video' => $this->video,
+            'poster' => $this->poster,
             'status' => $this->status,
             'view' => $this->view,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
