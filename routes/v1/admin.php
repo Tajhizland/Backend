@@ -22,6 +22,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
          Route::post("filter/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setFilter"]);
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setOption"]);
         Route::post("color/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setColor"]);
+        Route::post("color/fast-update", [\App\Http\Controllers\V1\Admin\ProductController::class, "colorFastUpdate"]);
         Route::post("image/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
         Route::post("video/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setVideo"]);
         Route::delete("image/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "removeImage"]);

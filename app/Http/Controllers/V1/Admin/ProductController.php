@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Product\ColorFastUpdateRequest;
 use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
 use App\Http\Requests\V1\Admin\Product\ProductImageRequest;
@@ -113,5 +114,10 @@ class ProductController extends Controller
     {
         $this->productService->setVideo($request->get("productId"), $request->file("file"), $request->get("type"));
         return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
+    }
+    public function colorFastUpdate(ColorFastUpdateRequest $request)
+    {
+        $this->productColorService->colorFastUpdate($request->get("color"));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.color")]));
     }
 }

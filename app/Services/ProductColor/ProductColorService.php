@@ -5,14 +5,15 @@ namespace App\Services\ProductColor;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use App\Repositories\Stock\StockRepositoryInterface;
+use function Symfony\Component\Translation\t;
 
 class ProductColorService implements ProductColorServiceInterface
 {
     public function __construct
     (
         private ProductColorRepositoryInterface $productColorRepository,
-        private PriceRepositoryInterface $priceRepository,
-        private StockRepositoryInterface $stockRepository,
+        private PriceRepositoryInterface        $priceRepository,
+        private StockRepositoryInterface        $stockRepository,
     )
     {
 
@@ -22,6 +23,7 @@ class ProductColorService implements ProductColorServiceInterface
     {
         return $this->productColorRepository->getByProductId($productId);
     }
+
     public function setProductColor($productId, $colors)
     {
         foreach ($colors as $item) {
@@ -30,10 +32,20 @@ class ProductColorService implements ProductColorServiceInterface
                 $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
                 $this->stockRepository->updateStock($item["id"], $item["stock"]);
             } else {
-                $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $productId, $item["status"] , $item["delivery_delay"]);
+                $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $productId, $item["status"], $item["delivery_delay"]);
                 $this->priceRepository->createPrice($productColor->id, $item["price"], $item["discount"]);
                 $this->stockRepository->createStock($productColor->id, $item["stock"]);
             }
         }
+    }
+
+    public function colorFastUpdate($colors)
+    {
+        foreach ($colors as $item) {
+            if (isset($item["id"])) {
+                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
+            }
+        }
+        return true;
     }
 }

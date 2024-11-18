@@ -6,4 +6,5 @@ interface ProductColorServiceInterface
 {
     public function getByProductId($productId);
     public function setProductColor($productId , $colors);
+    public function colorFastUpdate($colors);
 }
