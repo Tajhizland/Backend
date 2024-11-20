@@ -2,7 +2,7 @@
 
 return [
     "paginated_size"=>24,
-    "search_item_limit"=>10,
+    "search_item_limit"=>5,
     "home_page_item_limit"=>10,
     "order_payment_expire_day"=>1,
     "order_returned_expire_day"=>7,
