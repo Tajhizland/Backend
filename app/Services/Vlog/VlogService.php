@@ -78,6 +78,10 @@ class VlogService implements VlogServiceInterface
                     /** Example : filter[category]=10 */
                     $vlogQuery=$this->vlogRepository->filterCategory($vlogQuery, $value);
                 }
+                if ($filter == "search") {
+                    /** Example : filter[category]=10 */
+                    $vlogQuery=$this->vlogRepository->filterTitle($vlogQuery, $value);
+                }
             }
         }
         return $this->vlogRepository->paginated($vlogQuery);

@@ -42,4 +42,9 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     {
         return $query->paginate($this->pageSize);
     }
+
+    public function filterTitle($query, $title)
+    {
+        return $query->where("title",$title);
+    }
 }
