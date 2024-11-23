@@ -30,9 +30,9 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     {
         return $this->model::active() ;
     }
-    public function filterCategory($query , $categoryId)
+    public function filterCategory($query , $categoryIds)
     {
-        return $query->where("category_id",$categoryId);
+        return $query->whereIn("category_id",$categoryIds);
     }
     public function getLastActives()
     {
