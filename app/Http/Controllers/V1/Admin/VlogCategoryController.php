@@ -26,7 +26,7 @@ class VlogCategoryController extends Controller
 
     public function list()
     {
-        return $this->dataResponse(new VlogCategoryCollection($this->vlogCategoryService->getActiveList()));
+        return $this->dataResponseCollection(new VlogCategoryCollection($this->vlogCategoryService->getActiveList()));
     }
 
     public function findById($id)
