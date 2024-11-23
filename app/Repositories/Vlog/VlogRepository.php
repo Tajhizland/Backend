@@ -45,6 +45,6 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function filterTitle($query, $title)
     {
-        return $query->where("title",$title);
+        return $query->where("title", 'like', '%' . $title . '%');
     }
 }
