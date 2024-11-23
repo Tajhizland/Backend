@@ -72,18 +72,33 @@ class VlogService implements VlogServiceInterface
     public function listing($filters)
     {
         $vlogQuery = $this->vlogRepository->activeVlogQuery();
+        $vlogQuery = $this->renderFilter($vlogQuery, $filters);
+        return $this->vlogRepository->paginated($vlogQuery);
+    }
+
+    private function renderFilter($vlogQuery, $filters)
+    {
         if ($filters) {
             foreach ($filters as $filter => $value) {
                 if ($filter == "category") {
                     /** Example : filter[category]=10 */
-                    $vlogQuery=$this->vlogRepository->filterCategory($vlogQuery, $value);
+                    $vlogQuery = $this->vlogRepository->filterCategory($vlogQuery, $value);
                 }
                 if ($filter == "search") {
-                    /** Example : filter[category]=10 */
-                    $vlogQuery=$this->vlogRepository->filterTitle($vlogQuery, $value);
+                    /** Example : filter[search]=10 */
+                    $vlogQuery = $this->vlogRepository->filterTitle($vlogQuery, $value);
+                }
+                if ($filter == "sort") {
+                    /** Example : filter[sort]=10 */
+                    if ($value == "view")
+                        $vlogQuery = $this->vlogRepository->sortView($vlogQuery);
+                    if ($value == "new")
+                        $vlogQuery = $this->vlogRepository->sortNew($vlogQuery);
+                    if ($value == "old")
+                        $vlogQuery = $this->vlogRepository->sortOld($vlogQuery);
                 }
             }
         }
-        return $this->vlogRepository->paginated($vlogQuery);
+        return $vlogQuery;
     }
 }

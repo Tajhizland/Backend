@@ -13,4 +13,7 @@ interface VlogRepositoryInterface extends  BaseRepositoryInterface
     public function filterCategory($query , $categoryId);
     public function filterTitle($query , $title);
     public function getLastActives();
+    public function sortView($query);
+    public function sortNew($query);
+    public function sortOld($query);
 }

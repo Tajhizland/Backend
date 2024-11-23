@@ -47,4 +47,19 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     {
         return $query->where("title", 'like', '%' . $title . '%');
     }
+
+    public function sortView($query)
+    {
+        return $query->orderBy("view","desc");
+    }
+
+    public function sortNew($query)
+    {
+        return $query->orderBy("id","desc");
+    }
+
+    public function sortOld($query)
+    {
+        return $query->orderBy("id");
+    }
 }
