@@ -7,6 +7,7 @@ use App\Http\Requests\V1\Shop\Vlog\FindVlogByUrlRequest;
 use App\Http\Resources\V1\Vlog\VlogCollection;
 use App\Http\Resources\V1\Vlog\VlogResource;
 use App\Services\Vlog\VlogServiceInterface;
+use Illuminate\Http\Request;
 
 class VlogController extends Controller
 {
@@ -22,8 +23,8 @@ class VlogController extends Controller
         return $this->dataResponse(new VlogResource($this->vlogService->findByUrl($request->get("url"))));
     }
 
-    public function listing()
+    public function listing(Request $request)
     {
-        return $this->dataResponseCollection(new VlogCollection($this->vlogService->listing()));
+        return $this->dataResponseCollection(new VlogCollection($this->vlogService->listing($request->get("filter"))));
     }
 }

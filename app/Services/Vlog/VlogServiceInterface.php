@@ -6,7 +6,7 @@ interface VlogServiceInterface
 {
     public function dataTable();
 
-    public function listing();
+    public function listing($filters);
 
     public function findById($id);
 
