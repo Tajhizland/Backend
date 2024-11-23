@@ -14,6 +14,7 @@ class StoreVlogRequest extends FormRequest
             'url' => ['required'],
             'video' => ['required'],
             'poster' => ['required'],
+            'categoryId' => ['required',"exists:App\Models\VlogCategory,id"],
             'status' => ['required', 'integer'],
         ];
     }

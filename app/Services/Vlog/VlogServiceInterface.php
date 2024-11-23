@@ -12,7 +12,7 @@ interface VlogServiceInterface
 
     public function findByUrl($url);
 
-    public function store($title, $description, $video,$poster, $url, $status);
+    public function store($title, $description, $video,$poster, $url, $status ,$categoryId);
 
-    public function update($id, $title, $description, $video,$poster, $url, $status);
+    public function update($id, $title, $description, $video,$poster, $url, $status ,$categoryId);
 }

@@ -187,6 +187,13 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\VlogController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\VlogController::class, "update"]);
     });
+    Route::group(["prefix" => "vlog_category"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "dataTable"]);
+        Route::get("list", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "list"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "findById"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "update"]);
+    });
     Route::group(["prefix" => "banner"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BannerController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\BannerController::class, "find"]);

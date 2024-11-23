@@ -25,7 +25,7 @@ class VlogService implements VlogServiceInterface
         return $this->vlogRepository->findOrFail($id);
     }
 
-    public function store($title, $description, $video, $poster, $url, $status)
+    public function store($title, $description, $video, $poster, $url, $status ,$categoryId)
     {
         $filePath = $this->s3Service->upload($video, "vlog");
         $posterPath = $this->s3Service->upload($poster, "vlog");
@@ -36,10 +36,11 @@ class VlogService implements VlogServiceInterface
             "poster" => $posterPath,
             "status" => $status,
             "url" => $url,
+            "category_id" => $categoryId,
         ]);
     }
 
-    public function update($id, $title, $description, $video, $poster, $url, $status)
+    public function update($id, $title, $description, $video, $poster, $url, $status ,$categoryId)
     {
         $vlog = $this->vlogRepository->findOrFail($id);
         $filePath = $vlog->video;
@@ -59,7 +60,7 @@ class VlogService implements VlogServiceInterface
             "poster" => $posterPath,
             "url" => $url,
             "status" => $status,
-
+            "category_id" => $categoryId,
         ]);
     }
 
