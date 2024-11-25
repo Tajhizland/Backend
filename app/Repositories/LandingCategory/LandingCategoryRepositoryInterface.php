@@ -6,5 +6,5 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface LandingCategoryRepositoryInterface extends  BaseRepositoryInterface
 {
-
+    public function getWithCategory($landingId);
 }

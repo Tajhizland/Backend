@@ -206,9 +206,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "find"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\LandingController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\LandingController::class, "update"]);
-        Route::post("product/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setProduct"]);
+        Route::post("product/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "getProduct"]);
+        Route::get("product/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "setProduct"]);
         Route::delete("product/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteProduct"]);
         Route::post("category/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setCategory"]);
+        Route::get("category/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getCategory"]);
         Route::delete("category/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteCategory"]);
     });
 });

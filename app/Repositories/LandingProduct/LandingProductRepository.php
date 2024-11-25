@@ -11,4 +11,9 @@ class LandingProductRepository extends BaseRepository implements LandingProductR
     {
         parent::__construct($model);
     }
+
+    public function getWithProduct($landingId)
+    {
+        return $this->model::where("landing_id",$landingId)->with("product")->get();
+    }
 }

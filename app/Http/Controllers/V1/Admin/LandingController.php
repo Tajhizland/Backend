@@ -9,6 +9,8 @@ use App\Http\Requests\V1\Admin\Landing\StoreLandingRequest;
 use App\Http\Requests\V1\Admin\Landing\UpdateLandingRequest;
 use App\Http\Resources\V1\Landing\LandingCollection;
 use App\Http\Resources\V1\Landing\LandingResource;
+use App\Http\Resources\V1\LandingCategory\LandingCategoryCollection;
+use App\Http\Resources\V1\LandingProduct\LandingProductCollection;
 use App\Services\Landing\LandingServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
@@ -43,6 +45,15 @@ class LandingController extends Controller
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.landing")]));
     }
 
+    public function getProduct($id)
+    {
+        return $this->dataResponseCollection(new LandingProductCollection($this->landingService->getProductByLanding($id)));
+    }
+
+    public function getCategory($id)
+    {
+        return $this->dataResponseCollection(new LandingCategoryCollection($this->landingService->getCategoryByLanding($id)));
+    }
     public function setProduct(SetLandingProductRequest $request)
     {
         $this->landingService->setProduct($request->get("landing_id") ,$request->get("product_id"));

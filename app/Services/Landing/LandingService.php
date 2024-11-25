@@ -2,9 +2,11 @@
 
 namespace App\Services\Landing;
 
+use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Landing\LandingRepositoryInterface;
 use App\Repositories\LandingCategory\LandingCategoryRepositoryInterface;
 use App\Repositories\LandingProduct\LandingProductRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 
 class LandingService implements LandingServiceInterface
 {
@@ -12,7 +14,7 @@ class LandingService implements LandingServiceInterface
     (
         private LandingRepositoryInterface         $landingRepository,
         private LandingCategoryRepositoryInterface $landingCategoryRepository,
-        private LandingProductRepositoryInterface  $landingProductRepository
+        private LandingProductRepositoryInterface  $landingProductRepository,
     )
     {
     }
@@ -42,6 +44,7 @@ class LandingService implements LandingServiceInterface
     {
         return $this->landingRepository->findOrFail($id);
     }
+
     public function dataTable()
     {
         return $this->landingRepository->dataTable();
@@ -72,5 +75,15 @@ class LandingService implements LandingServiceInterface
     public function findByUrl($url)
     {
         return $this->landingRepository->findByUrl($url);
+    }
+
+    public function getProductByLanding($landingId)
+    {
+
+        return $this->landingProductRepository->getWithProduct($landingId);    }
+
+    public function getCategoryByLanding($landingId)
+    {
+        return $this->landingCategoryRepository->getWithCategory($landingId);
     }
 }

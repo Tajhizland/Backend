@@ -21,6 +21,8 @@ interface LandingServiceInterface
     public function deleteCategory($id);
 
     public function findByUrl($url);
+    public function getProductByLanding($landingId);
+    public function getCategoryByLanding($landingId);
 
 
 }

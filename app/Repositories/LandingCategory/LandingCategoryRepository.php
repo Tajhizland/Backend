@@ -11,4 +11,9 @@ class LandingCategoryRepository extends BaseRepository implements LandingCategor
     {
         parent::__construct($model);
     }
+
+    public function getWithCategory($landingId)
+    {
+        return $this->model::where("landing_id",$landingId)->with("category")->get();
+    }
 }
