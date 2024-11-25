@@ -30,7 +30,7 @@ class LandingController extends Controller
 
     public function findById($id)
     {
-        return $this->dataResponseCollection(new LandingResource($this->landingService->findById($id)));
+        return $this->dataResponse(new LandingResource($this->landingService->findById($id)));
     }
 
     public function store(StoreLandingRequest $request)
