@@ -46,6 +46,8 @@ use App\Repositories\HomepageCategory\HomepageCategoryRepository;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
 use App\Repositories\Landing\LandingRepository;
 use App\Repositories\Landing\LandingRepositoryInterface;
+use App\Repositories\LandingBanner\LandingBannerRepository;
+use App\Repositories\LandingBanner\LandingBannerRepositoryInterface;
 use App\Repositories\LandingCategory\LandingCategoryRepository;
 use App\Repositories\LandingCategory\LandingCategoryRepositoryInterface;
 use App\Repositories\LandingProduct\LandingProductRepository;
@@ -327,6 +329,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(LandingCategoryRepositoryInterface::class, LandingCategoryRepository::class);
 
         $this->app->bind(LandingProductRepositoryInterface::class, LandingProductRepository::class);
+
+        $this->app->bind(LandingBannerRepositoryInterface::class, LandingBannerRepository::class);
 
 
         /** End Repository */
