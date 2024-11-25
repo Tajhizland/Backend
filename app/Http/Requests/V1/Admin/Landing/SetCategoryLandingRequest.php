@@ -9,8 +9,8 @@ class SetCategoryLandingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'landing_id' => ['required', 'exists:landings'],
-            'category_id' => ['required', 'exists:categories'],
+            'landing_id' => ['required', 'exists:landings,id'],
+            'category_id' => ['required', 'exists:categories,id'],
         ];
     }
 

@@ -9,8 +9,8 @@ class SetLandingProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'landing_id' => ['required', 'exists:landings'],
-            'product_id' => ['required', 'exists:products'],
+            'landing_id' => ['required', 'exists:landings,id'],
+            'product_id' => ['required', 'exists:products,id'],
         ];
     }
 
