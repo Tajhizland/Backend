@@ -57,7 +57,7 @@ class LandingService implements LandingServiceInterface
 
     public function setCategory($landingId, $categoryId)
     {
-        return $this->landingCategoryRepository->create(["landing_id" => $landingId, "product_id" => $categoryId]);
+        return $this->landingCategoryRepository->create(["landing_id" => $landingId, "category_id" => $categoryId]);
     }
 
     public function deleteProduct($id)
