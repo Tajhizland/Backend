@@ -19,7 +19,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getOption"]);
         Route::get("color/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getColor"]);
         Route::get("image/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getImage"]);
-         Route::post("filter/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setFilter"]);
+        Route::post("filter/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setFilter"]);
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setOption"]);
         Route::post("color/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setColor"]);
         Route::post("color/fast-update", [\App\Http\Controllers\V1\Admin\ProductController::class, "colorFastUpdate"]);
@@ -200,5 +200,15 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\BannerController::class, "delete"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\BannerController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\BannerController::class, "update"]);
+    });
+    Route::group(["prefix" => "landing"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\LandingController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\LandingController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\LandingController::class, "update"]);
+        Route::post("product/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setProduct"]);
+        Route::delete("product/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteProduct"]);
+        Route::post("category/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setCategory"]);
+        Route::delete("category/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteCategory"]);
     });
 });

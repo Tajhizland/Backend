@@ -44,6 +44,12 @@ use App\Repositories\Guaranty\GuarantyRepository;
 use App\Repositories\Guaranty\GuarantyRepositoryInterface;
 use App\Repositories\HomepageCategory\HomepageCategoryRepository;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
+use App\Repositories\Landing\LandingRepository;
+use App\Repositories\Landing\LandingRepositoryInterface;
+use App\Repositories\LandingCategory\LandingCategoryRepository;
+use App\Repositories\LandingCategory\LandingCategoryRepositoryInterface;
+use App\Repositories\LandingProduct\LandingProductRepository;
+use App\Repositories\LandingProduct\LandingProductRepositoryInterface;
 use App\Repositories\Menu\MenuRepository;
 use App\Repositories\Menu\MenuRepositoryInterface;
 use App\Repositories\MobileVerification\MobileVerificationRepository;
@@ -154,6 +160,8 @@ use App\Services\HomepageCategory\HomepageCategoryService;
 use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
 use App\Services\ImageResize\ImageResizeService;
 use App\Services\ImageResize\ImageResizeServiceInterface;
+use App\Services\Landing\LandingService;
+use App\Services\Landing\LandingServiceInterface;
 use App\Services\Menu\MenuService;
 use App\Services\Menu\MenuServiceInterface;
 use App\Services\New\NewService;
@@ -314,6 +322,12 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(VlogCategoryRepositoryInterface::class, VlogCategoryRepository::class);
 
+        $this->app->bind(LandingRepositoryInterface::class, LandingRepository::class);
+
+        $this->app->bind(LandingCategoryRepositoryInterface::class, LandingCategoryRepository::class);
+
+        $this->app->bind(LandingProductRepositoryInterface::class, LandingProductRepository::class);
+
 
         /** End Repository */
 
@@ -419,6 +433,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(VlogServiceInterface::class, VlogService::class);
 
         $this->app->bind(VlogCategoryServiceInterface::class, VlogCategoryService::class);
+
+        $this->app->bind(LandingServiceInterface::class, LandingService::class);
 
         /** End Service */
 

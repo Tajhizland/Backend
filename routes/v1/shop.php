@@ -67,6 +67,10 @@ Route::group(["prefix" => "news"], function () {
     Route::get('paginated', [NewsController::class, "paginate"]);
 });
 
+Route::group(["prefix" => "landing"], function () {
+    Route::post('find', [\App\Http\Controllers\V1\Shop\LandingController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+ });
+
 Route::group(["prefix" => "page"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\PageController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
 });
