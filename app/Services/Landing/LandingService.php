@@ -92,21 +92,21 @@ class LandingService implements LandingServiceInterface
 
     public function getBanner($landingId)
     {
-        $this->landingBannerRepository->getByLandingId($landingId);
+        return $this->landingBannerRepository->getByLandingId($landingId);
     }
 
     public function deleteBanner($id)
     {
         $banner = $this->landingBannerRepository->findOrFail($id);
         $imagePath = $banner->image;
-        $this->s3Service->remove("landing-Banner/".$imagePath);
-        $this->landingBannerRepository->delete($banner);
+        $this->s3Service->remove("landing-Banner/" . $imagePath);
+        return $this->landingBannerRepository->delete($banner);
     }
 
-    public function setBanner($image, $url, $landingId,$slider)
+    public function setBanner($image, $url, $landingId, $slider)
     {
-        $imagePath = $this->s3Service->upload($image,"landing-Banner");
-        $this->landingBannerRepository->create([
+        $imagePath = $this->s3Service->upload($image, "landing-Banner");
+        return $this->landingBannerRepository->create([
             "url" => $url,
             "landing_id" => $landingId,
             "slider" => $slider,
