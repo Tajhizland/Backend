@@ -203,7 +203,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
     Route::group(["prefix" => "landing"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\LandingController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "find"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\LandingController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\LandingController::class, "update"]);
         Route::post("product/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setProduct"]);
