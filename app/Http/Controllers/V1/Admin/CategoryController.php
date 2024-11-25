@@ -10,6 +10,7 @@ use App\Http\Requests\V1\Admin\Filter\SetFilterRequest;
 use App\Http\Requests\V1\Admin\Option\SetOptionRequest;
 use App\Http\Resources\V1\Category\CategoryCollection;
 use App\Http\Resources\V1\Category\CategoryResource;
+use App\Http\Resources\V1\Category\SimpleCategoryCollection;
 use App\Http\Resources\V1\CategoryList\CategoryListCollection;
 use App\Http\Resources\V1\Filter\FilterCollection;
 use App\Http\Resources\V1\Option\OptionCollection;
@@ -47,7 +48,7 @@ class CategoryController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new CategoryCollection($this->categoryService->dataTable()));
+        return $this->dataResponseCollection(new SimpleCategoryCollection($this->categoryService->dataTable()));
     }
 
     public function findById($id)
