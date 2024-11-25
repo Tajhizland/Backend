@@ -25,7 +25,7 @@ class LandingRepository extends BaseRepository implements LandingRepositoryInter
     {
         return $this->model::active()
             ->where("url", $url)
-            ->with(["products", "categories"])
+            ->with(["products", "categories", "landingBannerImage", "landingBannerSlider"])
             ->first();
     }
 }

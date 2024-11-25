@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1\Landing;
 
 use App\Http\Resources\V1\Category\SimpleCategoryCollection;
+use App\Http\Resources\V1\LandingBanner\LandingBannerCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Models\Landing;
 use Illuminate\Http\Request;
@@ -24,6 +25,8 @@ class LandingResource extends JsonResource
 
             'product' =>new ProductCollection($this->whenLoaded("products")),
             'category' => new SimpleCategoryCollection($this->whenLoaded("categories")),
+            'landingBannerImage' => new LandingBannerCollection($this->whenLoaded("landingBannerImage")),
+            'landingBannerSlider' => new LandingBannerCollection($this->whenLoaded("landingBannerSlider")),
 
 
         ];

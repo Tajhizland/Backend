@@ -2,11 +2,11 @@
 
 namespace App\Services\Landing;
 
-use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Landing\LandingRepositoryInterface;
+use App\Repositories\LandingBanner\LandingBannerRepositoryInterface;
 use App\Repositories\LandingCategory\LandingCategoryRepositoryInterface;
 use App\Repositories\LandingProduct\LandingProductRepositoryInterface;
-use App\Repositories\Product\ProductRepositoryInterface;
+use App\Services\S3\S3ServiceInterface;
 
 class LandingService implements LandingServiceInterface
 {
@@ -15,6 +15,8 @@ class LandingService implements LandingServiceInterface
         private LandingRepositoryInterface         $landingRepository,
         private LandingCategoryRepositoryInterface $landingCategoryRepository,
         private LandingProductRepositoryInterface  $landingProductRepository,
+        private LandingBannerRepositoryInterface   $landingBannerRepository,
+        private S3ServiceInterface                 $s3Service,
     )
     {
     }
@@ -80,10 +82,35 @@ class LandingService implements LandingServiceInterface
     public function getProductByLanding($landingId)
     {
 
-        return $this->landingProductRepository->getWithProduct($landingId);    }
+        return $this->landingProductRepository->getWithProduct($landingId);
+    }
 
     public function getCategoryByLanding($landingId)
     {
         return $this->landingCategoryRepository->getWithCategory($landingId);
+    }
+
+    public function getBanner($landingId)
+    {
+        $this->landingBannerRepository->getByLandingId($landingId);
+    }
+
+    public function deleteBanner($id)
+    {
+        $banner = $this->landingBannerRepository->findOrFail($id);
+        $imagePath = $banner->image;
+        $this->s3Service->remove("landing-Banner/".$imagePath);
+        $this->landingBannerRepository->delete($banner);
+    }
+
+    public function setBanner($image, $url, $landingId,$slider)
+    {
+        $imagePath = $this->s3Service->upload($image,"landing-Banner");
+        $this->landingBannerRepository->create([
+            "url" => $url,
+            "landing_id" => $landingId,
+            "slider" => $slider,
+            "image" => $imagePath
+        ]);
     }
 }

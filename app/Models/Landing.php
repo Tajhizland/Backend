@@ -21,6 +21,18 @@ class Landing extends Model
     {
         return $this->belongsToMany(Product::class, 'landing_products');
     }
+    public function landingBanner(): HasMany
+    {
+        return $this->hasMany(LandingBanner::class);
+    }
+    public function landingBannerImage(): HasMany
+    {
+        return $this->hasMany(LandingBanner::class)->where("slider",0);
+    }
+    public function landingBannerSlider(): HasMany
+    {
+        return $this->hasMany(LandingBanner::class)->where("slider",1);
+    }
 
     public function categories(): BelongsToMany
     {

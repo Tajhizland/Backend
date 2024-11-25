@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Landing\SetBannerRequest;
 use App\Http\Requests\V1\Admin\Landing\SetCategoryLandingRequest;
 use App\Http\Requests\V1\Admin\Landing\SetLandingProductRequest;
 use App\Http\Requests\V1\Admin\Landing\StoreLandingRequest;
 use App\Http\Requests\V1\Admin\Landing\UpdateLandingRequest;
 use App\Http\Resources\V1\Landing\LandingCollection;
 use App\Http\Resources\V1\Landing\LandingResource;
+use App\Http\Resources\V1\LandingBanner\LandingBannerCollection;
 use App\Http\Resources\V1\LandingCategory\LandingCategoryCollection;
 use App\Http\Resources\V1\LandingProduct\LandingProductCollection;
 use App\Services\Landing\LandingServiceInterface;
@@ -54,6 +56,10 @@ class LandingController extends Controller
     {
         return $this->dataResponseCollection(new LandingCategoryCollection($this->landingService->getCategoryByLanding($id)));
     }
+    public function getBanner($id)
+    {
+        return $this->dataResponseCollection(new LandingBannerCollection($this->landingService->getBanner($id)));
+    }
     public function setProduct(SetLandingProductRequest $request)
     {
         $this->landingService->setProduct($request->get("landing_id") ,$request->get("product_id"));
@@ -66,10 +72,21 @@ class LandingController extends Controller
         return $this->successResponse(Lang::get("action.add_to", ["attr" => Lang::get("attr.category") , "to" => Lang::get("attr.landing")]));
     }
 
+    public function setBanner(SetBannerRequest $request)
+    {
+        $this->landingService->setBanner($request->file("image"),$request->get("url") ,$request->get("landing_id"),$request->get("slider"));
+        return $this->successResponse(Lang::get("action.add_to", ["attr" => Lang::get("attr.banner") , "to" => Lang::get("attr.landing")]));
+    }
+
     public function deleteProduct($id)
     {
         $this->landingService->deleteProduct($id);
         return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.product") , "from" => Lang::get("attr.landing")]));
+    }
+    public function deleteBanner($id)
+    {
+        $this->landingService->deleteBanner($id);
+        return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.banner") , "from" => Lang::get("attr.landing")]));
     }
 
     public function deleteCategory($id)

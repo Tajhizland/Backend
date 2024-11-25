@@ -212,5 +212,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("category/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setCategory"]);
         Route::get("category/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getCategory"]);
         Route::delete("category/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteCategory"]);
+   Route::post("banner/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setCategory"]);
+        Route::get("banner/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getCategory"]);
+        Route::delete("banner/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteCategory"]);
     });
 });
