@@ -107,7 +107,7 @@ class Product extends Model
     {
         $minPriceColor = $this->prices()->orderBy('price')->first();
         if ($minPriceColor) {
-            return $minPriceColor->price - ($minPriceColor->price * ($minPriceColor->discount / 100));
+            return $minPriceColor->price ;
         }
         return null;
     }
