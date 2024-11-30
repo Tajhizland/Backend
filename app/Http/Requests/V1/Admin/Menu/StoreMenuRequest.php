@@ -11,7 +11,7 @@ class StoreMenuRequest extends FormRequest
         return [
             'title' => ['required'],
             'parent_id' => ['nullable','integer'],
-            'url' => ['nullable'],
+            'url' => ['required'],
             'status' => ['required','in:0,1'],
             'banner_title' => ['nullable'],
             'banner_link' => ['nullable'],
