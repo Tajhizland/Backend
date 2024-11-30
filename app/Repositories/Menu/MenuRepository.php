@@ -18,12 +18,13 @@ class MenuRepository extends BaseRepository implements MenuRepositoryInterface
     {
         return QueryBuilder::for(Menu::class)
             ->with("parent")
-            ->allowedFilters(['id', 'created_at', 'title', 'url',
+            ->allowedFilters(['id', 'created_at', 'title', 'url', 'status',
                 AllowedFilter::callback('parent', function ($query, $value) {
                     $query->whereHas('parent', function ($query) use ($value) {
                         $query->where('title', 'like', '%' . $value . '%');
                     });
                 }),])
+            ->allowedSorts(['id', 'created_at', 'title', 'url', 'status'])
             ->paginate($this->pageSize);
     }
 
