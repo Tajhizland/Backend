@@ -31,13 +31,13 @@ class MenuController extends Controller
 
     public function store(StoreMenuRequest $request)
     {
-        $this->menuService->store($request->get("title"),$request->get("parent_id"),$request->get("url"),$request->get("banner_title"),$request->get("banner_link"),$request->get("banner_logo"));
+        $this->menuService->store($request->get("title"),$request->get("parent_id"),$request->get("url"),$request->get("status"),$request->get("banner_title"),$request->get("banner_link"),$request->get("banner_logo"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.menu")]));
     }
 
     public function update(UpdateMenuRequest $request)
     {
-        $this->menuService->update($request->get("id"),$request->get("title"),$request->get("parent_id"),$request->get("url"),$request->get("banner_title"),$request->get("banner_link"),$request->get("banner_logo"));
+        $this->menuService->update($request->get("id"),$request->get("title"),$request->get("parent_id"),$request->get("url"),$request->get("status"),$request->get("banner_title"),$request->get("banner_link"),$request->get("banner_logo"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.menu")]));
     }
 
