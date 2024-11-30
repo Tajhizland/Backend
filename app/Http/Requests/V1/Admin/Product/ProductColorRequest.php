@@ -16,7 +16,7 @@ class ProductColorRequest extends FormRequest
             'color.*.status' => ['required','int','in:0,1,2'],
             'color.*.price' => ['required','int','min:0'],
             'color.*.stock' => ['required','int','min:0'],
-            'color.*.discount' => ['required','int','min:0','max:100'],
+            'color.*.discount' => ['required','int','min:0'],
             'color.*.delivery_delay' => ['nullable','int' ],
         ];
     }

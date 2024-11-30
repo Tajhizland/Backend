@@ -30,7 +30,8 @@ class ProductColorResource extends JsonResource
             'statusLabel' => $statusLabel,
             'price' => $this->price?->price,
             'discount' => $this->price?->discount,
-            'discountedPrice' => $this->price?->price - ($this->price?->price * ($this->price?->discount / 100)),            'stock' => $this->stock?->stock ?? 0,
+            'discountedPrice' => ($this->price?->price - $this->price?->discount) / ($this->price?->price) * 100,
+            'stock' => $this->stock?->stock ?? 0,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];

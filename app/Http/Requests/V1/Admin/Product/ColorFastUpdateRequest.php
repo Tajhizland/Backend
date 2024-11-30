@@ -11,7 +11,7 @@ class ColorFastUpdateRequest extends FormRequest
         return [
             'color.*.id' => ['nullable','integer','exists:App\Models\ProductColor'],
             'color.*.price' => ['required','int','min:0'],
-            'color.*.discount' => ['required','int','min:0','max:100'],
+            'color.*.discount' => ['required','int','min:0'],
         ];
     }
 
