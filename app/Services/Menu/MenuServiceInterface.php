@@ -6,6 +6,8 @@ interface MenuServiceInterface
 {
     public function dataTable();
 
+    public function delete($id);
+
     public function list();
 
     public function findById($id);

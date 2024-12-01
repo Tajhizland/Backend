@@ -71,4 +71,10 @@ class MenuService implements MenuServiceInterface
     {
         return $this->menuRepository->allActiveList();
     }
+
+    public function delete($id)
+    {
+        $menu=$this->menuRepository->findOrFail($id);
+        return $this->menuRepository->delete($menu);
+    }
 }

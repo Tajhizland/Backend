@@ -41,6 +41,12 @@ class MenuController extends Controller
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.menu")]));
     }
 
+    public function delete($id)
+    {
+        $this->menuService->delete($id);
+        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.menu")]));
+    }
+
     public function findById($id)
     {
         return $this->dataResponse(new MenuResource($this->menuService->findById($id)));
