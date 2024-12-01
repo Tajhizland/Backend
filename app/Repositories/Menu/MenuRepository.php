@@ -30,7 +30,7 @@ class MenuRepository extends BaseRepository implements MenuRepositoryInterface
 
     public function getWithChildren()
     {
-        return $this->model::where("parent_id", 0)->with("children.children.children")->get();
+        return $this->model::active()->where("parent_id", 0)->with("children.children.children")->get();
     }
 
     public function store($title, $parentId, $url, $bannerTitle, $bannerUrl, $logoPath)

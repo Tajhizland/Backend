@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Slider;
 
-use App\Models\News;
 use App\Models\Slider;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -14,6 +13,11 @@ class SliderRepository extends BaseRepository implements SliderRepositoryInterfa
         parent::__construct($model);
     }
 
+    public function getActiveSlider()
+    {
+        return $this->model::active()->get();
+    }
+
     public function dataTable()
     {
         return QueryBuilder::for(Slider::class)
@@ -22,12 +26,14 @@ class SliderRepository extends BaseRepository implements SliderRepositoryInterfa
             ->allowedSorts(['id', 'url', 'title', 'status', 'created_at', 'published'])
             ->paginate($this->pageSize);
     }
-    public function store($title ,$url ,$status, $image)
+
+    public function store($title, $url, $status, $image)
     {
-        return $this->model::create(["title"=>$title , "url"=>$url , "image"=>$image , "status"=>$status]);
+        return $this->model::create(["title" => $title, "url" => $url, "image" => $image, "status" => $status]);
     }
-    public function updateSlider(Slider $slider,$title ,$url ,$status, $image)
+
+    public function updateSlider(Slider $slider, $title, $url, $status, $image)
     {
-        return $slider->update(["title"=>$title , "url"=>$url , "image"=>$image , "status"=>$status]);
+        return $slider->update(["title" => $title, "url" => $url, "image" => $image, "status" => $status]);
     }
 }
