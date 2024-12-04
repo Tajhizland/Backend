@@ -13,7 +13,7 @@ class StoreContactRequest extends FormRequest
             'concept' => ['string'],
             'province_id' => ['required' ,'exists:App\Models\Province,id'],
             'city_id' => ['required' ,'exists:App\Models\City,id'],
-            'email' => ['required', 'email', 'max:254'],
+            'mobile' => ['required' ],
             'message' => ['required'],
         ];
     }
