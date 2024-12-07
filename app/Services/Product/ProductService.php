@@ -101,7 +101,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->getByCategoryId($productCategory->category_id);
     }
 
-    public function setVideo($productId, $file, $type): mixed
+    public function setVideo($productId, $description ,$file, $type): mixed
     {
         $product = $this->productRepository->findOrFail($productId);
         switch ($type) {
@@ -109,19 +109,19 @@ class ProductService implements ProductServiceInterface
                 $videoPath = $product->intro_video;
                 $this->s3Service->remove("product/video/intro/$videoPath");
                 $videoPath = $this->s3Service->upload($file, "product/video/intro");
-                $this->productRepository->update($product, ["intro_video" => $videoPath]);
+                $this->productRepository->update($product, ["intro_video" => $videoPath , "intro_video_description"=>$description]);
                 return true;
             case "unboxing":
                 $videoPath = $product->intro_video;
                 $this->s3Service->remove("product/video/unboxing/$videoPath");
                 $videoPath = $this->s3Service->upload($file, "product/video/unboxing");
-                $this->productRepository->update($product, ["unboxing_video" => $videoPath]);
+                $this->productRepository->update($product, ["unboxing_video" => $videoPath, "unboxing_video_description"=>$description]);
                 return true;
             case "usage":
                 $videoPath = $product->intro_video;
                 $this->s3Service->remove("product/video/usage/$videoPath");
                 $videoPath = $this->s3Service->upload($file, "product/video/usage");
-                $this->productRepository->update($product, ["usage_video" => $videoPath]);
+                $this->productRepository->update($product, ["usage_video" => $videoPath, "usage_video_description"=>$description]);
                 return true;
         }
         throw new BreakException(\Lang::get("exceptions.type_not_find"));

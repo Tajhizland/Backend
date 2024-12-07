@@ -112,7 +112,7 @@ class ProductController extends Controller
 
     public function setVideo(SetVideoRequest $request)
     {
-        $this->productService->setVideo($request->get("productId"), $request->file("file"), $request->get("type"));
+        $this->productService->setVideo($request->get("productId"), $request->file("file"), $request->file("description"), $request->get("type"));
         return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
     public function colorFastUpdate(ColorFastUpdateRequest $request)

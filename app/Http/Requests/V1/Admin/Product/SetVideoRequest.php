@@ -11,6 +11,7 @@ class SetVideoRequest extends FormRequest
         return [
             "type"=>"required|string|in:unboxing,intro,usage",
             "productId"=>"required|numeric",
+            "description"=>"nullable|string",
             "file"=>"required|file",
         ];
     }

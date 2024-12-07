@@ -13,6 +13,6 @@ interface ProductServiceInterface
     public function getRelatedProducts($id):mixed;
     public function storeProduct($name , $url , $description , $study ,$status, $categoryId , $brandId , $metaTitle , $metaDescription,$guaranty_id ):mixed;
     public function updateProduct($id,$name , $url , $description , $study , $status,$categoryId , $brandId , $metaTitle , $metaDescription ,$guaranty_id):mixed;
-    public function setVideo($productId,$file,$type):mixed;
+    public function setVideo($productId,$description,$file,$type):mixed;
     public function getDiscountedProducts():mixed;
 }
