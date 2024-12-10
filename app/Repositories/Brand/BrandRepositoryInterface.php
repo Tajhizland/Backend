@@ -10,6 +10,7 @@ interface BrandRepositoryInterface extends BaseRepositoryInterface
     public function dataTable();
     public function list();
     public function findByUrl($url);
+    public function sort($id,$sort);
 
     public function getAllActive();
 

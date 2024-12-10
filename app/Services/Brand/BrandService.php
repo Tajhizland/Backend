@@ -92,4 +92,12 @@ class BrandService implements BrandServiceInterface
     {
         return $this->brandRepository->getAllActive();
     }
+
+    public function sort($brands)
+    {
+        foreach ($brands as $item) {
+            $this->brandRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
 }

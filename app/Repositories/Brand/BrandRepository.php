@@ -60,4 +60,10 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     {
         return $this->model::where('status', 1)->get();
     }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
+
+    }
 }

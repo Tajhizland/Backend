@@ -6,6 +6,7 @@ interface BrandServiceInterface
 {
     public function dataTable();
     public function list();
+    public function sort($brands);
     public function getAllActive();
     public function listing($url, $filters);
     public function findById($id);
