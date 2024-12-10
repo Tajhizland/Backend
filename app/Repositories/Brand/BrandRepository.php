@@ -23,7 +23,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 
     public function list()
     {
-        return $this->model::select("id", "name")->get();
+        return $this->model::select("id", "name")->orderBy("sort")->get();
     }
     public function findByUrl($url)
     {
@@ -58,7 +58,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     }
     public function getAllActive()
     {
-        return $this->model::where('status', 1)->get();
+        return $this->model::where('status', 1)->orderBy("sort")->get();
     }
 
     public function sort($id, $sort)
