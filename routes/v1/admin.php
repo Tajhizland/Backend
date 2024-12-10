@@ -45,6 +45,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\BrandController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\BrandController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\BrandController::class, "update"]);
+        Route::post("sort", [\App\Http\Controllers\V1\Admin\BrandController::class, "sort"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\BrandController::class, "list"]);
     });
     Route::group(["prefix" => "news"], function () {
