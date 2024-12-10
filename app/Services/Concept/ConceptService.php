@@ -17,15 +17,15 @@ class ConceptService implements ConceptServiceInterface
     {
     }
 
-    public function store($title, $description, $status, $image)
+    public function store($title, $description, $status, $icon)
     {
         $imagePath = "";
-        if ($image) {
-            $imagePath = $this->s3Service->upload($image, "concept");
+        if ($icon) {
+            $imagePath = $this->s3Service->upload($icon, "concept");
         }
         return $this->conceptRepository->create(
             [
-                "image" => $imagePath,
+                "icon" => $imagePath,
                 "description" => $description,
                 "title" => $title,
                 "status" => $status
@@ -33,17 +33,17 @@ class ConceptService implements ConceptServiceInterface
         );
     }
 
-    public function update($id, $title, $description, $status, $image)
+    public function update($id, $title, $description, $status, $icon)
     {
         $concept = $this->conceptRepository->findOrFail($id);
-        $imagePath = $concept->image;
-        if ($image) {
+        $imagePath = $concept->icon;
+        if ($icon) {
             $this->s3Service->remove("concept/" . $imagePath);
-            $imagePath = $this->s3Service->upload($image, "concept");
+            $imagePath = $this->s3Service->upload($icon, "concept");
         }
         $this->conceptRepository->update($concept,
             [
-                "image" => $imagePath,
+                "icon" => $imagePath,
                 "description" => $description,
                 "title" => $title,
                 "status" => $status

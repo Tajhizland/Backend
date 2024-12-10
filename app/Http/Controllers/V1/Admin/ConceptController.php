@@ -32,13 +32,13 @@ class ConceptController extends Controller
 
     public function store(StoreConceptRequest $request)
     {
-        $this->conceptService->store($request->get("title"), $request->get("description"), $request->get("status"), $request->get("image"));
+        $this->conceptService->store($request->get("title"), $request->get("description"), $request->get("status"), $request->get("icon"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.concept")]));
     }
 
     public function update(UpdateConceptRequest $request)
     {
-        $this->conceptService->update($request->get("id"), $request->get("title"), $request->get("description"), $request->get("status"), $request->get("image"));
+        $this->conceptService->update($request->get("id"), $request->get("title"), $request->get("description"), $request->get("status"), $request->get("icon"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.concept")]));
     }
 
