@@ -21,7 +21,7 @@ class ConceptResource extends JsonResource
             'categories' => new SimpleCategoryCollection($this->whenLoaded('categories')),
             'description' => $this->description,
             'status' => $this->status,
-            'image' => $this->image,
+            'icon' => $this->icon,
         ];
     }
 }
