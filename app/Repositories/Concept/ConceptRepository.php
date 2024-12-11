@@ -20,7 +20,7 @@ class ConceptRepository extends BaseRepository implements ConceptRepositoryInter
                 'categories' => function ($query) {
                     $query->withPivot('display');
                 }
-            ])->get();
+            ])->latest("id")->get();
     }
 
     public function dataTable()
