@@ -16,9 +16,8 @@ class HomepageCategoryResource extends JsonResource
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
             'id' => $this->id,
-
+            'icon' => $this->icon,
             'category_id' => $this->category_id,
-
             'category' => new CategoryResource($this->whenLoaded('category')),
         ];
     }
