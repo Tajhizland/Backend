@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Banner\BannerSortRequest;
 use App\Http\Requests\V1\Admin\Banner\StoreBannerRequest;
 use App\Http\Requests\V1\Admin\Banner\UpdateBannerRequest;
 use App\Http\Resources\V1\Banner\BannerCollection;
@@ -45,5 +46,14 @@ class BannerController extends Controller
     {
         $this->bannerService->update($request->get("id"), $request->file("image"), $request->get("url"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.banner")]));
+    }
+    public function list()
+    {
+        return $this->dataResponseCollection(new BannerCollection($this->bannerService->getAll()));
+    }
+    public function sort(BannerSortRequest $request)
+    {
+        $this->bannerService->sort($request->get("banner"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.banner")]));
     }
 }

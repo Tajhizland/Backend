@@ -20,4 +20,9 @@ class BannerRepository extends BaseRepository implements BannerRepositoryInterfa
             ->allowedSorts(['url', 'id', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
+    }
 }

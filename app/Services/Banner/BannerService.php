@@ -53,4 +53,15 @@ class BannerService implements BannerServiceInterface
     {
         return $this->bannerRepository->findOrFail($id);
     }
+    public function getAll()
+    {
+        return $this->bannerRepository->all();
+    }
+    public function sort($array)
+    {
+        foreach ($array as $item) {
+            $this->bannerRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
 }

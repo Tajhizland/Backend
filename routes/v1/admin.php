@@ -202,6 +202,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\BannerController::class, "delete"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\BannerController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\BannerController::class, "update"]);
+        Route::get("list", [\App\Http\Controllers\V1\Admin\BannerController::class, "getAll"]);
+        Route::post("sort", [\App\Http\Controllers\V1\Admin\BannerController::class, "sort"]);
     });
     Route::group(["prefix" => "landing"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\LandingController::class, "dataTable"]);
