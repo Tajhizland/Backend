@@ -25,4 +25,9 @@ class BannerRepository extends BaseRepository implements BannerRepositoryInterfa
     {
         return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
+
+    public function getAll()
+    {
+        return $this->model::orderBy("sort")->get();
+    }
 }
