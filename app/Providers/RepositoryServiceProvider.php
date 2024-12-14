@@ -126,6 +126,8 @@ use App\Services\Banner\BannerService;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Brand\BrandService;
 use App\Services\Brand\BrandServiceInterface;
+use App\Services\Breadcrumb\BreadcrumbService;
+use App\Services\Breadcrumb\BreadcrumbServiceInterface;
 use App\Services\Cart\CartService;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\CartItem\CartItemService;
@@ -439,6 +441,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(VlogCategoryServiceInterface::class, VlogCategoryService::class);
 
         $this->app->bind(LandingServiceInterface::class, LandingService::class);
+
+        $this->app->bind(BreadcrumbServiceInterface::class, BreadcrumbService::class);
 
         /** End Service */
 
