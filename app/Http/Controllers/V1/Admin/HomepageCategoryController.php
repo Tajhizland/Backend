@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\HomepageCategory\HomepageCategoryRequest;
+use App\Http\Requests\V1\Admin\HomepageCategory\SetIconRequest;
 use App\Http\Resources\V1\HomepageCategory\HomepageCategoryCollection;
 use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -31,5 +32,10 @@ class HomepageCategoryController extends Controller
     {
         $this->homepageCategoryService->delete($id);
         return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.category"), "from" => Lang::get("attr.list")]));
+    }
+    public function setIcon(SetIconRequest $request)
+    {
+        $this->homepageCategoryService->setIcon($request->get("id"),$request->file("icon"));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
     }
 }

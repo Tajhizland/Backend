@@ -7,4 +7,5 @@ interface HomepageCategoryServiceInterface
     public function dataTable();
     public function add($categoryId);
     public function delete($id);
+    public function setIcon($id ,$icon);
 }

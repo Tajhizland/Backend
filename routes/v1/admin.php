@@ -136,6 +136,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "dataTable"]);
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "delete"]);
         Route::post("add", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "add"]);
+        Route::post("setIcon", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "setIcon"]);
     });
     Route::group(["prefix" => "menu"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\MenuController::class, "dataTable"]);
