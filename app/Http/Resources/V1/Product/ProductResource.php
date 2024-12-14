@@ -46,6 +46,7 @@ class ProductResource extends JsonResource
             'unboxing_video_description' => $this->unboxing_video_description,
             'usage_video_description' => $this->usage_video_description,
             'review' => $this->review,
+            'guaranty_time' => $this->guaranty_time,
             'guaranty' => new GuarantyResource($this->guaranty),
             'productOptions' => new ProductOptionCollection($this->productOptions),
             'colors' => new ProductColorCollection($this->activeProductColors),

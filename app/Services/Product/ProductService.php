@@ -48,7 +48,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id ,$guaranty_time): mixed
     {
         $product = $this->productRepository->create([
             "name" => $name,
@@ -59,6 +59,7 @@ class ProductService implements ProductServiceInterface
             "view" => 0,
             "brand_id" => $brandId,
             "guaranty_id" => $guaranty_id,
+            "guaranty_time" => $guaranty_time,
             "meta_title" => $metaTitle,
             "meta_description" => $metaDescription,
         ]);
@@ -69,7 +70,7 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id ,$guaranty_time): mixed
     {
         $product = $this->productRepository->findOrFail($id);
         $this->productRepository->update($product,
@@ -79,6 +80,7 @@ class ProductService implements ProductServiceInterface
                 "description" => $description,
                 "study" => $study,
                 "status" => $status,
+                "guaranty_time" => $guaranty_time,
                 "brand_id" => $brandId,
                 "meta_title" => $metaTitle,
                 "guaranty_id" => $guaranty_id,
