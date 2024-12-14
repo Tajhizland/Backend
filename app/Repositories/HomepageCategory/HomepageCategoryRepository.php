@@ -40,6 +40,6 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
             'category.products' => function ($query) {
                 $query->limit(12);
             }
-        ])->get();
+        ])->latest("id")->get();
     }
 }
