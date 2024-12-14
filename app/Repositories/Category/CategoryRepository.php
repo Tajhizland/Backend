@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Category;
 
+use App\Enums\FilterStatus;
 use App\Models\Category;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -20,7 +21,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function findByUrl($url)
     {
-        return $this->model::with(["filters", "filters.items"])->where("url", $url)->active()->first();
+        return $this->model::with(["filters"=> function ($query){
+            $query->with(["items"=> function ($query){
+                $query->where("status",FilterStatus::Active->value);
+            }])->where("status",FilterStatus::Active->value);
+        }])->where("url", $url)->active()->first();
     }
 
     public function createCategory($name, $status, $url, $image, $description, $parentId)
