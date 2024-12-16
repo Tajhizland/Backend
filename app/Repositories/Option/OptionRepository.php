@@ -17,7 +17,7 @@ class OptionRepository extends BaseRepository implements OptionRepositoryInterfa
 
     public function createOption($title, $categoryId, $status)
     {
-        $this->create([
+        return$this->create([
             "title" => $title,
             "category_id" => $categoryId,
             "status" => $status,
