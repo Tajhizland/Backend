@@ -49,7 +49,7 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("category_id"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"),$request->get("guaranty_time"));
+        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"),$request->get("guaranty_time"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.product")]));
     }
 

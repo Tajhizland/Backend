@@ -29,4 +29,9 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
     {
         return $this->model::where("product_id", $productId)->first();
     }
+
+    public function deleteByProductId($productId)
+    {
+        return $this->model::where("product_id", $productId)->delete();
+    }
 }

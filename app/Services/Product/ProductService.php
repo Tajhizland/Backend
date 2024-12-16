@@ -5,6 +5,7 @@ namespace App\Services\Product;
 use App\Exceptions\BreakException;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
+use App\Services\ProductCategory\ProductCategoryServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -12,13 +13,14 @@ class ProductService implements ProductServiceInterface
 {
     public function __construct(
         private ProductRepositoryInterface         $productRepository,
+        private ProductCategoryServiceInterface    $productCategoryService,
         private ProductCategoryRepositoryInterface $productCategoryRepository,
         private S3ServiceInterface                 $s3Service,
     )
     {
     }
 
-    public function getDiscountedProducts():mixed
+    public function getDiscountedProducts(): mixed
     {
         return $this->productRepository->getDiscountedProducts();
     }
@@ -48,7 +50,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id ,$guaranty_time): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time): mixed
     {
         $product = $this->productRepository->create([
             "name" => $name,
@@ -63,14 +65,12 @@ class ProductService implements ProductServiceInterface
             "meta_title" => $metaTitle,
             "meta_description" => $metaDescription,
         ]);
-        $this->productCategoryRepository->create([
-            "product_id" => $product->id,
-            "category_id" => $categoryId
-        ]);
+
+        $this->productCategoryService->syncProductCategory($product->id, $categoryId);
         return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id ,$guaranty_time): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time): mixed
     {
         $product = $this->productRepository->findOrFail($id);
         $this->productRepository->update($product,
@@ -86,7 +86,7 @@ class ProductService implements ProductServiceInterface
                 "guaranty_id" => $guaranty_id,
                 "meta_description" => $metaDescription,
             ]);
-        $this->productCategoryRepository->updateWithProductId($id, $categoryId);
+        $this->productCategoryService->syncProductCategory($product->id, $categoryId);
         return true;
     }
 
@@ -103,7 +103,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->getByCategoryId($productCategory->category_id);
     }
 
-    public function setVideo($productId, $description ,$file, $type): mixed
+    public function setVideo($productId, $description, $file, $type): mixed
     {
         $product = $this->productRepository->findOrFail($productId);
         switch ($type) {
@@ -111,19 +111,19 @@ class ProductService implements ProductServiceInterface
                 $videoPath = $product->intro_video;
                 $this->s3Service->remove("product/video/intro/$videoPath");
                 $videoPath = $this->s3Service->upload($file, "product/video/intro");
-                $this->productRepository->update($product, ["intro_video" => $videoPath , "intro_video_description"=>$description]);
+                $this->productRepository->update($product, ["intro_video" => $videoPath, "intro_video_description" => $description]);
                 return true;
             case "unboxing":
                 $videoPath = $product->intro_video;
                 $this->s3Service->remove("product/video/unboxing/$videoPath");
                 $videoPath = $this->s3Service->upload($file, "product/video/unboxing");
-                $this->productRepository->update($product, ["unboxing_video" => $videoPath, "unboxing_video_description"=>$description]);
+                $this->productRepository->update($product, ["unboxing_video" => $videoPath, "unboxing_video_description" => $description]);
                 return true;
             case "usage":
                 $videoPath = $product->intro_video;
                 $this->s3Service->remove("product/video/usage/$videoPath");
                 $videoPath = $this->s3Service->upload($file, "product/video/usage");
-                $this->productRepository->update($product, ["usage_video" => $videoPath, "usage_video_description"=>$description]);
+                $this->productRepository->update($product, ["usage_video" => $videoPath, "usage_video_description" => $description]);
                 return true;
         }
         throw new BreakException(\Lang::get("exceptions.type_not_find"));
@@ -131,6 +131,6 @@ class ProductService implements ProductServiceInterface
 
     public function special(): mixed
     {
-        return  $this->productRepository->getSpecial();
+        return $this->productRepository->getSpecial();
     }
 }
