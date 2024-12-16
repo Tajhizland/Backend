@@ -79,9 +79,9 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'product_categories');
     }
 
-    public function productCategories(): HasOne
+    public function productCategories(): HasMany
     {
-        return $this->hasOne(ProductCategory::class);
+        return $this->hasMany(ProductCategory::class);
     }
 
     public function brand(): BelongsTo
