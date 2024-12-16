@@ -65,8 +65,8 @@ class ProductService implements ProductServiceInterface
             "meta_title" => $metaTitle,
             "meta_description" => $metaDescription,
         ]);
-
-        $this->productCategoryService->syncProductCategory($product->id, $categoryId);
+        $categoryIds=json_decode($categoryId);
+        $this->productCategoryService->syncProductCategory($product->id, $categoryIds);
         return $product;
     }
 
@@ -86,7 +86,8 @@ class ProductService implements ProductServiceInterface
                 "guaranty_id" => $guaranty_id,
                 "meta_description" => $metaDescription,
             ]);
-        $this->productCategoryService->syncProductCategory($product->id, $categoryId);
+        $categoryIds=json_decode($categoryId);
+        $this->productCategoryService->syncProductCategory($product->id, $categoryIds);
         return true;
     }
 
