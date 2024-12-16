@@ -77,17 +77,20 @@ class OptionService implements OptionServiceInterface
     public function setOption($categoryId, $options): void
     {
         foreach ($options as $option) {
-            if(@isset($option["id"])) {
+            if(@$option["id"]) {
+                $optionId=$option["id"];
                 $existOption = $this->optionRepository->find($option["id"]);
                 if ($existOption) {
                     $this->optionRepository->updateOption($option["id"], $option["title"], $categoryId, $option["status"]);
                 }
                 else {
-                    $this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
+                    $newOption=$this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
+                    $optionId=$newOption->id;
                 }
             }
             else {
-                $this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
+                $newOption=$this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
+                $optionId=$newOption->id;
             }
             $optionItems = $option["item"];
             foreach ($optionItems as $optionItem) {
@@ -98,7 +101,7 @@ class OptionService implements OptionServiceInterface
                         continue;
                     }
                 }
-                $this->optionItemRepository->createFilterItem($option["id"], $optionItem["title"], $optionItem["status"]);
+                $this->optionItemRepository->createFilterItem($optionId, $optionItem["title"], $optionItem["status"]);
             }
         }
     }
