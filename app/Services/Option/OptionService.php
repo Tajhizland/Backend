@@ -77,7 +77,7 @@ class OptionService implements OptionServiceInterface
     public function setOption($categoryId, $options): void
     {
         foreach ($options as $option) {
-            if(@$option["id"]) {
+            if(@isset($option["id"])) {
                 $existOption = $this->optionRepository->find($option["id"]);
                 if ($existOption) {
                     $this->optionRepository->updateOption($option["id"], $option["title"], $categoryId, $option["status"]);
