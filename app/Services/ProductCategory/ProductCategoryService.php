@@ -20,7 +20,7 @@ class ProductCategoryService implements  ProductCategoryServiceInterface
         {
             $this->productCategoryRepository->create([
                 "product_id"=>$productId,
-                "category_id"=>$this
+                "category_id"=>$item
             ]);
         }
     }
