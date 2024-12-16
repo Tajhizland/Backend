@@ -190,6 +190,8 @@ use App\Services\PopularProduct\PopularProductService;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
+use App\Services\ProductCategory\ProductCategoryService;
+use App\Services\ProductCategory\ProductCategoryServiceInterface;
 use App\Services\ProductColor\ProductColorService;
 use App\Services\ProductColor\ProductColorServiceInterface;
 use App\Services\ProductImage\ProductImageService;
@@ -443,6 +445,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(LandingServiceInterface::class, LandingService::class);
 
         $this->app->bind(BreadcrumbServiceInterface::class, BreadcrumbService::class);
+
+        $this->app->bind(ProductCategoryServiceInterface::class, ProductCategoryService::class);
 
         /** End Service */
 
