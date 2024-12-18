@@ -49,7 +49,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     $query->whereHas('categories', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
                     });
-                }), AllowedFilter::callback('brand', function ($query, $value) {
+                }), AllowedFilter::callback('brand_name', function ($query, $value) {
                     $query->whereHas('brand', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
                     });
