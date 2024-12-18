@@ -46,6 +46,11 @@ class MenuController extends Controller
         $this->menuService->delete($id);
         return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.menu")]));
     }
+    public function deleteBanner($id)
+    {
+        $this->menuService->deleteBanner($id);
+        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.banner")]));
+    }
 
     public function findById($id)
     {

@@ -17,4 +17,6 @@ interface MenuServiceInterface
     public function update($id, $title, $parentId, $url,  $status, $bannerTitle, $bannerUrl, $bannerLogo);
 
     public function buildMenu();
+
+    public function deleteBanner($id);
 }

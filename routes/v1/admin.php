@@ -145,6 +145,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("update", [\App\Http\Controllers\V1\Admin\MenuController::class, "update"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\MenuController::class, "list"]);
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\MenuController::class, "delete"]);
+        Route::delete("banner/delete/{id}", [\App\Http\Controllers\V1\Admin\MenuController::class, "deleteBanner"]);
     });
     Route::group(["prefix" => "concept"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ConceptController::class, "dataTable"]);

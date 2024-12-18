@@ -77,4 +77,13 @@ class MenuService implements MenuServiceInterface
         $menu=$this->menuRepository->findOrFail($id);
         return $this->menuRepository->delete($menu);
     }
+
+    public function deleteBanner($id)
+    {
+        $menu=$this->menuRepository->findOrFail($id);
+        $logoPath = $menu->banner_logo;
+        $this->s3Service->remove("menu/" . $logoPath);
+        return $this->menuRepository->update($menu,["banner_logo"=>null]);
+
+    }
 }
