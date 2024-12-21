@@ -35,6 +35,8 @@ class ProductResource extends JsonResource
             'category_id' => $this->categories->first()->id ?? "",
             'brand_id' => $this->brand_id,
             'brand_name' => $this->brand?->name,
+            'guaranty_ids' => $this->productGuaranties->pluck('guaranty_id'),
+
             'guaranty_id' => $this->guaranty_id,
             'min_price' => $this->getMinColorPrice(),
             'min_discounted_price' => $this->getMinDiscountedPrice(),

@@ -79,9 +79,19 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'product_categories');
     }
 
+    public function Guaranties(): BelongsToMany
+    {
+        return $this->belongsToMany(Guaranty::class, 'product_guaranties');
+    }
+
     public function productCategories(): HasMany
     {
         return $this->hasMany(ProductCategory::class);
+    }
+
+    public function productGuaranties(): HasMany
+    {
+        return $this->hasMany(ProductGuaranty::class);
     }
 
     public function brand(): BelongsTo
