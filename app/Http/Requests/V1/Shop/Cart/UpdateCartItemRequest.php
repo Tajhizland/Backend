@@ -9,7 +9,8 @@ class UpdateCartItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "productColorId"=>"required|integer"
+            "productColorId"=>"required|integer",
+            "guaranty_id" => "nullable|exists:App\Models\Guaranty",
 
         ];
     }

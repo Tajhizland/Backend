@@ -10,7 +10,8 @@ class AddToCartRequest extends FormRequest
     {
         return [
             "productColorId" => "required|integer",
-            "count" => "integer|required"
+            "count" => "integer|required",
+            "guaranty_id" => "nullable|exists:App\Models\Guaranty",
         ];
     }
 

@@ -83,7 +83,7 @@ class CartItemService implements CartItemServiceInterface
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             $price = $productColor->price;
             $finalPrice = ($price->price - ($price->price * ($price->discount / 100)))  ;
-            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count,$price->price , $price->discount , $finalPrice );
+            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count,$price->price , $price->discount , $finalPrice ,$cartItem->guaranty_id );
         }
         return true;
     }

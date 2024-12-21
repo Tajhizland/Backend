@@ -29,13 +29,13 @@ class CartService implements CartServiceInterface
         return $this->cartItemRepository->getItemsByCartId($cart->id);
     }
 
-    public function addProductToCart($userId, $productColorId, $quantity)
+    public function addProductToCart($userId, $productColorId, $quantity,$guarantyId)
     {
         $productColor = $this->productColorRepository->findOrFail($productColorId);
 
         $cart = $this->cartRepository->getCartByUserId($userId) ?: $this->cartRepository->createCart($userId);
 
-        $cartItem = $this->cartItemRepository->findItem($cart->id, $productColorId);
+        $cartItem = $this->cartItemRepository->findItem($cart->id, $productColorId,$guarantyId);
 
         $totalQuantity = $cartItem ? $quantity + $cartItem->count : $quantity;
 
@@ -43,20 +43,20 @@ class CartService implements CartServiceInterface
             throw new BreakException(Lang::get("exceptions.un-stock"));
         }
         $cartItem
-            ? $this->cartItemRepository->updateItem($cart->id, $productColorId, $totalQuantity)
-            : $this->cartItemRepository->addItem($cart->id, $productColorId, $quantity);
+            ? $this->cartItemRepository->updateItem($cart->id, $productColorId, $totalQuantity,$guarantyId)
+            : $this->cartItemRepository->addItem($cart->id, $productColorId, $quantity,$guarantyId);
 
         return $cartItem;
     }
 
-    public function increaseProductInCart($userId, $productColorId)
+    public function increaseProductInCart($userId, $productColorId,$guarantyId)
     {
         $productColor = $this->productColorRepository->findOrFail($productColorId);
         $cart = $this->cartRepository->getCartByUserId($userId);
         if (!$cart) {
             throw new BreakException(Lang::get("exceptions.cart_not_find"));
         }
-        $cartItem = $this->cartItemRepository->findItem($cart->id, $productColorId);
+        $cartItem = $this->cartItemRepository->findItem($cart->id, $productColorId,$guarantyId);
         if (!$cartItem) {
             throw new BreakException(Lang::get("exceptions.unavailable_product_in_cart"));
         }
@@ -67,29 +67,29 @@ class CartService implements CartServiceInterface
 
     }
 
-    public function decreaseProductInCart($userId, $productColorId)
+    public function decreaseProductInCart($userId, $productColorId,$guarantyId)
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         if (!$cart) {
             throw new BreakException(Lang::get("exceptions.cart_not_find"));
         }
-        $cartItem = $this->cartItemRepository->findItem($cart->id, $productColorId);
+        $cartItem = $this->cartItemRepository->findItem($cart->id, $productColorId,$guarantyId);
         if (!$cartItem) {
             throw new BreakException(Lang::get("exceptions.unavailable_product_in_cart"));
         }
         if ($cartItem->count - 1 == 0) {
-            return $this->cartItemRepository->removeItem($cart->id, $productColorId);
+            return $this->cartItemRepository->removeItem($cart->id, $productColorId,$guarantyId);
         }
         return $this->cartItemRepository->decrement($cartItem);
     }
 
-    public function removeProductFromCart($userId, $productColorId)
+    public function removeProductFromCart($userId, $productColorId,$guarantyId)
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         if (!$cart) {
             return false;
         }
-        return $this->cartItemRepository->removeItem($cart->id, $productColorId);
+        return $this->cartItemRepository->removeItem($cart->id, $productColorId,$guarantyId);
     }
 
     public function clearCart($userId)

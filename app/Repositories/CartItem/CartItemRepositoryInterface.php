@@ -7,10 +7,10 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface CartItemRepositoryInterface extends  BaseRepositoryInterface
 {
     public function getItemsByCartId($cartId);
-    public function findItem($cartId, $productId);
-    public function addItem($cartId, $productId, $quantity);
-    public function updateItem($cartId, $productId, $quantity);
-    public function removeItem($cartId, $productId);
+    public function findItem($cartId, $productId,$guarantyId);
+    public function addItem($cartId, $productId, $quantity,$guarantyId);
+    public function updateItem($cartId, $productId, $quantity,$guarantyId);
+    public function removeItem($cartId, $productId,$guarantyId);
     public function clearItems($cartId);
     public function increment($cartItem);
     public function decrement($cartItem);

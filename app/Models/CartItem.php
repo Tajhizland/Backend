@@ -15,7 +15,10 @@ class CartItem extends Model
     {
         return $this->belongsTo(Cart::class);
     }
-
+    protected function guaranty(): BelongsTo
+    {
+        return $this->belongsTo(Guaranty::class);
+    }
     protected function productColor(): BelongsTo
     {
         return $this->belongsTo(ProductColor::class);

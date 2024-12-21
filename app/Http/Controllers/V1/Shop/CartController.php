@@ -24,25 +24,25 @@ class CartController extends Controller
 
     public function addToCart(AddToCartRequest $request)
     {
-        $this->cartService->addProductToCart(Auth::user()->id, $request->get("productColorId"), $request->get("count"));
+        $this->cartService->addProductToCart(Auth::user()->id, $request->get("productColorId"), $request->get("count"), $request->get("guaranty_id"));
         return $this->successResponse(Lang::get("action.add_to",["attr"=>Lang::get("attr.product") , "to"=>Lang::get("attr.cart")]));
      }
 
     public function removeItem(UpdateCartItemRequest $request)
     {
-        $this->cartService->removeProductFromCart(Auth::user()->id, $request->get("productColorId"));
+        $this->cartService->removeProductFromCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
         return $this->successResponse(Lang::get("action.remove_from",["attr"=>Lang::get("attr.product") , "from"=>Lang::get("attr.cart")]));
      }
 
     public function increase(UpdateCartItemRequest $request)
     {
-        $this->cartService->increaseProductInCart(Auth::user()->id, $request->get("productColorId"));
+        $this->cartService->increaseProductInCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
         return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.cart")]));
     }
 
     public function decrease(UpdateCartItemRequest $request)
     {
-        $this->cartService->decreaseProductInCart(Auth::user()->id, $request->get("productColorId"));
+        $this->cartService->decreaseProductInCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
         return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.cart")]));
     }
 
