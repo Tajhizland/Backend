@@ -12,7 +12,7 @@ class UpdateGuarantyRequest extends FormRequest
             'id' => ['required', 'exists:App\Models\Guaranty'],
             'name' => ['required'],
             'free' => ['required' ,'in:0,1' ,'numeric'],
-            'description' => ['string'],
+            'description' => ['nullable','string'],
             'icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
             'status' => ['required', 'integer'],
         ];
