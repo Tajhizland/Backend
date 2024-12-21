@@ -11,7 +11,7 @@ class AddToCartRequest extends FormRequest
         return [
             "productColorId" => "required|integer",
             "count" => "integer|required",
-            "guaranty_id" => "nullable|exists:App\Models\Guaranty",
+            "guaranty_id" => "nullable|exists:App\Models\Guaranty,id",
         ];
     }
 

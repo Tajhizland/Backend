@@ -10,7 +10,7 @@ class UpdateCartItemRequest extends FormRequest
     {
         return [
             "productColorId"=>"required|integer",
-            "guaranty_id" => "nullable|exists:App\Models\Guaranty",
+            "guaranty_id" => "nullable|exists:App\Models\Guaranty,id",
 
         ];
     }
