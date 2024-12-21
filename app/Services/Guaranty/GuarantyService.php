@@ -23,19 +23,19 @@ class GuarantyService implements GuarantyServiceInterface
 
     public function findByUrl($url)
     {
-        $data=$this->guarantyRepository->findByUrl($url);
-        if(!$data)
-        {
+        $data = $this->guarantyRepository->findByUrl($url);
+        if (!$data) {
             throw  new NotFoundHttpException();
         }
-        return  $data;
+        return $data;
     }
+
     public function findById($id)
     {
         return $this->guarantyRepository->findOrFail($id);
     }
 
-    public function store($name, $description, $icon, $status)
+    public function store($name, $free, $description, $icon, $status)
     {
         $iconPath = "";
         if ($icon) {
@@ -43,22 +43,24 @@ class GuarantyService implements GuarantyServiceInterface
         }
         return $this->guarantyRepository->create([
             "name" => $name,
+            "free" => $free,
             "description" => $description,
             "icon" => $iconPath,
             "status" => $status
         ]);
     }
 
-    public function update($id, $name, $description, $icon, $status)
+    public function update($id, $free, $name, $description, $icon, $status)
     {
-        $guaranty=$this->guarantyRepository->findOrFail($id);
+        $guaranty = $this->guarantyRepository->findOrFail($id);
         $iconPath = $guaranty->icon;
         if ($icon) {
-            $this->s3Service->remove("guaranty/".$iconPath);
+            $this->s3Service->remove("guaranty/" . $iconPath);
             $iconPath = $this->s3Service->upload($icon, "guaranty");
         }
-        return $this->guarantyRepository->update($guaranty,[
+        return $this->guarantyRepository->update($guaranty, [
             "name" => $name,
+            "free" => $free,
             "description" => $description,
             "icon" => $iconPath,
             "status" => $status

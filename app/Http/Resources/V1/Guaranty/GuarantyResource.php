@@ -16,6 +16,7 @@ class GuarantyResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'icon' => $this->icon,
+            'free' => $this->free,
             'status' => $this->status,
             'url' => $this->url,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),

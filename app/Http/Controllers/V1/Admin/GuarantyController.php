@@ -35,13 +35,13 @@ class GuarantyController extends Controller
 
     public function store(StoreGuarantyRequest $request)
     {
-        $this->guarantyService->store($request->get("name"), $request->get("description"), $request->file("icon"), $request->get("status"));
+        $this->guarantyService->store($request->get("name"),$request->get("free"), $request->get("description"), $request->file("icon"), $request->get("status"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.guaranty")]));
     }
 
     public function update(UpdateGuarantyRequest $request)
     {
-        $this->guarantyService->update($request->get("id"), $request->get("name"), $request->get("description"), $request->file("icon"), $request->get("status"));
+        $this->guarantyService->update($request->get("id"), $request->get("name"), $request->get("free"), $request->get("description"), $request->file("icon"), $request->get("status"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.guaranty")]));
     }
 }

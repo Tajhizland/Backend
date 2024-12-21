@@ -11,6 +11,7 @@ class StoreGuarantyRequest extends FormRequest
         return [
             'name' => ['required'],
             'description' => ['required'],
+            'free' => ['required' ,'in:0,1' ,'numeric'],
             'icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
             'status' => ['required', 'integer'],
         ];

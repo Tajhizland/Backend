@@ -12,7 +12,7 @@ interface GuarantyServiceInterface
 
     public function getActives();
 
-    public function store($name, $description, $icon, $status);
+    public function store($name, $free, $description, $icon, $status);
 
-    public function update($id, $name, $description, $icon, $status);
+    public function update($id, $free, $name, $description, $icon, $status);
 }
