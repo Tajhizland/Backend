@@ -19,7 +19,7 @@ class UpdateProductRequest extends FormRequest
             'meta_title' => ['nullable'],
             'guaranty_id' => ['nullable'],
             'guaranty_time' => ['nullable'],
-            'brand_id' => ['nullable','integer','exists:App\Models\Brand,id'],
+            'brand_id' => ['nullable' ],
             'status' => ['required','int','in:1,0'],
             'categoryId' => ['required'  ],
         ];

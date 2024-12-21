@@ -19,7 +19,7 @@ class StoreProductRequest extends FormRequest
             'guaranty_time' => ['nullable'],
             'status' => ['required','int','in:1,0'],
             'categoryId' => ['required' ],
-            'brand_id' => ['required','integer','exists:App\Models\Brand,id'],
+            'brand_id' => ['nullable' ],
         ];
     }
 
