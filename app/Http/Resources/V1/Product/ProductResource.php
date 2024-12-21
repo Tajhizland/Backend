@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\Product;
 
 use App\Http\Resources\V1\Brand\BrandResource;
 use App\Http\Resources\V1\Comment\CommentCollection;
+use App\Http\Resources\V1\Guaranty\GuarantyCollection;
 use App\Http\Resources\V1\Guaranty\GuarantyResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
@@ -52,6 +53,7 @@ class ProductResource extends JsonResource
             'review' => $this->review,
             'guaranty_time' => $this->guaranty_time,
             'guaranty' => new GuarantyResource($this->guaranty),
+            'guaranties' => new GuarantyCollection($this->guaranties),
             'productOptions' => new ProductOptionCollection($this->productOptions),
             'colors' => new ProductColorCollection($this->activeProductColors),
             'comments' => new CommentCollection($this->confirmedComments),

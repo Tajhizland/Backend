@@ -79,7 +79,7 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'product_categories');
     }
 
-    public function Guaranties(): BelongsToMany
+    public function guaranties(): BelongsToMany
     {
         return $this->belongsToMany(Guaranty::class, 'product_guaranties');
     }
