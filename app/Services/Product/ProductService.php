@@ -62,7 +62,6 @@ class ProductService implements ProductServiceInterface
             "status" => $status,
             "view" => 0,
             "brand_id" => $brandId,
-            "guaranty_id" => $guaranty_id,
             "guaranty_time" => $guaranty_time,
             "meta_title" => $metaTitle,
             "meta_description" => $metaDescription,
@@ -87,7 +86,6 @@ class ProductService implements ProductServiceInterface
                 "guaranty_time" => $guaranty_time,
                 "brand_id" => $brandId,
                 "meta_title" => $metaTitle,
-                "guaranty_id" => $guaranty_id,
                 "meta_description" => $metaDescription,
             ]);
         $categoryIds = json_decode($categoryId);
