@@ -88,6 +88,8 @@ use App\Repositories\ProductColor\ProductColorRepository;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use App\Repositories\ProductFilter\ProductFilterRepository;
 use App\Repositories\ProductFilter\ProductFilterRepositoryInterface;
+use App\Repositories\ProductGuaranty\ProductGuarantyRepository;
+use App\Repositories\ProductGuaranty\ProductGuarantyRepositoryInterface;
 use App\Repositories\ProductImage\ProductImageRepository;
 use App\Repositories\ProductImage\ProductImageRepositoryInterface;
 use App\Repositories\ProductOption\ProductOptionRepository;
@@ -194,6 +196,8 @@ use App\Services\ProductCategory\ProductCategoryService;
 use App\Services\ProductCategory\ProductCategoryServiceInterface;
 use App\Services\ProductColor\ProductColorService;
 use App\Services\ProductColor\ProductColorServiceInterface;
+use App\Services\ProductGuaranty\ProductGuarantyService;
+use App\Services\ProductGuaranty\ProductGuarantyServiceInterface;
 use App\Services\ProductImage\ProductImageService;
 use App\Services\ProductImage\ProductImageServiceInterface;
 use App\Services\Returned\ReturnedService;
@@ -336,6 +340,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(LandingBannerRepositoryInterface::class, LandingBannerRepository::class);
 
+        $this->app->bind(ProductGuarantyRepositoryInterface::class, ProductGuarantyRepository::class);
+
 
         /** End Repository */
 
@@ -447,6 +453,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(BreadcrumbServiceInterface::class, BreadcrumbService::class);
 
         $this->app->bind(ProductCategoryServiceInterface::class, ProductCategoryService::class);
+
+        $this->app->bind(ProductGuarantyServiceInterface::class, ProductGuarantyService::class);
 
         /** End Service */
 

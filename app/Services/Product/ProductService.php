@@ -6,6 +6,7 @@ use App\Exceptions\BreakException;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use App\Services\ProductCategory\ProductCategoryServiceInterface;
+use App\Services\ProductGuaranty\ProductGuarantyServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -15,6 +16,7 @@ class ProductService implements ProductServiceInterface
         private ProductRepositoryInterface         $productRepository,
         private ProductCategoryServiceInterface    $productCategoryService,
         private ProductCategoryRepositoryInterface $productCategoryRepository,
+        private ProductGuarantyServiceInterface    $productGuarantyService,
         private S3ServiceInterface                 $s3Service,
     )
     {
@@ -65,8 +67,10 @@ class ProductService implements ProductServiceInterface
             "meta_title" => $metaTitle,
             "meta_description" => $metaDescription,
         ]);
-        $categoryIds=json_decode($categoryId);
+        $categoryIds = json_decode($categoryId);
         $this->productCategoryService->syncProductCategory($product->id, $categoryIds);
+        $guarantyIds = json_decode($guaranty_id);
+        $this->productGuarantyService->syncProductGuaranty($product->id, $guarantyIds);
         return $product;
     }
 
@@ -86,8 +90,11 @@ class ProductService implements ProductServiceInterface
                 "guaranty_id" => $guaranty_id,
                 "meta_description" => $metaDescription,
             ]);
-        $categoryIds=json_decode($categoryId);
+        $categoryIds = json_decode($categoryId);
         $this->productCategoryService->syncProductCategory($product->id, $categoryIds);
+        $guarantyIds = json_decode($guaranty_id);
+        $this->productGuarantyService->syncProductGuaranty($product->id, $guarantyIds);
+
         return true;
     }
 
