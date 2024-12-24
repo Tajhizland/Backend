@@ -2,6 +2,8 @@
 
 namespace App\Repositories\HomepageCategory;
 
+use App\Enums\ProductColorStatus;
+use App\Enums\ProductStatus;
 use App\Models\HomepageCategory;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -38,7 +40,12 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
         return $this->model::with([
             'category',
             'category.products' => function ($query) {
-                $query->active()->HasColorHasStock()->limit(12);
+                $query->whereHas("productColors", function ($query) {
+                    $query->where("status", "<>", ProductColorStatus::DeActive->value)
+                        ->whereHas("stock", function ($subQuery) {
+                            $subQuery->where("stock", ">", 0);
+                        });
+                })->where("status", ProductStatus::Active->value)->limit(12);
             }
         ])->latest("id")->get();
     }
