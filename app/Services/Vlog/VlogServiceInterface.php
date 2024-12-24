@@ -12,7 +12,7 @@ interface VlogServiceInterface
 
     public function findById($id);
 
-    public function getRelatedVlogs($category_id);
+    public function getRelatedVlogs($category_id ,$except);
 
     public function findByUrl($url);
 
