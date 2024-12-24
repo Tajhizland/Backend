@@ -38,7 +38,7 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
         return $this->model::with([
             'category',
             'category.products' => function ($query) {
-                $query->limit(12);
+                $query->active()->HasColorHasStock()->limit(12);
             }
         ])->latest("id")->get();
     }
