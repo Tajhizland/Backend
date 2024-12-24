@@ -9,7 +9,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function findByUrl($url);
 
     public function findById($id);
-    public function getByCategoryId($id);
+    public function getByCategoryId($id ,$except);
     public function getAllByCategoryId($id);
     public function getSpecial();
     public function sort($id , $sort);

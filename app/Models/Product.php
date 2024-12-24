@@ -150,6 +150,16 @@ class Product extends Model
         });
     }
 
+    public function scopeHasColorHasStock(Builder $query): Builder
+    {
+        return $query->whereHas("productColors", function ($query) {
+            $query->where("status", "<>", ProductColorStatus::DeActive->value)
+                ->whereHas("stock", function ($subQuery) {
+                    $subQuery->where("stock", ">", 0);
+                });
+        });
+    }
+
     public function scopeMostPopular(Builder $query): Builder
     {
         return $query->orderBy("view", "desc");

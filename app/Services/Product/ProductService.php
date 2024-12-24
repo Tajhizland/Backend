@@ -106,7 +106,7 @@ class ProductService implements ProductServiceInterface
         $productCategory = $this->productCategoryRepository->findByProductId($id);
         if (!$productCategory)
             throw  new BreakException(\Lang::get("exceptions.product_not_find"));
-        return $this->productRepository->getByCategoryId($productCategory->category_id);
+        return $this->productRepository->getByCategoryId($productCategory->category_id ,$id);
     }
 
     public function setVideo($productId, $description, $file, $type): mixed
