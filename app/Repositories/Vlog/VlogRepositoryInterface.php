@@ -10,6 +10,7 @@ interface VlogRepositoryInterface extends  BaseRepositoryInterface
     public function dataTable();
     public function findByUrl($url);
     public function activeVlogQuery();
+    public function getRelatedVlogs($category_id);
     public function filterCategory($query , $categoryIds);
     public function filterTitle($query , $title);
     public function getLastActives();

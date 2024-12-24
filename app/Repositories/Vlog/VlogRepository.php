@@ -23,21 +23,24 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function findByUrl($url)
     {
-        return $this->model::active()->where("url",$url)->first();
+        return $this->model::active()->where("url", $url)->first();
     }
 
     public function activeVlogQuery()
     {
-        return $this->model::active() ;
+        return $this->model::active();
     }
-    public function filterCategory($query , $categoryIds)
+
+    public function filterCategory($query, $categoryIds)
     {
-        return $query->whereIn("category_id",$categoryIds);
+        return $query->whereIn("category_id", $categoryIds);
     }
+
     public function getLastActives()
     {
         return $this->model::active()->latest("id")->limit(4)->get();
     }
+
     public function paginated($query)
     {
         return $query->paginate($this->pageSize);
@@ -50,16 +53,21 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function sortView($query)
     {
-        return $query->orderBy("view","desc");
+        return $query->orderBy("view", "desc");
     }
 
     public function sortNew($query)
     {
-        return $query->orderBy("id","desc");
+        return $query->orderBy("id", "desc");
     }
 
     public function sortOld($query)
     {
         return $query->orderBy("id");
+    }
+
+    public function getRelatedVlogs($category_id)
+    {
+        return $this->model::where("category_id", $category_id)->limit(4)->latest("id")->get();
     }
 }

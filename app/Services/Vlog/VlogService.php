@@ -101,4 +101,9 @@ class VlogService implements VlogServiceInterface
         }
         return $vlogQuery;
     }
+
+    public function getRelatedVlogs($category_id)
+    {
+        return $this->vlogRepository->getRelatedVlogs($category_id);
+    }
 }
