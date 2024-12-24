@@ -114,6 +114,6 @@ class VlogService implements VlogServiceInterface
 
     public function view(Vlog $vlog)
     {
-        return $this->vlogRepository->update($vlog, ["view" => $vlog->view++]);
+        return $this->vlogRepository->update($vlog, ["view" => $vlog->view+1]);
     }
 }
