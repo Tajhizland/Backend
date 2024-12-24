@@ -98,6 +98,7 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+
     public function special(): HasOne
     {
         return $this->hasOne(SpecialProduct::class);
@@ -115,9 +116,14 @@ class Product extends Model
 
     public function getMinDiscountedPrice()
     {
-        $minPriceColor = $this->prices()->orderBy('price')->first();
+        $minPriceColor = $this->prices()->
+        whereHas("productColor", function ($query) {
+            $query->whereHas("stock", function ($subQuery) {
+                $subQuery->where("stock", ">", "0");
+            })->where("status", ProductColorStatus::Active->value);
+        })->orderBy('price')->first();
         if ($minPriceColor) {
-            return $minPriceColor->discount!=0?$minPriceColor->discount:$minPriceColor->price;
+            return $minPriceColor->discount != 0 ? $minPriceColor->discount : $minPriceColor->price;
         }
         return null;
     }
