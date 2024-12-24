@@ -2,8 +2,10 @@
 
 namespace App\Services\Vlog;
 
+use App\Models\Vlog;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class VlogService implements VlogServiceInterface
 {
@@ -66,7 +68,10 @@ class VlogService implements VlogServiceInterface
 
     public function findByUrl($url)
     {
-        return $this->vlogRepository->findByUrl($url);
+        $vlog = $this->vlogRepository->findByUrl($url);
+        if (!$vlog)
+            throw new NotFoundHttpException();
+        return $vlog;
     }
 
     public function listing($filters)
@@ -105,5 +110,10 @@ class VlogService implements VlogServiceInterface
     public function getRelatedVlogs($category_id)
     {
         return $this->vlogRepository->getRelatedVlogs($category_id);
+    }
+
+    public function view(Vlog $vlog)
+    {
+        return $this->vlogRepository->update($vlog, ["view" => $vlog->view++]);
     }
 }

@@ -22,6 +22,7 @@ class VlogController extends Controller
     {
         $vlogResponse = $this->vlogService->findByUrl($request->get("url"));
         $relatedVlogs = $this->vlogService->getRelatedVlogs($vlogResponse->category_id);
+        $this->vlogService->view($vlogResponse);
         return $this->dataResponse([
             "vlog" => new VlogResource($vlogResponse),
             "relatedVlogs" => new VlogCollection($relatedVlogs)
