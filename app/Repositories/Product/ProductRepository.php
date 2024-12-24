@@ -31,7 +31,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function getByCategoryId($id)
     {
         return $this->model::whereHas("productCategories", function ($query) use ($id) {
-            $query->where("category_id",$id);
+            $query->where("category_id", $id);
         })->limit(10)->get();
     }
 
@@ -86,9 +86,18 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model::active()->hasColor()
             ->whereHas("productCategories", function ($query) use ($categoryId) {
                 $query->where("category_id", $categoryId);
-            })->orderBy("sort");
+            })
+            ->orderByRaw("
+            (SELECT MAX(stocks.stock)
+             FROM product_colors
+             INNER JOIN stocks
+             ON product_colors.id = stocks.product_color_id
+             WHERE product_colors.product_id = products.id
+            ) DESC
+        ")->orderBy("sort");
     }
-  public function activeProductByBrandQuery($brandId)
+
+    public function activeProductByBrandQuery($brandId)
     {
         return $this->model::active()->hasColor()
             ->where("brand_id", $brandId);
@@ -120,10 +129,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $q->where("price", "<=", $maxPrice);
         });
     }
-  public function categoryFilter($query, $categoryId)
+
+    public function categoryFilter($query, $categoryId)
     {
         return $query->whereHas("productCategories", function ($q) use ($categoryId) {
-            $q->where("category_id",$categoryId);
+            $q->where("category_id", $categoryId);
         });
     }
 
@@ -191,21 +201,23 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         })->limit(config("settings.home_page_item_limit"))->get();
     }
 
-   public function searchPaginate($query)
-   {
-       return $this->model::where("name", "like", "%$query%")->latest("id")->paginate($this->pageSize);
-   }
+    public function searchPaginate($query)
+    {
+        return $this->model::where("name", "like", "%$query%")->latest("id")->paginate($this->pageSize);
+    }
 
     public function getAllByCategoryId($id)
     {
         return $this->model::whereHas("productCategories", function ($query) use ($id) {
-        $query->where("category_id",$id);
-    })->orderBy("sort")->get();
+            $query->where("category_id", $id);
+        })->orderBy("sort")->get();
     }
+
     public function sort($id, $sort)
     {
         return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
+
     public function getDiscountedProducts()
     {
         return $this->model::active()->hasDiscount()->paginate($this->pageSize);
