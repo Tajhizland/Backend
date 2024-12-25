@@ -14,5 +14,5 @@ interface GuarantyServiceInterface
 
     public function store($name, $free, $description, $icon, $status ,$url);
 
-    public function update($id, $free, $name, $description, $icon, $status,$url);
+    public function update($id,  $name, $free,$description, $icon, $status,$url);
 }
