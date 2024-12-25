@@ -35,7 +35,7 @@ class GuarantyService implements GuarantyServiceInterface
         return $this->guarantyRepository->findOrFail($id);
     }
 
-    public function store($name, $free, $description, $icon, $status)
+    public function store($name, $free, $description, $icon, $status ,$url)
     {
         $iconPath = "";
         if ($icon) {
@@ -44,13 +44,14 @@ class GuarantyService implements GuarantyServiceInterface
         return $this->guarantyRepository->create([
             "name" => $name,
             "free" => $free,
+            "url" => $url,
             "description" => $description,
             "icon" => $iconPath,
             "status" => $status
         ]);
     }
 
-    public function update($id, $free, $name, $description, $icon, $status)
+    public function update($id, $free, $name, $description, $icon, $status ,$url)
     {
         $guaranty = $this->guarantyRepository->findOrFail($id);
         $iconPath = $guaranty->icon;
@@ -61,6 +62,7 @@ class GuarantyService implements GuarantyServiceInterface
         return $this->guarantyRepository->update($guaranty, [
             "name" => $name,
             "free" => $free,
+            "url" => $url,
             "description" => $description,
             "icon" => $iconPath,
             "status" => $status
