@@ -104,4 +104,11 @@ class CategoryService implements CategoryServiceInterface
         }
         return true;
     }
+
+    public function deleteImage($categoryId)
+    {
+        $category = $this->categoryRepository->findOrFail($categoryId);
+        $this->s3Service->remove("category/" . $category->image);
+        return $this->categoryRepository->update($category, ["image" => ""]);
+    }
 }

@@ -89,4 +89,9 @@ class CategoryController extends Controller
         $this->optionService->setOption($request->get("category_id"), $request->get("option"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.option")]));
     }
+    public function deleteImage($id)
+    {
+        $this->categoryService->deleteImage($id);
+        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.image")]));
+    }
 }
