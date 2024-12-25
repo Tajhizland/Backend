@@ -51,7 +51,7 @@ class GuarantyService implements GuarantyServiceInterface
         ]);
     }
 
-    public function update($id, $free, $name, $description, $icon, $status ,$url)
+    public function update($id,$name, $free , $description, $icon, $status ,$url)
     {
         $guaranty = $this->guarantyRepository->findOrFail($id);
         $iconPath = $guaranty->icon;
