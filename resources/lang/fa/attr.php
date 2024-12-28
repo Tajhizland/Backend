@@ -27,6 +27,7 @@ return
         "slider" => 'اسلایدر',
         "option" => 'آپشن',
         "banner" => 'بنر',
+        "poster" => 'پوستر',
         "image" => 'تصویر',
         "faq" => 'پرسش',
         "vlog" => 'ولاگ',

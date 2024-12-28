@@ -78,6 +78,8 @@ use App\Repositories\PopularCategory\PopularCategoryRepository;
 use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepository;
 use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
+use App\Repositories\Poster\PosterRepository;
+use App\Repositories\Poster\PosterRepositoryInterface;
 use App\Repositories\Price\PriceRepository;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
@@ -190,6 +192,8 @@ use App\Services\PopularCategory\PopularCategoryService;
 use App\Services\PopularCategory\PopularCategoryServiceInterface;
 use App\Services\PopularProduct\PopularProductService;
 use App\Services\PopularProduct\PopularProductServiceInterface;
+use App\Services\Poster\PosterService;
+use App\Services\Poster\PosterServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\ProductCategory\ProductCategoryService;
@@ -342,6 +346,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ProductGuarantyRepositoryInterface::class, ProductGuarantyRepository::class);
 
+        $this->app->bind(PosterRepositoryInterface::class, PosterRepository::class);
+
 
         /** End Repository */
 
@@ -455,6 +461,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductCategoryServiceInterface::class, ProductCategoryService::class);
 
         $this->app->bind(ProductGuarantyServiceInterface::class, ProductGuarantyService::class);
+
+        $this->app->bind(PosterServiceInterface::class, PosterService::class);
 
         /** End Service */
 

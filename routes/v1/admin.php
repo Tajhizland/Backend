@@ -219,8 +219,14 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("category/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setCategory"]);
         Route::get("category/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getCategory"]);
         Route::delete("category/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteCategory"]);
-   Route::post("banner/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setBanner"]);
+        Route::post("banner/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setBanner"]);
         Route::get("banner/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getBanner"]);
         Route::delete("banner/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteBanner"]);
+    });
+    Route::group(["prefix" => "poster"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PosterController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PosterController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\PosterController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\PosterController::class, "update"]);
     });
 });
