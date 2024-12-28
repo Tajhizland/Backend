@@ -15,8 +15,8 @@ class PosterRepository extends BaseRepository implements PosterRepositoryInterfa
     public function dataTable()
     {
         return QueryBuilder::for(Poster::class)
-            ->allowedFilters(['id' ])
-            ->allowedSorts(['id' ])
+            ->allowedFilters(['id','created_at'])
+            ->allowedSorts(['id','created_at'])
             ->paginate($this->pageSize);
     }
 }
