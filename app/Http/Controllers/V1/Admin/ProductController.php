@@ -100,7 +100,7 @@ class ProductController extends Controller
 
     public function setImage(ProductImageRequest $request)
     {
-        $this->productImageService->upload($request->get("product_id"), $request->get("image"));
+        $this->productImageService->upload($request->get("product_id"), $request->file("image"));
         return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
 
