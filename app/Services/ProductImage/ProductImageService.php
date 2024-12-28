@@ -26,10 +26,10 @@ class ProductImageService implements ProductImageServiceInterface
         $imagePath = $this->s3Service->upload($image, "product");
 
         $_800X = $this->imageResizeService->resize($image, 800, 800);
-        $this->s3Service->upload($_800X, "product/800", $imagePath);
+        $this->s3Service->upload2($_800X, "product/800", $imagePath);
 
         $_300X = $this->imageResizeService->resize($image, 300, 300);
-        $this->s3Service->upload($_300X, "product/300", $imagePath);
+        $this->s3Service->upload2($_300X, "product/300", $imagePath);
 
         return $this->productImageRepository->create(["product_id" => $productId, "url" => $imagePath]);
     }
