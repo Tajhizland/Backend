@@ -19,4 +19,8 @@ class PosterRepository extends BaseRepository implements PosterRepositoryInterfa
             ->allowedSorts(['id','created_at'])
             ->paginate($this->pageSize);
     }
+    public function getHomepagePosters()
+    {
+        return $this->model::whereIn("id",[1,2])->get();
+    }
 }

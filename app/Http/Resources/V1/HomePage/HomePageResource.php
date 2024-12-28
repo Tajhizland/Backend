@@ -9,6 +9,7 @@ use App\Http\Resources\V1\HomepageCategory\HomepageCategoryCollection;
 use App\Http\Resources\V1\News\NewsCollection;
 use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
 use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
+use App\Http\Resources\V1\Poster\PosterCollection;
 use App\Http\Resources\V1\Slider\SliderCollection;
 use App\Http\Resources\V1\SpecialProduct\SpecialProductCollection;
 use App\Http\Resources\V1\Vlog\VlogCollection;
@@ -29,6 +30,7 @@ class HomePageResource extends JsonResource
             "vlogs" => new VlogCollection($this["vlogs"]),
             "brands" => new BrandCollection($this["brands"]),
             "banners" => new BannerCollection($this["banners"]),
+            "posters" => new PosterCollection($this["posters"]),
             "specialProducts" => new SpecialProductCollection($this["specialProducts"]),
         ];
     }

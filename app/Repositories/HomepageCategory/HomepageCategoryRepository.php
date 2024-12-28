@@ -45,7 +45,7 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
                         ->whereHas("stock", function ($subQuery) {
                             $subQuery->where("stock", ">", 0);
                         });
-                })->where("status", ProductStatus::Active->value)->limit(12);
+                })->where("status", ProductStatus::Active->value)->limit(8);
             }
         ])->latest("id")->get();
     }
