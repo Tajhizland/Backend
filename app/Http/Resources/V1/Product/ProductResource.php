@@ -41,6 +41,7 @@ class ProductResource extends JsonResource
             'guaranty_id' => $this->guaranty_id,
             'min_price' => $this->getMinColorPrice(),
             'min_discounted_price' => $this->getMinDiscountedPrice(),
+            'max_discounted_price' => $this->getMaxDiscountedPrice(),
             'rating' => $this->getRatingAvg(),
             'favorite' => $isFavorite,
             'study' => $this->study,

@@ -127,6 +127,19 @@ class Product extends Model
         }
         return null;
     }
+    public function getMaxDiscountedPrice()
+    {
+        $minPriceColor = $this->prices()->
+        whereHas("productColor", function ($query) {
+            $query->whereHas("stock", function ($subQuery) {
+                $subQuery->where("stock", ">", "0");
+            })->where("status", ProductColorStatus::Active->value);
+        })->orderBy('price','desc')->first();
+        if ($minPriceColor) {
+            return $minPriceColor->discount != 0 ? $minPriceColor->discount : $minPriceColor->price;
+        }
+        return null;
+    }
 
     public function getRatingAvg()
     {
