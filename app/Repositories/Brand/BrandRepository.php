@@ -23,7 +23,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 
     public function list()
     {
-        return $this->model::select("id", "name")->orderBy("sort")->get();
+        return $this->model::active()->select("id", "name")->orderBy("sort")->get();
     }
     public function findByUrl($url)
     {

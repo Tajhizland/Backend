@@ -65,7 +65,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function list()
     {
-        return $this->model::select("name", "id")->get();
+        return $this->model::active()->select("name", "id")->get();
     }
 
     public function getByBrandId($brandId)
