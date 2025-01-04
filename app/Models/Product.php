@@ -189,4 +189,17 @@ class Product extends Model
                 });
         });
     }
+
+    public function scopeCustomOrder(Builder $query): Builder
+    {
+        return $query  ->orderByRaw("
+            (SELECT MAX(stocks.stock)
+             FROM product_colors
+             INNER JOIN stocks
+             ON product_colors.id = stocks.product_color_id
+             WHERE product_colors.product_id = products.id
+            ) DESC
+        ")->orderBy("sort");
+
+    }
 }

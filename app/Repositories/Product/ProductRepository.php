@@ -64,14 +64,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function search($query)
     {
         return $this->model::where("name", "like", "%$query%")
-            ->orderByRaw("
-            (SELECT MAX(stocks.stock)
-             FROM product_colors
-             INNER JOIN stocks
-             ON product_colors.id = stocks.product_color_id
-             WHERE product_colors.product_id = products.id
-            ) DESC
-        ")->limit(config("settings.search_item_limit"))->get();
+            ->customOrder()->limit(config("settings.search_item_limit"))->get();
     }
 
     public function searchProductWithCategory($query, $categoryId)
@@ -95,20 +88,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->whereHas("productCategories", function ($query) use ($categoryId) {
                 $query->where("category_id", $categoryId);
             })
-            ->orderByRaw("
-            (SELECT MAX(stocks.stock)
-             FROM product_colors
-             INNER JOIN stocks
-             ON product_colors.id = stocks.product_color_id
-             WHERE product_colors.product_id = products.id
-            ) DESC
-        ")->orderBy("sort");
+           ->customOrder();
     }
 
     public function activeProductByBrandQuery($brandId)
     {
         return $this->model::active()->hasColor()
-            ->where("brand_id", $brandId);
+            ->where("brand_id", $brandId)
+            ->customOrder();
     }
 
 
@@ -212,14 +199,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function searchPaginate($query)
     {
         return $this->model::where("name", "like", "%$query%")
-            ->orderByRaw("
-            (SELECT MAX(stocks.stock)
-             FROM product_colors
-             INNER JOIN stocks
-             ON product_colors.id = stocks.product_color_id
-             WHERE product_colors.product_id = products.id
-            ) DESC
-        ")->latest("id")->paginate($this->pageSize);
+            ->customOrder()->paginate($this->pageSize);
     }
 
     public function getAllByCategoryId($id)
