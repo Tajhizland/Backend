@@ -26,8 +26,8 @@ class OrderItemResource extends JsonResource
             'product_id' => $this->product_id,
             'product_color_id' => $this->product_color_id,
             'order_id' => $this->order_id,
-            'guaranty_id' => $this->order_id,
-            'guaranty_price' => $this->order_id,
+            'guaranty_id' => $this->guaranty_id,
+            'guaranty_price' => $this->guaranty_price,
 
             'guaranty' => new GuarantyResource($this->whenLoaded('guaranty')),
             'order' => new OrderResource($this->whenLoaded('order')),
