@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1\OrderItem;
 
+use App\Http\Resources\V1\Guaranty\GuarantyResource;
 use App\Http\Resources\V1\Order\OrderResource;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductColor\ProductColorResource;
@@ -25,7 +26,10 @@ class OrderItemResource extends JsonResource
             'product_id' => $this->product_id,
             'product_color_id' => $this->product_color_id,
             'order_id' => $this->order_id,
+            'guaranty_id' => $this->order_id,
+            'guaranty_price' => $this->order_id,
 
+            'guaranty' => new GuarantyResource($this->whenLoaded('guaranty')),
             'order' => new OrderResource($this->whenLoaded('order')),
             'product' => new ProductResource($this->whenLoaded('product')),
             'productColor' => new ProductColorResource($this->whenLoaded('productColor')),

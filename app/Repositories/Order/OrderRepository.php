@@ -24,7 +24,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     public function userOrderPaginate($userId)
     {
-        return $this->model::with(["orderItems.product", "orderItems.productColor"])->where("user_id", $userId)->paid()->latest("id")->paginate($this->pageSize);
+        return $this->model::with(["orderItems.product", "orderItems.productColor", "orderItems.guaranty"])->where("user_id", $userId)->paid()->latest("id")->paginate($this->pageSize);
     }
 
     public function setStatus(Order $order, $status)
@@ -86,7 +86,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     public function findWithDetails($id)
     {
-        return $this->model::with(["delivery", "payment", "orderInfo", "orderInfo.city", "orderInfo.province", "orderItems.product", "orderItems.productColor"])
+        return $this->model::with(["delivery", "payment", "orderInfo", "orderInfo.city", "orderInfo.province", "orderItems.product", "orderItems.productColor", "orderItems.guaranty"])
             ->where("id", $id)
             ->first();
     }

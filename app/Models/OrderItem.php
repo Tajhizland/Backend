@@ -23,4 +23,8 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Order::class);
     }
+    public function guaranty(): BelongsTo
+    {
+        return $this->belongsTo(Guaranty::class);
+    }
 }
