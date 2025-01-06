@@ -10,6 +10,7 @@ use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
+use App\Services\Guaranty\GuarantyServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
 class CartItemService implements CartItemServiceInterface
@@ -20,6 +21,7 @@ class CartItemService implements CartItemServiceInterface
         private ProductColorRepositoryInterface $productColorRepository,
         private OrderItemRepositoryInterface    $orderItemRepository,
         private CartRepositoryInterface         $cartRepository,
+        private GuarantyServiceInterface         $guarantyService,
         private CartItemRepositoryInterface     $cartItemRepository
     )
     {
@@ -82,8 +84,21 @@ class CartItemService implements CartItemServiceInterface
         foreach ($cartItems as $cartItem) {
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             $price = $productColor->price;
-            $finalPrice = ($price->price - ($price->price * ($price->discount / 100)))  ;
-            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count,$price->price , $price->discount , $finalPrice ,$cartItem->guaranty_id );
+            $guarantyPrice = 0;
+            $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
+            if (!$guaranty->free)
+            {
+                $guarantyPrice=$this->guarantyService->calculatePrice($price->price);
+            }
+            if($price->discount && $price->discount!=0)
+            {
+                $finalPrice = ($price->discount + $guarantyPrice)  ;
+            }
+            else
+            {
+                $finalPrice = ($price->price + $guarantyPrice)  ;
+            }
+            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count,$price->price , $price->discount , $finalPrice ,$cartItem->guaranty_id ,$guarantyPrice );
         }
         return true;
     }

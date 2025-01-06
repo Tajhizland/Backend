@@ -35,7 +35,7 @@ class GuarantyService implements GuarantyServiceInterface
         return $this->guarantyRepository->findOrFail($id);
     }
 
-    public function store($name, $free, $description, $icon, $status ,$url)
+    public function store($name, $free, $description, $icon, $status, $url)
     {
         $iconPath = "";
         if ($icon) {
@@ -51,7 +51,7 @@ class GuarantyService implements GuarantyServiceInterface
         ]);
     }
 
-    public function update($id,$name, $free , $description, $icon, $status ,$url)
+    public function update($id, $name, $free, $description, $icon, $status, $url)
     {
         $guaranty = $this->guarantyRepository->findOrFail($id);
         $iconPath = $guaranty->icon;
@@ -72,5 +72,47 @@ class GuarantyService implements GuarantyServiceInterface
     public function getActives()
     {
         return $this->guarantyRepository->getActives();
+    }
+
+    public function calculatePrice(float $price): float
+    {
+        if ($price < 0) {
+            throw new \InvalidArgumentException('Price must be a positive number.');
+        }
+
+        if ($price <= 10000000) {
+            return $price * 1.1 / 100;
+        }
+
+        if ($price <= 20000000) {
+            return $price * 1 / 100;
+        }
+
+        if ($price <= 30000000) {
+            return $price * 0.9 / 100;
+        }
+
+        if ($price <= 40000000) {
+            return $price * 0.8 / 100;
+        }
+
+        if ($price <= 50000000) {
+            return $price * 0.7 / 100;
+        }
+
+        if ($price <= 70000000) {
+            return $price * 0.6 / 100;
+        }
+
+        if ($price <= 100000000) {
+            return $price * 0.5 / 100;
+        }
+
+        if ($price <= 200000000) {
+            return $price * 0.4 / 100;
+        }
+
+        return $price * 0.3 / 100;
+
     }
 }
