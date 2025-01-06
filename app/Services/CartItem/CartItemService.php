@@ -85,10 +85,12 @@ class CartItemService implements CartItemServiceInterface
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             $price = $productColor->price;
             $guarantyPrice = 0;
-            $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
-            if (!$guaranty->free)
-            {
-                $guarantyPrice=$this->guarantyService->calculatePrice($price->price);
+             if($cartItem->guaranty_id) {
+                $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
+                if (!$guaranty->free)
+                {
+                    $guarantyPrice=$this->guarantyService->calculatePrice($price->price);
+                }
             }
             if($price->discount && $price->discount!=0)
             {
