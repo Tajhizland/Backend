@@ -3,15 +3,11 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Brand\BrandCollection;
-use App\Http\Resources\V1\Category\CategoryCollection;
-use App\Http\Resources\V1\Guaranty\GuarantyCollection;
-use App\Http\Resources\V1\News\NewsCollection;
-use App\Http\Resources\V1\Product\ProductCollection;
-use App\Http\Resources\V1\Vlog\VlogCollection;
+use App\Http\Resources\V1\Sitemap\SitemapCollection;
 use App\Services\Brand\BrandServiceInterface;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Guaranty\GuarantyServiceInterface;
+use App\Services\Landing\LandingServiceInterface;
 use App\Services\New\NewServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\Vlog\VlogServiceInterface;
@@ -24,6 +20,7 @@ class SitemapController extends Controller
         private CategoryServiceInterface $categoryService,
         private BrandServiceInterface    $brandService,
         private GuarantyServiceInterface $guarantyService,
+        private LandingServiceInterface  $landingService,
         private NewServiceInterface      $newService,
         private VlogServiceInterface     $vlogService
     )
@@ -32,30 +29,36 @@ class SitemapController extends Controller
 
     public function getProductSitemap()
     {
-        return $this->dataResponseCollection(new ProductCollection($this->productService->getSitemapData()));
+        return $this->dataResponseCollection(new SitemapCollection($this->productService->getSitemapData()));
     }
 
     public function getCategorySitemap()
     {
-        return $this->dataResponseCollection(new CategoryCollection($this->categoryService->getSitemapData()));
+        return $this->dataResponseCollection(new SitemapCollection($this->categoryService->getSitemapData()));
     }
 
     public function getBrandSitemap()
     {
-        return $this->dataResponseCollection(new BrandCollection($this->brandService->getSitemapData()));
+        return $this->dataResponseCollection(new SitemapCollection($this->brandService->getSitemapData()));
     }
 
     public function getBlogSitemap()
     {
-        return $this->dataResponseCollection(new NewsCollection($this->newService->getSitemapData()));
+        return $this->dataResponseCollection(new SitemapCollection($this->newService->getSitemapData()));
     }
 
     public function getVlogSitemap()
     {
-        return $this->dataResponseCollection(new VlogCollection($this->vlogService->getSitemapData()));
+        return $this->dataResponseCollection(new SitemapCollection($this->vlogService->getSitemapData()));
     }
+
     public function getGuarantySitemap()
     {
-        return $this->dataResponseCollection(new GuarantyCollection($this->guarantyService->getSitemapData()));
+        return $this->dataResponseCollection(new SitemapCollection($this->guarantyService->getSitemapData()));
+    }
+
+    public function getLandingSitemap()
+    {
+        return $this->dataResponseCollection(new SitemapCollection($this->landingService->getSitemapData()));
     }
 }

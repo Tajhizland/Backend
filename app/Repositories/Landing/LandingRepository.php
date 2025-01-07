@@ -28,4 +28,9 @@ class LandingRepository extends BaseRepository implements LandingRepositoryInter
             ->with(["products", "categories", "landingBannerImage", "landingBannerSlider"])
             ->first();
     }
+
+    public function getSitemapData()
+    {
+        return $this->model::active()->select("url")->latest("id")->get();
+    }
 }

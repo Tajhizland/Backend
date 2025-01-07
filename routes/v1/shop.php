@@ -124,4 +124,5 @@ Route::group(["prefix" => "sitemap"], function () {
      Route::get('vlog', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getVlogSitemap"]);
      Route::get('blog', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getBlogSitemap"]);
      Route::get('guaranty', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getGuarantySitemap"]);
+     Route::get('landing', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getLandingSitemap"]);
  });

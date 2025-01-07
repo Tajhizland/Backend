@@ -113,4 +113,10 @@ class LandingService implements LandingServiceInterface
             "image" => $imagePath
         ]);
     }
+
+    public function getSitemapData()
+    {
+        return $this->landingRepository->getSitemapData();
+    }
+
 }

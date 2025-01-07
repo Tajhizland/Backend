@@ -17,6 +17,7 @@ interface LandingServiceInterface
     public function getBanner($landingId);
     public function deleteBanner($id);
     public function setBanner($image,$url,$landingId,$slider);
+    public function getSitemapData();
 
     public function findByUrl($url);
 }
