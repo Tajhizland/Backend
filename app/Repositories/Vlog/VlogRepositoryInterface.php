@@ -17,4 +17,6 @@ interface VlogRepositoryInterface extends  BaseRepositoryInterface
     public function sortView($query);
     public function sortNew($query);
     public function sortOld($query);
+    public function getSitemapData();
+
 }

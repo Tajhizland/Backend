@@ -74,4 +74,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             $query->active()->hasColor()->where("brand_id", $brandId);
         })->get();
     }
+    public function getSitemapData()
+    {
+        return $this->model::active()->select("url")->latest("id")->get();
+    }
 }

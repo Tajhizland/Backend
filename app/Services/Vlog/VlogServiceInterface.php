@@ -21,4 +21,7 @@ interface VlogServiceInterface
     public function store($title, $description, $video,$poster, $url, $status ,$categoryId);
 
     public function update($id, $title, $description, $video,$poster, $url, $status ,$categoryId);
+
+    public function getSitemapData();
+
 }

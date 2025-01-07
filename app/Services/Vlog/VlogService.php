@@ -116,4 +116,8 @@ class VlogService implements VlogServiceInterface
     {
         return $this->vlogRepository->update($vlog, ["view" => $vlog->view+1]);
     }
+    public function getSitemapData()
+    {
+        return $this->vlogRepository->getSitemapData();
+    }
 }

@@ -100,4 +100,9 @@ class BrandService implements BrandServiceInterface
         }
         return true;
     }
+
+    public function getSitemapData()
+    {
+        return $this->brandRepository->getSitemapData();
+    }
 }

@@ -111,4 +111,9 @@ class CategoryService implements CategoryServiceInterface
         $this->s3Service->remove("category/" . $category->image);
         return $this->categoryRepository->update($category, ["image" => ""]);
     }
+
+    public function getSitemapData()
+    {
+        return $this->categoryRepository->getSitemapData();
+    }
 }

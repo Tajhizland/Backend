@@ -12,4 +12,6 @@ interface BrandServiceInterface
     public function findById($id);
     public function storeBrand($name,$url ,$status,$image,$description);
     public function updateBrand($id , $name,$url ,$status,$image,$description);
+    public function getSitemapData();
+
 }

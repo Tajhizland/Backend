@@ -53,4 +53,6 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     /***End Filters***/
 
+
+    public function getSitemapData();
 }

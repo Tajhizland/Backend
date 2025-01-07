@@ -66,4 +66,9 @@ class NewService implements NewServiceInterface
             "published" => $published,
         ]);
     }
+
+    public function getSitemapData()
+    {
+        return $this->newRepository->getSitemapData();
+    }
 }

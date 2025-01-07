@@ -57,4 +57,8 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
     {
         return $this->model::published()->latest("id")->limit(4)->get();
     }
+    public function getSitemapData()
+    {
+        return $this->model::published()->select("url")->latest("id")->get();
+    }
 }

@@ -223,4 +223,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::active()->whereHas("special")->latest("id")->paginate($this->pageSize);
     }
+
+    public function getSitemapData()
+    {
+        return $this->model::active()->select("url")->latest("id")->get();
+    }
 }

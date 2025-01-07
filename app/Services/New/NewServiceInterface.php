@@ -10,4 +10,6 @@ interface NewServiceInterface
     public function dataTable();
     public function storeNews($title,$url,$content,$image,$published);
     public function updateNews($id,$title,$url,$content,$image,$published);
+    public function getSitemapData();
+
 }

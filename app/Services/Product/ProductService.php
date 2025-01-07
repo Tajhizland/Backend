@@ -139,4 +139,9 @@ class ProductService implements ProductServiceInterface
     {
         return $this->productRepository->getSpecial();
     }
+
+    public function getSitemapData()
+    {
+        return $this->productRepository->getSitemapData();
+    }
 }

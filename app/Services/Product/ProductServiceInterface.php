@@ -15,4 +15,5 @@ interface ProductServiceInterface
     public function updateProduct($id,$name , $url , $description , $study , $status,$categoryId , $brandId , $metaTitle , $metaDescription ,$guaranty_id,$guaranty_time):mixed;
     public function setVideo($productId,$description,$file,$type):mixed;
     public function getDiscountedProducts():mixed;
+    public function getSitemapData();
 }

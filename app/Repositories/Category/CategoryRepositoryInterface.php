@@ -14,4 +14,6 @@ interface CategoryRepositoryInterface extends  BaseRepositoryInterface
     public function getByBrandId($brandId);
     public function createCategory($name, $status, $url, $image, $description, $parentId);
     public function updateCategory(Category $category,$name, $status, $url, $image, $description, $parentId);
+    public function getSitemapData();
+
 }

@@ -58,12 +58,16 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     }
     public function getAllActive()
     {
-        return $this->model::where('status', 1)->orderBy("sort")->get();
+        return $this->model::active()->orderBy("sort")->get();
     }
 
     public function sort($id, $sort)
     {
         return $this->model::where("id", $id)->update(["sort" => $sort]);
 
+    }
+    public function getSitemapData()
+    {
+        return $this->model::active()->select("url")->latest("id")->get();
     }
 }
