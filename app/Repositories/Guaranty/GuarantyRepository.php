@@ -30,4 +30,8 @@ class GuarantyRepository extends BaseRepository implements GuarantyRepositoryInt
     {
         return $this->model::active()->where("url", $url)->first();
     }
+    public function getSitemapData()
+    {
+        return $this->model::active()->select("url")->latest("id")->get();
+    }
 }

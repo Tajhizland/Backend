@@ -17,4 +17,6 @@ interface GuarantyServiceInterface
     public function update($id,  $name, $free,$description, $icon, $status,$url);
 
     public function calculatePrice(float $price): float;
+    public function getSitemapData();
+
 }

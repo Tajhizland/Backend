@@ -74,6 +74,11 @@ class GuarantyService implements GuarantyServiceInterface
         return $this->guarantyRepository->getActives();
     }
 
+    public function getSitemapData()
+    {
+        return $this->guarantyRepository->getSitemapData();
+    }
+
     public function calculatePrice(float $price): float
     {
         if ($price < 0) {

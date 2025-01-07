@@ -5,11 +5,13 @@ namespace App\Http\Controllers\V1\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Brand\BrandCollection;
 use App\Http\Resources\V1\Category\CategoryCollection;
+use App\Http\Resources\V1\Guaranty\GuarantyCollection;
 use App\Http\Resources\V1\News\NewsCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Vlog\VlogCollection;
 use App\Services\Brand\BrandServiceInterface;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\Guaranty\GuarantyServiceInterface;
 use App\Services\New\NewServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\Vlog\VlogServiceInterface;
@@ -21,6 +23,7 @@ class SitemapController extends Controller
         private ProductServiceInterface  $productService,
         private CategoryServiceInterface $categoryService,
         private BrandServiceInterface    $brandService,
+        private GuarantyServiceInterface $guarantyService,
         private NewServiceInterface      $newService,
         private VlogServiceInterface     $vlogService
     )
@@ -50,5 +53,9 @@ class SitemapController extends Controller
     public function getVlogSitemap()
     {
         return $this->dataResponseCollection(new VlogCollection($this->vlogService->getSitemapData()));
+    }
+    public function getGuarantySitemap()
+    {
+        return $this->dataResponseCollection(new GuarantyCollection($this->guarantyService->getSitemapData()));
     }
 }
