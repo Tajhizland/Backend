@@ -144,4 +144,9 @@ class ProductService implements ProductServiceInterface
     {
         return $this->productRepository->getSitemapData();
     }
+
+    public function customPaginate($perPage)
+    {
+        return $this->productRepository->customPaginate($perPage);
+    }
 }

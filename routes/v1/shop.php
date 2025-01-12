@@ -17,19 +17,8 @@ Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::cl
 Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
 Route::post('contact', [\App\Http\Controllers\V1\Shop\ContactController::class, "store"]);
 Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
-//Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {
-//    $images = \App\Models\ProductImage2::where("set", 0)->get();
-//    foreach ($images as $item) {
-//        $response = Http::get("https://tajhizland.com/upload/$item->url");
-//        if ($response->successful()) {
-//            $imageContent = $response->body();
-//            $productImage->upload2($item->product_id, $imageContent);
-//            \App\Models\ProductImage2::where("id", $item->id)->update(["set" => 1]);
-//        } else {
-//            dd($item);
-//        }
-//    }
-//})->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);
+Route::get('emalls/list', [\App\Http\Controllers\V1\Shop\EmallsController::class, "list"]);
+
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
     Route::post('remove-item', [CartController::class, "removeItem"]);
@@ -69,7 +58,7 @@ Route::group(["prefix" => "news"], function () {
 
 Route::group(["prefix" => "landing"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\LandingController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
- });
+});
 
 Route::group(["prefix" => "page"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\PageController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
@@ -104,25 +93,40 @@ Route::group(["prefix" => "on-hold-order", "middleware" => "auth:sanctum"], func
 
 Route::group(["prefix" => "comment"], function () {
     Route::post('submit', [\App\Http\Controllers\V1\Shop\CommentController::class, "store"])->middleware("auth:sanctum");
- });
+});
 
 Route::group(["prefix" => "guaranty"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\GuarantyController::class, "findByUrl"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
- });
+});
 
 Route::group(["prefix" => "vlog"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\VlogController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('listing', [\App\Http\Controllers\V1\Shop\VlogController::class, "listing"]);
- });
+});
 Route::group(["prefix" => "special"], function () {
-     Route::get('list', [\App\Http\Controllers\V1\Shop\SpecialProductController::class, "list"]);
- });
+    Route::get('list', [\App\Http\Controllers\V1\Shop\SpecialProductController::class, "list"]);
+});
 Route::group(["prefix" => "sitemap"], function () {
-     Route::get('product', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getProductSitemap"]);
-     Route::get('category', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getCategorySitemap"]);
-     Route::get('brand', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getBrandSitemap"]);
-     Route::get('vlog', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getVlogSitemap"]);
-     Route::get('blog', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getBlogSitemap"]);
-     Route::get('guaranty', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getGuarantySitemap"]);
-     Route::get('landing', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getLandingSitemap"]);
- });
+    Route::get('product', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getProductSitemap"]);
+    Route::get('category', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getCategorySitemap"]);
+    Route::get('brand', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getBrandSitemap"]);
+    Route::get('vlog', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getVlogSitemap"]);
+    Route::get('blog', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getBlogSitemap"]);
+    Route::get('guaranty', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getGuarantySitemap"]);
+    Route::get('landing', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getLandingSitemap"]);
+});
+
+
+//Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {
+//    $images = \App\Models\ProductImage2::where("set", 0)->get();
+//    foreach ($images as $item) {
+//        $response = Http::get("https://tajhizland.com/upload/$item->url");
+//        if ($response->successful()) {
+//            $imageContent = $response->body();
+//            $productImage->upload2($item->product_id, $imageContent);
+//            \App\Models\ProductImage2::where("id", $item->id)->update(["set" => 1]);
+//        } else {
+//            dd($item);
+//        }
+//    }
+//})->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);

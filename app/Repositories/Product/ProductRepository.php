@@ -228,4 +228,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::active()->select("url")->latest("id")->get();
     }
+
+    public function customPaginate($perPage)
+    {
+        return $this->model::active()->latest("id")->paginate($perPage);
+    }
 }

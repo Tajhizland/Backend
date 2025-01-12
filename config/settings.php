@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "image_base_url"=>"https://c778665.parspack.net/c778665/",
+    "website_base_url"=>"https://tajhizland.com/",
     "paginated_size"=>24,
     "search_item_limit"=>5,
     "home_page_item_limit"=>10,

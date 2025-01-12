@@ -16,4 +16,5 @@ interface ProductServiceInterface
     public function setVideo($productId,$description,$file,$type):mixed;
     public function getDiscountedProducts():mixed;
     public function getSitemapData();
+    public function customPaginate($perPage);
 }
