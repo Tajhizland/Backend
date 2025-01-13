@@ -14,7 +14,7 @@ class UpdateMenuRequest extends FormRequest
             'parent_id' => ['nullable','integer'],
             'url' => ['required'],
             'status' => ['required','in:0,1'],
-            'banner_title' => ['nullable'],
+            'category_id' => ['nullable'],
             'banner_link' => ['nullable'],
             'banner_logo' =>  ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
         ];

@@ -25,7 +25,7 @@ class MenuService implements MenuServiceInterface
         return $this->menuRepository->findOrFail($id);
     }
 
-    public function store($title, $parentId, $url,$status, $bannerTitle, $bannerUrl, $bannerLogo)
+    public function store($title, $parentId, $url,$status, $categoryId, $bannerUrl, $bannerLogo)
     {
         $logoPath = "";
         if ($bannerLogo) {
@@ -36,13 +36,13 @@ class MenuService implements MenuServiceInterface
             "parent_id" => $parentId,
             "url" => $url,
             "status" => $status,
-            "banner_title" => $bannerTitle,
+            "category_id" => $categoryId,
             "banner_link" => $bannerUrl,
             "banner_logo" => $logoPath
         ]);
     }
 
-    public function update($id, $title, $parentId, $url,$status, $bannerTitle, $bannerUrl, $bannerLogo)
+    public function update($id, $title, $parentId, $url,$status, $categoryId, $bannerUrl, $bannerLogo)
     {
         $menu = $this->menuRepository->findOrFail($id);
         $logoPath = $menu->banner_logo;
@@ -56,7 +56,7 @@ class MenuService implements MenuServiceInterface
                 "parent_id" => $parentId,
                 "url" => $url,
                 "status" => $status,
-                "banner_title" => $bannerTitle,
+                "category_id" => $categoryId,
                 "banner_link" => $bannerUrl,
                 "banner_logo" => $logoPath
             ]);

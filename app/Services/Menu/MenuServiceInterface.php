@@ -12,9 +12,9 @@ interface MenuServiceInterface
 
     public function findById($id);
 
-    public function store($title, $parentId, $url,  $status, $bannerTitle, $bannerUrl, $bannerLogo);
+    public function store($title, $parentId, $url,  $status, $categoryId, $bannerUrl, $bannerLogo);
 
-    public function update($id, $title, $parentId, $url,  $status, $bannerTitle, $bannerUrl, $bannerLogo);
+    public function update($id, $title, $parentId, $url,  $status, $categoryId, $bannerUrl, $bannerLogo);
 
     public function buildMenu();
 
