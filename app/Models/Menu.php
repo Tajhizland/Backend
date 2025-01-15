@@ -24,4 +24,9 @@ class Menu extends Model
     {
         return $query->where("status", MenuStatus::Active->value);
     }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 }

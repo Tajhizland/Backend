@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Menu;
 
+use App\Enums\ProductStatus;
 use App\Models\Menu;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -30,6 +31,17 @@ class MenuRepository extends BaseRepository implements MenuRepositoryInterface
 
     public function getWithChildren()
     {
+        return $this->model::active()
+            ->where("parent_id", 0)
+            ->where(function ($query) {
+                 $query->whereNull('category_id')
+                ->orWhere('category_id', 0)
+                 ->orWhereHas('category.products', function ($query) {
+                    $query->where("status", ProductStatus::Active->value);
+                });
+            })
+            ->with("children.children.children")
+            ->get();
         return $this->model::active()->where("parent_id", 0)->with("children.children.children")->get();
     }
 
