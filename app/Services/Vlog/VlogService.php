@@ -120,4 +120,9 @@ class VlogService implements VlogServiceInterface
     {
         return $this->vlogRepository->getSitemapData();
     }
+
+    public function getMostViewed()
+    {
+        return $this->vlogRepository->getMostViewed();
+    }
 }

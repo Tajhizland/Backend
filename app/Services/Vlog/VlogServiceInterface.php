@@ -9,6 +9,7 @@ interface VlogServiceInterface
     public function dataTable();
 
     public function listing($filters);
+    public function getMostViewed();
 
     public function findById($id);
 

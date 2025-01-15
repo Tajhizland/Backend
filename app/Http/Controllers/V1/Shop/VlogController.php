@@ -21,7 +21,7 @@ class VlogController extends Controller
     public function find(FindVlogByUrlRequest $request)
     {
         $vlogResponse = $this->vlogService->findByUrl($request->get("url"));
-        $relatedVlogs = $this->vlogService->getRelatedVlogs($vlogResponse->category_id , $vlogResponse->id);
+        $relatedVlogs = $this->vlogService->getRelatedVlogs($vlogResponse->category_id, $vlogResponse->id);
         $this->vlogService->view($vlogResponse);
         return $this->dataResponse([
             "vlog" => new VlogResource($vlogResponse),
@@ -31,6 +31,11 @@ class VlogController extends Controller
 
     public function listing(Request $request)
     {
-        return $this->dataResponseCollection(new VlogCollection($this->vlogService->listing($request->get("filter"))));
+        $listing = new VlogCollection($this->vlogService->listing($request->get("filter")));
+        $mostViewed = new VlogCollection($this->vlogService->getMostViewed());
+        return $this->dataResponse([
+            "listing" => $listing,
+            "mostViewed" => $mostViewed
+        ]);
     }
 }

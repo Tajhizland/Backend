@@ -74,4 +74,10 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     {
         return $this->model::active()->select("url")->latest("id")->get();
     }
+
+    public function getMostViewed()
+    {
+        return $this->model::active()->orderBy("view","desc")->latest("id")->limit(5)->get();
+
+    }
 }
