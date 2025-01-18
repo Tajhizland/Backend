@@ -103,6 +103,9 @@ Route::group(["prefix" => "vlog"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\VlogController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('listing', [\App\Http\Controllers\V1\Shop\VlogController::class, "listing"]);
 });
+Route::group(["prefix" => "vlog_category"], function () { 
+    Route::get("list", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "list"]); 
+});
 Route::group(["prefix" => "special"], function () {
     Route::get('list', [\App\Http\Controllers\V1\Shop\SpecialProductController::class, "list"]);
 });
