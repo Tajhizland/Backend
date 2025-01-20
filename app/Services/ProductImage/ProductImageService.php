@@ -21,18 +21,19 @@ class ProductImageService implements ProductImageServiceInterface
         return $this->productImageRepository->getByProductId($productId);
     }
 
-    public function upload($productId, $image)
+    public function upload($productId, $images)
     {
-        $imagePath = $this->s3Service->upload($image, "product");
-
-        $_800X = $this->imageResizeService->resize($image, 800, 800);
-        $this->s3Service->upload2($_800X, "product/800", $imagePath);
-
-        $_300X = $this->imageResizeService->resize($image, 300, 300);
-        $this->s3Service->upload2($_300X, "product/300", $imagePath);
-
-        return $this->productImageRepository->create(["product_id" => $productId, "url" => $imagePath]);
+        foreach ($images as $image) {
+            $imagePath = $this->s3Service->upload($image, "product");
+            $_800X = $this->imageResizeService->resize($image, 800, 800);
+            $this->s3Service->upload2($_800X, "product/800", $imagePath);
+            $_300X = $this->imageResizeService->resize($image, 300, 300);
+            $this->s3Service->upload2($_300X, "product/300", $imagePath);
+            $this->productImageRepository->create(["product_id" => $productId, "url" => $imagePath]);
+        }
+        return true;
     }
+
     public function upload2($productId, $image)
     {
         $imagePath = $this->s3Service->upload2($image, "product");

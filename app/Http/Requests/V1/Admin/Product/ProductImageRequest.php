@@ -9,7 +9,8 @@ class ProductImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image'=> ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
+            'image' => ['required', 'array'],
+            'image.*' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp', 'max:2048'], // اعتبارسنجی هر فایل در آرایه
             'product_id'=> ['required', 'exists:products,id'],
 
         ];
