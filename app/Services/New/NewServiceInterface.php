@@ -8,8 +8,7 @@ interface NewServiceInterface
     public function findById($id);
     public function activePaginate();
     public function dataTable();
-    public function storeNews($title,$url,$content,$image,$published);
+    public function storeNews($title,$url,$content,$image,$published,$author);
     public function updateNews($id,$title,$url,$content,$image,$published);
     public function getSitemapData();
-
 }

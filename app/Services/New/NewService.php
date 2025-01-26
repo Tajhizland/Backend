@@ -35,7 +35,7 @@ class NewService implements NewServiceInterface
         return $this->newRepository->dataTable();
     }
 
-    public function storeNews($title, $url, $content, $image, $published)
+    public function storeNews($title, $url, $content, $image, $published ,$author)
     {
         $imagePath = null;
         if ($image) {
@@ -47,6 +47,7 @@ class NewService implements NewServiceInterface
             "content" => $content,
             "image" => $imagePath,
             "published" => $published,
+            "author" => $author,
         ]);
     }
 

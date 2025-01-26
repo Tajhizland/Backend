@@ -8,6 +8,7 @@ use App\Http\Requests\V1\Admin\Vlog\UpdateVlogRequest;
 use App\Http\Resources\V1\Vlog\VlogCollection;
 use App\Http\Resources\V1\Vlog\VlogResource;
 use App\Services\Vlog\VlogServiceInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
 class VlogController extends Controller
@@ -31,7 +32,8 @@ class VlogController extends Controller
 
     public function store(StoreVlogRequest $request)
     {
-        $this->vlogService->store($request->get("title"), $request->get("description"), $request->file("video"), $request->file("poster"), $request->get("url"), $request->get("status"), $request->get("categoryId"));
+        $userId = Auth::user()->id;
+        $this->vlogService->store($request->get("title"), $request->get("description"), $request->file("video"), $request->file("poster"), $request->get("url"), $request->get("status"), $request->get("categoryId") ,$userId);
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.vlog")]));
     }
 

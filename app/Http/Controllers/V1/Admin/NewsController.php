@@ -8,6 +8,7 @@ use App\Http\Requests\V1\Admin\News\UpdateNewsRequest;
 use App\Http\Resources\V1\News\NewsCollection;
 use App\Http\Resources\V1\News\NewsResource;
 use App\Services\New\NewServiceInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
 class NewsController extends Controller
@@ -32,7 +33,8 @@ class NewsController extends Controller
 
     public function store(StoreNewsRequest $request)
     {
-        $this->newService->storeNews($request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"));
+        $userId = Auth::user()->id;
+        $this->newService->storeNews($request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"),$userId);
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.news")]));
     }
 
