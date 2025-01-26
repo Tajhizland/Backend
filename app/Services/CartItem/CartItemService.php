@@ -34,8 +34,25 @@ class CartItemService implements CartItemServiceInterface
         $maxDeliveryDelay = 0;
         foreach ($cartItems as $cartItem) {
             $price = $this->priceRepository->findByProductColorId($cartItem->product_color_id);
+            $guarantyPrice = 0;
+            if($cartItem->guaranty_id) {
+                $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
+                if (!$guaranty->free)
+                {
+                    $guarantyPrice=$this->guarantyService->calculatePrice($price->price);
+                }
+            }
             $itemsPrice += $price->price * $cartItem->count;
-            $totalItemPrice += ($price->price - ($price->price * ($price->discount / 100))) * $cartItem->count;
+
+            if($price->discount && $price->discount!=0)
+            {
+                $totalItemPrice += $price->discount * $cartItem->count+$guarantyPrice;
+            }
+            else
+            {
+                $totalItemPrice +=$price->price * $cartItem->count+$guarantyPrice;
+            }
+
             if($cartItem->productColor->delivery_delay > $maxDeliveryDelay)
             {
                 $maxDeliveryDelay=$cartItem->productColor->delivery_delay;
