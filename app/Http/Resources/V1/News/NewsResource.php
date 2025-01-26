@@ -19,6 +19,7 @@ class NewsResource extends JsonResource
             "img" => $this->img,
             "published" => $this->published,
             "static" => $this->static,
+            'author' => $this->user->name ,
 
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d'),
