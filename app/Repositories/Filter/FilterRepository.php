@@ -16,7 +16,7 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
 
     public function createFilter($name, $categoryId, $status)
     {
-        $this->create([
+       return $this->create([
             "name" => $name,
             "category_id" => $categoryId,
             "status" => $status,
