@@ -17,7 +17,7 @@ class FilterResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'status' => $this->status->value,
-            'type' => $this->type->label(),
+//            'type' => $this->type->label(),
             'items' => new FilterItemCollection($this->items),
             'productFilters' => new ProductFilterResource($this->whenLoaded('productFilters')),
 
