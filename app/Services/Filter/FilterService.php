@@ -138,7 +138,8 @@ class FilterService implements FilterServiceInterface
                 }
             }
             else{
-                $this->filterRepository->createFilter($filter["name"], $categoryId, $filter["status"]);
+                $newFilter= $this->filterRepository->createFilter($filter["name"], $categoryId, $filter["status"]);
+                $filter["id"]=$newFilter->id;
             }
             $filterItems = $filter["item"];
             foreach ($filterItems as $filterItem) {
