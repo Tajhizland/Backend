@@ -129,7 +129,9 @@ class FilterService implements FilterServiceInterface
     public function setFilter($categoryId, $filters): void
     {
         foreach ($filters as $filter) {
+            $filterId=0;
             if(@$filter["id"]) {
+                $filterId=$filter["id"];
                 $existFilter = $this->filterRepository->find($filter["id"]);
                 if ($existFilter) {
                     $this->filterRepository->updateFilter($filter["id"], $filter["name"], $categoryId, $filter["status"]);
@@ -139,7 +141,7 @@ class FilterService implements FilterServiceInterface
             }
             else{
                 $newFilter= $this->filterRepository->createFilter($filter["name"], $categoryId, $filter["status"]);
-                $filter["id"]=$newFilter->id;
+                $filterId=$newFilter->id;
             }
             $filterItems = $filter["item"];
             foreach ($filterItems as $filterItem) {
@@ -150,7 +152,7 @@ class FilterService implements FilterServiceInterface
                         continue;
                     }
                 }
-                $this->filterItemRepository->createFilterItem($filter["id"], $filterItem["value"], $filterItem["status"]);
+                $this->filterItemRepository->createFilterItem($filterId, $filterItem["value"], $filterItem["status"]);
             }
         }
     }
