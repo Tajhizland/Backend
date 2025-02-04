@@ -114,10 +114,16 @@ class FilterService implements FilterServiceInterface
         foreach ($filters as $filter) {
             $productFilter = $this->productFilterRepository->findProductFilter($productId, $filter["id"]);
             if ($productFilter) {
-                $this->productFilterRepository->updateFilterItem($productFilter, $filter["item_id"]);
-                continue;
+                if ($filter["item_id"]) {
+                    $this->productFilterRepository->updateFilterItem($productFilter, $filter["item_id"]);
+                    continue;
+                } else {
+                    $this->productFilterRepository->delete($productFilter);
+                }
             }
-            $this->productFilterRepository->store($productId, $filter["id"], $filter["item_id"]);
+            if ($filter["item_id"]) {
+                $this->productFilterRepository->store($productId, $filter["id"], $filter["item_id"]);
+            }
         }
     }
 
