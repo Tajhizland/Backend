@@ -26,16 +26,17 @@ class BannerService implements BannerServiceInterface
         return $this->bannerRepository->delete($banner);
     }
 
-    public function create($image, $url)
+    public function create($image, $url,$type)
     {
         $imagePath = $this->s3Service->upload($image, "banner");
         return $this->bannerRepository->create([
             "image" => $imagePath,
+            "type" => $type,
             "url" => $url
         ]);
     }
 
-    public function update($id, $image, $url)
+    public function update($id, $image, $url,$type)
     {
         $banner = $this->bannerRepository->findOrFail($id);
         $imagePath = $banner->image;
@@ -45,6 +46,7 @@ class BannerService implements BannerServiceInterface
         }
         return $this->bannerRepository->update($banner, [
             "image" => $imagePath,
+            "type" => $type,
             "url" => $url
         ]);
     }

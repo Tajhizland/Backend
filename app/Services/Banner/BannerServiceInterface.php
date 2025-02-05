@@ -9,6 +9,6 @@ interface BannerServiceInterface
     public function sort($array);
     public function delete($id);
     public function findById($id);
-    public function create($image,$url);
-    public function update($id,$image,$url);
+    public function create($image,$url,$type);
+    public function update($id,$image,$url,$type);
 }

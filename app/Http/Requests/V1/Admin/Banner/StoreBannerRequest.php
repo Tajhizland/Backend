@@ -11,6 +11,7 @@ class StoreBannerRequest extends FormRequest
         return [
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
             'url' => ['required'],
+            'type' => ['required'],
         ];
     }
 

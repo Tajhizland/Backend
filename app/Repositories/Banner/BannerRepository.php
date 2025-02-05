@@ -16,8 +16,8 @@ class BannerRepository extends BaseRepository implements BannerRepositoryInterfa
     public function dataTable()
     {
         return QueryBuilder::for(Banner::class)
-            ->allowedFilters(['url', 'id', 'created_at', 'updated_at'])
-            ->allowedSorts(['url', 'id', 'created_at', 'updated_at'])
+            ->allowedFilters(['url', 'id', 'type', 'created_at', 'updated_at'])
+            ->allowedSorts(['url', 'id', 'type', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
 

@@ -15,6 +15,7 @@ class BannerResource extends JsonResource
             'id' => $this->id,
             'image' => $this->image,
             'url' => $this->url,
+            'type' => $this->type,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];

@@ -38,13 +38,13 @@ class BannerController extends Controller
 
     public function store(StoreBannerRequest $request)
     {
-        $this->bannerService->create($request->file("image"), $request->get("url"));
+        $this->bannerService->create($request->file("image"), $request->get("url"),$request->get("type"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.banner")]));
     }
 
     public function update(UpdateBannerRequest $request)
     {
-        $this->bannerService->update($request->get("id"), $request->file("image"), $request->get("url"));
+        $this->bannerService->update($request->get("id"), $request->file("image"), $request->get("url"),$request->get("type"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.banner")]));
     }
     public function list()

@@ -12,6 +12,7 @@ class UpdateBannerRequest extends FormRequest
             'id' => ['required'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
             'url' => ['required'],
+            'type' => ['required'],
         ];
     }
 
