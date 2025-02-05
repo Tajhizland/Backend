@@ -72,4 +72,9 @@ class NewService implements NewServiceInterface
     {
         return $this->newRepository->getSitemapData();
     }
+
+    public function getLastPost()
+    {
+        return $this->newRepository->getLastPost();
+    }
 }

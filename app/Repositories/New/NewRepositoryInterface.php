@@ -14,5 +14,6 @@ interface NewRepositoryInterface extends BaseRepositoryInterface
     public function createNews($title,$url,$content,$image,$published);
     public function updateNews(News $news,$title,$url,$content,$image,$published);
     public function getSitemapData();
+    public function getLastPost();
 
 }

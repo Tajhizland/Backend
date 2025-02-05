@@ -11,4 +11,5 @@ interface NewServiceInterface
     public function storeNews($title,$url,$content,$image,$published,$author);
     public function updateNews($id,$title,$url,$content,$image,$published);
     public function getSitemapData();
+    public function getLastPost();
 }

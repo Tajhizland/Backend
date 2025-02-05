@@ -24,9 +24,11 @@ class NewsController extends Controller
     {
         $banners=new BannerCollection($this->bannerService->getBlogBanner());
         $listing=new NewsCollection($this->newService->activePaginate());
+        $lastPost=new NewsCollection($this->newService->getLastPost());
         return $this->dataResponse([
             "listing" => $listing,
             "banner" => $banners,
+            "lastPost" => $lastPost,
         ]);
     }
 

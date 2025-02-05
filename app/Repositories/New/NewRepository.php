@@ -61,4 +61,9 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
     {
         return $this->model::published()->select("url")->latest("id")->get();
     }
+
+    public function getLastPost()
+    {
+        return $this->model::published()->latest("id")->limit(5)->get();
+    }
 }
