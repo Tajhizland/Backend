@@ -77,7 +77,7 @@ class BannerService implements BannerServiceInterface
         return $this->bannerRepository->getBannerByType("vlog");
     }
 
-    public function getVBrandBanner()
+    public function getBrandBanner()
     {
         return $this->bannerRepository->getBannerByType("brand");
     }
