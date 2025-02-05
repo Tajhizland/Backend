@@ -30,4 +30,9 @@ class BannerRepository extends BaseRepository implements BannerRepositoryInterfa
     {
         return $this->model::orderBy("sort")->get();
     }
+
+    public function getBannerByType($type)
+    {
+        return $this->model::where("type", $type)->orderBy("sort")->get();
+    }
 }

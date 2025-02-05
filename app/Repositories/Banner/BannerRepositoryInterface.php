@@ -9,4 +9,6 @@ interface BannerRepositoryInterface extends  BaseRepositoryInterface
     public function dataTable();
     public function getAll();
     public function sort($id,$sort);
+
+    public function getBannerByType($type);
 }

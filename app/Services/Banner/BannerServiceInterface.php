@@ -11,4 +11,9 @@ interface BannerServiceInterface
     public function findById($id);
     public function create($image,$url,$type);
     public function update($id,$image,$url,$type);
+
+    public function getBlogBanner();
+    public function getVlogBanner();
+    public function getVBrandBanner();
+
 }
