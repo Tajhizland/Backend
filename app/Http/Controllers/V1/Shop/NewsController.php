@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\News\NewsCollection;
 use App\Http\Resources\V1\News\NewsResource;
+use App\Services\Banner\BannerServiceInterface;
 use App\Services\New\NewServiceInterface;
 use Illuminate\Http\Request;
 
@@ -12,6 +14,7 @@ class NewsController extends Controller
 {
     public function __construct
     (
+        private  BannerServiceInterface $bannerService ,
         private NewServiceInterface $newService
     )
     {
@@ -19,7 +22,12 @@ class NewsController extends Controller
 
     public function paginate()
     {
-        return $this->dataResponseCollection(new NewsCollection($this->newService->activePaginate()));
+        $banners=new BannerCollection($this->bannerService->getBlogBanner());
+        $listing=new NewsCollection($this->newService->activePaginate());
+        return $this->dataResponse([
+            "listing" => $listing,
+            "banner" => $banners,
+        ]);
     }
 
     public function findByUrl(Request $request)
