@@ -19,7 +19,7 @@ class BreadcrumbService implements BreadcrumbServiceInterface
         $breadcrumb = [$category];
         while ($category->parent_id != 0) {
             $category = $this->categoryRepository->findOrFail($category->parent_id);
-            if ($category && $category->status == CategoryStatus::Active->value) {
+            if ($category && $category->status == CategoryStatus::Active ) {
                 $breadcrumb[] = $category;
             }
         }
