@@ -43,7 +43,7 @@ class ProductColorService implements ProductColorServiceInterface
     {
         foreach ($colors as $item) {
             if (isset($item["id"])) {
-                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
+                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"], $item["status"], $item["delivery_delay"]);
             }
         }
         return true;

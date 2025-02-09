@@ -24,13 +24,15 @@ class PriceRepository extends BaseRepository implements PriceRepositoryInterface
         );
     }
 
-    public function updatePrice($productColorId, $price, $discount)
+    public function updatePrice($productColorId, $price, $discount,$status,$delivery_delay)
     {
         $this->model::where("product_color_id", $productColorId)
             ->update(
                 [
                     "price" => $price,
-                    "discount" => $discount
+                    "discount" => $discount,
+                    "status" => $status,
+                    "delivery_delay" => $delivery_delay,
                 ]
             );
     }
