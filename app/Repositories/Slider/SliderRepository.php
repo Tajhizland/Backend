@@ -13,9 +13,13 @@ class SliderRepository extends BaseRepository implements SliderRepositoryInterfa
         parent::__construct($model);
     }
 
-    public function getActiveSlider()
+    public function getActiveDesktopSlider()
     {
-        return $this->model::active()->get();
+        return $this->model::active()->desktop()->get();
+    }
+    public function getActiveMobileSlider()
+    {
+        return $this->model::active()->mobile()->get();
     }
 
     public function dataTable()

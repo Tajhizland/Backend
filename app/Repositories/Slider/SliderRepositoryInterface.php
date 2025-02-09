@@ -8,7 +8,8 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface SliderRepositoryInterface extends  BaseRepositoryInterface
 {
     public function dataTable();
-    public function getActiveSlider();
+    public function getActiveDesktopSlider();
+    public function getActiveMobileSlider();
     public function store($title ,$url ,$status, $image);
     public function updateSlider(Slider $slider  ,$title ,$url ,$status, $image);
 }
