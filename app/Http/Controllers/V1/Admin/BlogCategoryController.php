@@ -29,7 +29,7 @@ class BlogCategoryController extends Controller
         return $this->dataResponse(new BlogCategoryResource($this->blogCategoryService->findById($id)));
     }
 
-    public function create(StoreBlogCategoryRequest $request)
+    public function store(StoreBlogCategoryRequest $request)
     {
         $this->blogCategoryService->create($request->get("name"), $request->get("status"), $request->get("url"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.category")]));
