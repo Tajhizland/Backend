@@ -118,6 +118,8 @@ use App\Repositories\Vlog\VlogRepository;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Repositories\VlogCategory\VlogCategoryRepository;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
+use App\Service\CategoryTree\CategoryTreeService;
+use App\Service\CategoryTree\CategoryTreeServiceInterface;
 use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
@@ -463,6 +465,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductGuarantyServiceInterface::class, ProductGuarantyService::class);
 
         $this->app->bind(PosterServiceInterface::class, PosterService::class);
+
+        $this->app->bind(CategoryTreeServiceInterface::class, CategoryTreeService::class);
 
         /** End Service */
 

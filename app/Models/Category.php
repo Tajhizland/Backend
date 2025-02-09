@@ -38,6 +38,11 @@ class Category extends Model
     {
         return $this->hasMany(Filter::class);
     }
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
 
     public function scopeActive(Builder $query): Builder
     {

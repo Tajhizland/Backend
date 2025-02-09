@@ -4,6 +4,7 @@ namespace App\Services\Category;
 
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Service\CategoryTree\CategoryTreeServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\S3\S3ServiceInterface;
@@ -12,11 +13,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class CategoryService implements CategoryServiceInterface
 {
     public function __construct(
-        private CategoryRepositoryInterface $categoryRepository,
-        private ProductRepositoryInterface  $productRepository,
-        private FilterServiceInterface      $filterService,
-        private BreadcrumbServiceInterface  $breadcrumbService,
-        private S3ServiceInterface          $s3Service
+        private CategoryRepositoryInterface  $categoryRepository,
+        private ProductRepositoryInterface   $productRepository,
+        private FilterServiceInterface       $filterService,
+        private BreadcrumbServiceInterface   $breadcrumbService,
+        private CategoryTreeServiceInterface $categoryTreeService,
+        private S3ServiceInterface           $s3Service
     )
     {
     }
@@ -32,7 +34,9 @@ class CategoryService implements CategoryServiceInterface
         if (!$category) {
             throw new NotFoundHttpException();
         }
-        $productsQuery = $this->productRepository->activeProductQuery($category->id);
+        $categoryIds = $this->categoryTreeService->getCategoryAndChildrenIds($category);
+
+        $productsQuery = $this->productRepository->activeProductQuery($categoryIds);
         $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
         $breadcrumb = $this->breadcrumbService->generate($category);
