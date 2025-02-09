@@ -8,6 +8,8 @@ use App\Repositories\Banner\BannerRepository;
 use App\Repositories\Banner\BannerRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Base\BaseRepositoryInterface;
+use App\Repositories\BlogCategory\BlogCategoryRepository;
+use App\Repositories\BlogCategory\BlogCategoryRepositoryInterface;
 use App\Repositories\Brand\BrandRepository;
 use App\Repositories\Brand\BrandRepositoryInterface;
 use App\Repositories\Cart\CartRepository;
@@ -118,7 +120,6 @@ use App\Repositories\Vlog\VlogRepository;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Repositories\VlogCategory\VlogCategoryRepository;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
-
 use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
@@ -129,6 +130,8 @@ use App\Services\Auth\ResetPassword\ResetPasswordService;
 use App\Services\Auth\ResetPassword\ResetPasswordServiceInterface;
 use App\Services\Banner\BannerService;
 use App\Services\Banner\BannerServiceInterface;
+use App\Services\BlogCategory\BlogCategoryService;
+use App\Services\BlogCategory\BlogCategoryServiceInterface;
 use App\Services\Brand\BrandService;
 use App\Services\Brand\BrandServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbService;
@@ -351,6 +354,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(PosterRepositoryInterface::class, PosterRepository::class);
 
+        $this->app->bind(BlogCategoryRepositoryInterface::class, BlogCategoryRepository::class);
+
 
         /** End Repository */
 
@@ -468,6 +473,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PosterServiceInterface::class, PosterService::class);
 
         $this->app->bind(CategoryTreeServiceInterface::class, CategoryTreeService::class);
+
+        $this->app->bind(BlogCategoryServiceInterface::class, BlogCategoryService::class);
 
         /** End Service */
 
