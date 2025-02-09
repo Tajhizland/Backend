@@ -4,7 +4,6 @@ namespace App\Repositories\Price;
 
 use App\Models\Price;
 use App\Repositories\Base\BaseRepository;
-use Illuminate\Database\Eloquent\Model;
 
 class PriceRepository extends BaseRepository implements PriceRepositoryInterface
 {
@@ -24,20 +23,19 @@ class PriceRepository extends BaseRepository implements PriceRepositoryInterface
         );
     }
 
-    public function updatePrice($productColorId, $price, $discount,$status,$delivery_delay)
+    public function updatePrice($productColorId, $price, $discount)
     {
         $this->model::where("product_color_id", $productColorId)
             ->update(
                 [
                     "price" => $price,
-                    "discount" => $discount,
-                    "status" => $status,
-                    "delivery_delay" => $delivery_delay,
+                    "discount" => $discount
                 ]
             );
     }
+
     public function findByProductColorId($productColorId)
     {
-        return $this->model::where("product_color_id",$productColorId)->first();
+        return $this->model::where("product_color_id", $productColorId)->first();
     }
 }
