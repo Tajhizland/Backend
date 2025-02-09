@@ -30,7 +30,7 @@ class BlogCategoryService implements BlogCategoryServiceInterface
     public function update($id, $name, $status, $url)
     {
         $blogCategory = $this->blogCategoryRepository->findOrFail($id);
-        $this->blogCategoryRepository->update($blogCategory,
+        return $this->blogCategoryRepository->update($blogCategory,
             [
                 "name" => $name,
                 "status" => $status,
