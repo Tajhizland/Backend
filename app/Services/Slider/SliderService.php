@@ -24,20 +24,21 @@ class SliderService implements SliderServiceInterface
     {
         return $this->sliderRepository->dataTable();
     }
-    public function store($title, $url, $status, $image)
+
+    public function store($title, $url, $status, $type, $image)
     {
         $imagePath = $this->s3Service->upload($image, "slider");
-        return $this->sliderRepository->create(["title"=>$title , "url"=>$url , "image"=>$imagePath , "status"=>$status]);
+        return $this->sliderRepository->create(["title" => $title, "url" => $url, "image" => $imagePath, "type" => $type, "status" => $status]);
     }
 
-    public function update($id, $title, $url, $status, $image)
+    public function update($id, $title, $url, $status, $type, $image)
     {
         $slider = $this->sliderRepository->findOrFail($id);
         $imagePath = $slider->image;
         if ($image) {
-            $this->s3Service->remove("slider/".$slider->image);
+            $this->s3Service->remove("slider/" . $slider->image);
             $imagePath = $this->s3Service->upload($image, "slider");
         }
-        return $this->sliderRepository->update($slider, ["title"=>$title , "url"=>$url , "image"=>$imagePath , "status"=>$status]);
+        return $this->sliderRepository->update($slider, ["title" => $title, "url" => $url, "image" => $imagePath, "status" => $status, "type" => $type]);
     }
 }

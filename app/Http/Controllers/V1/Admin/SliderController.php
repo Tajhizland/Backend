@@ -29,12 +29,12 @@ class SliderController extends Controller
     }
     public function store(StoreSliderRequest $request)
     {
-        $this->sliderService->store($request->get("title") , $request->get("url") ,$request->get("status"),$request->get("image"));
+        $this->sliderService->store($request->get("title") , $request->get("url") ,$request->get("status"),$request->get("type"),$request->get("image"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.filter")]));
     }
     public function update(UpdateSliderRequest $request)
     {
-        $this->sliderService->update($request->get("id"),$request->get("title") , $request->get("url") ,$request->get("status"),$request->get("image"));
+        $this->sliderService->update($request->get("id"),$request->get("title") , $request->get("url") ,$request->get("status"),$request->get("type"),$request->get("image"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.filter")]));
     }
 }

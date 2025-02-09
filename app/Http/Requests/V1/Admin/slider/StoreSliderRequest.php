@@ -11,6 +11,7 @@ class StoreSliderRequest extends FormRequest
         return [
             'title' => ['required'],
             'url' => ['required'],
+            'type' => ['required','string','in:desktop,mobile'],
             'image' =>  ['required' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
             'status' => ['required', 'integer'],
         ];

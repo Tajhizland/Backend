@@ -12,6 +12,7 @@ class UpdateSliderRequest extends FormRequest
             'id' => ['required'],
             'title' => ['required'],
             'url' => ['required'],
+            'type' => ['required','string','in:desktop,mobile'],
             'image' => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
             'status' => ['required', 'integer'],
         ];
