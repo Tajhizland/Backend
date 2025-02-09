@@ -17,6 +17,7 @@ class SliderResource extends JsonResource
             'url' => $this->url,
             'image' => $this->image,
             'status' => $this->status,
+            'type' => $this->type,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
