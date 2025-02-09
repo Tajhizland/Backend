@@ -41,7 +41,7 @@ class HomePageService implements HomePageServiceInterface
         $mobileSliders = $this->sliderRepository->getActiveMobileSlider();
         $concepts = $this->conceptRepository->getActiveWithCategory();
         $brands = $this->brandRepository->getAllActive();
-        $banners = $this->bannerRepository->getAll();
+        $banners = $this->bannerRepository->getBannerByType("home_page");
         $lastNews = $this->newRepository->getLastActiveNews();
         $lastVlogs = $this->vlogRepository->getLastActives();
         $posters=$this->posterRepository->getHomepagePosters();
