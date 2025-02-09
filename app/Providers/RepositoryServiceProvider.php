@@ -118,8 +118,7 @@ use App\Repositories\Vlog\VlogRepository;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Repositories\VlogCategory\VlogCategoryRepository;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
-use App\Service\CategoryTree\CategoryTreeService;
-use App\Service\CategoryTree\CategoryTreeServiceInterface;
+
 use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
@@ -140,6 +139,8 @@ use App\Services\CartItem\CartItemService;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\CategoryTree\CategoryTreeService;
+use App\Services\CategoryTree\CategoryTreeServiceInterface;
 use App\Services\Checkout\CheckoutService;
 use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Comment\CommentService;

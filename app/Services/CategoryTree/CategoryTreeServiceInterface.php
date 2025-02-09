@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\CategoryTree;
+namespace App\Services\CategoryTree;
 
 interface CategoryTreeServiceInterface
 {

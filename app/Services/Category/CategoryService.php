@@ -4,7 +4,7 @@ namespace App\Services\Category;
 
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
-use App\Service\CategoryTree\CategoryTreeServiceInterface;
+use App\Services\CategoryTree\CategoryTreeServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\S3\S3ServiceInterface;
