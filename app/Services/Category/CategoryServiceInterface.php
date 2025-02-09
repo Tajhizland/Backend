@@ -11,8 +11,8 @@ interface CategoryServiceInterface
     public function productList($id);
     public function productSort($array);
     public function searchCategory($query);
-    public function storeCategory($name,$status,$url,$image,$description,$parentId);
-    public function updateCategory($id,$name,$status,$url,$image,$description,$parentId);
+    public function storeCategory($name,$status,$url,$image,$description,$parentId,$type);
+    public function updateCategory($id,$name,$status,$url,$image,$description,$parentId,$type);
     public function deleteImage($categoryId);
     public function getSitemapData();
 

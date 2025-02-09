@@ -20,6 +20,7 @@ class CategoryResource extends JsonResource
             'url' => $this->url,
             'image' => $this->image,
             'parent_id' => $this->parent_id,
+            'type' => $this->type,
             'description' => $this->description,
              'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),

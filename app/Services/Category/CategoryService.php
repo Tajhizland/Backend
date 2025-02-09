@@ -59,7 +59,7 @@ class CategoryService implements CategoryServiceInterface
         return $this->categoryRepository->findOrFail($id);
     }
 
-    public function storeCategory($name, $status, $url, $image, $description, $parentId)
+    public function storeCategory($name, $status, $url, $image, $description, $parentId,$type)
     {
         $imagePath = null;
         if ($image) {
@@ -72,12 +72,13 @@ class CategoryService implements CategoryServiceInterface
                 "url" => $url,
                 "image" => $imagePath,
                 "description" => $description,
+                "type" => $type,
                 "parent_id" => $parentId
             ]
         );
     }
 
-    public function updateCategory($id, $name, $status, $url, $image, $description, $parentId)
+    public function updateCategory($id, $name, $status, $url, $image, $description, $parentId,$type)
     {
         $category = $this->categoryRepository->findOrFail($id);
         $imagePath = $category->image;
@@ -92,6 +93,7 @@ class CategoryService implements CategoryServiceInterface
                 "url" => $url,
                 "image" => $imagePath,
                 "description" => $description,
+                "type" => $type,
                 "parent_id" => $parentId
             ]);
     }
