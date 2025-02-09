@@ -19,9 +19,7 @@ class NewsController extends Controller
         private BannerServiceInterface       $bannerService,
         private NewServiceInterface          $newService,
         private BlogCategoryServiceInterface $blogCategoryService
-    )
-    {
-    }
+    ) { }
 
     public function paginate()
     {
