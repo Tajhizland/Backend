@@ -20,4 +20,9 @@ class BlogCategoryRepository extends BaseRepository implements BlogCategoryRepos
             ->allowedSorts(['url', 'id', 'status', 'name', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
+
+    public function getActiveList()
+    {
+        return $this->model::active()->get();
+    }
 }

@@ -6,6 +6,8 @@ interface BlogCategoryServiceInterface
 {
     public function dataTable();
 
+    public function list();
+
     public function findById($id);
 
     public function create($name, $status, $url);

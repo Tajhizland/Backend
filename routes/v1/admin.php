@@ -69,6 +69,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "update"]);
+        Route::post("list", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "list"]);
     });
 
     Route::group(["prefix" => "option"], function () {

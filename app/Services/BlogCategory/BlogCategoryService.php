@@ -42,4 +42,9 @@ class BlogCategoryService implements BlogCategoryServiceInterface
     {
         return $this->blogCategoryRepository->findOrFail($id);
     }
+
+    public function list()
+    {
+        return $this->blogCategoryRepository->getActiveList();
+    }
 }

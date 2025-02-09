@@ -7,4 +7,5 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface BlogCategoryRepositoryInterface extends BaseRepositoryInterface
 {
     public function dataTable();
+    public function getActiveList();
 }
