@@ -34,13 +34,13 @@ class NewsController extends Controller
     public function store(StoreNewsRequest $request)
     {
         $userId = Auth::user()->id;
-        $this->newService->storeNews($request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"),$userId);
+        $this->newService->storeNews($request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"), $request->get("categoryId"),$userId);
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.news")]));
     }
 
     public function update(UpdateNewsRequest $request)
     {
-        $this->newService->updateNews($request->get("id"), $request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"));
+        $this->newService->updateNews($request->get("id"), $request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"), $request->get("categoryId"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.news")]));
     }
 }

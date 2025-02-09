@@ -14,6 +14,7 @@ class StoreNewsRequest extends FormRequest
             "content" => ["required","string"],
             "img" =>  ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
             "published" => ["required","integer","in:1,0"],
+            "categoryId" => ["nullable","exists:App\Models\BlogCategory,id"],
             "static" => ["nullable"],
         ];
     }

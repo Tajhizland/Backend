@@ -35,7 +35,7 @@ class NewService implements NewServiceInterface
         return $this->newRepository->dataTable();
     }
 
-    public function storeNews($title, $url, $content, $image, $published ,$author)
+    public function storeNews($title, $url, $content, $image, $published, $categoryId, $author)
     {
         $imagePath = null;
         if ($image) {
@@ -47,16 +47,17 @@ class NewService implements NewServiceInterface
             "content" => $content,
             "image" => $imagePath,
             "published" => $published,
+            "category_id" => $categoryId,
             "author" => $author,
         ]);
     }
 
-    public function updateNews($id, $title, $url, $content, $image, $published)
+    public function updateNews($id, $title, $url, $content, $image, $published, $categoryId)
     {
-        $news=$this->newRepository->findOrFail($id);
+        $news = $this->newRepository->findOrFail($id);
         $imagePath = $news->img;
         if ($image) {
-            $this->s3Service->remove("news/".$imagePath);
+            $this->s3Service->remove("news/" . $imagePath);
             $imagePath = $this->s3Service->upload($image, "news");
         }
         $this->newRepository->update($news, [
@@ -64,6 +65,7 @@ class NewService implements NewServiceInterface
             "url" => $url,
             "content" => $content,
             "image" => $imagePath,
+            "category_id" => $categoryId,
             "published" => $published,
         ]);
     }
