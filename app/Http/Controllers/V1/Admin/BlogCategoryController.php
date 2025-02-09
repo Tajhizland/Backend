@@ -24,7 +24,7 @@ class BlogCategoryController extends Controller
         return $this->dataResponseCollection(new BlogCategoryCollection($this->blogCategoryService->dataTable()));
     }
 
-    public function find($id)
+    public function findById($id)
     {
         return $this->dataResponse(new BlogCategoryResource($this->blogCategoryService->findById($id)));
     }
