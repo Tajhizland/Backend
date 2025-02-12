@@ -31,6 +31,9 @@ class HomePageResource extends JsonResource
             "vlogs" => new VlogCollection($this["vlogs"]),
             "brands" => new BrandCollection($this["brands"]),
             "banners" => new BannerCollection($this["banners"]),
+            "banners2" => new BannerCollection($this["banners2"]),
+            "banners3" => new BannerCollection($this["banners3"]),
+            "banners4" => new BannerCollection($this["banners4"]),
             "posters" => new PosterCollection($this["posters"]),
             "specialProducts" => new SpecialProductCollection($this["specialProducts"]),
         ];
