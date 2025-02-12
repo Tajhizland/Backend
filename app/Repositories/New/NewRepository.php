@@ -20,7 +20,7 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
 
     public function activePaginateQuery()
     {
-        return $this->model::published()->latest("id")->paginate($this->pageSize);
+        return $this->model::published()->latest("id");
     }
 
     public function dataTable()
