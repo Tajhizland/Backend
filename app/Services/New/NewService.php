@@ -22,7 +22,7 @@ class NewService implements NewServiceInterface
 
     public function activePaginate($filters)
     {
-        $blogQuery= $this->newRepository->activePaginate();
+        $blogQuery= $this->newRepository->activePaginateQuery();
         $blogQuery=$this->renderFilter($blogQuery,$filters);
         return $this->newRepository->paginated($blogQuery);
     }
