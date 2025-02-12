@@ -41,7 +41,7 @@ class Category extends Model
     }
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id')->WhereHas('category.products', function ($query) {
+        return $this->hasMany(Category::class, 'parent_id')->WhereHas('products', function ($query) {
             $query->where("status", ProductStatus::Active->value);
         });
     }
