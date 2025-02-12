@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\CategoryStatus;
-use App\Enums\ProductStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -41,9 +40,7 @@ class Category extends Model
     }
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id')->WhereHas('products', function ($query) {
-            $query->where("status", ProductStatus::Active->value);
-        });
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
 

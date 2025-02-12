@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ConceptStatus;
 use App\Enums\MenuStatus;
+use App\Enums\ProductStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +14,14 @@ class Menu extends Model
 
     public function children()
     {
-        return $this->hasMany(Menu::class, 'parent_id');
+        return $this->hasMany(Menu::class, 'parent_id')
+            ->where(function ($query) {
+                $query->whereNull('category_id')
+                    ->orWhere('category_id', 0)
+                    ->orWhereHas('category.products', function ($query) {
+                        $query->where("status", ProductStatus::Active->value);
+                    });
+            });
     }
 
     public function parent()
