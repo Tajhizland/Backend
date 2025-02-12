@@ -32,11 +32,11 @@ class NewService implements NewServiceInterface
             foreach ($filters as $filter => $value) {
                 if ($filter == "category") {
                     /** Example : filter[category]=10 */
-                    $vlogQuery = $this->newRepository->filterCategory($blogQuery, $value);
+                    $blogQuery = $this->newRepository->filterCategory($blogQuery, $value);
                 }
             }
         }
-        return $vlogQuery;
+        return $blogQuery;
     }
 
     public function findById($id)
