@@ -8,7 +8,7 @@ interface NewServiceInterface
 
     public function findById($id);
 
-    public function activePaginate();
+    public function activePaginate($filters);
 
     public function dataTable();
 

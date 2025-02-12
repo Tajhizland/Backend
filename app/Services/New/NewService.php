@@ -20,9 +20,23 @@ class NewService implements NewServiceInterface
         return $this->newRepository->findByUrl($url);
     }
 
-    public function activePaginate()
+    public function activePaginate($filters)
     {
-        return $this->newRepository->activePaginate();
+        $blogQuery= $this->newRepository->activePaginate();
+        $blogQuery=$this->renderFilter($blogQuery,$filters);
+        return $this->newRepository->paginated($blogQuery);
+    }
+    private function renderFilter($blogQuery, $filters)
+    {
+        if ($filters) {
+            foreach ($filters as $filter => $value) {
+                if ($filter == "category") {
+                    /** Example : filter[category]=10 */
+                    $vlogQuery = $this->newRepository->filterCategory($blogQuery, $value);
+                }
+            }
+        }
+        return $vlogQuery;
     }
 
     public function findById($id)

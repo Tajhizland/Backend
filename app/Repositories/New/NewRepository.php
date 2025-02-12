@@ -18,7 +18,7 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
         return $this->model::published()->where("url", $url)->first();
     }
 
-    public function activePaginate()
+    public function activePaginateQuery()
     {
         return $this->model::published()->latest("id")->paginate($this->pageSize);
     }
@@ -65,5 +65,15 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
     public function getLastPost()
     {
         return $this->model::published()->latest("id")->limit(5)->get();
+    }
+
+    public function filterCategory($blogQuery ,$category)
+    {
+        return $blogQuery->where("category_id",$category);
+    }
+
+    public function paginated($blogQuery)
+    {
+        return $blogQuery->paginate($this->pageSize);
     }
 }

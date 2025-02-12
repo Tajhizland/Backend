@@ -21,10 +21,10 @@ class NewsController extends Controller
         private BlogCategoryServiceInterface $blogCategoryService
     ) { }
 
-    public function paginate()
+    public function paginate(Request $request)
     {
         $banners = new BannerCollection($this->bannerService->getBlogBanner());
-        $listing = new NewsCollection($this->newService->activePaginate());
+        $listing = new NewsCollection($this->newService->activePaginate($request->get("filter")));
         $lastPost = new NewsCollection($this->newService->getLastPost());
         $category = new BlogCategoryCollection($this->blogCategoryService->list());
         return $this->dataResponse([
