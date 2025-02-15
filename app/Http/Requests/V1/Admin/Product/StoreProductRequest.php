@@ -20,6 +20,7 @@ class StoreProductRequest extends FormRequest
             'status' => ['required','int','in:1,0'],
             'categoryId' => ['required' ],
             'brand_id' => ['nullable' ],
+            'review' => ['nullable' ],
         ];
     }
 
