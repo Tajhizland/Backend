@@ -156,6 +156,8 @@ return [
         'tell' => 'تلفن',
         'url' => 'آدرس',
         'address' => 'آدرس',
+        'city_id' => 'شهر',
+        'province_id' => 'استان',
         'zip_code' => 'کد پستی',
         'query' => 'جستجو',
         'productId' => 'شناسه محصول',
