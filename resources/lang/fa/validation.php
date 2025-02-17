@@ -149,10 +149,13 @@ return [
 
     'attributes' => [
         'mobile'                => 'شماره همراه',
+        'username'                => 'شماره همراه',
         'code'                  => 'کد امنیتی',
         'password'              => 'گذرواژه',
         'password_confirmation' => 'تکرار گذرواژه',
+        'tell' => 'تلفن',
         'url' => 'آدرس',
+        'zip_code' => 'کد پستی',
         'query' => 'جستجو',
         'productId' => 'شناسه محصول',
         'rating' => 'امتیاز',
