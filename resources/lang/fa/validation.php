@@ -155,6 +155,7 @@ return [
         'password_confirmation' => 'تکرار گذرواژه',
         'tell' => 'تلفن',
         'url' => 'آدرس',
+        'address' => 'آدرس',
         'zip_code' => 'کد پستی',
         'query' => 'جستجو',
         'productId' => 'شناسه محصول',
