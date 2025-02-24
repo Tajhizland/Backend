@@ -45,6 +45,7 @@ class HomePageService implements HomePageServiceInterface
         $banners2 = $this->bannerRepository->getBannerByType("home_page2");
         $banners3 = $this->bannerRepository->getBannerByType("home_page3");
         $banners4 = $this->bannerRepository->getBannerByType("home_page4");
+        $banners5 = $this->bannerRepository->getBannerByType("home_page5");
         $lastNews = $this->newRepository->getLastActiveNews();
         $lastVlogs = $this->vlogRepository->getLastActives();
         $posters=$this->posterRepository->getHomepagePosters();
@@ -62,6 +63,7 @@ class HomePageService implements HomePageServiceInterface
             "banners2" => $banners2,
             "banners3" => $banners3,
             "banners4" => $banners4,
+            "banners5" => $banners5,
             "posters" => $posters,
         ];
     }
