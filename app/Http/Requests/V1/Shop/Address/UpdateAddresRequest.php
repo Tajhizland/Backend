@@ -10,6 +10,7 @@ class UpdateAddresRequest extends FormRequest
     {
         return [
             'id' => ['nullable'],
+            'title' => ['required', 'string'],
             'city_id' => ['required', 'integer' , 'exists:App\Models\City,id'],
             'province_id' => ['required', 'integer','exists:App\Models\Province,id'],
             'tell' => ['required'],

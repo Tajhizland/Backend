@@ -10,7 +10,7 @@ interface AddressServiceInterface
     public function getByUserId($userId);
     public function changeActiveAddress($id ,$userId);
 
-    public function updateOrCreate($id,$userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address);
+    public function updateOrCreate($id,$userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address , $title);
     public function updateOrCreateByUserId($userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address);
     public function updateOrCreateByUserIdFast($userId, $cityId, $provinceId,  $address);
 

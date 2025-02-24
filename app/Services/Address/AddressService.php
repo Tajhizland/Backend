@@ -63,12 +63,13 @@ class AddressService implements AddressServiceInterface
         return $this->addressRepository->update($address, ["active" => 1]);
     }
 
-    public function updateOrCreate($id, $userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address)
+    public function updateOrCreate($id, $userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address ,$title)
     {
         if ($id) {
             $addressModal = $this->addressRepository->findOrFail($id);
             return $this->addressRepository->update($addressModal, [
                 "city_id" => $cityId,
+                "title" => $title,
                 "province_id" => $provinceId,
                 "tell" => $tell,
                 "zip_code" => $zipCode,
@@ -79,6 +80,7 @@ class AddressService implements AddressServiceInterface
             $this->addressRepository->disableAllAddress($userId);
             return $this->addressRepository->create([
                 "user_id" => $userId,
+                "title" => $title,
                 "city_id" => $cityId,
                 "province_id" => $provinceId,
                 "tell" => $tell,
