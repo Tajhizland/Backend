@@ -7,6 +7,7 @@ use App\Repositories\LandingBanner\LandingBannerRepositoryInterface;
 use App\Repositories\LandingCategory\LandingCategoryRepositoryInterface;
 use App\Repositories\LandingProduct\LandingProductRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LandingService implements LandingServiceInterface
 {
@@ -76,7 +77,12 @@ class LandingService implements LandingServiceInterface
 
     public function findByUrl($url)
     {
-        return $this->landingRepository->findByUrl($url);
+        $landing = $this->landingRepository->findByUrl($url);
+        if(!$landing)
+        {
+            throw new NotFoundHttpException();
+        }
+        return $landing;
     }
 
     public function getProductByLanding($landingId)
