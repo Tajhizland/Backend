@@ -41,7 +41,6 @@ class ProductResource extends JsonResource
             'min_price' => $this->getMinColorPrice(),
             'rating' => $this->getRatingAvg(),
             'favorite' => $isFavorite,
-            'favorite' => $isFavorite,
             'study' => $this->study,
             'unboxing_video' => $this->unboxing_video,
             'intro_video' => $this->intro_video,

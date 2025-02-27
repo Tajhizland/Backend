@@ -26,8 +26,8 @@ class SimpleProductResource extends JsonResource
             'category' => $this->categories->first()->name ?? "",
             'min_price' => $this->getMinColorPrice(),
             'rating' => $this->getRatingAvg(),
-             'study' => $this->study,
-             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'study' => $this->study,
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
             'colors' => new ProductColorCollection($this->activeProductColors),
         ];
