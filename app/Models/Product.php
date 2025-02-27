@@ -113,10 +113,6 @@ class Product extends Model
     {
         return $this->prices()->min("price");
     }
-    public function getMinColorPrice()
-    {
-        return $this->prices()->min("price");
-    }
     public function getDiscountMinColorPrice()
     {
         return $this->prices()->where("discount","<>",0)->min("discount");
