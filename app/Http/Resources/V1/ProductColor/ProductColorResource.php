@@ -13,10 +13,10 @@ class ProductColorResource extends JsonResource
     public function toArray(Request $request): array
     {
         $statusLabel = "";
-        if (!$this->stock || $this->stock->stock < 1 || !$this->price || $this->price->price <= 0) {
-            $statusLabel = "disable";
-        } else if ($this->price->discount > 0) {
+        if ($this->price->discount > 0) {
             $statusLabel = "discount";
+        } else if (!$this->stock || $this->stock->stock < 1 || !$this->price || $this->price->price <= 0) {
+            $statusLabel = "disable";
         } else if ($this->created_at > Carbon::now()->subWeek()) {
             $statusLabel = "new";
         }
@@ -29,8 +29,8 @@ class ProductColorResource extends JsonResource
             'status' => $this->status,
             'statusLabel' => $statusLabel,
             'price' => $this->price?->price,
-            'discount' => round(($this->price?->price - $this->price?->discount) / ($this->price?->price!=0?$this->price?->price : 1) * 100),
-            'discountedPrice' => $this->price?->discount!=0?$this->price?->discount : $this->price?->price ,
+            'discount' => round(($this->price?->price - $this->price?->discount) / ($this->price?->price != 0 ? $this->price?->price : 1) * 100),
+            'discountedPrice' => $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price,
             'stock' => $this->stock?->stock ?? 0,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
