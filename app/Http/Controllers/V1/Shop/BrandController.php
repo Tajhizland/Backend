@@ -16,8 +16,8 @@ class BrandController extends Controller
 {
     public function __construct
     (
-        private BrandServiceInterface $brandService ,
-        private  BannerServiceInterface $bannerService
+        private BrandServiceInterface  $brandService,
+        private BannerServiceInterface $bannerService
     )
     {
     }
@@ -29,7 +29,7 @@ class BrandController extends Controller
         $brandResource = new BrandResource($listing["brand"]);
         $productCollection = new ProductCollection($listing["products"]);
         $categoryCollection = $listing["categories"] ? new SimpleCategoryCollection($listing["categories"]) : $listing["categories"];
-        $banners=new BannerCollection($this->bannerService->getBrandBanner());
+        $banners = new BannerCollection($this->bannerService->getBrandBanner());
         return $this->dataResponse([
             "brand" => $brandResource,
             "banner" => $banners,
@@ -40,6 +40,13 @@ class BrandController extends Controller
 
     public function list()
     {
-        return $this->dataResponseCollection(new BrandCollection($this->brandService->getAllActive()));
+        $banners = new BannerCollection($this->bannerService->getBrandBanner());
+        $data = new BrandCollection($this->brandService->getAllActive());
+        return $this->dataResponse(
+            [
+                "brand" => $data,
+                "banner" => $banners,
+            ]
+        );
     }
 }
