@@ -11,7 +11,6 @@ class S3Service implements S3ServiceInterface
         if ($fileName == "")
             $fileName = time() . "_" . rand(10000, 99999) . '.' . $file->getClientOriginalExtension();
         $filePath = $path . '/' . $fileName;
-        dd($filePath ,file_get_contents($file) , $fileName);
         Storage::disk('s3')->put($filePath, file_get_contents($file));
         return $fileName;
     }
