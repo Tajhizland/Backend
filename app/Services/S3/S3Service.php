@@ -8,6 +8,7 @@ class S3Service implements S3ServiceInterface
 {
     public function upload($file, $path, $fileName = ""): string
     {
+        dd($file);
         if ($fileName == "")
             $fileName = time() . "_" . rand(10000, 99999) . '.' . $file->getClientOriginalExtension();
         $filePath = $path . '/' . $fileName;
