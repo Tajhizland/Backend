@@ -52,6 +52,7 @@ class VlogService implements VlogServiceInterface
             $this->s3Service->remove("vlog/" . $filePath);
             $filePath = $this->s3Service->upload($video, "vlog");
         }
+        dd("END");
         if (isset($poster)) {
             $this->s3Service->remove("vlog/" . $posterPath);
             $posterPath = $this->s3Service->upload($poster, "vlog");
