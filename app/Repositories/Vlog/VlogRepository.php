@@ -28,7 +28,7 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function activeVlogQuery()
     {
-        return $this->model::active();
+        return $this->model::active()->latest("id");
     }
 
     public function filterCategory($query, $categoryIds)
