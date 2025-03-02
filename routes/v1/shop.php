@@ -118,6 +118,10 @@ Route::group(["prefix" => "sitemap"], function () {
     Route::get('guaranty', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getGuarantySitemap"]);
     Route::get('landing', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getLandingSitemap"]);
 });
+Route::get('info', function () {
+    phpinfo();
+});
+
 
 
 //Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {
