@@ -14,6 +14,10 @@ class News extends Model
     {
         return $this->belongsTo(User::class , "author");
     }
+  public function category(): BelongsTo
+    {
+        return $this->belongsTo(BlogCategory::class);
+    }
 
     public function scopePublished(Builder $query): Builder
     {
