@@ -29,6 +29,7 @@ class ProductColorResource extends JsonResource
             'status' => $this->status,
             'statusLabel' => $statusLabel,
             'price' => $this->price?->price,
+            'simple_discount' => $this->price?->discount ,
             'discount' => round(($this->price?->price - $this->price?->discount) / ($this->price?->price != 0 ? $this->price?->price : 1) * 100),
             'discountedPrice' => $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price,
             'stock' => $this->stock?->stock ?? 0,
