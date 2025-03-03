@@ -3,7 +3,6 @@
 namespace App\Repositories\Product;
 
 use App\Models\Product;
-use App\Models\Stock;
 use App\Repositories\Base\BaseRepository;
 use App\Services\Sort\Product\SortProductByCategoryName;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -20,9 +19,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findByUrl($url)
     {
-        return $this->model::with(["activeProductColors"=>function ($query) {
-            $query->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id","product_colors.id")->limit(1));
-        }])->active()->where("url", $url)->first();
+        return $this->model->active()->where("url", $url)->first();
     }
 
 
