@@ -20,6 +20,15 @@ class ProductColorResource extends JsonResource
         } else if ($this->created_at > Carbon::now()->subWeek()) {
             $statusLabel = "new";
         }
+
+        $discountedPrice = $this->price?->price;
+        if ($this->price->discount_expire_time == null) {
+            $discountedPrice = $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price;
+        } else {
+            if ($this->price->discount_expire_time > Carbon::now()) {
+                $discountedPrice = $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price;
+            }
+        }
         return [
             'id' => $this->id,
             'product_id' => $this->product_id,
@@ -29,9 +38,11 @@ class ProductColorResource extends JsonResource
             'status' => $this->status,
             'statusLabel' => $statusLabel,
             'price' => $this->price?->price,
-            'simple_discount' => $this->price?->discount ,
+            'discount_expire_time' => $this->price?->discount_expire_time,
+            'simple_discount' => $this->price?->discount,
             'discount' => round(($this->price?->price - $this->price?->discount) / ($this->price?->price != 0 ? $this->price?->price : 1) * 100),
-            'discountedPrice' => $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price,
+            'discountedPrice' => $discountedPrice,
+//            'discountedPrice' => $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price,
             'stock' => $this->stock?->stock ?? 0,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),

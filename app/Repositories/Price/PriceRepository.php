@@ -12,23 +12,25 @@ class PriceRepository extends BaseRepository implements PriceRepositoryInterface
         parent::__construct($model);
     }
 
-    public function createPrice($productColorId, $price, $discount)
+    public function createPrice($productColorId, $price, $discount, $discountExpireTime)
     {
         $this->create(
             [
                 "product_color_id" => $productColorId,
                 "price" => $price,
+                "discount_expire_time" => $discountExpireTime,
                 "discount" => $discount
             ]
         );
     }
 
-    public function updatePrice($productColorId, $price, $discount)
+    public function updatePrice($productColorId, $price, $discount, $discountExpireTime)
     {
         $this->model::where("product_color_id", $productColorId)
             ->update(
                 [
                     "price" => $price,
+                    "discount_expire_time" => $discountExpireTime,
                     "discount" => $discount
                 ]
             );

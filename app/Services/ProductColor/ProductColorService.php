@@ -28,11 +28,11 @@ class ProductColorService implements ProductColorServiceInterface
         foreach ($colors as $item) {
             if (isset($item["id"])) {
                 $this->productColorRepository->updateProductColor($item["id"], $item["name"], $item["code"], $item["status"], $item["delivery_delay"]);
-                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
+                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"], $item["discount_expire_time"]);
                 $this->stockRepository->updateStock($item["id"], $item["stock"]);
             } else {
                 $productColor = $this->productColorRepository->createProductColor($item["name"], $item["code"], $productId, $item["status"], $item["delivery_delay"]);
-                $this->priceRepository->createPrice($productColor->id, $item["price"], $item["discount"]);
+                $this->priceRepository->createPrice($productColor->id, $item["price"], $item["discount"], $item["discount_expire_time"]);
                 $this->stockRepository->createStock($productColor->id, $item["stock"]);
             }
         }
