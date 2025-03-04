@@ -39,8 +39,8 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
     public function getWithProduct()
     {
         return $this->model::where("homepage", 1)->with(["product" => function ($query) {
-            $query->with(["activeProductColors" => function ($query) {
-                $query->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
+            $query->with(["activeProductColors" => function ($query2) {
+                $query2->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
             }]);
         }])->get();
     }
