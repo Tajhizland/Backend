@@ -3,7 +3,6 @@
 namespace App\Repositories\SpecialProduct;
 
 use App\Models\SpecialProduct;
-use App\Models\Stock;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,13 +18,14 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
     {
         return QueryBuilder::for(SpecialProduct::class)
             ->with("product")
-            ->allowedFilters(['id', 'product_id', 'homepage', 'created_at',
+            ->allowedFilters(['id','product_id','homepage', 'created_at',
                 AllowedFilter::callback('product', function ($query, $value) {
                     $query->whereHas('product', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
                     });
                 }),])
-            ->allowedSorts(['product_id', 'homepage', 'id', 'created_at'])
+            ->allowedSorts(['product_id' ,'homepage', 'id', 'created_at'])
+
             ->paginate($this->pageSize);
     }
 
@@ -38,10 +38,8 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
 
     public function getWithProduct()
     {
-        return $this->model::where("homepage", 1)->with(["product" => function ($query) {
-            $query->with(["activeProductColors" => function ($query2) {
-                $query2->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
-            }]);
+        return $this->model::where("homepage", 1)->with(["product"=>function ($query) {
+            $query->WithActiveColor();
         }])->get();
     }
 }

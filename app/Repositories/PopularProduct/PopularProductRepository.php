@@ -35,6 +35,8 @@ class PopularProductRepository extends BaseRepository implements PopularProductR
     }
     public function getWithProduct()
     {
-        return $this->model::with("product")->get();
+        return $this->model::with(["product"=>function ($query) {
+            $query->WithActiveColor();
+        }])->get();
     }
 }
