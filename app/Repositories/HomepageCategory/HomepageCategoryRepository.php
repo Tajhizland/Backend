@@ -40,8 +40,9 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
         return $this->model::with([
             'category',
             'category.products' => function ($query) {
-                $query->whereHas("productColors", function ($query) {
+                $query->WithActiveColor()->whereHas("productColors", function ($query) {
                     $query->where("status", "<>", ProductColorStatus::DeActive->value)
+
                         ->whereHas("stock", function ($subQuery) {
                             $subQuery->where("stock", ">", 0);
                         });
