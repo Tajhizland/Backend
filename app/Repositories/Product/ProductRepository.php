@@ -86,6 +86,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function activeProductQuery($categoryIds)
     {
         return $this->model::active()->hasColor()
+            ->withActiveColor()
             ->whereHas("productCategories", function ($query) use ($categoryIds) {
                 $query->whereIn("category_id", $categoryIds);
             })
