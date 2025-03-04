@@ -11,33 +11,37 @@ class ProductColorRepository extends BaseRepository implements ProductColorRepos
     {
         parent::__construct($model);
     }
-    public function createProductColor($name, $code, $productId, $status ,$deliveryDelay)
+
+    public function createProductColor($name, $code, $productId, $status, $deliveryDelay)
     {
         return $this->create(
             [
-                "color_name"=>$name,
-                "color_code"=>$code,
-                "status"=>$status,
-                "delivery_delay"=>$deliveryDelay,
-                "product_id"=>$productId,
+                "color_name" => $name,
+                "color_code" => $code,
+                "status" => $status,
+                "delivery_delay" => $deliveryDelay,
+                "product_id" => $productId,
             ]
         );
     }
-    public function updateProductColor($id,$name, $code, $status ,$deliveryDelay)
+
+    public function updateProductColor($id, $name, $code, $status, $deliveryDelay)
     {
         $this->model::find($id)
             ->update(
                 [
-                    "color_name"=>$name,
-                    "color_code"=>$code,
-                    "status"=>$status,
-                    "delivery_delay"=>$deliveryDelay,
+                    "color_name" => $name,
+                    "color_code" => $code,
+                    "status" => $status,
+                    "delivery_delay" => $deliveryDelay,
                 ]
             );
 
     }
-    public function getByProductId($productId){
-        return $this->model::where("product_id",$productId)->get();
+
+    public function getByProductId($productId)
+    {
+        return $this->model::with("product")->where("product_id", $productId)->get();
     }
 
 }

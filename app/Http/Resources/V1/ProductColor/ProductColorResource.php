@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1\ProductColor;
 
+use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -43,6 +44,8 @@ class ProductColorResource extends JsonResource
             'simple_discount' => $this->price?->discount,
             'discount' => round(($this->price?->price - $this->price?->discount) / ($this->price?->price != 0 ? $this->price?->price : 1) * 100),
             'discountedPrice' => $discountedPrice,
+            'product' => new SimpleProductResource($this->whenLoaded('product')),
+
 //            'discountedPrice' => $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price,
             'stock' => $this->stock?->stock ?? 0,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
