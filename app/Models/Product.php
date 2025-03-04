@@ -206,4 +206,11 @@ class Product extends Model
         ")->orderBy("sort");
 
     }
+
+    public function scopeWithActiveColor(Builder $query): Builder
+    {
+        return $query->with(["activeProductColors"=>function ($query) {
+            $query->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id","product_colors.id")->limit(1));
+        }]);
+    }
 }

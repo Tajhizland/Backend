@@ -20,9 +20,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findByUrl($url)
     {
-        return $this->model::with(["activeProductColors"=>function ($query) {
-            $query->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id","product_colors.id")->limit(1));
-        }])->active()->where("url", $url)->first();
+        return $this->model::withActiveColor()->active()->where("url", $url)->first();
     }
 
 
@@ -98,6 +96,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::active()->hasColor()
             ->where("brand_id", $brandId)
+            ->withActiveColor()
             ->customOrder();
     }
 
@@ -219,12 +218,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getDiscountedProducts()
     {
-        return $this->model::active()->hasDiscount()->paginate($this->pageSize);
+        return $this->model::withActiveColor()->active()->hasDiscount()->paginate($this->pageSize);
     }
 
     public function getSpecial()
     {
-        return $this->model::active()->whereHas("special")->latest("id")->paginate($this->pageSize);
+        return $this->model::withActiveColor()->active()->whereHas("special")->latest("id")->paginate($this->pageSize);
     }
 
     public function getSitemapData()
