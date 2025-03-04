@@ -39,6 +39,7 @@ class ProductColorResource extends JsonResource
             'statusLabel' => $statusLabel,
             'price' => $this->price?->price,
             'discount_expire_time' => $this->price?->discount_expire_time,
+            'discount_expire_time_fa' => $this->price?->discount_expire_time != null ? Jalalian::fromDateTime($this->price?->discount_expire_time)->format('Y/m/d') : "",
             'simple_discount' => $this->price?->discount,
             'discount' => round(($this->price?->price - $this->price?->discount) / ($this->price?->price != 0 ? $this->price?->price : 1) * 100),
             'discountedPrice' => $discountedPrice,
