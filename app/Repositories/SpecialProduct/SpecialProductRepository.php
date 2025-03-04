@@ -38,6 +38,8 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
 
     public function getWithProduct()
     {
-        return $this->model::where("homepage", 1)->with("product")->get();
+        return $this->model::where("homepage", 1)->with(["product"=>function ($query) {
+            $query->WithActiveColor();
+        }])->get();
     }
 }
