@@ -123,18 +123,18 @@ Route::get('info', function () {
 });
 
 Route::get("test", function () {
-$users=\App\Models\UserOld::all();
-foreach ($users as $user) {
-    \App\Models\User::create(
-        [
-            "name" => $user->name,
-            "username" => $user->username,
-            "password" => $user->password,
-            "role" => $user->role,
-
-        ]
-    );
-}
+    $users = \App\Models\UserOld::all();
+    foreach ($users as $user) {
+        \App\Models\User::create(
+            [
+                "id" => $user->id,
+                "name" => $user->name,
+                "username" => $user->username,
+                "password" => $user->password,
+                "role" => $user->role,
+            ]
+        );
+    }
 })->withoutMiddleware(\App\Http\Middleware\TransactionMiddleware::class);
 
 
