@@ -81,4 +81,14 @@ class BannerService implements BannerServiceInterface
     {
         return $this->bannerRepository->getBannerByType("brand");
     }
+
+    public function getSpecialBanner()
+    {
+        return $this->bannerRepository->getBannerByType("special");
+    }
+
+    public function getDiscountedBanner()
+    {
+        return $this->bannerRepository->getBannerByType("discount");
+    }
 }

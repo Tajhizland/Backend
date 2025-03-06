@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
+use App\Services\Banner\BannerServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function __construct(private ProductServiceInterface $productService)
+    public function __construct
+    (
+        private ProductServiceInterface $productService,
+        private BannerServiceInterface  $bannerService,
+    )
     {
     }
 
@@ -23,8 +29,16 @@ class ProductController extends Controller
             "relatedProduct" => new ProductCollection($relatedProductResponse),
         ]);
     }
+
     public function getDiscountedProducts()
     {
-        return $this->dataResponseCollection(new ProductCollection($this->productService->getDiscountedProducts()));
+        $banners = new BannerCollection($this->bannerService->getSpecialBanner());
+        $data = new ProductCollection($this->productService->getDiscountedProducts());
+        return $this->dataResponse(
+            [
+                "data" => $data,
+                "banners" => $banners
+            ]
+        );
     }
 }

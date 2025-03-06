@@ -15,5 +15,7 @@ interface BannerServiceInterface
     public function getBlogBanner();
     public function getVlogBanner();
     public function getBrandBanner();
+    public function getSpecialBanner();
+    public function getDiscountedBanner();
 
 }
