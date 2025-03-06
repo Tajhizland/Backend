@@ -32,7 +32,7 @@ class ProductController extends Controller
 
     public function getDiscountedProducts()
     {
-        $banners = new BannerCollection($this->bannerService->getSpecialBanner());
+        $banners = new BannerCollection($this->bannerService->getDiscountedBanner());
         $data = new ProductCollection($this->productService->getDiscountedProducts());
         return $this->dataResponse(
             [
