@@ -25,7 +25,7 @@ class SpecialProductController extends Controller
         return $this->dataResponse(
             [
                 "data" => $data,
-                "banners" => $banners
+                "banner" => $banners
             ]
         );
     }
