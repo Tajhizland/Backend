@@ -33,7 +33,8 @@ class ResetPasswordService implements ResetPasswordServiceInterface
         $sms = $this->smsService->sendLockup($mobile, $code, config("sms.kavenegar.template"));
 
         if (!$sms || !$sms["return"] || $sms["return"]["status"] != 200)
-            throw new BreakException(Lang::get("exceptions.sms_error"));
+            throw new BreakException($sms);
+//            throw new BreakException(Lang::get("exceptions.sms_error"));
         return true;
     }
 
