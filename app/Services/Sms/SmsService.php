@@ -39,6 +39,7 @@ class SmsService implements SmsServiceInterface
             'token' => $code,
             'template' => $template
         ];
+        dd($this->getFullUrl($this->lockupMethod));
         return Http::get($this->getFullUrl($this->lockupMethod), $data)->json();
     }
 
