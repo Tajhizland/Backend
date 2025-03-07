@@ -7,7 +7,7 @@ return [
         "base_url" => "http://api.kavenegar.com/v1/",
         "method" => [
             "send" => "/sms/send.json",
-            "lockup" => "/verify/lookup.json"
+            "lockup" => "verify/lookup.json"
         ],
         "template"=>"register"
     ]
