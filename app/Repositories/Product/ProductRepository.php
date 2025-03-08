@@ -65,7 +65,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function search($query)
     {
         return $this->model::where("name", "like", "%$query%")
-            ->customOrder()->limit(config("settings.search_item_limit"))->get();
+            ->limit(config("settings.search_item_limit"))->get();
     }
 
     public function searchProductWithCategory($query, $categoryId)
