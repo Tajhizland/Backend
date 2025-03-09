@@ -153,6 +153,7 @@ return [
         'code'                  => 'کد امنیتی',
         'password'              => 'گذرواژه',
         'password_confirmation' => 'تکرار گذرواژه',
+        'name' => 'نام',
         'tell' => 'تلفن',
         'url' => 'آدرس',
         'address' => 'آدرس',
