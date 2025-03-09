@@ -13,9 +13,9 @@ class UpdateAddresRequest extends FormRequest
             'title' => ['required', 'string'],
             'city_id' => ['required', 'integer' , 'exists:App\Models\City,id'],
             'province_id' => ['required', 'integer','exists:App\Models\Province,id'],
-            'tell' => ['required'],
+            'tell' => ['nullable'],
             'mobile' => ['required','string','regex:/^09\d{9}$/'],
-            'zip_code' => ['required'],
+            'zip_code' => ['nullable'],
             'address' => ['required'],
         ];
     }
