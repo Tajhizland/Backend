@@ -25,7 +25,9 @@ class UserService implements UserServiceInterface
         $user = $this->repository->findOrFail($id);
         $avatarPath = $user->avatar;
         if ($avatar) {
-            $this->s3Service->remove($avatarPath);
+            if ($avatarPath) {
+                $this->s3Service->remove($avatarPath);
+            }
             $avatarPath = $this->s3Service->upload($avatar, "avatar");
         }
         return $this->repository->update($user, [
