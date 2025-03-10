@@ -24,7 +24,7 @@ class AddressCheckHandler implements CheckoutHandlerInterface
     public function handle(Cart $cart,   $cartItem)
     {
         $address = $this->addressRepository->findActiveByUserId($cart->user_id);
-        if (!$address || !$address->city_id || !$address->province_id ||  !$address->tell || !$address->mobile || !$address->zip_code || !$address->address) {
+        if (!$address || !$address->city_id || !$address->province_id  || !$address->mobile  || !$address->address) {
             throw  new BreakException(Lang::get("exceptions.address_not_find"));
         }
         if ($this->nextHandler) {
