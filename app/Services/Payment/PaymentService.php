@@ -23,7 +23,6 @@ use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Redirect;
 
 class PaymentService implements PaymentServicesInterface
 {
@@ -103,8 +102,6 @@ class PaymentService implements PaymentServicesInterface
 
     public function verifyPayment($request)
     {
-        return Redirect::secure("https://tajhizland.com/failed_payment");
-
         $request = $this->gatewayService->callbackParams($request);
         $this->gatewayService->verify($request->trackId);
         $order = $this->orderRepository->findOrFail($request->orderId);
