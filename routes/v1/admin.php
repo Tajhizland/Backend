@@ -125,8 +125,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\SliderController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\SliderController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\SliderController::class, "update"]);
-        Route::post("all_desktop", [\App\Http\Controllers\V1\Admin\SliderController::class, "getAllDesktop"]);
-        Route::post("all_mobile", [\App\Http\Controllers\V1\Admin\SliderController::class, "getAllMobile"]);
+        Route::get("all_desktop", [\App\Http\Controllers\V1\Admin\SliderController::class, "getAllDesktop"]);
+        Route::get("all_mobile", [\App\Http\Controllers\V1\Admin\SliderController::class, "getAllMobile"]);
         Route::post("sort", [\App\Http\Controllers\V1\Admin\SliderController::class, "sort"]);
     });
     Route::group(["prefix" => "special_product"], function () {
