@@ -29,6 +29,7 @@ return
         "banner" => 'بنر',
         "poster" => 'پوستر',
         "image" => 'تصویر',
+        "notification" => 'اعلان',
         "faq" => 'پرسش',
         "vlog" => 'ولاگ',
         "color" => 'رنگ محصول',

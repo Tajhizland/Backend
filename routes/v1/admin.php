@@ -9,6 +9,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     Route::group(["prefix" => "notification"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NotificationController::class, "dataTable"]);
         Route::get("unseen", [\App\Http\Controllers\V1\Admin\NotificationController::class, "unSeen"]);
+        Route::post("seen", [\App\Http\Controllers\V1\Admin\NotificationController::class, "seen"]);
     });
     Route::group(["prefix" => "product"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "dataTable"]);
