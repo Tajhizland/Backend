@@ -21,11 +21,8 @@ class ZibalService implements GatewaysInterface
         );
         $response = $this->callApi(config("Gateway.zibal.request_url"), $parameters);
         if ($response["result"] == 100) {
-            return (config("Gateway.zibal.payment_url") . $response["trackId"]);
+            return  (config("Gateway.zibal.payment_url") . $response["trackId"]);
         }
-         Redirect::secure("https://tajhizland.com/failed_payment");
-        die();
-
         throw  new BreakException(Lang::get("exceptions.gateway_error"));
     }
 
@@ -36,7 +33,7 @@ class ZibalService implements GatewaysInterface
             "trackId" => $trackId,
         );
         $response = $this->callApi(config("Gateway.zibal.verify_url"), $parameters);
-        if ($response["result"] == 100) {
+         if ($response["result"] == 100) {
             return $response;
         }
         throw  new BreakException(Lang::get("exceptions.gateway_error"));
@@ -48,21 +45,16 @@ class ZibalService implements GatewaysInterface
         $orderId = $request->get("orderId");
         $trackId = $request->get("trackId");
         $status = $request->get("status");
-        if (!$status || !$orderId || !$success || !$trackId) {
-            Redirect::secure("https://tajhizland.com/failed_payment");
-            die();
-
-//            throw new BreakException();
+         if (!$status || !$orderId || !$success || !$trackId)
+        {
+             throw new BreakException();
         }
-        if ($success != 1) {
-            Redirect::secure("https://tajhizland.com/failed_payment");
-            die();
-//            throw new BreakException();
-        }
+        if ($success != 1)
+            throw new BreakException();
 
-        $result = new \stdClass();
-        $result->trackId = $trackId;
-        $result->orderId = $orderId;
+        $result=new \stdClass();
+        $result->trackId=$trackId;
+        $result->orderId=$orderId;
         return $result;
     }
 

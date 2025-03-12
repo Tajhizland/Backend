@@ -25,7 +25,13 @@ class PaymentController extends Controller
 
     public function verifyPayment(Request $request)
     {
-        $this->paymentServices->verifyPayment($request);
-        return Redirect::to("https://tajhizland.com/thank_you_page");
+        try {
+            $this->paymentServices->verifyPayment($request);
+            return Redirect::to("https://tajhizland.com/thank_you_page");
+        }
+        catch (\Throwable $exception)
+        {
+            return Redirect::to("https://tajhizland.com/failed_payment");
+        }
     }
 }
