@@ -23,7 +23,7 @@ class ZibalService implements GatewaysInterface
         if ($response["result"] == 100) {
             return  (config("Gateway.zibal.payment_url") . $response["trackId"]);
         }
-        return Redirect::to("https://tajhizland.com/failed_payment");
+        return Redirect::secure("https://tajhizland.com/failed_payment");
 
         throw  new BreakException(Lang::get("exceptions.gateway_error"));
     }
@@ -49,12 +49,12 @@ class ZibalService implements GatewaysInterface
         $status = $request->get("status");
          if (!$status || !$orderId || !$success || !$trackId)
         {
-            return Redirect::to("https://tajhizland.com/failed_payment");
+            return Redirect::secure("https://tajhizland.com/failed_payment");
 
 //            throw new BreakException();
         }
         if ($success != 1) {
-            return Redirect::to("https://tajhizland.com/failed_payment");
+            return Redirect::secure("https://tajhizland.com/failed_payment");
 
 //            throw new BreakException();
         }
