@@ -12,4 +12,8 @@ interface SliderRepositoryInterface extends  BaseRepositoryInterface
     public function getActiveMobileSlider();
     public function store($title ,$url ,$status, $image);
     public function updateSlider(Slider $slider  ,$title ,$url ,$status, $image);
+    public function getAllDesktop();
+    public function getAllMobile();
+    public function sort($id,$sort);
+
 }

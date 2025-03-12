@@ -41,4 +41,22 @@ class SliderService implements SliderServiceInterface
         }
         return $this->sliderRepository->update($slider, ["title" => $title, "url" => $url, "image" => $imagePath, "status" => $status, "type" => $type]);
     }
+
+    public function getAllDesktop()
+    {
+        return $this->sliderRepository->getAllDesktop();
+    }
+
+    public function getAllMobile()
+    {
+        return $this->sliderRepository->getAllMobile();
+    }
+
+    public function sort($sliders)
+    {
+        foreach ($sliders as $item) {
+            $this->sliderRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
 }
