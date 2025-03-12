@@ -15,12 +15,12 @@ class SliderRepository extends BaseRepository implements SliderRepositoryInterfa
 
     public function getActiveDesktopSlider()
     {
-        return $this->model::active()->desktop()->get();
+        return $this->model::active()->desktop()->orderBy("sort")->get();
     }
 
     public function getActiveMobileSlider()
     {
-        return $this->model::active()->mobile()->get();
+        return $this->model::active()->mobile()->orderBy("sort")->get();
     }
 
     public function dataTable()
