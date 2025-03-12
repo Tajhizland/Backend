@@ -3,7 +3,6 @@
 namespace App\Repositories\Product;
 
 use App\Models\Product;
-use App\Models\Stock;
 use App\Repositories\Base\BaseRepository;
 use App\Services\Sort\Product\SortProductByCategoryName;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -29,11 +28,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model::find($id);
     }
 
-    public function getByCategoryId($id ,$except)
+    public function getByCategoryId($id, $except)
     {
         return $this->model::active()->HasColorHasStock()->whereHas("productCategories", function ($query) use ($id) {
             $query->where("category_id", $id);
-        })->where("id","<>",$except)->limit(10)->get();
+        })->where("id", "<>", $except)->limit(10)->get();
     }
 
     public function incrementViewCount($product)
@@ -90,7 +89,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->whereHas("productCategories", function ($query) use ($categoryIds) {
                 $query->whereIn("category_id", $categoryIds);
             })
-           ->customOrder();
+            ->customOrder();
     }
 
     public function activeProductByBrandQuery($brandId)
@@ -235,5 +234,10 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function customPaginate($perPage)
     {
         return $this->model::active()->latest("id")->paginate($perPage);
+    }
+
+    public function getTorobProducts()
+    {
+        return $this->model::active()->latest("id")->paginate(100);
     }
 }

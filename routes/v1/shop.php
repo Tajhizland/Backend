@@ -18,6 +18,7 @@ Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::cla
 Route::post('contact', [\App\Http\Controllers\V1\Shop\ContactController::class, "store"]);
 Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
 Route::get('emalls/list', [\App\Http\Controllers\V1\Shop\EmallsController::class, "list"]);
+Route::get('torob/list', [\App\Http\Controllers\V1\Shop\TorobController::class, "get"]);
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);

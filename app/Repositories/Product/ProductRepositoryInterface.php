@@ -56,4 +56,5 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
 
     public function getSitemapData();
+    public function getTorobProducts();
 }

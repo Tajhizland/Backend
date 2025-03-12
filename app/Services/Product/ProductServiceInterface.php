@@ -17,4 +17,5 @@ interface ProductServiceInterface
     public function getDiscountedProducts():mixed;
     public function getSitemapData();
     public function customPaginate($perPage);
+    public function torobProduct();
 }

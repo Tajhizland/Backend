@@ -151,4 +151,9 @@ class ProductService implements ProductServiceInterface
     {
         return $this->productRepository->customPaginate($perPage);
     }
+
+    public function torobProduct()
+    {
+        return $this->productRepository->getTorobProducts();
+    }
 }
