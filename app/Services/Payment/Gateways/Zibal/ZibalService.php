@@ -49,10 +49,15 @@ class ZibalService implements GatewaysInterface
         $status = $request->get("status");
          if (!$status || !$orderId || !$success || !$trackId)
         {
-             throw new BreakException();
+            return Redirect::to("https://tajhizland.com/failed_payment");
+
+//            throw new BreakException();
         }
-        if ($success != 1)
-            throw new BreakException();
+        if ($success != 1) {
+            return Redirect::to("https://tajhizland.com/failed_payment");
+
+//            throw new BreakException();
+        }
 
         $result=new \stdClass();
         $result->trackId=$trackId;
