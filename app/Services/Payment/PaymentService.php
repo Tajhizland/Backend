@@ -67,7 +67,7 @@ class PaymentService implements PaymentServicesInterface
         $this->cartRepository->update($cart, ["order_id" => $order->id]);
         $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
         if ($limit) {
-            $onHoldOrder=$this->onHoldOrderRepository->createOnHoldOrder($order->id);
+            $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
             event(new OrderRequestEvent($onHoldOrder));
             return [
                 "path" => "/thank_you_page",
@@ -103,7 +103,7 @@ class PaymentService implements PaymentServicesInterface
     public function verifyPayment($request)
     {
         $request = $this->gatewayService->callbackParams($request);
-//          $this->gatewayService->verify($request->trackId);
+        $this->gatewayService->verify($request->trackId);
         $order = $this->orderRepository->findOrFail($request->orderId);
         $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
         $orderItems = $this->orderItemRepository->getByOrderId($order->id);

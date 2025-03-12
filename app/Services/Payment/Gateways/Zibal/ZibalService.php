@@ -23,6 +23,8 @@ class ZibalService implements GatewaysInterface
         if ($response["result"] == 100) {
             return  (config("Gateway.zibal.payment_url") . $response["trackId"]);
         }
+        return Redirect::to("https://tajhizland.com/failed_payment");
+
         throw  new BreakException(Lang::get("exceptions.gateway_error"));
     }
 
