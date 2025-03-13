@@ -21,7 +21,7 @@ class Menu extends Model
                     ->orWhereHas('category.products', function ($query) {
                         $query->where("status", ProductStatus::Active->value);
                     });
-            });
+            })->where("status", MenuStatus::Active->value);
     }
 
     public function parent()
