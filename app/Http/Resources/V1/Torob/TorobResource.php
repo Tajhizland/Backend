@@ -10,10 +10,10 @@ class TorobResource extends JsonResource
     public function toArray(Request $request): array
     {
         $availability = "outofstock";
-        $minPrice = $this->prices[0]->price??0;
-        $minDiscountPrice = $this->prices[0]->price??0;
+        $minPrice = PHP_INT_MAX;
+        $minDiscountPrice = PHP_INT_MAX;
          foreach ($this->prices as $price) {
-            if ($price->price < $minPrice) {
+            if ($price->price < $minPrice && $price->price!=0) {
                 $minPrice = $price->price;
                 $minDiscountPrice = $price->discount > 0 ? $price->discount : $price->price;
             }
