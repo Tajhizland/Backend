@@ -24,6 +24,7 @@ return
         "news" => 'بلاگ',
         "user" => 'کاربر',
         "filter" => 'فیلتر',
+        "sample" => 'نمونه کار',
         "slider" => 'اسلایدر',
         "option" => 'آپشن',
         "banner" => 'بنر',

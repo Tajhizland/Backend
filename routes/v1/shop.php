@@ -122,6 +122,16 @@ Route::group(["prefix" => "sitemap"], function () {
 Route::get('info', function () {
     phpinfo();
 });
+Route::get('info2', function () {
+    $news=\App\Models\Product::all();
+    foreach ($news as $new)
+    {
+        $content=$new->review;
+        $content=str_replace("http://tajhizland.com/upload/","https://c778665.parspack.net/upload/upload/",$content);
+        $new->review=$content;
+        $new->save();
+    }
+});
 
 
 

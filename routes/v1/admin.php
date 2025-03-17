@@ -242,4 +242,17 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\PosterController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\PosterController::class, "update"]);
     });
+
+    Route::group(["prefix" => "sample"], function () {
+        Route::get("find", [\App\Http\Controllers\V1\Admin\SampleController::class, "dataTable"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\SampleController::class, "update"]);
+
+        Route::get("images/get", [\App\Http\Controllers\V1\Admin\SampleController::class, "getImages"]);
+        Route::post("images/upload", [\App\Http\Controllers\V1\Admin\SampleController::class, "uploadImage"]);
+        Route::delete("images/delete/{id}", [\App\Http\Controllers\V1\Admin\SampleController::class, "removeImage"]);
+
+        Route::get("video/get", [\App\Http\Controllers\V1\Admin\SampleController::class, "getVideos"]);
+        Route::post("video/upload", [\App\Http\Controllers\V1\Admin\SampleController::class, "addVideo"]);
+        Route::delete("video/delete/{id}", [\App\Http\Controllers\V1\Admin\SampleController::class, "deleteVideo"]);
+    });
 });

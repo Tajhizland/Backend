@@ -104,6 +104,12 @@ use App\Repositories\ResetPassword\ResetPasswordRepository;
 use App\Repositories\ResetPassword\ResetPasswordRepositoryInterface;
 use App\Repositories\Returned\ReturnedRepository;
 use App\Repositories\Returned\ReturnedRepositoryInterface;
+use App\Repositories\Sample\SampleRepository;
+use App\Repositories\Sample\SampleRepositoryInterface;
+use App\Repositories\SampleImage\SampleImageRepository;
+use App\Repositories\SampleImage\SampleImageRepositoryInterface;
+use App\Repositories\SampleVideo\SampleVideoRepository;
+use App\Repositories\SampleVideo\SampleVideoRepositoryInterface;
 use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\Slider\SliderRepository;
@@ -214,6 +220,8 @@ use App\Services\Returned\ReturnedService;
 use App\Services\Returned\ReturnedServiceInterface;
 use App\Services\S3\S3Service;
 use App\Services\S3\S3ServiceInterface;
+use App\Services\Sample\SampleService;
+use App\Services\Sample\SampleServiceInterface;
 use App\Services\Search\SearchService;
 use App\Services\Search\SearchServiceInterface;
 use App\Services\Setting\SettingService;
@@ -356,6 +364,12 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(BlogCategoryRepositoryInterface::class, BlogCategoryRepository::class);
 
+        $this->app->bind(SampleRepositoryInterface::class, SampleRepository::class);
+
+        $this->app->bind(SampleImageRepositoryInterface::class, SampleImageRepository::class);
+
+        $this->app->bind(SampleVideoRepositoryInterface::class, SampleVideoRepository::class);
+
 
         /** End Repository */
 
@@ -475,6 +489,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CategoryTreeServiceInterface::class, CategoryTreeService::class);
 
         $this->app->bind(BlogCategoryServiceInterface::class, BlogCategoryService::class);
+
+        $this->app->bind(SampleServiceInterface::class, SampleService::class);
 
         /** End Service */
 
