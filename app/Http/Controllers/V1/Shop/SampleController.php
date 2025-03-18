@@ -25,7 +25,7 @@ class SampleController extends Controller
 
         return $this->dataResponse([
             "info" => new SampleResource($info),
-            "images" => new SampleImageCollection($image),
+            "image" => new SampleImageCollection($image),
             "video" => new SampleVideoCollection($video)
         ]);
     }
