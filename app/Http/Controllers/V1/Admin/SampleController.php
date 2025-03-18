@@ -8,6 +8,7 @@ use App\Http\Requests\V1\Admin\Sample\SampleVideoRequest;
 use App\Http\Requests\V1\Admin\SampleRequest;
 use App\Http\Resources\V1\Sample\SampleResource;
 use App\Http\Resources\V1\SampleImage\SampleImageCollection;
+use App\Http\Resources\V1\SampleVideo\SampleVideoCollection;
 use App\Http\Resources\V1\SampleVideo\SampleVideoResource;
 use App\Services\Sample\SampleServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -65,6 +66,6 @@ class SampleController extends Controller
 
     public function getVideos()
     {
-        return $this->dataResponseCollection(new SampleVideoResource($this->sampleService->getVideos()));
+        return $this->dataResponseCollection(new SampleVideoCollection($this->sampleService->getVideos()));
     }
 }
