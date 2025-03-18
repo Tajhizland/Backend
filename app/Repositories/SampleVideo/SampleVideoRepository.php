@@ -16,4 +16,10 @@ class SampleVideoRepository extends BaseRepository implements SampleVideoReposit
     {
         return $this->model::where("vlog_id",$videoId)->first();
     }
+
+    public function getWithVlog()
+    {
+        return $this->model::with("vlog")->latest("id")->get();
+
+    }
 }

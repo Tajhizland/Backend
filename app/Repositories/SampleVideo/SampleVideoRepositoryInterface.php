@@ -7,4 +7,5 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface SampleVideoRepositoryInterface extends BaseRepositoryInterface
 {
     public function findByVideoId($videoId);
+    public function getWithVlog();
 }
