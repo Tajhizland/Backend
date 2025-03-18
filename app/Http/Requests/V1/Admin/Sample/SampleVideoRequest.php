@@ -9,7 +9,7 @@ class SampleVideoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vlog_id' => ['required', 'exists:vlogs'],
+            'vlog_id' => ['required', 'exists:vlogs,id'],
         ];
     }
 
