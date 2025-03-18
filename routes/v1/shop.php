@@ -110,6 +110,9 @@ Route::group(["prefix" => "vlog_category"], function () {
 Route::group(["prefix" => "special"], function () {
     Route::get('list', [\App\Http\Controllers\V1\Shop\SpecialProductController::class, "list"]);
 });
+Route::group(["prefix" => "sample"], function () {
+    Route::get('find', [\App\Http\Controllers\V1\Shop\SampleController::class, "index"]);
+});
 Route::group(["prefix" => "sitemap"], function () {
     Route::get('product', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getProductSitemap"]);
     Route::get('category', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getCategorySitemap"]);
