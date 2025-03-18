@@ -244,7 +244,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
 
     Route::group(["prefix" => "sample"], function () {
-        Route::get("find", [\App\Http\Controllers\V1\Admin\SampleController::class, "dataTable"]);
+        Route::get("find", [\App\Http\Controllers\V1\Admin\SampleController::class, "find"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\SampleController::class, "update"]);
 
         Route::get("image/get", [\App\Http\Controllers\V1\Admin\SampleController::class, "getImages"]);
