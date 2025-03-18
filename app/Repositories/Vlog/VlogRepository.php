@@ -70,6 +70,7 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     {
         return $this->model::where("category_id", $category_id)->where("id", "<>", $except)->limit(4)->latest("id")->get();
     }
+
     public function getSitemapData()
     {
         return $this->model::active()->select("url")->latest("id")->get();
@@ -77,7 +78,13 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function getMostViewed()
     {
-        return $this->model::active()->orderBy("view","desc")->latest("id")->limit(5)->get();
+        return $this->model::active()->orderBy("view", "desc")->latest("id")->limit(5)->get();
+
+    }
+
+    public function search($query)
+    {
+        return $this->model::active()->where("title", "like", "%$query%")->latest("id")->limit(20)->get();
 
     }
 }

@@ -8,6 +8,7 @@ interface VlogServiceInterface
 {
     public function dataTable();
     public function listing($filters);
+    public function search($query);
     public function getMostViewed();
     public function findById($id);
     public function getRelatedVlogs($category_id ,$except);

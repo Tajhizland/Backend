@@ -204,6 +204,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\VlogController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\VlogController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\VlogController::class, "update"]);
+        Route::post("search", [\App\Http\Controllers\V1\Admin\VlogController::class, "search"]);
     });
     Route::group(["prefix" => "vlog_category"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "dataTable"]);

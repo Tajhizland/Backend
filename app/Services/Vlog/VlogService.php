@@ -27,7 +27,7 @@ class VlogService implements VlogServiceInterface
         return $this->vlogRepository->findOrFail($id);
     }
 
-    public function store($title, $description, $video, $poster, $url, $status, $categoryId,$author)
+    public function store($title, $description, $video, $poster, $url, $status, $categoryId, $author)
     {
         $filePath = $this->s3Service->upload($video, "vlog");
         $posterPath = $this->s3Service->upload($poster, "vlog");
@@ -108,15 +108,16 @@ class VlogService implements VlogServiceInterface
         return $vlogQuery;
     }
 
-    public function getRelatedVlogs($category_id ,$except)
+    public function getRelatedVlogs($category_id, $except)
     {
-        return $this->vlogRepository->getRelatedVlogs($category_id ,$except);
+        return $this->vlogRepository->getRelatedVlogs($category_id, $except);
     }
 
     public function view(Vlog $vlog)
     {
-        return $this->vlogRepository->update($vlog, ["view" => $vlog->view+1]);
+        return $this->vlogRepository->update($vlog, ["view" => $vlog->view + 1]);
     }
+
     public function getSitemapData()
     {
         return $this->vlogRepository->getSitemapData();
@@ -125,5 +126,10 @@ class VlogService implements VlogServiceInterface
     public function getMostViewed()
     {
         return $this->vlogRepository->getMostViewed();
+    }
+
+    public function search($query)
+    {
+        return $this->vlogRepository->search($query);
     }
 }
