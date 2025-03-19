@@ -16,7 +16,8 @@ class PriceResource extends JsonResource
             'product_color_id' => $this->product_color_id,
             'price' => $this->price,
             'discount' => $this->discount,
-             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'discount_expire_time' => $this->discount_expire_time,
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];
     }
