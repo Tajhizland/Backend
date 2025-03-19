@@ -44,6 +44,6 @@ class PriceRepository extends BaseRepository implements PriceRepositoryInterface
 
     public function findFirstExpireDiscount()
     {
-        return $this->model::whereNotNull("discount_expire_time")->where("discount_expire_time",Carbon::now())->where("discount",">",0)->first();
+        return $this->model::whereNotNull("discount_expire_time")->where("discount_expire_time",">",Carbon::now())->where("discount",">",0)->first();
     }
 }
