@@ -22,6 +22,7 @@ class HomePageResource extends JsonResource
     {
         return [
             "popularProducts" => new PopularProductCollection($this["popularProducts"]),
+            "discount" => new PopularProductCollection($this["discount"]),
 //            "popularCategories" => new PopularCategoryCollection($this["popularCategories"]),
             "homepageCategories" => new HomepageCategoryCollection($this["homepageCategories"]),
             "desktopSliders" => new SliderCollection($this["desktopSliders"]),
