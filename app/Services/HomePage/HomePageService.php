@@ -9,6 +9,7 @@ use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
 use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
 use App\Repositories\Poster\PosterRepositoryInterface;
+use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Slider\SliderRepositoryInterface;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;
@@ -27,6 +28,7 @@ class HomePageService implements HomePageServiceInterface
         private VlogRepositoryInterface             $vlogRepository,
         private NewRepositoryInterface              $newRepository,
         private PosterRepositoryInterface           $posterRepository,
+        private PriceRepositoryInterface           $priceRepository,
     )
     {
     }
@@ -48,9 +50,11 @@ class HomePageService implements HomePageServiceInterface
         $banners5 = $this->bannerRepository->getBannerByType("home_page5");
         $lastNews = $this->newRepository->getLastActiveNews();
         $lastVlogs = $this->vlogRepository->getLastActives();
+        $discountTimer = $this->priceRepository->findFirstExpireDiscount();
         $posters=$this->posterRepository->getHomepagePosters();
         return [
             "popularProducts" => $popularProducts,
+            "discount" => $discountTimer,
             "homepageCategories" => $homepageCategories,
             "desktopSliders" => $desktopSliders,
             "mobileSliders" => $mobileSliders,
