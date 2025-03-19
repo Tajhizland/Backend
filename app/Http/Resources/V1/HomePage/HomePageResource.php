@@ -10,6 +10,7 @@ use App\Http\Resources\V1\News\NewsCollection;
 use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
 use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
 use App\Http\Resources\V1\Poster\PosterCollection;
+use App\Http\Resources\V1\Price\PriceResource;
 use App\Http\Resources\V1\Slider\SliderCollection;
 use App\Http\Resources\V1\SpecialProduct\SpecialProductCollection;
 use App\Http\Resources\V1\Vlog\VlogCollection;
@@ -22,7 +23,7 @@ class HomePageResource extends JsonResource
     {
         return [
             "popularProducts" => new PopularProductCollection($this["popularProducts"]),
-            "discount" => new PopularProductCollection($this["discount"]),
+            "discount" => new PriceResource($this["discount"]),
 //            "popularCategories" => new PopularCategoryCollection($this["popularCategories"]),
             "homepageCategories" => new HomepageCategoryCollection($this["homepageCategories"]),
             "desktopSliders" => new SliderCollection($this["desktopSliders"]),
