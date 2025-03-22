@@ -102,6 +102,7 @@ class CartItemService implements CartItemServiceInterface
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             $price = $productColor->price;
             $guarantyPrice = 0;
+            $discount = 0;
              if($cartItem->guaranty_id) {
                 $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
                 if (!$guaranty->free)
@@ -112,12 +113,13 @@ class CartItemService implements CartItemServiceInterface
             if($price->discount && $price->discount!=0)
             {
                 $finalPrice = ($price->discount + $guarantyPrice)  ;
+                $discount=$price->price-$price->discount;
             }
             else
             {
                 $finalPrice = ($price->price + $guarantyPrice)  ;
             }
-            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count,$price->price , $price->discount , $finalPrice ,$cartItem->guaranty_id ,$guarantyPrice );
+            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count,$price->price ,$discount , $finalPrice ,$cartItem->guaranty_id ,$guarantyPrice );
         }
         return true;
     }
