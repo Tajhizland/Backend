@@ -75,7 +75,7 @@ class PaymentService implements PaymentServicesInterface
             ];
         }
         return [
-            "path" => $this->gatewayService->request($finalPrice, $order->id),
+            "path" => $this->gatewayService->request($finalPrice * 10, $order->id),
             "type" => "payment"
         ];
     }
