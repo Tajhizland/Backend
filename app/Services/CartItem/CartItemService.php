@@ -11,6 +11,7 @@ use App\Repositories\OrderItem\OrderItemRepositoryInterface;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use App\Services\Guaranty\GuarantyServiceInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Lang;
 
 class CartItemService implements CartItemServiceInterface
@@ -21,7 +22,7 @@ class CartItemService implements CartItemServiceInterface
         private ProductColorRepositoryInterface $productColorRepository,
         private OrderItemRepositoryInterface    $orderItemRepository,
         private CartRepositoryInterface         $cartRepository,
-        private GuarantyServiceInterface         $guarantyService,
+        private GuarantyServiceInterface        $guarantyService,
         private CartItemRepositoryInterface     $cartItemRepository
     )
     {
@@ -35,27 +36,22 @@ class CartItemService implements CartItemServiceInterface
         foreach ($cartItems as $cartItem) {
             $price = $this->priceRepository->findByProductColorId($cartItem->product_color_id);
             $guarantyPrice = 0;
-            if($cartItem->guaranty_id) {
+            if ($cartItem->guaranty_id) {
                 $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
-                if (!$guaranty->free)
-                {
-                    $guarantyPrice=$this->guarantyService->calculatePrice($price->price);
+                if (!$guaranty->free) {
+                    $guarantyPrice = $this->guarantyService->calculatePrice($price->price);
                 }
             }
             $itemsPrice += $price->price * $cartItem->count;
 
-            if($price->discount && $price->discount!=0)
-            {
-                $totalItemPrice += $price->discount * $cartItem->count+$guarantyPrice;
-            }
-            else
-            {
-                $totalItemPrice +=$price->price * $cartItem->count+$guarantyPrice;
+            if ($price->discount && $price->discount != 0 && ($price->discount_expire_time == null || $price->discount_expire_time > Carbon::now())) {
+                $totalItemPrice += $price->discount * $cartItem->count + $guarantyPrice;
+            } else {
+                $totalItemPrice += $price->price * $cartItem->count + $guarantyPrice;
             }
 
-            if($cartItem->productColor->delivery_delay > $maxDeliveryDelay)
-            {
-                $maxDeliveryDelay=$cartItem->productColor->delivery_delay;
+            if ($cartItem->productColor->delivery_delay > $maxDeliveryDelay) {
+                $maxDeliveryDelay = $cartItem->productColor->delivery_delay;
             }
         }
         return [
@@ -103,23 +99,19 @@ class CartItemService implements CartItemServiceInterface
             $price = $productColor->price;
             $guarantyPrice = 0;
             $discount = 0;
-             if($cartItem->guaranty_id) {
+            if ($cartItem->guaranty_id) {
                 $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
-                if (!$guaranty->free)
-                {
-                    $guarantyPrice=$this->guarantyService->calculatePrice($price->price);
+                if (!$guaranty->free) {
+                    $guarantyPrice = $this->guarantyService->calculatePrice($price->price);
                 }
             }
-            if($price->discount && $price->discount!=0)
-            {
-                $finalPrice = ($price->discount + $guarantyPrice)  ;
-                $discount=$price->price-$price->discount;
+            if ($price->discount && $price->discount != 0 && ($price->discount_expire_time == null || $price->discount_expire_time > Carbon::now())) {
+                $finalPrice = ($price->discount + $guarantyPrice);
+                $discount = $price->price - $price->discount;
+            } else {
+                $finalPrice = ($price->price + $guarantyPrice);
             }
-            else
-            {
-                $finalPrice = ($price->price + $guarantyPrice)  ;
-            }
-            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count,$price->price ,$discount , $finalPrice ,$cartItem->guaranty_id ,$guarantyPrice );
+            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count, $price->price, $discount, $finalPrice, $cartItem->guaranty_id, $guarantyPrice);
         }
         return true;
     }
