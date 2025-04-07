@@ -111,7 +111,7 @@ Route::group(["prefix" => "special"], function () {
     Route::get('list', [\App\Http\Controllers\V1\Shop\SpecialProductController::class, "list"]);
 });
 Route::group(["prefix" => "sample"], function () {
-    Route::get('find', [\App\Http\Controllers\V1\Shop\SampleController::class, "index"])->middleware(\App\Http\Middleware\FootPrintMiddleware::class);
+    Route::get('find', [\App\Http\Controllers\V1\Shop\SampleController::class, "index"])->middleware(["auth:sanctum",\App\Http\Middleware\FootPrintMiddleware::class]);
 });
 Route::group(["prefix" => "sitemap"], function () {
     Route::get('product', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getProductSitemap"]);
