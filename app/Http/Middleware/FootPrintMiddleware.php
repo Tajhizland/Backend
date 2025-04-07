@@ -13,23 +13,25 @@ class FootPrintMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!auth()->check()) {
-            // اگر توکن در Authorization header هست
             $token = $request->bearerToken();
+
             if ($token) {
                 $accessToken = PersonalAccessToken::findToken($token);
-                if ($accessToken) {
+
+                if ($accessToken && $accessToken->tokenable) {
                     Auth::login($accessToken->tokenable);
                 }
             }
         }
 
+        // حالا auth()->id() باید مقدار داشته باشه اگر لاگین بوده
         $page = $request->path();
         $userIp = $request->ip();
-        $userId = auth()->check() ? auth()->id() : null;
+
         Footprint::create([
-            "page" => $page,
-            "ip" => $userIp,
-            "user_id" => $userId??null,
+            'page' => $page,
+            'ip' => $userIp,
+            'user_id' => auth()->id(), // ← اگه لاگین نباشه، null
         ]);
         return $next($request);
     }
