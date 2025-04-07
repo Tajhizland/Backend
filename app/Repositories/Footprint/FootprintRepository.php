@@ -39,15 +39,18 @@ class FootprintRepository extends BaseRepository implements FootprintRepositoryI
         return $this->model::where('created_at', '>=', $thirtyDaysAgo)
             ->get()
             ->groupBy("ip")
-            ->groupBy(function ($log) {
-                return Jalalian::fromDateTime($log->created_at)->format('Y/m/d');
-            })
-            ->map(function ($logs, $date) {
-                return [
-                    'date' => $date,
-                    'value' => $logs->count(),
-                ];
+            ->map(function ($logs) {
+                 return $logs->groupBy(function ($log) {
+                    return Jalalian::fromDateTime($log->created_at)->format('Y/m/d');
+                })
+                    ->map(function ($logsByDate, $date) {
+                        return [
+                            'date' => $date,
+                            'value' => $logsByDate->count(),
+                        ];
+                    });
             })
             ->values();
+
     }
 }
