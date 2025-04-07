@@ -19,6 +19,7 @@ Route::post('contact', [\App\Http\Controllers\V1\Shop\ContactController::class, 
 Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
 Route::get('emalls/list', [\App\Http\Controllers\V1\Shop\EmallsController::class, "list"]);
 Route::get('torob/list', [\App\Http\Controllers\V1\Shop\TorobController::class, "get"]);
+Route::post('footprint', [\App\Http\Controllers\V1\Shop\FootprintController::class, "handle"]);
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
@@ -111,7 +112,7 @@ Route::group(["prefix" => "special"], function () {
     Route::get('list', [\App\Http\Controllers\V1\Shop\SpecialProductController::class, "list"]);
 });
 Route::group(["prefix" => "sample"], function () {
-    Route::get('find', [\App\Http\Controllers\V1\Shop\SampleController::class, "index"])->middleware([\App\Http\Middleware\FootPrintMiddleware::class]);
+    Route::get('find', [\App\Http\Controllers\V1\Shop\SampleController::class, "index"]);
 });
 Route::group(["prefix" => "sitemap"], function () {
     Route::get('product', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getProductSitemap"]);
