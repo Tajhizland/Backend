@@ -13,11 +13,11 @@ class FootPrintMiddleware
     {
         $page = $request->path();
         $userIp = $request->ip();
-        $user=Auth::user();
+        $userId = auth()->id();
         Footprint::create([
             "page" => $page,
             "ip" => $userIp,
-            "user_id" => $user->id??null,
+            "user_id" => $userId??null,
         ]);
         return $next($request);
     }
