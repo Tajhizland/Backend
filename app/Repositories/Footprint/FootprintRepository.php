@@ -37,18 +37,16 @@ class FootprintRepository extends BaseRepository implements FootprintRepositoryI
         $thirtyDaysAgo = Carbon::now()->subDays(30);
 
         return $this->model::where('created_at', '>=', $thirtyDaysAgo)
+            ->distinct('ip')
             ->get()
-            ->groupBy("ip")
-            ->map(function ($logs) {
-                 return $logs->groupBy(function ($log) {
-                    return Jalalian::fromDateTime($log->created_at)->format('Y/m/d');
-                })
-                    ->map(function ($logsByDate, $date) {
-                        return [
-                            'date' => $date,
-                            'value' => $logsByDate->count(),
-                        ];
-                    });
+            ->groupBy(function ($log) {
+                return Jalalian::fromDateTime($log->created_at)->format('Y/m/d'); // گروه‌بندی بر اساس تاریخ
+            })
+            ->map(function ($logs, $date) {
+                return [
+                    'date' => $date,
+                    'value' => $logs->count(),
+                ];
             })
             ->values();
 
