@@ -40,6 +40,8 @@ use App\Repositories\Filter\FilterRepository;
 use App\Repositories\Filter\FilterRepositoryInterface;
 use App\Repositories\FilterItem\FilterItemRepository;
 use App\Repositories\FilterItem\FilterItemRepositoryInterface;
+use App\Repositories\Footprint\FootprintRepository;
+use App\Repositories\Footprint\FootprintRepositoryInterface;
 use App\Repositories\Gateway\GatewayRepository;
 use App\Repositories\Gateway\GatewayRepositoryInterface;
 use App\Repositories\Guaranty\GuarantyRepository;
@@ -369,6 +371,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SampleImageRepositoryInterface::class, SampleImageRepository::class);
 
         $this->app->bind(SampleVideoRepositoryInterface::class, SampleVideoRepository::class);
+
+        $this->app->bind(FootprintRepositoryInterface::class, FootprintRepository::class);
 
 
         /** End Repository */
