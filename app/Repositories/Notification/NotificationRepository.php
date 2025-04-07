@@ -26,7 +26,7 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
 
     public function seen()
     {
-        $this->model::update(["seen" => 1]);
+        $this->model::where("seen", "0")->update(["seen" => 1]);
     }
 
     public function dataTable()
