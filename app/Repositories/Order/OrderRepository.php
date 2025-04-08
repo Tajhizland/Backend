@@ -110,21 +110,36 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     }
     public function totalCountChartData()
-    {   $thirtyDaysAgo = Carbon::now()->subDays(30);
+    {
+        $thirtyDaysAgo = Carbon::now()->subDays(30);
+        $today = Carbon::now();
 
-        return $this->model::where('order_date', '>=', $thirtyDaysAgo)
+        // مرحله 1: خروجی اصلی
+        $data = $this->model::where('order_date', '>=', $thirtyDaysAgo)
             ->paid()
             ->get()
             ->groupBy(function ($order) {
                 return Jalalian::fromDateTime($order->order_date)->format('Y/m/d');
             })
-            ->map(function ($orders, $date) {
-                return [
-                    'date' => $date,
-                    'value' => $orders->count(),
-                ];
-            })
-            ->values();
+            ->mapWithKeys(function ($orders, $date) {
+                return [$date => $orders->count()];
+            });
+
+        // مرحله 2: لیست تاریخ‌ها از ۳۰ روز پیش تا امروز
+        $dates = collect();
+        for ($date = $thirtyDaysAgo->copy(); $date <= $today; $date->addDay()) {
+            $dates->push(Jalalian::fromDateTime($date)->format('Y/m/d'));
+        }
+
+        // مرحله 3: ترکیب داده‌ها با مقدار صفر برای روزهای بدون سفارش
+        $final = $dates->map(function ($date) use ($data) {
+            return [
+                'date' => $date,
+                'value' => $data[$date] ?? 0,
+            ];
+        });
+
+        return $final->values();
     }
 
     public function todayOrderCount()
