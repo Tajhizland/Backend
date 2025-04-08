@@ -92,21 +92,35 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     }
     public function totalPriceChartData()
     {
-        $thirtyDaysAgo = Carbon::now()->subDays(30);
+        $startDate = Carbon::now()->subDays(30);
+        $endDate = Carbon::now();
 
-        return $this->model::where('order_date', '>=', $thirtyDaysAgo)
+        // گرفتن سفارش‌های پرداخت‌شده و جمع زدن بر اساس روز شمسی
+        $data = $this->model::whereBetween('order_date', [$startDate, $endDate])
             ->paid()
             ->get()
             ->groupBy(function ($order) {
                 return Jalalian::fromDateTime($order->order_date)->format('Y/m/d');
             })
-            ->map(function ($orders, $date) {
-                return [
-                    'date' => $date,
-                    'value' => $orders->sum("final_price"),
-                ];
-            })
-            ->values();
+            ->mapWithKeys(function ($orders, $date) {
+                return [$date => $orders->sum('final_price')];
+            });
+
+        // ساخت لیست همه روزها از ۳۰ روز پیش تا امروز (شمسی)
+        $dates = collect();
+        for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
+            $dates->push(Jalalian::fromDateTime($date)->format('Y/m/d'));
+        }
+
+        // ساخت خروجی نهایی با مقدار 0 برای روزهای بدون سفارش
+        $final = $dates->map(function ($date) use ($data) {
+            return [
+                'date' => $date,
+                'value' => $data[$date] ?? 0,
+            ];
+        });
+
+        return $final->values();
 
     }
     public function totalCountChartData()
