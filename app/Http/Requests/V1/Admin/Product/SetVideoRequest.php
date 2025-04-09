@@ -11,7 +11,7 @@ class SetVideoRequest extends FormRequest
         return [
             "type"=>"required|string|in:unboxing,intro,usage",
             "productId"=>"required|numeric",
-            "vlogId"=>"required|nullable|exists:App\Models\Vlog,id",
+            "vlogId"=>"nullable",
         ];
     }
 
