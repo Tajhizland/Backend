@@ -116,15 +116,11 @@ class ProductService implements ProductServiceInterface
         $product = $this->productRepository->findOrFail($productId);
         switch ($type) {
             case "intro":
-                $this->productRepository->update($product, ["intro_video" => $vlogId]);
-                return true;
+                return $this->productRepository->update($product, ["intro_video" => $vlogId]);
             case "unboxing":
-                $this->productRepository->update($product, ["unboxing_video" => $vlogId]);
-
-                return true;
+                return $this->productRepository->update($product, ["unboxing_video" => $vlogId]);
             case "usage":
-                $this->productRepository->update($product, ["usage_video" => $vlogId]);
-                return true;
+                return $this->productRepository->update($product, ["usage_video" => $vlogId]);
         }
         throw new BreakException(\Lang::get("exceptions.type_not_find"));
     }
