@@ -39,7 +39,7 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
     {
         return $this->model::where("homepage", 1)->with(["product" => function ($query) {
             $query->WithActiveColor();
-        }])->get();
+        }])->orderBy("sort")->get();
     }
 
     public function sort($id, $sort)
