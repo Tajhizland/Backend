@@ -112,7 +112,7 @@ class ProductController extends Controller
 
     public function setVideo(SetVideoRequest $request)
     {
-        $this->productService->setVideo($request->get("productId"), $request->file("vlogId"), $request->get("type"));
+        $this->productService->setVideo($request->get("productId"), $request->get("vlogId"), $request->get("type"));
         return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.file")]));
     }
 

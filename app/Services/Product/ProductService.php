@@ -116,8 +116,7 @@ class ProductService implements ProductServiceInterface
         $product = $this->productRepository->findOrFail($productId);
         switch ($type) {
             case "intro":
-                $r = $this->productRepository->update($product, ["intro_video" => $vlogId]);
-                dd($r);
+                return $this->productRepository->update($product, ["intro_video" => $vlogId]);
             case "unboxing":
                 return $this->productRepository->update($product, ["unboxing_video" => $vlogId]);
             case "usage":
