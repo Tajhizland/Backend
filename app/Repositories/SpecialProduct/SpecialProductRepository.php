@@ -44,6 +44,6 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
 
     public function sort($id, $sort)
     {
-        return $this->model::where("id", $id)->update(["sort" => $sort]);
+        return $this->model::where("product_id", $id)->update(["sort" => $sort]);
     }
 }
