@@ -56,7 +56,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 , AllowedSort::custom("user", new SortTransactionByUserName())
                 , AllowedSort::custom("mobile", new SortTransactionByUserMobile())
             ])
-            ->latest("id")
+//            ->latest("id")
             ->paginate($this->pageSize);
     }
 

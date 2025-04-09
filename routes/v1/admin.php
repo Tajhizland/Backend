@@ -135,6 +135,9 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "delete"]);
         Route::post("add", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "add"]);
         Route::post("homepage", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "homepage"]);
+        Route::get('list', [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "list"]);
+        Route::post("sort", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "sort"]);
+
     });
     Route::group(["prefix" => "popular_category"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PopularCategoryController::class, "dataTable"]);

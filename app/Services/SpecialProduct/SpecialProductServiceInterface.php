@@ -8,4 +8,5 @@ interface SpecialProductServiceInterface
     public function add($productId);
     public function delete($id);
     public function showHomepage($id , $value);
+    public function sort($product);
 }

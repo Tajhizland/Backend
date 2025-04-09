@@ -31,4 +31,12 @@ class SpecialProductService implements SpecialProductServiceInterface
         $item = $this->specialProductRepository->findOrFail($id);
         return $this->specialProductRepository->update($item, ["homepage" => $value]);
     }
+
+    public function sort($product)
+    {
+        foreach ($product as $item) {
+            $this->specialProductRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
 }
