@@ -52,7 +52,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time,$review): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review): mixed
     {
         $product = $this->productRepository->create([
             "name" => $name,
@@ -74,7 +74,7 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time,$review): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review): mixed
     {
         $product = $this->productRepository->findOrFail($id);
         $this->productRepository->update($product,
@@ -108,30 +108,22 @@ class ProductService implements ProductServiceInterface
         $productCategory = $this->productCategoryRepository->findByProductId($id);
         if (!$productCategory)
             throw  new BreakException(\Lang::get("exceptions.product_not_find"));
-        return $this->productRepository->getByCategoryId($productCategory->category_id ,$id);
+        return $this->productRepository->getByCategoryId($productCategory->category_id, $id);
     }
 
-    public function setVideo($productId, $description, $file, $type): mixed
+    public function setVideo($productId, $vlogId, $type): mixed
     {
         $product = $this->productRepository->findOrFail($productId);
         switch ($type) {
             case "intro":
-                $videoPath = $product->intro_video;
-                $this->s3Service->remove("product/video/intro/$videoPath");
-                $videoPath = $this->s3Service->upload($file, "product/video/intro");
-                $this->productRepository->update($product, ["intro_video" => $videoPath, "intro_video_description" => $description]);
+                $this->productRepository->update($product, ["intro_video" => $vlogId]);
                 return true;
             case "unboxing":
-                $videoPath = $product->intro_video;
-                $this->s3Service->remove("product/video/unboxing/$videoPath");
-                $videoPath = $this->s3Service->upload($file, "product/video/unboxing");
-                $this->productRepository->update($product, ["unboxing_video" => $videoPath, "unboxing_video_description" => $description]);
+                $this->productRepository->update($product, ["unboxing_video" => $vlogId]);
+
                 return true;
             case "usage":
-                $videoPath = $product->intro_video;
-                $this->s3Service->remove("product/video/usage/$videoPath");
-                $videoPath = $this->s3Service->upload($file, "product/video/usage");
-                $this->productRepository->update($product, ["usage_video" => $videoPath, "usage_video_description" => $description]);
+                $this->productRepository->update($product, ["usage_video" => $vlogId]);
                 return true;
         }
         throw new BreakException(\Lang::get("exceptions.type_not_find"));
