@@ -109,13 +109,29 @@ class Product extends Model
         return $this->belongsTo(Guaranty::class);
     }
 
+    public function unboxing(): BelongsTo
+    {
+        return $this->belongsTo(Vlog::class, "unboxing_video");
+    }
+
+    public function intro(): BelongsTo
+    {
+        return $this->belongsTo(Vlog::class, "intro_video");
+    }
+
+    public function usage(): BelongsTo
+    {
+        return $this->belongsTo(Vlog::class, "usage_video");
+    }
+
     public function getMinColorPrice()
     {
         return $this->prices()->min("price");
     }
+
     public function getDiscountMinColorPrice()
     {
-        return $this->prices()->where("discount","<>",0)->min("discount");
+        return $this->prices()->where("discount", "<>", 0)->min("discount");
     }
 
     public function getMinDiscountedPrice()
@@ -131,6 +147,7 @@ class Product extends Model
         }
         return null;
     }
+
     public function getMaxDiscountedPrice()
     {
         $minPriceColor = $this->prices()->
@@ -138,7 +155,7 @@ class Product extends Model
             $query->whereHas("stock", function ($subQuery) {
                 $subQuery->where("stock", ">", "0");
             })->where("status", ProductColorStatus::Active->value);
-        })->orderBy('price','desc')->first();
+        })->orderBy('price', 'desc')->first();
         if ($minPriceColor) {
             return $minPriceColor->discount != 0 ? $minPriceColor->discount : $minPriceColor->price;
         }
@@ -196,7 +213,7 @@ class Product extends Model
 
     public function scopeCustomOrder(Builder $query): Builder
     {
-        return $query  ->orderByRaw("
+        return $query->orderByRaw("
             (SELECT MAX(stocks.stock)
              FROM product_colors
              INNER JOIN stocks
@@ -209,8 +226,8 @@ class Product extends Model
 
     public function scopeWithActiveColor(Builder $query): Builder
     {
-        return $query->with(["activeProductColors"=>function ($query) {
-            $query->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id","product_colors.id")->limit(1));
+        return $query->with(["activeProductColors" => function ($query) {
+            $query->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
         }]);
     }
 }

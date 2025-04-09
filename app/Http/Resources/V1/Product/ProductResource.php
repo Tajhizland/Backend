@@ -9,6 +9,7 @@ use App\Http\Resources\V1\Guaranty\GuarantyResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
 use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
+use App\Http\Resources\V1\Vlog\VlogResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -47,9 +48,9 @@ class ProductResource extends JsonResource
             'usage_video' => $this->usage_video,
             'meta_description' => $this->meta_description,
             'meta_title' => $this->meta_title,
-            'intro_video_description' => $this->intro_video_description,
-            'unboxing_video_description' => $this->unboxing_video_description,
-            'usage_video_description' => $this->usage_video_description,
+            'unboxing' => new VlogResource($this->unboxing),
+            'intro' => new VlogResource($this->intro),
+            'usage' => new VlogResource($this->usage),
             'review' => $this->review,
             'guaranty_time' => $this->guaranty_time,
             'guaranty' => new GuarantyResource($this->guaranty),
