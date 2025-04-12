@@ -8,6 +8,7 @@ use App\Http\Controllers\V1\Shop\HomePageController;
 use App\Http\Controllers\V1\Shop\NewsController;
 use App\Http\Controllers\V1\Shop\ProductController;
 use App\Http\Controllers\V1\Shop\SearchController;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 
 
@@ -126,9 +127,11 @@ Route::group(["prefix" => "sitemap"], function () {
 });
 Route::get('info', function () {
     phpinfo();
-});Route::get('test', function () {
+});Route::get('test', function (\App\Services\Sms\SmsServiceInterface  $smsService) {
     $order=\App\Models\Order::find(15);
-    event(new OrderPaidEvent($order));
+    $this->smsService->send("09194961416", Lang::get("sms.register_order", ["attr" => $order->id]));
+
+//    event(new OrderPaidEvent($order));
 
 });
 Route::get('info2', function () {
