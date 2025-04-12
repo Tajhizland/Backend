@@ -129,7 +129,7 @@ Route::get('info', function () {
     phpinfo();
 });Route::get('test', function (\App\Services\Sms\SmsServiceInterface  $smsService) {
     $order=\App\Models\Order::find(15);
-    $this->smsService->send("09194961416", Lang::get("sms.register_order", ["attr" => $order->id]));
+    $smsService->send("09194961416", Lang::get("sms.register_order", ["attr" => $order->id]));
 
 //    event(new OrderPaidEvent($order));
 
