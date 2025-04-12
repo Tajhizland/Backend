@@ -38,7 +38,7 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function getLastActives()
     {
-        return $this->model::active()->latest("id")->limit(4)->get();
+        return $this->model::active()->latest("id")->whereIn("category_id", [1, 2, 4])->limit(4)->get();
     }
 
     public function paginated($query)
