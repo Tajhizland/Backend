@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\OrderPaidEvent;
 use App\Http\Controllers\V1\Shop\CartController;
 use App\Http\Controllers\V1\Shop\CategoryController;
 use App\Http\Controllers\V1\Shop\FavoriteController;
@@ -125,6 +126,10 @@ Route::group(["prefix" => "sitemap"], function () {
 });
 Route::get('info', function () {
     phpinfo();
+});Route::get('test', function () {
+    $order=\App\Models\Order::find(15);
+    event(new OrderPaidEvent($order));
+
 });
 Route::get('info2', function () {
     $news=\App\Models\Product::all();
