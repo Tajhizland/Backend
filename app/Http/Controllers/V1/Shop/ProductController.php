@@ -4,6 +4,8 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Banner\BannerCollection;
+use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
+use App\Http\Resources\V1\Price\PriceResource;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Repositories\Price\PriceRepositoryInterface;
@@ -39,8 +41,8 @@ class ProductController extends Controller
     {
         $banners = new BannerCollection($this->bannerService->getDiscountedBanner());
         $data = new ProductCollection($this->productService->getDiscountedProducts());
-        $discounts=$this->popularProductService->get();
-        $discountTimer=$this->priceRepository->findFirstExpireDiscount();
+        $discounts=new PopularProductCollection($this->popularProductService->get());
+        $discountTimer=new PriceResource($this->priceRepository->findFirstExpireDiscount());
         return $this->dataResponse(
             [
                 "data" => $data,
