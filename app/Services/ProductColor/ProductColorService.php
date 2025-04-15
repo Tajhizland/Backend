@@ -44,7 +44,7 @@ class ProductColorService implements ProductColorServiceInterface
             if (isset($item["id"])) {
                 $productColor = $this->productColorRepository->findOrFail($item["id"]);
                 $this->productColorRepository->update($productColor, ["status" => $item["status"], "delivery_delay" => $item["delivery_delay"]]);
-                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"]);
+                $this->priceRepository->updatePrice($item["id"], $item["price"], $item["discount"],$item["discount_expire_time"]);
                 $this->stockRepository->updateStock($item["id"], $item["stock"]);
             }
         }
