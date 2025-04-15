@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
+use App\Repositories\Price\PriceRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;
+use App\Services\PopularProduct\PopularProductServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 use Illuminate\Http\Request;
 
@@ -16,6 +18,9 @@ class ProductController extends Controller
     (
         private ProductServiceInterface $productService,
         private BannerServiceInterface  $bannerService,
+        private PriceRepositoryInterface           $priceRepository,
+        private PopularProductServiceInterface   $popularProductService,
+
     )
     {
     }
@@ -34,9 +39,13 @@ class ProductController extends Controller
     {
         $banners = new BannerCollection($this->bannerService->getDiscountedBanner());
         $data = new ProductCollection($this->productService->getDiscountedProducts());
+        $discounts=$this->popularProductService->get();
+        $discountTimer=$this->priceRepository->findFirstExpireDiscount();
         return $this->dataResponse(
             [
                 "data" => $data,
+                "discounts" => $discounts,
+                "discountTimer" => $discountTimer,
                 "banner" => $banners
             ]
         );

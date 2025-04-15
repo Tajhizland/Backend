@@ -19,6 +19,10 @@ class PopularProductService implements  PopularProductServiceInterface
     {
         return $this->popularProductRepository->add($productId);
     }
+    public function get()
+    {
+        return  $this->popularProductRepository->getWithProduct();
+    }
 
     public function delete($id)
     {
