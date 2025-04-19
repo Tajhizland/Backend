@@ -40,10 +40,10 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getDiscountedProducts()
+    public function getDiscountedProducts(Request $request)
     {
         $banners = new BannerCollection($this->bannerService->getDiscountedBanner());
-        $data = new ProductCollection($this->productService->getDiscountedProducts());
+        $data = new ProductCollection($this->productService->getDiscountedProducts($request->get("filter")));
         $discounts = new PopularProductCollection($this->popularProductService->get());
         $discountTimer = new PriceResource($this->priceRepository->findFirstExpireDiscount());
         $category = new CategoryCollection($this->categoryService->getDiscountedCategory());

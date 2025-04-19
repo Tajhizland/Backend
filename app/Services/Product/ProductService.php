@@ -5,6 +5,7 @@ namespace App\Services\Product;
 use App\Exceptions\BreakException;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
+use App\Services\Filter\FilterServiceInterface;
 use App\Services\ProductCategory\ProductCategoryServiceInterface;
 use App\Services\ProductGuaranty\ProductGuarantyServiceInterface;
 use App\Services\S3\S3ServiceInterface;
@@ -17,14 +18,17 @@ class ProductService implements ProductServiceInterface
         private ProductCategoryServiceInterface    $productCategoryService,
         private ProductCategoryRepositoryInterface $productCategoryRepository,
         private ProductGuarantyServiceInterface    $productGuarantyService,
+        private FilterServiceInterface             $filterService,
         private S3ServiceInterface                 $s3Service,
     )
     {
     }
 
-    public function getDiscountedProducts(): mixed
+    public function getDiscountedProducts($filter): mixed
     {
-        return $this->productRepository->getDiscountedProducts();
+        $productsQuery = $this->productRepository->getDiscountedProducts();
+        $productsQuery = $this->filterService->apply($productsQuery, $filter);
+        return $this->productRepository->paginated($productsQuery);
     }
 
     public function findProductByUrl(string $url): mixed

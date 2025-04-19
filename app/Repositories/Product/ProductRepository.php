@@ -218,7 +218,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getDiscountedProducts()
     {
-        return $this->model::withActiveColor()->active()->hasDiscount()->paginate($this->pageSize);
+        return $this->model::withActiveColor()->active()->hasDiscount();
     }
 
     public function getSpecial()
