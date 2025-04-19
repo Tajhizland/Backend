@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\CommentStatus;
 use App\Enums\ProductColorStatus;
 use App\Enums\ProductStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -204,7 +205,11 @@ class Product extends Model
         return $query->whereHas("productColors", function ($query) {
             $query->where("status", "<>", ProductColorStatus::DeActive->value)
                 ->whereHas("price", function ($q) {
-                    $q->where("discount", ">", 0)->orderBy("discount", "desc");
+                    $q->where("discount", ">", 0)
+                        ->where(function ($query) {
+                            $query->whereNull("discount_expire_time")
+                                ->orWhere("discount_expire_time", ">", Carbon::now());
+                        })->orderBy("discount", "desc");
                 })->whereHas("stock", function ($q) {
                     $q->where("stock", ">", 0);
                 });

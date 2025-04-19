@@ -122,4 +122,9 @@ class CategoryService implements CategoryServiceInterface
     {
         return $this->categoryRepository->getSitemapData();
     }
+
+    public function getDiscountedCategory()
+    {
+        return $this->categoryRepository->getDiscountedCategory();
+    }
 }

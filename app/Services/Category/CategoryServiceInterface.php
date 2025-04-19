@@ -15,5 +15,6 @@ interface CategoryServiceInterface
     public function updateCategory($id,$name,$status,$url,$image,$description,$parentId,$type);
     public function deleteImage($categoryId);
     public function getSitemapData();
+    public function getDiscountedCategory();
 
 }
