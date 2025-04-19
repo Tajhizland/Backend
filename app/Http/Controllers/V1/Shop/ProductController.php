@@ -46,13 +46,13 @@ class ProductController extends Controller
         $data = new ProductCollection($this->productService->getDiscountedProducts($request->get("filter")));
         $discounts = new PopularProductCollection($this->popularProductService->get());
         $discountTimer = new PriceResource($this->priceRepository->findFirstExpireDiscount());
-        $category = new CategoryCollection($this->categoryService->getDiscountedCategory());
+//        $category = new CategoryCollection($this->categoryService->getDiscountedCategory());
         return $this->dataResponse(
             [
                 "data" => $data,
                 "discounts" => $discounts,
                 "discountTimer" => $discountTimer,
-                "category" => $category,
+//                "category" => $category,
                 "banner" => $banners
             ]
         );
