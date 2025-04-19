@@ -86,4 +86,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             $query->active()->hasColor()->hasDiscount();
         })->get();
     }
+
+    public function getCategoryByProductId($productIds)
+    {
+        return $this->model::active()->whereHas('products', function ($query) use ($productIds) {
+            $query->whereIn("products.id", $productIds);
+        })->get();
+    }
 }

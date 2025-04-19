@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\Category\CategoryCollection;
+use App\Http\Resources\V1\Category\SimpleCategoryCollection;
 use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
 use App\Http\Resources\V1\Price\PriceResource;
 use App\Http\Resources\V1\Product\ProductCollection;
@@ -46,13 +47,14 @@ class ProductController extends Controller
         $data = new ProductCollection($this->productService->getDiscountedProducts($request->get("filter")));
         $discounts = new PopularProductCollection($this->popularProductService->get());
         $discountTimer = new PriceResource($this->priceRepository->findFirstExpireDiscount());
-//        $category = new CategoryCollection($this->categoryService->getDiscountedCategory());
+        $category = new SimpleCategoryCollection($this->categoryService->getDiscountedCategory());
+
         return $this->dataResponse(
             [
                 "data" => $data,
                 "discounts" => $discounts,
                 "discountTimer" => $discountTimer,
-//                "category" => $category,
+                "category" => $category,
                 "banner" => $banners
             ]
         );

@@ -4,8 +4,8 @@ namespace App\Services\Category;
 
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
-use App\Services\CategoryTree\CategoryTreeServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
+use App\Services\CategoryTree\CategoryTreeServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -59,7 +59,7 @@ class CategoryService implements CategoryServiceInterface
         return $this->categoryRepository->findOrFail($id);
     }
 
-    public function storeCategory($name, $status, $url, $image, $description, $parentId,$type)
+    public function storeCategory($name, $status, $url, $image, $description, $parentId, $type)
     {
         $imagePath = null;
         if ($image) {
@@ -78,7 +78,7 @@ class CategoryService implements CategoryServiceInterface
         );
     }
 
-    public function updateCategory($id, $name, $status, $url, $image, $description, $parentId,$type)
+    public function updateCategory($id, $name, $status, $url, $image, $description, $parentId, $type)
     {
         $category = $this->categoryRepository->findOrFail($id);
         $imagePath = $category->image;
@@ -125,6 +125,7 @@ class CategoryService implements CategoryServiceInterface
 
     public function getDiscountedCategory()
     {
-        return $this->categoryRepository->getDiscountedCategory();
+        $productIds = $this->productRepository->getDiscountedProductsId();
+        return $this->categoryRepository->getCategoryByProductId($productIds);
     }
 }

@@ -240,4 +240,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::active()->latest("id")->paginate(100);
     }
+
+    public function getDiscountedProductsId()
+    {
+        return $this->model::active()->hasDiscount()->pluck("id");
+    }
 }

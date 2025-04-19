@@ -209,7 +209,8 @@ class Product extends Model
                         ->where(function ($query) {
                             $query->whereNull("discount_expire_time")
                                 ->orWhere("discount_expire_time", ">", Carbon::now());
-                        })->orderBy("discount", "desc");
+                        })
+                        ->orderBy("discount", "desc");
                 })->whereHas("stock", function ($q) {
                     $q->where("stock", ">", 0);
                 });
