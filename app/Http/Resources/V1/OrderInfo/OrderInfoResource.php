@@ -21,6 +21,8 @@ class OrderInfoResource extends JsonResource
             'province_id' => $this->province_id,
             'city_id' => $this->city_id,
             'address' => $this->address,
+            'last_name' => $this->last_name,
+            'national_code' => $this->national_code,
             'zip_code' => $this->zip_code,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
