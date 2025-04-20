@@ -62,7 +62,7 @@ class PaymentService implements PaymentServicesInterface
         $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
         $finalPrice = $totalItemsPrice + $delivery->price;
         $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
-        $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code);
+        $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code,$user->last_name,$user->national_code);
         $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "");
         $this->cartRepository->update($cart, ["order_id" => $order->id]);
         $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);

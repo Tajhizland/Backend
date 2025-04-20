@@ -4,16 +4,15 @@ namespace App\Repositories\OrderInfo;
 
 use App\Models\OrderInfo;
 use App\Repositories\Base\BaseRepository;
-use Illuminate\Database\Eloquent\Model;
 
 class OrderInfoRepository extends BaseRepository implements OrderInfoRepositoryInterface
 {
-public function __construct(OrderInfo $model)
-{
-    parent::__construct($model);
-}
+    public function __construct(OrderInfo $model)
+    {
+        parent::__construct($model);
+    }
 
-    public function createOrderInfo($name, $mobile, $tell, $province_id, $city_id, $address, $zip_code)
+    public function createOrderInfo($name, $mobile, $tell, $province_id, $city_id, $address, $zip_code, $last_name, $national_code)
     {
         return $this->create(
             [
@@ -24,6 +23,8 @@ public function __construct(OrderInfo $model)
                 "city_id" => $city_id,
                 "address" => $address,
                 "zip_code" => $zip_code,
+                "last_name" => $last_name,
+                "national_code" => $national_code,
             ]
         );
     }
