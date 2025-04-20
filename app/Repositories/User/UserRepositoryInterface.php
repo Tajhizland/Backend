@@ -6,7 +6,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface UserRepositoryInterface extends BaseRepositoryInterface
 {
-    public function register($username, $password);
+    public function register($username, $password, $name, $last_name, $national_code);
 
     public function resetPassword($username, $password);
 

@@ -30,7 +30,7 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $token = $this->registerService->register($request->get("mobile"), $request->get("password"));
+        $token = $this->registerService->register($request->get("mobile"), $request->get("password"), $request->get("name"), $request->get("last_name"), $request->get("national_code"));
         return $this->dataResponse(
             ["token" => $token],
             Lang::get("action.success",["attr"=>Lang::get("attr.register")])

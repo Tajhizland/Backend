@@ -9,6 +9,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "name" => "required|string",
+            "last_name" => "required|string",
+            "national_code" => "required|string|size:10",
             'mobile' => 'required|string|regex:/^09\d{9}$/|unique:users,username',
             'password' => 'required|string|min:8|confirmed',
         ];

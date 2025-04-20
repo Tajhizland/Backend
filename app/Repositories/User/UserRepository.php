@@ -14,10 +14,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         parent::__construct($model);
     }
 
-    public function register($username, $password)
+    public function register($username, $password, $name, $last_name, $national_code)
     {
         return $this->create([
             "username" => $username,
+            "name" => $name,
+            "last_name" => $last_name,
+            "national_code" => $national_code,
             "password" => bcrypt($password),
             "role" => "user"
         ]);
