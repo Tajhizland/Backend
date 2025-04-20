@@ -149,6 +149,8 @@ return [
 
     'attributes' => [
         'mobile'                => 'شماره همراه',
+        'national_code'                => 'کد ملی',
+        'last_name'                => 'نام خانوادگی',
         'username'                => 'شماره همراه',
         'code'                  => 'کد امنیتی',
         'password'              => 'گذرواژه',

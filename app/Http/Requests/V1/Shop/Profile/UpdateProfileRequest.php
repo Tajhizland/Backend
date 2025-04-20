@@ -10,6 +10,8 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => ['required','string'],
+            'last_name' => ['required','string'],
+            'national_code' => ['required','string','size:10'],
             'email' => ['nullable','string' ,'email'],
             'gender' => ['numeric','in:0,1','nullable'],
             'avatar' => ['image','mimes:jpeg,png,jpg,gif,svg,webp','nullable'],

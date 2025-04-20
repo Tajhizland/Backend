@@ -20,7 +20,7 @@ class UserService implements UserServiceInterface
         return $this->repository->updateUser($id, $name, $username, $email, $gender, $role);
     }
 
-    public function updateProfile($id, $name, $email, $gender, $avatar)
+    public function updateProfile($id, $name, $email, $gender, $avatar, $last_name, $national_code)
     {
         $user = $this->repository->findOrFail($id);
         $avatarPath = $user->avatar;
@@ -35,6 +35,8 @@ class UserService implements UserServiceInterface
             "email" => $email,
             "gender" => $gender,
             "avatar" => $avatarPath,
+            "last_name" => $last_name,
+            "national_code" => $national_code,
         ]);
     }
 
