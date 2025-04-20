@@ -11,6 +11,7 @@ use App\Services\Checkout\States\AddressCheckHandler;
 use App\Services\Checkout\States\CartCheckHandler;
 use App\Services\Checkout\States\DeliveryCheckHandler;
 use App\Services\Checkout\States\GatewayCheckHandler;
+use App\Services\Checkout\States\UserInfoCheckHandler;
 
 class CheckoutService implements CheckoutServiceInterface
 {
@@ -24,6 +25,7 @@ class CheckoutService implements CheckoutServiceInterface
         private CartCheckHandler            $cartCheckHandler,
         private DeliveryCheckHandler        $deliveryCheckHandler,
         private GatewayCheckHandler         $gatewayCheckHandler,
+        private UserInfoCheckHandler        $userInfoCheckHandler,
     )
     {
 
@@ -81,7 +83,8 @@ class CheckoutService implements CheckoutServiceInterface
     {
         $this->cartCheckHandler->setNext($this->deliveryCheckHandler);
         $this->deliveryCheckHandler->setNext($this->addressCheckHandler);
-         $this->addressCheckHandler->setNext($this->gatewayCheckHandler);
+        $this->addressCheckHandler->setNext($this->gatewayCheckHandler);
+        $this->gatewayCheckHandler->setNext($this->userInfoCheckHandler);
         $this->cartCheckHandler->handle($cart, $cartItems);
     }
 
