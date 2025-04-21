@@ -35,13 +35,13 @@ class CategoryService implements CategoryServiceInterface
             throw new NotFoundHttpException();
         }
         $categoryIds = $this->categoryTreeService->getCategoryAndChildrenIds($category);
-
+        $children = $this->categoryRepository->getByIdsExpect($categoryIds, $category->id);
         $productsQuery = $this->productRepository->activeProductQuery($categoryIds);
         $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
         $breadcrumb = $this->breadcrumbService->generate($category);
 
-        return ["products" => $products, "category" => $category, "breadcrumb" => $breadcrumb];
+        return ["products" => $products, "category" => $category, "breadcrumb" => $breadcrumb, "children" => $children];
     }
 
     public function list()
