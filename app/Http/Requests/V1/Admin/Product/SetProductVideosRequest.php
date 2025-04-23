@@ -9,10 +9,9 @@ class SetProductVideosRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id'=>['required','integer'],
-            'item.*.id' => ['nullable','integer','exists:App\Models\ProductColor'],
-            'item.*.title' => ['required','string'],
-            'item.*.vlogId' => ['required'],
+            'product_id' => ['required', 'integer'],
+            'title' => ['required', 'string'],
+            'vlogId' => ['required', 'integer'],
         ];
     }
 

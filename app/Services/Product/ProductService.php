@@ -151,25 +151,14 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->getTorobProducts();
     }
 
-    public function setVideo2($productId, $items)
+    public function setVideo2($productId, $vlogId, $title)
     {
-        foreach ($items as $item) {
-            if (isset($item["id"])) {
-                $productVideo = $this->productVideoRepository->findOrFail($item["id"]);
-                $this->productVideoRepository->update($productVideo,
-                    [
-                        "title" => $item["title"],
-                        "vlog_id" => $item["vlogId"],
-                    ]);
-            } else {
-                $this->productVideoRepository->create(
-                    [
-                        "title" => $item["title"],
-                        "product_id" => $productId,
-                        "vlog_id" => $item["vlogId"],
-                    ]);
-            }
-        }
+        return $this->productVideoRepository->create(
+            [
+                "title" => $title,
+                "product_id" => $productId,
+                "vlog_id" => $vlogId,
+            ]);
     }
 
     public function getVideo($productId)
