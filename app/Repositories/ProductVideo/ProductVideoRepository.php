@@ -14,6 +14,6 @@ class ProductVideoRepository extends BaseRepository implements ProductVideoRepos
 
     public function getByProductId($productId)
     {
-        return $this->model::where("product_id",$productId)->get();
+        return $this->model::where("product_id",$productId)->with("vlog")->get();
     }
 }
