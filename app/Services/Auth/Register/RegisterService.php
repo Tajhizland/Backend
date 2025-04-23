@@ -51,12 +51,12 @@ class RegisterService implements RegisterServiceInterface
         return true;
     }
 
-    public function register($mobile, $password)
+    public function register($mobile, $password, $name, $last_name, $national_code)
     {
         $pendingRequest = $this->mobileVerificationRepository->findInProgressRequest($mobile);
         if (!$pendingRequest)
             throw new BreakException(Lang::get("exceptions.request_not_found"));
-        $user = $this->userRepository->register($mobile, $password);
+        $user = $this->userRepository->register($mobile, $password, $name, $last_name, $national_code);
         if ($user) {
             $this->mobileVerificationRepository->setCompleted($pendingRequest->id);
             $token = $user->createToken('auth-token')->plainTextToken;

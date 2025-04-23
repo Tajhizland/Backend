@@ -6,5 +6,5 @@ interface RegisterServiceInterface
 {
     public function sendVerificationCode($mobile);
     public function verifyCode($mobile , $code);
-    public function register($mobile, $password);
+    public function register($mobile, $password,$name,$last_name,$national_code);
 }

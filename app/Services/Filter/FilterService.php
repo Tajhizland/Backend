@@ -28,8 +28,14 @@ class FilterService implements FilterServiceInterface
                 /** Dynamic Filters **/
 
                 if (is_array($value)) {
-                    /** Example : filter[1][]=10  (filter[filter_id][]=filter_item_id) */
-                    $this->productRepository->otherFilter($filter, $value, $productQuery);
+                    if ($filter == "category") {
+                        /** Example : filter[category][]=10  (filter[category][]=category_id) */
+                        $this->productRepository->categoryFilter($productQuery, $value);
+                    }
+                    else {
+                        /** Example : filter[1][]=10  (filter[filter_id][]=filter_item_id) */
+                        $this->productRepository->otherFilter($filter, $value, $productQuery);
+                    }
                     continue;
                 }
 
@@ -135,19 +141,18 @@ class FilterService implements FilterServiceInterface
     public function setFilter($categoryId, $filters): void
     {
         foreach ($filters as $filter) {
-            $filterId=0;
-            if(@$filter["id"]) {
-                $filterId=$filter["id"];
+            $filterId = 0;
+            if (@$filter["id"]) {
+                $filterId = $filter["id"];
                 $existFilter = $this->filterRepository->find($filter["id"]);
                 if ($existFilter) {
                     $this->filterRepository->updateFilter($filter["id"], $filter["name"], $categoryId, $filter["status"]);
                 } else {
                     $this->filterRepository->createFilter($filter["name"], $categoryId, $filter["status"]);
                 }
-            }
-            else{
-                $newFilter= $this->filterRepository->createFilter($filter["name"], $categoryId, $filter["status"]);
-                $filterId=$newFilter->id;
+            } else {
+                $newFilter = $this->filterRepository->createFilter($filter["name"], $categoryId, $filter["status"]);
+                $filterId = $newFilter->id;
             }
             $filterItems = $filter["item"];
             foreach ($filterItems as $filterItem) {
