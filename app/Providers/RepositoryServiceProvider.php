@@ -160,6 +160,8 @@ use App\Services\Concept\ConceptService;
 use App\Services\Concept\ConceptServiceInterface;
 use App\Services\Contact\ContactService;
 use App\Services\Contact\ContactServiceInterface;
+use App\Services\ConvertToHLS\HlsService;
+use App\Services\ConvertToHLS\HlsServiceInterface;
 use App\Services\Dashboard\DashboardService;
 use App\Services\Dashboard\DashboardServiceInterface;
 use App\Services\Delivery\DeliveryService;
@@ -495,6 +497,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(BlogCategoryServiceInterface::class, BlogCategoryService::class);
 
         $this->app->bind(SampleServiceInterface::class, SampleService::class);
+
+        $this->app->bind(HlsServiceInterface::class, HlsService::class);
 
         /** End Service */
 
