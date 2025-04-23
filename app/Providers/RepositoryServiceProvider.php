@@ -100,6 +100,8 @@ use App\Repositories\ProductImage\ProductImageRepository;
 use App\Repositories\ProductImage\ProductImageRepositoryInterface;
 use App\Repositories\ProductOption\ProductOptionRepository;
 use App\Repositories\ProductOption\ProductOptionRepositoryInterface;
+use App\Repositories\ProductVideo\ProductVideoRepository;
+use App\Repositories\ProductVideo\ProductVideoRepositoryInterface;
 use App\Repositories\Province\ProvinceRepository;
 use App\Repositories\Province\ProvinceRepositoryInterface;
 use App\Repositories\ResetPassword\ResetPasswordRepository;
@@ -375,6 +377,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SampleVideoRepositoryInterface::class, SampleVideoRepository::class);
 
         $this->app->bind(FootprintRepositoryInterface::class, FootprintRepository::class);
+
+        $this->app->bind(ProductVideoRepositoryInterface::class, ProductVideoRepository::class);
 
 
         /** End Repository */

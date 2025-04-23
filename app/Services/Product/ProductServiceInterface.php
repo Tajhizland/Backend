@@ -14,6 +14,8 @@ interface ProductServiceInterface
     public function storeProduct($name , $url , $description , $study ,$status, $categoryId , $brandId , $metaTitle , $metaDescription,$guaranty_id,$guaranty_time ,$review ):mixed;
     public function updateProduct($id,$name , $url , $description , $study , $status,$categoryId , $brandId , $metaTitle , $metaDescription ,$guaranty_id,$guaranty_time,$review):mixed;
     public function setVideo($productId,$vlogId,$type):mixed;
+    public function setVideo2($productId,$items);
+    public function getVideo($productId);
     public function getDiscountedProducts($filter):mixed;
     public function getSitemapData();
     public function customPaginate($perPage);

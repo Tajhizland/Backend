@@ -8,6 +8,7 @@ use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
 use App\Http\Requests\V1\Admin\Product\ProductImageRequest;
 use App\Http\Requests\V1\Admin\Product\ProductOptionRequest;
+use App\Http\Requests\V1\Admin\Product\SetProductVideosRequest;
 use App\Http\Requests\V1\Admin\Product\SetVideoRequest;
 use App\Http\Requests\V1\Admin\Product\StoreProductRequest;
 use App\Http\Requests\V1\Admin\Product\UpdateProductRequest;
@@ -17,6 +18,7 @@ use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
+use App\Http\Resources\V1\ProductVideo\ProductVideoCollection;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Product\ProductServiceInterface;
@@ -114,6 +116,18 @@ class ProductController extends Controller
     {
         $this->productService->setVideo($request->get("productId"), $request->get("vlogId"), $request->get("type"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.file")]));
+    }
+
+    public function setVideo2(SetProductVideosRequest $request)
+    {
+        $this->productService->setVideo2($request->get("product_id"), $request->get("item"));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.file")]));
+    }
+
+    public function getVideo($id)
+    {
+        $response = $this->productService->getVideo($id);
+        return $this->dataResponseCollection(new ProductVideoCollection($response));
     }
 
     public function colorFastUpdate(ColorFastUpdateRequest $request)

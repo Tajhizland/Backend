@@ -5,6 +5,7 @@ namespace App\Services\Product;
 use App\Exceptions\BreakException;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
+use App\Repositories\ProductVideo\ProductVideoRepositoryInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\ProductCategory\ProductCategoryServiceInterface;
 use App\Services\ProductGuaranty\ProductGuarantyServiceInterface;
@@ -19,6 +20,7 @@ class ProductService implements ProductServiceInterface
         private ProductCategoryRepositoryInterface $productCategoryRepository,
         private ProductGuarantyServiceInterface    $productGuarantyService,
         private FilterServiceInterface             $filterService,
+        private ProductVideoRepositoryInterface    $productVideoRepository,
         private S3ServiceInterface                 $s3Service,
     )
     {
@@ -147,5 +149,31 @@ class ProductService implements ProductServiceInterface
     public function torobProduct()
     {
         return $this->productRepository->getTorobProducts();
+    }
+
+    public function setVideo2($productId, $items)
+    {
+        foreach ($items as $item) {
+            if (isset($item["id"])) {
+                $productVideo = $this->productVideoRepository->findOrFail($item["id"]);
+                $this->productVideoRepository->update($productVideo,
+                    [
+                        "title" => $item["title"],
+                        "vlog_id" => $item["vlogId"],
+                    ]);
+            } else {
+                $this->productVideoRepository->create(
+                    [
+                        "title" => $item["title"],
+                        "product_id" => $productId,
+                        "vlog_id" => $item["vlogId"],
+                    ]);
+            }
+        }
+    }
+
+    public function getVideo($productId)
+    {
+        return $this->productVideoRepository->getByProductId($productId);
     }
 }
