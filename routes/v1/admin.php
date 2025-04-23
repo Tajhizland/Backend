@@ -28,6 +28,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("video/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setVideo"]);
         Route::post("video/set2", [\App\Http\Controllers\V1\Admin\ProductController::class, "setVideo2"]);
         Route::get("video/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getVideo"]);
+        Route::delete("video/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "deleteVideo"]);
         Route::delete("image/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "removeImage"]);
     });
     Route::group(["prefix" => "category"], function () {
