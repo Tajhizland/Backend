@@ -176,4 +176,10 @@ class ProductService implements ProductServiceInterface
     {
         return $this->productVideoRepository->getByProductId($productId);
     }
+
+    public function deleteVideo($id)
+    {
+        $productVideo = $this->productVideoRepository->findOrFail($id);
+        return $this->productVideoRepository->delete($productVideo);
+    }
 }

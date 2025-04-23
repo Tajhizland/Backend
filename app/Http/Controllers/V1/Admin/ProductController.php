@@ -130,6 +130,12 @@ class ProductController extends Controller
         return $this->dataResponseCollection(new ProductVideoCollection($response));
     }
 
+    public function deleteVideo($id)
+    {
+        $this->productService->deleteVideo($id);
+        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.file")]));
+    }
+
     public function colorFastUpdate(ColorFastUpdateRequest $request)
     {
         $this->productColorService->colorFastUpdate($request->get("color"));
