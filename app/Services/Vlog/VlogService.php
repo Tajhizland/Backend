@@ -32,12 +32,12 @@ class VlogService implements VlogServiceInterface
     public function store($title, $description, $video, $poster, $url, $status, $categoryId, $author)
     {
         $hlsPath=$this->hlsService->convertAndUploadS3($video);
-        $filePath = $this->s3Service->upload($video, "vlog");
+//        $filePath = $this->s3Service->upload($video, "vlog");
         $posterPath = $this->s3Service->upload($poster, "vlog");
         return $this->vlogRepository->create([
             "title" => $title,
             "description" => $description,
-            "video" => $filePath,
+            "video" => " ",
             "poster" => $posterPath,
             "status" => $status,
             "url" => $url,
