@@ -23,7 +23,7 @@ class ProductVideoResource extends JsonResource
             'vlog_id' => $this->vlog_id,
 
             'product' => new ProductResource($this->whenLoaded('product')),
-            'vlog' => new VlogResource($this->whenLoaded('vlog')),
+            'vlog' => new VlogResource($this->vlog),
         ];
     }
 }
