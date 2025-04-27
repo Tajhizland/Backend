@@ -9,6 +9,8 @@ use App\Http\Resources\V1\Guaranty\GuarantyResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
 use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
+use App\Http\Resources\V1\ProductVideo\ProductVideoCollection;
+use App\Http\Resources\V1\ProductVideo\ProductVideoResource;
 use App\Http\Resources\V1\Vlog\VlogResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -60,6 +62,7 @@ class ProductResource extends JsonResource
             'comments' => new CommentCollection($this->confirmedComments),
             'images' => new ProductImageCollection($this->images),
             'brand' => new BrandResource($this->brand),
+            'videos' => new ProductVideoCollection($this->videos),
 
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
