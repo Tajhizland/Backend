@@ -32,16 +32,15 @@ class HlsService implements HlsServiceInterface
 
             $localFile = $fileInfo->getPathname();
 
-
             // ساخت مسیر مناسب برای ذخیره در S3 (حفظ ساختار فولدرها)
             $relativePath = str_replace($outputDir . '/', '', $localFile);
             $filePath = "hls/{$videoId}/{$relativePath}";
             $filename = basename($filePath);
             $filePath = str_replace("/" . basename($filePath), "", $filePath);
             // آپلود فایل به S3
-            $rr = $this->s3Service->upload(new \Illuminate\Http\File($localFile), $filePath, $filename);
-            var_dump($filePath, $filename, $rr);
+            $this->s3Service->upload(new \Illuminate\Http\File($localFile), $filePath, $filename);
         }
+        return "{$videoId}/master.m3u8";
     }
 
     private function convertToHls(UploadedFile $file): string

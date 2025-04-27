@@ -7,4 +7,6 @@ interface S3ServiceInterface
     public function upload($file, $path , $fileName=""): string;
     public function upload2($file, $path , $fileName=""): string;
     public function remove($path): void;
+    public function removeFolder($folderPath): void;
+
 }

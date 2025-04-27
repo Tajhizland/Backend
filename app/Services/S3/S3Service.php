@@ -29,4 +29,9 @@ class S3Service implements S3ServiceInterface
     {
         Storage::disk('s3')->delete($path);
     }
+    public function removeFolder($folderPath): void
+    {
+        $files = Storage::disk('s3')->allFiles($folderPath);
+        Storage::disk('s3')->delete($files);
+    }
 }
