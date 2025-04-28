@@ -68,7 +68,7 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function getRelatedVlogs($category_id, $except)
     {
-        return $this->model::where("category_id", $category_id)->where("id", "<>", $except)->limit(4)->latest("id")->get();
+        return $this->model::where("category_id", $category_id)->where("id", "<>", $except)->where("status",1)->limit(4)->latest("id")->get();
     }
 
     public function getSitemapData()
