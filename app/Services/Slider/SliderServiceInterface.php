@@ -10,6 +10,7 @@ interface SliderServiceInterface
     public function sort($sliders);
 
     public function findById($id);
+    public function delete($id);
 
     public function store($title, $url, $status, $type, $image);
 

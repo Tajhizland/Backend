@@ -59,4 +59,9 @@ class SliderController extends Controller
         $this->sliderService->sort($request->get("slider"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.slider")]));
     }
+    public function delete($id)
+    {
+        $this->sliderService->delete($id);
+        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.slider")]));
+    }
 }

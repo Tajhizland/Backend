@@ -59,4 +59,10 @@ class SliderService implements SliderServiceInterface
         }
         return true;
     }
+
+    public function delete($id)
+    {
+        $slider = $this->sliderRepository->findOrFail($id);
+        return $this->sliderRepository->delete($slider);
+    }
 }

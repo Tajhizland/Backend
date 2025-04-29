@@ -132,6 +132,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("all_desktop", [\App\Http\Controllers\V1\Admin\SliderController::class, "getAllDesktop"]);
         Route::get("all_mobile", [\App\Http\Controllers\V1\Admin\SliderController::class, "getAllMobile"]);
         Route::post("sort", [\App\Http\Controllers\V1\Admin\SliderController::class, "sort"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\SliderController::class, "delete"]);
     });
     Route::group(["prefix" => "special_product"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "dataTable"]);
