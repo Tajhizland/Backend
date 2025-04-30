@@ -15,7 +15,7 @@ class HomepageVlogService implements HomepageVlogServiceInterface
 
     public function get()
     {
-        return $this->homepageVlogRepository->all();
+        return $this->homepageVlogRepository->getWithVlog();
     }
 
     public function update($id, $vlogId)
