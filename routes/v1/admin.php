@@ -265,7 +265,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
 
     Route::group(["prefix" => "homepage_vlog"], function () {
-        Route::post("get", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "get"]);
+        Route::get("get", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "get"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "update"]);
 
     });
