@@ -48,6 +48,8 @@ use App\Repositories\Guaranty\GuarantyRepository;
 use App\Repositories\Guaranty\GuarantyRepositoryInterface;
 use App\Repositories\HomepageCategory\HomepageCategoryRepository;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
+use App\Repositories\HomepageVlog\HomepageVlogRepository;
+use App\Repositories\HomepageVlog\HomepageVlogRepositoryInterface;
 use App\Repositories\Landing\LandingRepository;
 use App\Repositories\Landing\LandingRepositoryInterface;
 use App\Repositories\LandingBanner\LandingBannerRepository;
@@ -184,6 +186,8 @@ use App\Services\HomePage\HomePageService;
 use App\Services\HomePage\HomePageServiceInterface;
 use App\Services\HomepageCategory\HomepageCategoryService;
 use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
+use App\Services\HomepageVlog\HomepageVlogService;
+use App\Services\HomepageVlog\HomepageVlogServiceInterface;
 use App\Services\ImageResize\ImageResizeService;
 use App\Services\ImageResize\ImageResizeServiceInterface;
 use App\Services\Landing\LandingService;
@@ -380,6 +384,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ProductVideoRepositoryInterface::class, ProductVideoRepository::class);
 
+        $this->app->bind(HomepageVlogRepositoryInterface::class, HomepageVlogRepository::class);
+
 
         /** End Repository */
 
@@ -501,6 +507,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(BlogCategoryServiceInterface::class, BlogCategoryService::class);
 
         $this->app->bind(SampleServiceInterface::class, SampleService::class);
+
+        $this->app->bind(HomepageVlogServiceInterface::class, HomepageVlogService::class);
 
         $this->app->bind(HlsServiceInterface::class, HlsService::class);
 
