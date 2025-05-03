@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Vlog\StoreVlogRequest;
 use App\Http\Requests\V1\Admin\Vlog\UpdateVlogRequest;
 use App\Http\Requests\V1\Admin\Vlog\VlogSearchRequest;
+use App\Http\Requests\V1\Admin\Vlog\VlogSortRequest;
 use App\Http\Resources\V1\Vlog\VlogCollection;
 use App\Http\Resources\V1\Vlog\VlogResource;
 use App\Services\Vlog\VlogServiceInterface;
@@ -53,7 +54,7 @@ class VlogController extends Controller
         return $this->dataResponseCollection(new VlogCollection($this->vlogService->list()));
     }
 
-    public function sort(BrandSortRequest $request)
+    public function sort(VlogSortRequest $request)
     {
         $this->vlogService->sort($request->get("vlog"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.vlog")]));
