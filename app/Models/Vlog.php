@@ -6,6 +6,7 @@ use App\Enums\VlogStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Vlog extends Model
 {
@@ -14,6 +15,10 @@ class Vlog extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class , "author");
+    }
+    public function homePage(): HasOne
+    {
+        return $this->hasOne(HomepageVlog::class );
     }
 
     public function scopeActive(Builder $query): Builder

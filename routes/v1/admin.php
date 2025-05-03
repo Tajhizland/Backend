@@ -265,4 +265,10 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("video/add", [\App\Http\Controllers\V1\Admin\SampleController::class, "addVideo"]);
         Route::delete("video/delete/{id}", [\App\Http\Controllers\V1\Admin\SampleController::class, "deleteVideo"]);
     });
+
+    Route::group(["prefix" => "homepage_vlog"], function () {
+        Route::get("get", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "get"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "update"]);
+
+    });
 });

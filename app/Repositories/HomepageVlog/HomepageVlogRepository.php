@@ -11,4 +11,9 @@ class HomepageVlogRepository extends BaseRepository implements HomepageVlogRepos
     {
         parent::__construct($model);
     }
+
+    public function getWithVlog()
+    {
+        return $this->model->with(['vlog'])->get();
+    }
 }
