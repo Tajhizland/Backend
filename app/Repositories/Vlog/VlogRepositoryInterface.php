@@ -13,7 +13,6 @@ interface VlogRepositoryInterface extends BaseRepositoryInterface
     public function findByUrl($url);
 
     public function activeVlogQuery();
-<<<<<<< HEAD
 
     public function getRelatedVlogs($category_id, $except);
 
@@ -21,13 +20,9 @@ interface VlogRepositoryInterface extends BaseRepositoryInterface
 
     public function filterTitle($query, $title);
 
-=======
-    public function getHomePageVlogs();
-    public function getRelatedVlogs($category_id ,$except);
-    public function filterCategory($query , $categoryIds);
-    public function filterTitle($query , $title);
->>>>>>> dd498adc0bd861f90c20b3498d235604efb0fe4a
-    public function getLastActives();
+     public function getHomePageVlogs();
+
+     public function getLastActives();
 
     public function sortView($query);
 
