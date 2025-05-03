@@ -140,4 +140,17 @@ class VlogService implements VlogServiceInterface
     {
         return $this->vlogRepository->search($query);
     }
+
+    public function sort($vlogs)
+    {
+        foreach ($vlogs as $item) {
+            $this->vlogRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
+
+    public function list()
+    {
+        return $this->vlogRepository->activeList();
+    }
 }

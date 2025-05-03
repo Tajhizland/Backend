@@ -47,4 +47,16 @@ class VlogController extends Controller
     {
         return $this->dataResponseCollection(new VlogCollection($this->vlogService->search($request->get("query"))));
     }
+
+    public function list()
+    {
+        return $this->dataResponseCollection(new VlogCollection($this->vlogService->list()));
+    }
+
+    public function sort(BrandSortRequest $request)
+    {
+        $this->vlogService->sort($request->get("vlog"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.vlog")]));
+    }
+
 }
