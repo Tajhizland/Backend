@@ -104,6 +104,6 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function activeList()
     {
-        return $this->model::active()->sortBy("sort")->get();
+        return $this->model::active()->orderBy("sort")->get();
     }
 }
