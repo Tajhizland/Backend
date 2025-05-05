@@ -89,7 +89,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->whereHas("productCategories", function ($query) use ($categoryIds) {
                 $query->whereIn("category_id", $categoryIds);
             })
-            ->customOrder();
+            ->orderBy("sort");
     }
 
     public function activeProductByBrandQuery($brandId)
