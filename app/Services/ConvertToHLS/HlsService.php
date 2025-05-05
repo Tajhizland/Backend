@@ -40,6 +40,7 @@ class HlsService implements HlsServiceInterface
             // آپلود فایل به S3
             $this->s3Service->upload(new \Illuminate\Http\File($localFile), $filePath, $filename);
         }
+        $this->deleteDirectory($outputDir);
         return "{$videoId}/master.m3u8";
     }
 
@@ -123,6 +124,21 @@ EOL;
         $playlistPath = "{$outputDir}/master.m3u8";
         file_put_contents($playlistPath, implode("\n", $lines));
     }
+
+    private function deleteDirectory(string $dir): void
+    {
+        if (!is_dir($dir)) return;
+
+        $files = array_diff(scandir($dir), ['.', '..']);
+
+        foreach ($files as $file) {
+            $path = "$dir/$file";
+            is_dir($path) ? $this->deleteDirectory($path) : unlink($path);
+        }
+
+        rmdir($dir);
+    }
+
 }
 
 
