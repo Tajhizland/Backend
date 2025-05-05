@@ -24,4 +24,10 @@ return [
         "link"=>"/admin/returned",
         "type"=>"returned",
     ],
+    "contact"=>[
+        "title"=>"پیام جدید",
+        "message"=>"پیام جدیدی در سایت ثبت شده است . برای مشاهده آن به بخش مدیریت پیام ها بروید",
+        "link"=>"/admin/contact",
+        "type"=>"contact",
+    ],
 ];
