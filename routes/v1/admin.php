@@ -246,6 +246,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("banner/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getBanner"]);
         Route::delete("banner/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteBanner"]);
     });
+
     Route::group(["prefix" => "poster"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PosterController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PosterController::class, "find"]);
@@ -269,6 +270,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     Route::group(["prefix" => "homepage_vlog"], function () {
         Route::get("get", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "get"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "update"]);
+    });
 
+    Route::group(["prefix" => "trusted-brand"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "update"]);
     });
 });

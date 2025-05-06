@@ -126,6 +126,8 @@ use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
 use App\Repositories\Transaction\TransactionRepository;
 use App\Repositories\Transaction\TransactionRepositoryInterface;
+use App\Repositories\TrustedBrand\TrustedBrandRepository;
+use App\Repositories\TrustedBrand\TrustedBrandRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Vlog\VlogRepository;
@@ -242,6 +244,8 @@ use App\Services\Sms\SmsService;
 use App\Services\Sms\SmsServiceInterface;
 use App\Services\SpecialProduct\SpecialProductService;
 use App\Services\SpecialProduct\SpecialProductServiceInterface;
+use App\Services\TrustedBrand\TrustedBrandService;
+use App\Services\TrustedBrand\TrustedBrandServiceInterface;
 use App\Services\User\UserService;
 use App\Services\User\UserServiceInterface;
 use App\Services\Vlog\VlogService;
@@ -386,6 +390,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(HomepageVlogRepositoryInterface::class, HomepageVlogRepository::class);
 
+        $this->app->bind(TrustedBrandRepositoryInterface::class, TrustedBrandRepository::class);
+
 
         /** End Repository */
 
@@ -511,6 +517,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(HomepageVlogServiceInterface::class, HomepageVlogService::class);
 
         $this->app->bind(HlsServiceInterface::class, HlsService::class);
+
+        $this->app->bind(TrustedBrandServiceInterface::class, TrustedBrandService::class);
 
         /** End Service */
 
