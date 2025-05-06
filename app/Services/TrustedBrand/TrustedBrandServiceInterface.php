@@ -8,6 +8,8 @@ interface TrustedBrandServiceInterface
 
     public function find($id);
 
+    public function delete($id);
+
     public function store($logo);
 
     public function update($id, $logo);

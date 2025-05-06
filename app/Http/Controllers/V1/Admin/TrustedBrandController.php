@@ -44,4 +44,10 @@ class TrustedBrandController extends Controller
         $response = $this->trustedBrandService->find($id);
         return $this->dataResponse(new TrustedBrandResource($response));
     }
+
+    public function delete($id)
+    {
+        $this->trustedBrandService->delete($id);
+        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.image")]));
+    }
 }

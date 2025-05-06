@@ -25,6 +25,12 @@ class TrustedBrandService implements TrustedBrandServiceInterface
         return $this->find($id);
     }
 
+    public function delete($id)
+    {
+        $trustedBrand = $this->find($id);
+        $this->trustedBrandRepository->delete($trustedBrand);
+    }
+
     public function store($logo)
     {
         $filePath = $this->s3Service->upload($logo, "trusted-brand");
