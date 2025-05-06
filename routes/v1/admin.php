@@ -275,7 +275,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     Route::group(["prefix" => "trusted-brand"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "find"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "find"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "delete"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "update"]);
     });
