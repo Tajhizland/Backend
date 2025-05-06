@@ -27,8 +27,8 @@ class TrustedBrandService implements TrustedBrandServiceInterface
 
     public function delete($id)
     {
-        $trustedBrand = $this->find($id);
-        $this->trustedBrandRepository->delete($trustedBrand);
+        $trustedBrand = $this->trustedBrandRepository->findOrFail($id);
+        return $this->trustedBrandRepository->delete($trustedBrand);
     }
 
     public function store($logo)
