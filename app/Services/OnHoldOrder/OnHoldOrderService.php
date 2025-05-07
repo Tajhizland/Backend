@@ -57,6 +57,6 @@ class OnHoldOrderService implements OnHoldOrderServiceInterface
     public function findOrderById($id)
     {
         $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
-        return $this->orderRepository->findOrFail($onHoldOrder->order_id);
+        return $this->orderRepository->findWithDetails($onHoldOrder->order_id);
     }
 }
