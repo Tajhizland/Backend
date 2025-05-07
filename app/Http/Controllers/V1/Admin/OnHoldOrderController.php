@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\OnHoldOrder\OnHoldOrderRequest;
 use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderCollection;
 use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderResource;
+use App\Http\Resources\V1\Order\OrderResource;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
@@ -24,7 +25,7 @@ class OnHoldOrderController extends Controller
     }
     public function findById($id)
     {
-        return $this->dataResponse(new OnHoldOrderResource($this->onHoldOrderService->findById($id))) ;
+        return $this->dataResponse(new OrderResource($this->onHoldOrderService->findOrderById($id))) ;
     }
     public function accept(OnHoldOrderRequest $request)
     {

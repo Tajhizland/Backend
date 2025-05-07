@@ -6,6 +6,7 @@ interface OnHoldOrderServiceInterface
 {
     public function userHoldOnPaginate($userId);
     public function findById($id);
+    public function findOrderById($id);
     public function removeItem($id);
     public function setReject($id);
     public function setAccept($id);
