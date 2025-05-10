@@ -59,7 +59,7 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     {
         $keywords = explode(' ', $title);
 
-        return $query::where(function ($q) use ($keywords) {
+        return $query->where(function ($q) use ($keywords) {
             foreach ($keywords as $word) {
                 $q->where('title', 'like', '%' . $word . '%');
             }
