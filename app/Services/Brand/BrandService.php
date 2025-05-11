@@ -36,7 +36,7 @@ class BrandService implements BrandServiceInterface
         $productsQuery = $this->productRepository->activeProductByBrandQuery($brand->id);
         $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
-dd($products);
+
         $categories=$this->categoryRepository->getByBrandId($brand->id);
         return ["products" => $products, "brand" => $brand, "categories" => $categories];
     }
