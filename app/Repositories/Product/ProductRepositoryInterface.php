@@ -41,6 +41,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getDiscountedProductsId();
     /***Filters***/
 
+    public function categoryFilters($query, $categoryId);
     public function categoryFilter($query, $categoryId);
 
     public function minPriceFilter($query, $minPrice);
