@@ -134,10 +134,16 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         });
     }
 
-    public function categoryFilter($query, $categoryId)
+    public function categoryFilters($query, $categoryId)
     {
         return $query->whereHas("productCategories", function ($q) use ($categoryId) {
             $q->whereIn("category_id", $categoryId);
+        });
+    }
+    public function categoryFilter($query, $categoryId)
+    {
+        return $query->whereHas("productCategories", function ($q) use ($categoryId) {
+            $q->where("category_id", $categoryId);
         });
     }
 

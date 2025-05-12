@@ -30,7 +30,7 @@ class FilterService implements FilterServiceInterface
                 if (is_array($value)) {
                     if ($filter == "category") {
                         /** Example : filter[category][]=10  (filter[category][]=category_id) */
-                        $this->productRepository->categoryFilter($productQuery, $value);
+                        $this->productRepository->categoryFilters($productQuery, $value);
                     }
                     else {
                         /** Example : filter[1][]=10  (filter[filter_id][]=filter_item_id) */
