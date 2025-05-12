@@ -141,7 +141,9 @@ Route::get('info2', function () {
         $new->save();
     }
 });
-
+Route::group(["prefix" => "leading"], function () {
+    Route::get('index', [\App\Http\Controllers\V1\Shop\LeadingController::class, "index"]);
+});
 
 
 //Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {

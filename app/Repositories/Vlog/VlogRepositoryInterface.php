@@ -38,4 +38,6 @@ interface VlogRepositoryInterface extends BaseRepositoryInterface
 
     public function sort($id, $sort);
 
+    public function getByCategory($categoryId);
+
 }

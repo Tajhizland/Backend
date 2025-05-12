@@ -40,11 +40,12 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     {
         return $this->model::active()->latest("id")->whereIn("category_id", [1, 2, 4])->limit(4)->get();
     }
+
     public function getHomePageVlogs()
     {
         return $this->model::with('homePage')
-        ->whereHas('homePage')
-        ->get()
+            ->whereHas('homePage')
+            ->get()
             ->sortBy(fn($item) => optional($item->homePage)->id)
             ->values();
 
@@ -111,5 +112,10 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     public function activeList()
     {
         return $this->model::active()->orderBy("sort")->get();
+    }
+
+    public function getByCategory($categoryId)
+    {
+        return $this->model::active()->where("category_id", $categoryId)->get();
     }
 }

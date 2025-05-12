@@ -194,6 +194,8 @@ use App\Services\ImageResize\ImageResizeService;
 use App\Services\ImageResize\ImageResizeServiceInterface;
 use App\Services\Landing\LandingService;
 use App\Services\Landing\LandingServiceInterface;
+use App\Services\Leading\LeadingService;
+use App\Services\Leading\LeadingServiceInterface;
 use App\Services\Menu\MenuService;
 use App\Services\Menu\MenuServiceInterface;
 use App\Services\New\NewService;
@@ -519,6 +521,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(HlsServiceInterface::class, HlsService::class);
 
         $this->app->bind(TrustedBrandServiceInterface::class, TrustedBrandService::class);
+
+        $this->app->bind(LeadingServiceInterface::class, LeadingService::class);
 
         /** End Service */
 
