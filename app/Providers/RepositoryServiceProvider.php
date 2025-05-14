@@ -20,6 +20,8 @@ use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\CategoryConcept\CategoryConceptRepository;
 use App\Repositories\CategoryConcept\CategoryConceptRepositoryInterface;
+use App\Repositories\ChatInfo\ChatInfoRepository;
+use App\Repositories\ChatInfo\ChatInfoRepositoryInterface;
 use App\Repositories\City\CityRepository;
 use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\Comment\CommentRepository;
@@ -158,6 +160,8 @@ use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\CategoryTree\CategoryTreeService;
 use App\Services\CategoryTree\CategoryTreeServiceInterface;
+use App\Services\ChatInfo\ChatInfoService;
+use App\Services\ChatInfo\ChatInfoServiceInterface;
 use App\Services\Checkout\CheckoutService;
 use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Comment\CommentService;
@@ -394,6 +398,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(TrustedBrandRepositoryInterface::class, TrustedBrandRepository::class);
 
+        $this->app->bind(ChatInfoRepositoryInterface::class, ChatInfoRepository::class);
+
 
         /** End Repository */
 
@@ -523,6 +529,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TrustedBrandServiceInterface::class, TrustedBrandService::class);
 
         $this->app->bind(LeadingServiceInterface::class, LeadingService::class);
+
+        $this->app->bind(ChatInfoServiceInterface::class, ChatInfoService::class);
 
         /** End Service */
 
