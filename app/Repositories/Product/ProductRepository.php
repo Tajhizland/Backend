@@ -69,7 +69,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             foreach ($keywords as $word) {
                 $q->where('name', 'like', '%' . $word . '%');
             }
-        })
+        })->whereHas("activeProductColors")
             ->limit(config("settings.search_item_limit"))
             ->get();
     }
