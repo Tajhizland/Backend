@@ -19,7 +19,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findByUrl($url)
     {
-        return $this->model::withActiveColor()->active()->where("url", $url)->first();
+        return $this->model::withActiveColor()->whereHas("activeProductColors")->active()->where("url", $url)->first();
     }
 
 
