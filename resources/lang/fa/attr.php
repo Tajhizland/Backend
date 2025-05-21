@@ -6,6 +6,7 @@ return
         "register" => 'ثبت نام',
         "login" => 'لاگین',
         "password" => 'کلمه ی عبور',
+        "group" => 'گروه',
         "product" => 'محصول',
         "profile" => 'پروفایل',
         "order" => 'سفارش',

@@ -258,4 +258,26 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::active()->hasDiscount()->pluck("id");
     }
+
+    public function groupDataTable()
+    {
+        return QueryBuilder::for(Product::class)
+            ->select("products.*")
+            ->allowedFilters(['name', 'url', 'status', 'id', 'view', 'created_at'
+                , AllowedFilter::callback('category', function ($query, $value) {
+                    $query->whereHas('categories', function ($query) use ($value) {
+                        $query->where('name', 'like', '%' . $value . '%');
+                    });
+                }), AllowedFilter::callback('brand_name', function ($query, $value) {
+                    $query->whereHas('brand', function ($query) use ($value) {
+                        $query->where('name', 'like', '%' . $value . '%');
+                    });
+                }),
+            ])
+            ->allowedSorts(['id', 'name', 'url', 'status', 'view', 'created_at',
+                AllowedSort::custom("category", new SortProductByCategoryName()),
+            ])
+            ->where("type","group")
+            ->paginate($this->pageSize);
+    }
 }

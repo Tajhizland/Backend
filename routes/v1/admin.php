@@ -279,4 +279,13 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "update"]);
     });
+    Route::group(["prefix" => "group"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "dataTable"]);
+        Route::get("field/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "getField"]);
+        Route::get("product/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "getProduct"]);
+        Route::get("field-value/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "getFieldValue"]);
+        Route::delete("field/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "removeField"]);
+        Route::delete("product/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "removeProduct"]);
+        Route::post("set", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "set"]);
+    });
 });

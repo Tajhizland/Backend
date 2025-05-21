@@ -15,6 +15,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function sort($id , $sort);
 
     public function dataTable();
+    public function groupDataTable();
     public function searchProductWithCategory($query , $categoryId);
      public function incrementViewCount($product);
     public function customPaginate($perPage);

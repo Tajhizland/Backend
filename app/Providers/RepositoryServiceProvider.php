@@ -46,6 +46,12 @@ use App\Repositories\Footprint\FootprintRepository;
 use App\Repositories\Footprint\FootprintRepositoryInterface;
 use App\Repositories\Gateway\GatewayRepository;
 use App\Repositories\Gateway\GatewayRepositoryInterface;
+use App\Repositories\GroupField\GroupFieldRepository;
+use App\Repositories\GroupField\GroupFieldRepositoryInterface;
+use App\Repositories\GroupFieldValue\GroupFieldValueRepository;
+use App\Repositories\GroupFieldValue\GroupFieldValueRepositoryInterface;
+use App\Repositories\GroupProduct\GroupProductRepository;
+use App\Repositories\GroupProduct\GroupProductRepositoryInterface;
 use App\Repositories\Guaranty\GuarantyRepository;
 use App\Repositories\Guaranty\GuarantyRepositoryInterface;
 use App\Repositories\HomepageCategory\HomepageCategoryRepository;
@@ -230,6 +236,8 @@ use App\Services\ProductCategory\ProductCategoryService;
 use App\Services\ProductCategory\ProductCategoryServiceInterface;
 use App\Services\ProductColor\ProductColorService;
 use App\Services\ProductColor\ProductColorServiceInterface;
+use App\Services\ProductGroup\ProductGroupService;
+use App\Services\ProductGroup\ProductGroupServiceInterface;
 use App\Services\ProductGuaranty\ProductGuarantyService;
 use App\Services\ProductGuaranty\ProductGuarantyServiceInterface;
 use App\Services\ProductImage\ProductImageService;
@@ -400,6 +408,12 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ChatInfoRepositoryInterface::class, ChatInfoRepository::class);
 
+        $this->app->bind(GroupFieldRepositoryInterface::class, GroupFieldRepository::class);
+
+        $this->app->bind(GroupFieldValueRepositoryInterface::class, GroupFieldValueRepository::class);
+
+        $this->app->bind(GroupProductRepositoryInterface::class, GroupProductRepository::class);
+
 
         /** End Repository */
 
@@ -531,6 +545,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(LeadingServiceInterface::class, LeadingService::class);
 
         $this->app->bind(ChatInfoServiceInterface::class, ChatInfoService::class);
+
+        $this->app->bind(ProductGroupServiceInterface::class, ProductGroupService::class);
 
         /** End Service */
 
