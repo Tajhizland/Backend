@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GroupFieldValue extends Model
 {
+    protected $guarded=["id"];
+
     public function groupProduct(): BelongsTo
     {
         return $this->belongsTo(GroupProduct::class);
