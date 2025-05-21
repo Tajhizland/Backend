@@ -6,6 +6,7 @@ interface ProductGroupServiceInterface
 {
     public function dataTable();
     public function getFieldByGroupId($groupId);
+    public function getFieldValueByGroupId($groupId);
     public function getProductByGroupId($groupId);
 
     public function addProductToGroup($productId, $groupId);

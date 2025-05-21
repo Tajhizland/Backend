@@ -30,6 +30,11 @@ class ProductGroupService implements ProductGroupServiceInterface
         return $this->groupFieldRepository->getByGroupId($groupId);
     }
 
+    public function getFieldValueByGroupId($groupId)
+    {
+//        return $this->groupFieldValueRepository->getByGroupId($groupId);
+
+    }
     public function getProductByGroupId($groupId)
     {
         return $this->groupProductRepository->getByGroupId($groupId);
