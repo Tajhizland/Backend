@@ -9,8 +9,8 @@ class AddProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "groupId"=>["required","exists:App\Models\Product"],
-            "productId"=>["required","exists:App\Models\Product"],
+            "groupId"=>["required","exists:App\Models\Product,id"],
+            "productId"=>["required","exists:App\Models\Product,id"],
         ];
     }
 
