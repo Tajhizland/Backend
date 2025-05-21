@@ -8,6 +8,7 @@ use App\Http\Requests\V1\Admin\ProductGroup\AddProductRequest;
 use App\Http\Requests\V1\Admin\ProductGroup\SetFieldValueRequest;
 use App\Http\Resources\V1\GroupField\GroupFieldCollection;
 use App\Http\Resources\V1\GroupProduct\GroupProductCollection;
+use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductCollection;
 use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductResource;
 use App\Services\ProductGroup\ProductGroupServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -24,7 +25,7 @@ class ProductGroupController extends Controller
     public function dataTable()
     {
         $response = $this->productGroupService->dataTable();
-        return $this->dataResponseCollection(SimpleProductResource::collection($response));
+        return $this->dataResponseCollection(new SimpleProductCollection($response));
     }
 
     public function getField($id)

@@ -4,11 +4,9 @@ namespace App\Http\Resources\V1\GroupFieldValue;
 
 use App\Http\Resources\V1\GroupField\GroupFieldResource;
 use App\Http\Resources\V1\GroupProduct\GroupProductResource;
-use App\Models\GroupFeildValue;
-use Illuminate\Http\Request;
+ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin GroupFeildValue */
 class GroupFieldValueResource extends JsonResource
 {
     public function toArray(Request $request): array
