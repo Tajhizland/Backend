@@ -19,6 +19,6 @@ class GroupProductRepository extends BaseRepository implements GroupProductRepos
 
     public function getByGroupId($groupId)
     {
-        return $this->model::where("group_id",$groupId)->get();
+        return $this->model::with(["product"])->where("group_id",$groupId)->get();
     }
 }
