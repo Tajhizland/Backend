@@ -286,6 +286,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("field-value/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "getFieldValue"]);
         Route::delete("field/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "removeField"]);
         Route::delete("product/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "removeProduct"]);
+        Route::post("field", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "addField"]);
+        Route::post("product", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "addProduct"]);
         Route::post("set", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "set"]);
     });
 });
