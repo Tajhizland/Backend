@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\Product;
 
 use App\Http\Resources\V1\Brand\BrandResource;
 use App\Http\Resources\V1\Comment\CommentCollection;
+use App\Http\Resources\V1\GroupProduct\GroupProductCollection;
 use App\Http\Resources\V1\Guaranty\GuarantyCollection;
 use App\Http\Resources\V1\Guaranty\GuarantyResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
@@ -63,6 +64,7 @@ class ProductResource extends JsonResource
             'images' => new ProductImageCollection($this->images),
             'brand' => new BrandResource($this->brand),
             'videos' => new ProductVideoCollection($this->videos),
+            'groupItems' => new GroupProductCollection($this->groupItems),
 
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),

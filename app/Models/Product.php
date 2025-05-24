@@ -25,6 +25,11 @@ class Product extends Model
         ];
     }
 
+    public function groupItems(): HasMany
+    {
+        return $this->hasMany(GroupProduct::class, "group_id", "id");
+    }
+
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class);
