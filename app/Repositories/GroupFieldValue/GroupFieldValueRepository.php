@@ -24,6 +24,6 @@ class GroupFieldValueRepository extends BaseRepository implements GroupFieldValu
 
     public function findByGroupAndField($groupProductId, $fieldId)
     {
-        return $this->model::where("group_field_id", $groupProductId)->where("group_product_id", $fieldId)->first();
+        return $this->model::where("group_field_id", $fieldId)->where("group_product_id",$groupProductId )->first();
     }
 }
