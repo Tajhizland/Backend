@@ -39,6 +39,10 @@ class ProductGroupService implements ProductGroupServiceInterface
     {
         return $this->groupProductRepository->getByGroupId($groupId);
     }
+    public function getProductByGroupIdWithValue($groupId)
+    {
+        return $this->groupProductRepository->getByGroupIdWithValue($groupId);
+    }
     public function addProductToGroup($productId, $groupId)
     {
         $groupProduct = $this->groupProductRepository->findByGroupAndProduct($productId, $groupId);

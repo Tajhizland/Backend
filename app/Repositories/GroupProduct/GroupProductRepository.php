@@ -21,4 +21,10 @@ class GroupProductRepository extends BaseRepository implements GroupProductRepos
     {
         return $this->model::with(["product"])->where("group_id",$groupId)->get();
     }
+
+    public function getByGroupIdWithValue($groupId)
+    {
+        return $this->model::with(["product" , "value"])->where("group_id",$groupId)->get();
+
+    }
 }

@@ -8,6 +8,7 @@ interface ProductGroupServiceInterface
     public function getFieldByGroupId($groupId);
     public function getFieldValueByGroupId($groupId);
     public function getProductByGroupId($groupId);
+    public function getProductByGroupIdWithValue($groupId);
 
     public function addProductToGroup($productId, $groupId);
 

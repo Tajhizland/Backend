@@ -42,8 +42,14 @@ class ProductGroupController extends Controller
 
     public function getFieldValue($id)
     {
-        $response = $this->productGroupService->getProductByGroupId($id);
-        return $this->dataResponseCollection(new GroupProductCollection($response));
+        $values = $this->productGroupService->getProductByGroupIdWithValue($id);
+        $fields = $this->productGroupService->getFieldByGroupId($id);
+        return $this->dataResponse(
+            [
+                "value" => new GroupProductCollection($values),
+                "fields" => new GroupFieldCollection($fields)
+            ]
+        );
     }
 
     public function addProduct(AddProductRequest $request)
