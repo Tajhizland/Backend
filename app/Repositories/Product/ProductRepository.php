@@ -20,7 +20,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function findByUrl($url)
     {
         return $this->model::withActiveColor()
-            ->with(["groupItems","groupItems.product","groupItems.value","groupItems.groupField"])
+            ->with(["groupItems","groupItems.product","groupItems.value","groupItems.value.groupField"])
             ->whereHas("activeProductColors")
             ->active()
             ->where("url", $url)
