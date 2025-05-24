@@ -78,7 +78,7 @@ class ProductGroupService implements ProductGroupServiceInterface
     {
         $groupFieldValue = $this->groupFieldValueRepository->findByGroupAndField($groupProductId, $fieldId);
         if ($groupFieldValue) {
-            return $this->groupFieldValueRepository->update(["value" => $value]);
+            return $this->groupFieldValueRepository->update($groupFieldValue,["value" => $value]);
         }
         return $this->groupFieldValueRepository->create([
             "group_field_id" => $fieldId,
