@@ -15,7 +15,7 @@ class BrandController extends Controller
 {
     public function __construct
     (
-        private BrandServiceInterface       $brandService,
+        private BrandServiceInterface $brandService,
 
     )
     {
@@ -44,13 +44,13 @@ class BrandController extends Controller
 
     public function store(StoreBrandRequest $request)
     {
-        $this->brandService->storeBrand($request->get("name"), $request->get("url"), $request->get("status"), $request->get("image"), $request->get("description"));
+        $this->brandService->storeBrand($request->get("name"), $request->get("url"), $request->get("status"), $request->get("image"), $request->get("banner"), $request->get("description"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.brand")]));
     }
 
     public function update(UpdateBrandRequest $request)
     {
-        $this->brandService->updateBrand($request->get("id"), $request->get("name"), $request->get("url"), $request->get("status"), $request->get("image"), $request->get("description"));
+        $this->brandService->updateBrand($request->get("id"), $request->get("name"), $request->get("url"), $request->get("status"), $request->get("image"), $request->get("banner"), $request->get("description"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.brand")]));
     }
 
