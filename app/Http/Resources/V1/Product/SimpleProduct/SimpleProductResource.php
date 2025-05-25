@@ -6,6 +6,7 @@ use App\Http\Resources\V1\Category\CategoryResource;
 use App\Http\Resources\V1\Comment\CommentResource;
 use App\Http\Resources\V1\Price\PriceResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
+use App\Http\Resources\V1\ProductImage\ProductImageCollection;
 use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
 use App\Http\Resources\V1\Stock\StockResource;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class SimpleProductResource extends JsonResource
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
             'colors' => new ProductColorCollection($this->activeProductColors),
             'productOptions' => new ProductOptionCollection($this->productOptions),
+            'images' => new ProductImageCollection($this->images),
         ];
     }
 }

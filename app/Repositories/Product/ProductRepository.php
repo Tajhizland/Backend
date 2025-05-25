@@ -289,7 +289,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findProductWithOption($id)
     {
-        return $this->model::active()->with(["productOptions"])->first();
+        return $this->model::active()->with(["productOptions","images"])->first();
     }
 
     public function searchWithOption($query, $categoryIds)
@@ -303,6 +303,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         })->whereHas("categories", function ($subQuery) use ($categoryIds) {
             $subQuery->whereIn("category_id", $categoryIds);
         })
+            ->with(["productOptions","images"])
             ->whereHas("activeProductColors")
             ->limit(config("settings.search_item_limit"))
             ->get();
