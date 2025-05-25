@@ -14,6 +14,7 @@ class StoreBrandRequest extends FormRequest
             'url' => ['required','unique:App\Models\Category'],
             'status' => ['required', 'integer'],
             'image' => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            'banner' => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
             'description' => ['nullable'],
         ];
     }

@@ -37,7 +37,7 @@ class BrandService implements BrandServiceInterface
         $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
 
-        $categories=$this->categoryRepository->getByBrandId($brand->id);
+        $categories = $this->categoryRepository->getByBrandId($brand->id);
         return ["products" => $products, "brand" => $brand, "categories" => $categories];
     }
 
@@ -51,11 +51,15 @@ class BrandService implements BrandServiceInterface
         return $this->brandRepository->findOrFail($id);
     }
 
-    public function storeBrand($name, $url, $status, $image, $description)
+    public function storeBrand($name, $url, $status, $image, $banner, $description)
     {
         $imagePath = null;
         if ($image) {
             $imagePath = $this->s3Service->upload($image, "brand");
+        }
+        $bannerPath = null;
+        if ($banner) {
+            $bannerPath = $this->s3Service->upload($banner, "brand-banner");
         }
         return $this->brandRepository->create(
             [
@@ -64,17 +68,23 @@ class BrandService implements BrandServiceInterface
                 "status" => $status,
                 "description" => $description,
                 "image" => $imagePath,
+                "banner" => $bannerPath,
             ]
         );
     }
 
-    public function updateBrand($id, $name, $url, $status, $image, $description)
+    public function updateBrand($id, $name, $url, $status, $image, $banner, $description)
     {
         $brand = $this->brandRepository->findOrFail($id);
         $imagePath = $brand->image;
         if ($image) {
             $this->s3Service->remove("brand/" . $brand->image);
             $imagePath = $this->s3Service->upload($image, "brand");
+        }
+        $bannerPath = null;
+        if ($banner) {
+            $this->s3Service->remove("brand-banner/" . $brand->banner);
+            $bannerPath = $this->s3Service->upload($banner, "brand-banner");
         }
         return $this->brandRepository
             ->update($brand,
@@ -84,6 +94,7 @@ class BrandService implements BrandServiceInterface
                     "status" => $status,
                     "description" => $description,
                     "image" => $imagePath,
+                    "banner" => $bannerPath,
                 ]
             );
     }
