@@ -172,6 +172,8 @@ use App\Services\Checkout\CheckoutService;
 use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Comment\CommentService;
 use App\Services\Comment\CommentServiceInterface;
+use App\Services\Compare\CompareService;
+use App\Services\Compare\CompareServiceInterface;
 use App\Services\Concept\ConceptService;
 use App\Services\Concept\ConceptServiceInterface;
 use App\Services\Contact\ContactService;
@@ -547,6 +549,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ChatInfoServiceInterface::class, ChatInfoService::class);
 
         $this->app->bind(ProductGroupServiceInterface::class, ProductGroupService::class);
+
+        $this->app->bind(CompareServiceInterface::class, CompareService::class);
 
         /** End Service */
 

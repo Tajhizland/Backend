@@ -145,6 +145,10 @@ Route::get('info2', function () {
 Route::group(["prefix" => "leading"], function () {
     Route::get('index', [\App\Http\Controllers\V1\Shop\LeadingController::class, "index"]);
 });
+Route::group(["prefix" => "compare"], function () {
+    Route::get('find/{id}', [\App\Http\Controllers\V1\Shop\CompareController::class, "findProduct"]);
+    Route::post('search', [\App\Http\Controllers\V1\Shop\CompareController::class, "searchProduct"]);
+});
 
 
 //Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {

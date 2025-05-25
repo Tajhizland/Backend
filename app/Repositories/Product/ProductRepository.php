@@ -20,7 +20,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function findByUrl($url)
     {
         return $this->model::withActiveColor()
-            ->with(["groupItems","groupItems.product","groupItems.value","groupItems.value.groupField"])
+            ->with(["groupItems", "groupItems.product", "groupItems.value", "groupItems.value.groupField"])
             ->whereHas("activeProductColors")
             ->active()
             ->where("url", $url)
@@ -145,6 +145,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $q->whereIn("category_id", $categoryId);
         });
     }
+
     public function categoryFilter($query, $categoryId)
     {
         return $query->whereHas("productCategories", function ($q) use ($categoryId) {
@@ -282,7 +283,28 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->allowedSorts(['id', 'name', 'url', 'status', 'view', 'created_at',
                 AllowedSort::custom("category", new SortProductByCategoryName()),
             ])
-            ->where("type","group")
+            ->where("type", "group")
             ->paginate($this->pageSize);
+    }
+
+    public function findProductWithOption($id)
+    {
+        return $this->model::active()->with(["productOptions"])->first();
+    }
+
+    public function searchWithOption($query, $categoryIds)
+    {
+        $keywords = explode(' ', $query);
+
+        return $this->model::where(function ($q) use ($keywords) {
+            foreach ($keywords as $word) {
+                $q->where('name', 'like', '%' . $word . '%');
+            }
+        })->whereHas("categories", function ($subQuery) use ($categoryIds) {
+            $subQuery->whereIn("category_id", $categoryIds);
+        })
+            ->whereHas("activeProductColors")
+            ->limit(config("settings.search_item_limit"))
+            ->get();
     }
 }

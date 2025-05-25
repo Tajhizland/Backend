@@ -6,6 +6,7 @@ use App\Http\Resources\V1\Category\CategoryResource;
 use App\Http\Resources\V1\Comment\CommentResource;
 use App\Http\Resources\V1\Price\PriceResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
+use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
 use App\Http\Resources\V1\Stock\StockResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -26,10 +27,12 @@ class SimpleProductResource extends JsonResource
             'category' => $this->categories->first()->name ?? "",
             'min_price' => $this->getMinColorPrice(),
             'rating' => $this->getRatingAvg(),
+            'category_ids' => $this->productCategories->pluck('category_id'),
             'study' => $this->study,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
             'colors' => new ProductColorCollection($this->activeProductColors),
+            'productOptions' => new ProductOptionCollection($this->productOptions),
         ];
     }
 }

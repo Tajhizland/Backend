@@ -7,6 +7,8 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface ProductRepositoryInterface extends BaseRepositoryInterface
 {
     public function findByUrl($url);
+    public function findProductWithOption($id);
+    public function searchWithOption($query , $categoryIds);
 
     public function findById($id);
     public function getByCategoryId($id ,$except);
