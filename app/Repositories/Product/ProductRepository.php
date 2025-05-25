@@ -289,7 +289,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findProductWithOption($id)
     {
-        return $this->model::active()->with(["productOptions","images"])->first();
+        return $this->model::active()->with(["productOptions","images"])->find($id);
     }
 
     public function searchWithOption($query, $categoryIds)
