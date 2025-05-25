@@ -17,6 +17,7 @@ class BrandResource extends JsonResource
             'url' => $this->url,
             'status' => $this->status,
             'image' => $this->image,
+            'banner' => $this->banner,
             'sort' => $this->sort,
             'description' => $this->description,
              'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
