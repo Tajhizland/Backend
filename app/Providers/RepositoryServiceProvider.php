@@ -142,6 +142,8 @@ use App\Repositories\Vlog\VlogRepository;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Repositories\VlogCategory\VlogCategoryRepository;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
+use App\Repositories\WalletTransaction\WalletTransactionRepository;
+use App\Repositories\WalletTransaction\WalletTransactionRepositoryInterface;
 use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
@@ -268,6 +270,8 @@ use App\Services\Vlog\VlogService;
 use App\Services\Vlog\VlogServiceInterface;
 use App\Services\VlogCategory\VlogCategoryService;
 use App\Services\VlogCategory\VlogCategoryServiceInterface;
+use App\Services\WalletTransaction\WalletTransactionService;
+use App\Services\WalletTransaction\WalletTransactionServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -416,6 +420,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(GroupProductRepositoryInterface::class, GroupProductRepository::class);
 
+        $this->app->bind(WalletTransactionRepositoryInterface::class, WalletTransactionRepository::class);
+
 
         /** End Repository */
 
@@ -551,6 +557,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductGroupServiceInterface::class, ProductGroupService::class);
 
         $this->app->bind(CompareServiceInterface::class, CompareService::class);
+
+        $this->app->bind(WalletTransactionServiceInterface::class, WalletTransactionService::class);
 
         /** End Service */
 
