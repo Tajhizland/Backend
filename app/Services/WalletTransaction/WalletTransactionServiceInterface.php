@@ -6,5 +6,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface WalletTransactionServiceInterface
 {
-    public function charge($userId, $amount);
+    public function chargeRequest($userId, $amount);
+    public function verifyCharge($request);
+
 }

@@ -128,17 +128,17 @@ Route::group(["prefix" => "sitemap"], function () {
 });
 Route::get('info', function () {
     phpinfo();
-});Route::get('test', function (\App\Services\Sms\SmsServiceInterface  $smsService) {
-    $order=\App\Models\Order::find(15);
+});
+Route::get('test', function (\App\Services\Sms\SmsServiceInterface $smsService) {
+    $order = \App\Models\Order::find(15);
     event(new OrderPaidEvent($order));
 });
 Route::get('info2', function () {
-    $news=\App\Models\Product::all();
-    foreach ($news as $new)
-    {
-        $content=$new->review;
-        $content=str_replace("http://tajhizland.com/upload/","https://c778665.parspack.net/upload/upload/",$content);
-        $new->review=$content;
+    $news = \App\Models\Product::all();
+    foreach ($news as $new) {
+        $content = $new->review;
+        $content = str_replace("http://tajhizland.com/upload/", "https://c778665.parspack.net/upload/upload/", $content);
+        $new->review = $content;
         $new->save();
     }
 });
@@ -148,6 +148,11 @@ Route::group(["prefix" => "leading"], function () {
 Route::group(["prefix" => "compare"], function () {
     Route::get('find/{id}', [\App\Http\Controllers\V1\Shop\CompareController::class, "findProduct"]);
     Route::post('search', [\App\Http\Controllers\V1\Shop\CompareController::class, "searchProduct"]);
+});
+
+Route::group(["prefix" => "charge"], function () {
+    Route::post('request', [\App\Http\Controllers\V1\Shop\WalletController::class, "chargeWallet"]);
+    Route::post('verify', [\App\Http\Controllers\V1\Shop\WalletController::class, "verifyWallet"]);
 });
 
 

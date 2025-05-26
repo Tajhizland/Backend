@@ -25,6 +25,20 @@ class ZibalService implements GatewaysInterface
         }
         throw  new BreakException(Lang::get("exceptions.gateway_error"));
     }
+    public function chargeRequest($amount, $orderId)
+    {
+        $parameters = array(
+            "merchant" => config("Gateway.zibal.merchant"),
+            "callbackUrl" => config("Gateway.zibal.callback_charge_url"),
+            "amount" => $amount,
+            "orderId" => $orderId,
+        );
+        $response = $this->callApi(config("Gateway.zibal.request_url"), $parameters);
+        if ($response["result"] == 100) {
+            return  (config("Gateway.zibal.payment_url") . $response["trackId"]);
+        }
+        throw  new BreakException(Lang::get("exceptions.gateway_error"));
+    }
 
     public function verify($trackId)
     {

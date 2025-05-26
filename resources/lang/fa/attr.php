@@ -5,6 +5,7 @@ return
         "mobile" => 'شماره همراه',
         "register" => 'ثبت نام',
         "login" => 'لاگین',
+        "charge" => 'شارژ',
         "password" => 'کلمه ی عبور',
         "group" => 'گروه',
         "product" => 'محصول',
