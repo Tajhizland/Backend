@@ -164,4 +164,42 @@ class PaymentService implements PaymentServicesInterface
             "type" => "paid"
         ];
     }
+    public function onHoldOrderVerifyByWallet($id , $userId)
+    {
+        $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
+        if (Carbon::parse($onHoldOrder->expire_date) < Carbon::now()) {
+            throw new BreakException(\Lang::get("exceptions.expired_order"));
+        }
+        if ($onHoldOrder->status != OnHoldOrderStatus::Accept->value) {
+            throw new BreakException(\Lang::get("exceptions.reject_order"));
+        }
+        $orderId = $onHoldOrder->order_id;
+        $cart = $this->cartRepository->getCartByOrderId($orderId);
+        if ($cart->user_id != $userId) {
+            throw new BreakException(\Lang::get("exceptions.not_your_order"));
+        }
+        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
+        $this->checkoutService->finalCheckout($cart, $cartItems);
+        $order = $this->orderRepository->findOrFail($orderId);
+        $finalPrice=$order->final_price;
+        $user=$this->userRepository->findOrFail($userId);
+        if ($finalPrice > $user->wallet) {
+            throw  new BadRequestHttpException("موجودی کیف پول شما برای ثبت این سفارش کافی نیست !");
+        }
+
+        $this->userRepository->update($user, ["wallet" => $user->wallet - $finalPrice]);
+
+        $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
+        $orderItems = $this->orderItemRepository->getByOrderId($order->id);
+        foreach ($orderItems as $item) {
+            $this->stockRepository->decrement($item->product_color_id, $item->count);
+        }
+        $cart = $this->cartRepository->getCartByOrderId($order->orderId);
+        $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
+        event(new OrderPaidEvent($order));
+        return [
+            "path" => "/thank_you_page",
+            "type" => "paid"
+        ];
+    }
 }

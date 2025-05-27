@@ -34,6 +34,13 @@ class OnHoldOrderController extends Controller
             ]
         );
     }
+    public function paymentByWallet($id)
+    {
+        $paymentPath = $this->paymentServices->onHoldOrderVerifyByWallet($id , Auth::user()->id);
+        return $this->dataResponse(
+            $paymentPath
+        );
+    }
 
     public function remove($id)
     {
