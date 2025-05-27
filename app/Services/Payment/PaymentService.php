@@ -6,6 +6,7 @@ use App\Enums\CartStatus;
 use App\Enums\OnHoldOrderStatus;
 use App\Enums\OrderStatus;
 use App\Events\OrderPaidEvent;
+use App\Events\OrderPaymentRequestEvent;
 use App\Events\OrderRequestEvent;
 use App\Exceptions\BreakException;
 use App\Repositories\Address\AddressRepositoryInterface;
@@ -75,6 +76,8 @@ class PaymentService implements PaymentServicesInterface
                 "type" => "limit"
             ];
         }
+        event(new OrderPaymentRequestEvent($order));
+
         return [
             "path" => $this->gatewayService->request($finalPrice * 10, $order->id),
             "type" => "payment"
