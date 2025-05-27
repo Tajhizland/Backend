@@ -95,6 +95,7 @@ Route::group(["prefix" => "payment"], function () {
 Route::group(["prefix" => "on-hold-order", "middleware" => "auth:sanctum"], function () {
     Route::get('get', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "userHoldOnPaginate"]);
     Route::post('payment/{id}', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "payment"]);
+    Route::post('wallet/{id}', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "paymentByWallet"]);
 });
 
 Route::group(["prefix" => "comment"], function () {
