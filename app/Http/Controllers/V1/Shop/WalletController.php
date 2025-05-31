@@ -9,6 +9,7 @@ use App\Services\WalletTransaction\WalletTransactionServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Redirect;
 
 class WalletController extends Controller
 {
@@ -28,8 +29,12 @@ class WalletController extends Controller
 
     public function verifyWallet(Request $request)
     {
-        $this->walletTransactionService->verifyCharge($request);
-        return $this->successResponse(Lang::get('action.success', ['attr' => Lang::get('attr.charge')]));
+        try {
+            $this->walletTransactionService->verifyCharge($request);
+            return Redirect::to("https://tajhizland.com/thank_you_page");
+        } catch (\Throwable $exception) {
+            return Redirect::to("https://tajhizland.com/failed_payment");
+        }
     }
 
     public function paymentOrderByWallet()
