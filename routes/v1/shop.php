@@ -89,7 +89,7 @@ Route::group(["prefix" => "delivery"], function () {
 Route::group(["prefix" => "payment"], function () {
     Route::post('request', [\App\Http\Controllers\V1\Shop\PaymentController::class, "requestPayment"])->middleware("auth:sanctum");
     Route::get('verify', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyPayment"]);
-    Route::post('wallet', [\App\Http\Controllers\V1\Shop\WalletController::class, "paymentOrderByWallet"]);
+    Route::post('wallet', [\App\Http\Controllers\V1\Shop\WalletController::class, "paymentOrderByWallet"])->middleware("auth:sanctum");
 });
 
 Route::group(["prefix" => "on-hold-order", "middleware" => "auth:sanctum"], function () {
