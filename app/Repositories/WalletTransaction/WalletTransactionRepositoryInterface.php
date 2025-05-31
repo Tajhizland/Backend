@@ -6,5 +6,5 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface WalletTransactionRepositoryInterface extends BaseRepositoryInterface
 {
-
+    public function dataTable();
 }

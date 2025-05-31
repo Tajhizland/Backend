@@ -41,4 +41,9 @@ class WalletTransactionService implements WalletTransactionServiceInterface
         $user = $this->userRepositoryInterface->findOrFail($wallet->user_id);
         return $this->userRepositoryInterface->update($user, ["wallet" => $wallet->amount + $user->wallet]);
     }
+
+    public function dataTable()
+    {
+        return $this->walletTransactionRepositoryInterface->dataTable();
+    }
 }

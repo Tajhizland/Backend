@@ -271,6 +271,9 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("get", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "get"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "update"]);
     });
+    Route::group(["prefix" => "wallet-transaction"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\WalletTransactionController::class, "dataTable"]);
+    });
 
     Route::group(["prefix" => "trusted-brand"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "dataTable"]);

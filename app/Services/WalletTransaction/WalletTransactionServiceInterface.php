@@ -8,5 +8,6 @@ interface WalletTransactionServiceInterface
 {
     public function chargeRequest($userId, $amount);
     public function verifyCharge($request);
+    public function dataTable();
 
 }
