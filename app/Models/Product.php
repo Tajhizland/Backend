@@ -32,7 +32,7 @@ class Product extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(ProductImage::class)->orderBy("sort");
+        return $this->hasMany(ProductImage::class)->orderBy("sort")->orderBy("id");
     }
 
     public function videos(): HasMany
