@@ -93,19 +93,15 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     }
     public function totalPriceChartData($fromDate,$toDate)
     {
-        if($fromDate)
-        {
-            $startDate=$fromDate;
-        }
-        else
-        {
+        if ($fromDate) {
+            $startDate = Carbon::parse($fromDate);
+        } else {
             $startDate = Carbon::now()->subDays(30);
         }
-        if ($toDate)
-        {
-            $endDate=$toDate;
-        }
-        else {
+
+        if ($toDate) {
+            $endDate = Carbon::parse($toDate);
+        } else {
             $endDate = Carbon::now();
         }
         // گرفتن سفارش‌های پرداخت‌شده و جمع زدن بر اساس روز شمسی
@@ -138,19 +134,15 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     }
     public function totalCountChartData($fromDate,$toDate)
     {
-        if($fromDate)
-        {
-            $startDate=$fromDate;
-        }
-        else
-        {
+        if ($fromDate) {
+            $startDate = Carbon::parse($fromDate);
+        } else {
             $startDate = Carbon::now()->subDays(30);
         }
-        if ($toDate)
-        {
-            $endDate=$toDate;
-        }
-        else {
+
+        if ($toDate) {
+            $endDate = Carbon::parse($toDate);
+        } else {
             $endDate = Carbon::now();
         }
         // مرحله 1: خروجی اصلی

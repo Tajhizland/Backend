@@ -16,19 +16,15 @@ class FootprintRepository extends BaseRepository implements FootprintRepositoryI
 
     public function allChartData($fromDate,$toDate)
     {
-        if($fromDate)
-        {
-            $startDate=$fromDate;
-        }
-        else
-        {
+        if ($fromDate) {
+            $startDate = Carbon::parse($fromDate);
+        } else {
             $startDate = Carbon::now()->subDays(30);
         }
-        if ($toDate)
-        {
-            $endDate=$toDate;
-        }
-        else {
+
+        if ($toDate) {
+            $endDate = Carbon::parse($toDate);
+        } else {
             $endDate = Carbon::now();
         }
 
@@ -49,19 +45,15 @@ class FootprintRepository extends BaseRepository implements FootprintRepositoryI
 
     public function ipChartData($fromDate,$toDate)
     {
-        if($fromDate)
-        {
-            $startDate=$fromDate;
-        }
-        else
-        {
+        if ($fromDate) {
+            $startDate = Carbon::parse($fromDate);
+        } else {
             $startDate = Carbon::now()->subDays(30);
         }
-        if ($toDate)
-        {
-            $endDate=$toDate;
-        }
-        else {
+
+        if ($toDate) {
+            $endDate = Carbon::parse($toDate);
+        } else {
             $endDate = Carbon::now();
         }
 
