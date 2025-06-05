@@ -13,6 +13,11 @@ class ProductImageRepository extends BaseRepository implements ProductImageRepos
     }
     public function getByProductId($productId)
     {
-        return $this->model::where("product_id",$productId)->get();
+        return $this->model::where("product_id",$productId)->orderBy("sort")->get();
+    }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
 }
