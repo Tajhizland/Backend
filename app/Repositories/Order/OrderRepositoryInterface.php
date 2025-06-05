@@ -15,7 +15,7 @@ interface OrderRepositoryInterface extends  BaseRepositoryInterface
     public function onHoldDataTable();
     public function createOrder($user_id,$order_info_id,$price,$delivery_price,$final_price,$status,$payment_method,$delivery_method,$order_date,$delivery_date,$tracking_number);
 
-    public function totalPriceChartData();
-    public function totalCountChartData();
+    public function totalPriceChartData($fromDate,$toDate);
+    public function totalCountChartData($fromDate,$toDate);
     public function todayOrderCount();
 }

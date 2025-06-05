@@ -91,11 +91,23 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             ->where("id", $id)
             ->first();
     }
-    public function totalPriceChartData()
+    public function totalPriceChartData($fromDate,$toDate)
     {
-        $startDate = Carbon::now()->subDays(30);
-        $endDate = Carbon::now();
-
+        if($fromDate)
+        {
+            $startDate=$fromDate;
+        }
+        else
+        {
+            $startDate = Carbon::now()->subDays(30);
+        }
+        if ($toDate)
+        {
+            $endDate=$toDate;
+        }
+        else {
+            $endDate = Carbon::now();
+        }
         // گرفتن سفارش‌های پرداخت‌شده و جمع زدن بر اساس روز شمسی
         $data = $this->model::whereBetween('order_date', [$startDate, $endDate])
             ->paid()
@@ -124,13 +136,25 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return $final->values();
 
     }
-    public function totalCountChartData()
+    public function totalCountChartData($fromDate,$toDate)
     {
-        $thirtyDaysAgo = Carbon::now()->subDays(30);
-        $today = Carbon::now();
-
+        if($fromDate)
+        {
+            $startDate=$fromDate;
+        }
+        else
+        {
+            $startDate = Carbon::now()->subDays(30);
+        }
+        if ($toDate)
+        {
+            $endDate=$toDate;
+        }
+        else {
+            $endDate = Carbon::now();
+        }
         // مرحله 1: خروجی اصلی
-        $data = $this->model::where('order_date', '>=', $thirtyDaysAgo)
+        $data = $this->model::where('order_date', '>=', $startDate)
             ->paid()
             ->get()
             ->groupBy(function ($order) {
@@ -142,7 +166,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
         // مرحله 2: لیست تاریخ‌ها از ۳۰ روز پیش تا امروز
         $dates = collect();
-        for ($date = $thirtyDaysAgo->copy(); $date <= $today; $date->addDay()) {
+        for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
             $dates->push(Jalalian::fromDateTime($date)->format('Y/m/d'));
         }
 
