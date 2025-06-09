@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\ImageSortRequest;
 use App\Http\Requests\V1\Admin\Product\ColorFastUpdateRequest;
 use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
@@ -24,6 +25,7 @@ use App\Services\Option\OptionServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\ProductColor\ProductColorServiceInterface;
 use App\Services\ProductImage\ProductImageServiceInterface;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
 class ProductController extends Controller
@@ -140,5 +142,12 @@ class ProductController extends Controller
     {
         $this->productColorService->colorFastUpdate($request->get("color"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.color")]));
+    }
+
+    public function sortImage(ImageSortRequest $request)
+    {
+        $this->productImageService->sort($request->get("image"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.image")]));
+
     }
 }

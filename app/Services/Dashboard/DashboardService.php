@@ -21,17 +21,17 @@ class DashboardService implements DashboardServiceInterface
     {
     }
 
-    public function chartData()
+    public function chartData($fromDate,$toDate)
     {
         return [
-            "totalPrice" => $this->orderRepository->totalPriceChartData(),
-            "totalCount" => $this->orderRepository->totalCountChartData(),
+            "totalPrice" => $this->orderRepository->totalPriceChartData($fromDate,$toDate),
+            "totalCount" => $this->orderRepository->totalCountChartData($fromDate,$toDate),
             "newOrder" => $this->orderRepository->todayOrderCount(),
             "newOnHoldOrder" => $this->onHoldOrderRepository->todayOnHoldOrderCount(),
             "newComment" => $this->commentRepository->todayCommentCount(),
             "newUser" => $this->userRepository->todayUserCount(),
-            "viewLog" => $this->footprintRepository->allChartData(),
-            "viewIpLog" => $this->footprintRepository->ipChartData(),
+            "viewLog" => $this->footprintRepository->allChartData($fromDate,$toDate),
+            "viewIpLog" => $this->footprintRepository->ipChartData($fromDate,$toDate),
         ];
     }
 }

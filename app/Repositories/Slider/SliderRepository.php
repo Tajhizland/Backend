@@ -44,13 +44,13 @@ class SliderRepository extends BaseRepository implements SliderRepositoryInterfa
 
     public function getAllDesktop()
     {
-        return $this->model::desktop()->get();
+        return $this->model::desktop()->orderBy("sort")->get();
 
     }
 
     public function getAllMobile()
     {
-        return $this->model::mobile()->get();
+        return $this->model::mobile()->orderBy("sort")->get();
     }
 
     public function sort($id,$sort){

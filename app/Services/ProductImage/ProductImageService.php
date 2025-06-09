@@ -56,4 +56,11 @@ class ProductImageService implements ProductImageServiceInterface
         $this->productImageRepository->delete($image);
     }
 
+    public function sort($array)
+    {
+        foreach ($array as $item) {
+            $this->productImageRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
 }

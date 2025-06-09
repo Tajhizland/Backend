@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\Dashboard\DashboardServiceInterface;
+use Illuminate\Http\Request;
 
 class DashboardController extends  Controller
 {
@@ -14,8 +15,10 @@ class DashboardController extends  Controller
     {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->dataResponse($this->dashboardService->chartData());
+
+
+        return $this->dataResponse($this->dashboardService->chartData($request->fromDate , $request->toDate));
     }
 }

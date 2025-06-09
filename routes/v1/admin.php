@@ -25,6 +25,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("color/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setColor"]);
         Route::post("color/fast-update", [\App\Http\Controllers\V1\Admin\ProductController::class, "colorFastUpdate"]);
         Route::post("image/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
+        Route::post("image/sort", [\App\Http\Controllers\V1\Admin\ProductController::class, "sortImage"]);
         Route::post("video/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setVideo"]);
         Route::post("video/set2", [\App\Http\Controllers\V1\Admin\ProductController::class, "setVideo2"]);
         Route::get("video/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getVideo"]);

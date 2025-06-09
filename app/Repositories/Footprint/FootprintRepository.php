@@ -14,11 +14,22 @@ class FootprintRepository extends BaseRepository implements FootprintRepositoryI
         parent::__construct($model);
     }
 
-    public function allChartData()
+    public function allChartData($fromDate,$toDate)
     {
-        $thirtyDaysAgo = Carbon::now()->subDays(30);
+        if ($fromDate) {
+            $startDate = Carbon::parse($fromDate);
+        } else {
+            $startDate = Carbon::now()->subDays(30);
+        }
 
-        return $this->model::where('created_at', '>=', $thirtyDaysAgo)
+        if ($toDate) {
+            $endDate = Carbon::parse($toDate);
+        } else {
+            $endDate = Carbon::now();
+        }
+
+        return $this->model::where('created_at', '>=', $startDate)
+            ->where('created_at', '<=', $endDate)
             ->get()
             ->groupBy(function ($log) {
                 return Jalalian::fromDateTime($log->created_at)->format('Y/m/d');
@@ -32,11 +43,22 @@ class FootprintRepository extends BaseRepository implements FootprintRepositoryI
             ->values();
     }
 
-    public function ipChartData()
+    public function ipChartData($fromDate,$toDate)
     {
-        $thirtyDaysAgo = Carbon::now()->subDays(30);
+        if ($fromDate) {
+            $startDate = Carbon::parse($fromDate);
+        } else {
+            $startDate = Carbon::now()->subDays(30);
+        }
 
-        return $this->model::where('created_at', '>=', $thirtyDaysAgo)
+        if ($toDate) {
+            $endDate = Carbon::parse($toDate);
+        } else {
+            $endDate = Carbon::now();
+        }
+
+        return $this->model::where('created_at', '>=', $startDate)
+            ->where('created_at', '<=', $endDate)
              ->get()
             ->groupBy(function ($log) {
                 return Jalalian::fromDateTime($log->created_at)->format('Y/m/d'); // گروه‌بندی بر اساس تاریخ
