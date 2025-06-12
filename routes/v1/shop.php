@@ -128,22 +128,6 @@ Route::group(["prefix" => "sitemap"], function () {
     Route::get('guaranty', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getGuarantySitemap"]);
     Route::get('landing', [\App\Http\Controllers\V1\Shop\SitemapController::class, "getLandingSitemap"]);
 });
-Route::get('info', function () {
-    phpinfo();
-});
-Route::get('test', function (\App\Services\Sms\SmsServiceInterface $smsService) {
-    $order = \App\Models\Order::find(15);
-    event(new OrderPaidEvent($order));
-});
-Route::get('info2', function () {
-    $news = \App\Models\Product::all();
-    foreach ($news as $new) {
-        $content = $new->review;
-        $content = str_replace("http://tajhizland.com/upload/", "https://c778665.parspack.net/upload/upload/", $content);
-        $new->review = $content;
-        $new->save();
-    }
-});
 Route::group(["prefix" => "leading"], function () {
     Route::get('index', [\App\Http\Controllers\V1\Shop\LeadingController::class, "index"]);
 });
@@ -157,6 +141,27 @@ Route::group(["prefix" => "charge"], function () {
     Route::get('verify', [\App\Http\Controllers\V1\Shop\WalletController::class, "verifyWallet"]);
 });
 
+Route::get('category-view-history', function () {
+    Route::post('store', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "store"])->middleware("auth:sanctum");
+});
+
+Route::get('info', function () {
+    phpinfo();
+});
+
+//Route::get('test', function (\App\Services\Sms\SmsServiceInterface $smsService) {
+//    $order = \App\Models\Order::find(15);
+//    event(new OrderPaidEvent($order));
+//});
+//Route::get('info2', function () {
+//    $news = \App\Models\Product::all();
+//    foreach ($news as $new) {
+//        $content = $new->review;
+//        $content = str_replace("http://tajhizland.com/upload/", "https://c778665.parspack.net/upload/upload/", $content);
+//        $new->review = $content;
+//        $new->save();
+//    }
+//});
 
 //Route::get("test", function (\App\Services\ProductImage\ProductImageService $productImage) {
 //    $images = \App\Models\ProductImage2::where("set", 0)->get();

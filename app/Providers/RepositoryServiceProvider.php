@@ -20,6 +20,8 @@ use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\CategoryConcept\CategoryConceptRepository;
 use App\Repositories\CategoryConcept\CategoryConceptRepositoryInterface;
+use App\Repositories\CategoryViewHistory\CategoryViewHistoryRepository;
+use App\Repositories\CategoryViewHistory\CategoryViewHistoryRepositoryInterface;
 use App\Repositories\ChatInfo\ChatInfoRepository;
 use App\Repositories\ChatInfo\ChatInfoRepositoryInterface;
 use App\Repositories\City\CityRepository;
@@ -168,6 +170,8 @@ use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\CategoryTree\CategoryTreeService;
 use App\Services\CategoryTree\CategoryTreeServiceInterface;
+use App\Services\CategoryViewHistory\CategoryViewHistoryService;
+use App\Services\CategoryViewHistory\CategoryViewHistoryServiceInterface;
 use App\Services\ChatInfo\ChatInfoService;
 use App\Services\ChatInfo\ChatInfoServiceInterface;
 use App\Services\Checkout\CheckoutService;
@@ -422,6 +426,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(WalletTransactionRepositoryInterface::class, WalletTransactionRepository::class);
 
+        $this->app->bind(CategoryViewHistoryRepositoryInterface::class, CategoryViewHistoryRepository::class);
+
 
         /** End Repository */
 
@@ -559,6 +565,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CompareServiceInterface::class, CompareService::class);
 
         $this->app->bind(WalletTransactionServiceInterface::class, WalletTransactionService::class);
+
+        $this->app->bind(CategoryViewHistoryServiceInterface::class, CategoryViewHistoryService::class);
 
         /** End Service */
 
