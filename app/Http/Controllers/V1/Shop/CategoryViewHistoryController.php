@@ -18,6 +18,6 @@ class CategoryViewHistoryController extends Controller
 
     public function store(StoreCategoryViewHistoryRequest $request)
     {
-        $this->categoryViewHistoryService->store(Auth::user()->id, $request->get("categoryId"));
+        $this->categoryViewHistoryService->store(Auth::user()->id, $request->get("category_id"));
     }
 }

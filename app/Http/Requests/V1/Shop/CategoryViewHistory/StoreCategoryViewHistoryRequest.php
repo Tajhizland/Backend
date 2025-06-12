@@ -9,7 +9,7 @@ class StoreCategoryViewHistoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "categoryId"=>["required","exists:categories,id"],
+            "category_id"=>["required","exists:categories,id"],
         ];
     }
 
