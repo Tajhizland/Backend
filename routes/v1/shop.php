@@ -141,8 +141,9 @@ Route::group(["prefix" => "charge"], function () {
     Route::get('verify', [\App\Http\Controllers\V1\Shop\WalletController::class, "verifyWallet"]);
 });
 
-Route::get('category-view-history', function () {
+Route::group(["prefix" => 'category-view-history'], function () {
     Route::post('store', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "store"])->middleware("auth:sanctum");
+
 });
 
 Route::get('info', function () {
