@@ -53,13 +53,13 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"));
+        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"), $request->get("type"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.product")]));
     }
 
     public function update(UpdateProductRequest $request)
     {
-        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"));
+        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"), $request->get("type"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
     }
 

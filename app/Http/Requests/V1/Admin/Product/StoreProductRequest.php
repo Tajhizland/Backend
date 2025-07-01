@@ -10,6 +10,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'type' => ['required'],
             'url' => ['required','unique:App\Models\Product'],
             'description' => ['nullable'],
             'meta_description' => ['nullable'],
