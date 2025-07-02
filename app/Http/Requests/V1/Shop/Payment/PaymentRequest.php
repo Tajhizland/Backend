@@ -9,7 +9,7 @@ class PaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "wallet" => ["nullable", "numeric"]
+            "wallet" => ["nullable", "bool"]
         ];
     }
 
