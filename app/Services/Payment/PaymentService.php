@@ -106,7 +106,6 @@ class PaymentService implements PaymentServicesInterface
             foreach ($orderItems as $item) {
                 $this->stockRepository->decrement($item->product_color_id, $item->count);
             }
-            $cart = $this->cartRepository->getCartByOrderId($order->orderId);
             $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
             event(new OrderPaidEvent($order));
             return [
