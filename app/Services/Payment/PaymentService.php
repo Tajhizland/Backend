@@ -204,6 +204,9 @@ class PaymentService implements PaymentServicesInterface
             $this->stockRepository->decrement($item->product_color_id, $item->count);
         }
         $this->transactionRepository->createTransaction($order->user_id, $order->id, $request->trackId, $order->final_price);
+        $user=$this->userRepository->findOrFail($order->user_id);
+        $this->userRepository->update($user, ["wallet" => $user->wallet - $order->use_wallet_price]);
+
         $cart = $this->cartRepository->getCartByOrderId($order->orderId);
         $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
 
