@@ -50,7 +50,96 @@ class PaymentService implements PaymentServicesInterface
         $this->gatewayService = $this->gatewayStrategyServices->strategy();
     }
 
-    public function request($userId)
+    public function request($userId, $useWallet)
+    {
+        $cart = $this->cartRepository->getCartByUserId($userId);
+        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
+        $this->checkoutService->finalCheckout($cart, $cartItems);
+        $limit = $this->cartItemService->checkLimit($cartItems);
+        $user = $this->userRepository->findOrFail($userId);
+        $address = $this->addressRepository->findActiveByUserId($userId);
+        $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
+        $cartPrices = $this->cartItemService->calculatePrice($cartItems);
+        $totalItemsPrice = $cartPrices["totalItemPrice"];
+        $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
+        $finalPrice = $totalItemsPrice + $delivery->price;
+        if (!$useWallet) {
+
+            $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
+            $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "",$finalPrice,0);
+            $this->cartRepository->update($cart, ["order_id" => $order->id]);
+            $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
+            if ($limit) {
+                $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
+                event(new OrderRequestEvent($onHoldOrder));
+                return [
+                    "path" => "/thank_you_page",
+                    "type" => "limit"
+                ];
+            }
+            event(new OrderPaymentRequestEvent($order));
+
+            return [
+                "path" => $this->gatewayService->request($finalPrice * 10, $order->id),
+                "type" => "payment"
+            ];
+        }
+        if ($finalPrice <= $user->wallet) {
+            $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
+            $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, 2, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, $finalPrice);
+            $this->cartRepository->update($cart, ["order_id" => $order->id]);
+            $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
+            if ($limit) {
+                $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
+                event(new OrderRequestEvent($onHoldOrder));
+                return [
+                    "path" => "/thank_you_page",
+                    "type" => "limit"
+                ];
+            }
+            $this->userRepository->update($user, ["wallet" => $user->wallet - $finalPrice]);
+
+            $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
+            $orderItems = $this->orderItemRepository->getByOrderId($order->id);
+            foreach ($orderItems as $item) {
+                $this->stockRepository->decrement($item->product_color_id, $item->count);
+            }
+            $cart = $this->cartRepository->getCartByOrderId($order->orderId);
+            $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
+            event(new OrderPaidEvent($order));
+            return [
+                "path" => "/thank_you_page",
+                "type" => "paid"
+            ];
+        } else {
+            $totalPrice = $finalPrice;
+            $finalPrice -= $user->wallet;
+            $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
+            $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "" , $totalPrice,$user->wallet);
+            $this->cartRepository->update($cart, ["order_id" => $order->id]);
+            $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
+            if ($limit) {
+                $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
+                event(new OrderRequestEvent($onHoldOrder));
+                return [
+                    "path" => "/thank_you_page",
+                    "type" => "limit"
+                ];
+            }
+            event(new OrderPaymentRequestEvent($order));
+
+            return [
+                "path" => $this->gatewayService->request($finalPrice * 10, $order->id),
+                "type" => "payment"
+            ];
+        }
+
+    }
+
+    public function request2($userId, $useWallet)
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
@@ -167,7 +256,8 @@ class PaymentService implements PaymentServicesInterface
             "type" => "paid"
         ];
     }
-    public function onHoldOrderVerifyByWallet($id , $userId)
+
+    public function onHoldOrderVerifyByWallet($id, $userId)
     {
         $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
         if (Carbon::parse($onHoldOrder->expire_date) < Carbon::now()) {
@@ -184,8 +274,8 @@ class PaymentService implements PaymentServicesInterface
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->checkoutService->finalCheckout($cart, $cartItems);
         $order = $this->orderRepository->findOrFail($orderId);
-        $finalPrice=$order->final_price;
-        $user=$this->userRepository->findOrFail($userId);
+        $finalPrice = $order->final_price;
+        $user = $this->userRepository->findOrFail($userId);
         if ($finalPrice > $user->wallet) {
             throw  new BadRequestHttpException("موجودی کیف پول شما برای ثبت این سفارش کافی نیست !");
         }

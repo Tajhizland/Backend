@@ -60,12 +60,14 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             ->paginate($this->pageSize);
     }
 
-    public function createOrder($user_id, $order_info_id, $price, $delivery_price, $final_price, $status, $payment_method, $delivery_method, $order_date, $delivery_date, $tracking_number)
+    public function createOrder($user_id, $order_info_id, $price, $delivery_price, $final_price, $status, $payment_method, $delivery_method, $order_date, $delivery_date, $tracking_number,$total_price=0,$use_wallet_price=0)
     {
         $payment_method=$payment_method??config("settings.default_gateway");
         return $this->create(
             [
                 "user_id" => $user_id,
+                "total_price" => $total_price,
+                "use_wallet_price" => $use_wallet_price,
                 "order_info_id" => $order_info_id,
                 "price" => $price,
                 "delivery_price" => $delivery_price,

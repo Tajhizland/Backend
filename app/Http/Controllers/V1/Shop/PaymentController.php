@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Shop\Payment\PaymentRequest;
 use App\Services\Payment\PaymentServicesInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,9 @@ class PaymentController extends Controller
     {
     }
 
-    public function requestPayment()
+    public function requestPayment(PaymentRequest $request)
     {
-        $paymentPath = $this->paymentServices->request(Auth::user()->id);
+        $paymentPath = $this->paymentServices->request(Auth::user()->id, $request->get("wallet"));
         return $this->dataResponse($paymentPath);
     }
 
@@ -28,9 +29,7 @@ class PaymentController extends Controller
         try {
             $this->paymentServices->verifyPayment($request);
             return Redirect::to("https://tajhizland.com/thank_you_page");
-        }
-        catch (\Throwable $exception)
-        {
+        } catch (\Throwable $exception) {
             return Redirect::to("https://tajhizland.com/failed_payment");
         }
     }
