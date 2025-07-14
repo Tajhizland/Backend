@@ -25,7 +25,8 @@ class ProductImageService implements ProductImageServiceInterface
     {
         foreach ($images as $image) {
             $imagePath = $this->s3Service->upload($image, "product");
-            dd($imagePath);
+            var_dump($imagePath);
+            die();
             $_800X = $this->imageResizeService->resize($image, 800, 800);
             $this->s3Service->upload2($_800X, "product/800", $imagePath);
             $_300X = $this->imageResizeService->resize($image, 300, 300);
