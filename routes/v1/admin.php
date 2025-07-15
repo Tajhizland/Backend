@@ -294,4 +294,19 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("product", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "addProduct"]);
         Route::post("set", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "set"]);
     });
+
+    Route::group(["prefix" => "run-concept-answer"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "find"]);
+        Route::get("question/{id}", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "getByQuestionId"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "update"]);
+    });
+
+    Route::group(["prefix" => "run-concept-question"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "find"]);
+         Route::post("store", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "update"]);
+    });
 });
