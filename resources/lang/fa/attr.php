@@ -38,6 +38,8 @@ return
         "color" => 'رنگ محصول',
         "file" => 'فایل',
         "brand" => 'برند',
+        "question" => 'پرسش',
+        "answer" => 'پاسخ',
         "page" => 'صفحه',
         "logout" => 'خروج',
         "address" => 'آدرس',

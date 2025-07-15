@@ -120,6 +120,10 @@ use App\Repositories\ResetPassword\ResetPasswordRepository;
 use App\Repositories\ResetPassword\ResetPasswordRepositoryInterface;
 use App\Repositories\Returned\ReturnedRepository;
 use App\Repositories\Returned\ReturnedRepositoryInterface;
+use App\Repositories\RunConceptAnswer\RunConceptAnswerRepository;
+use App\Repositories\RunConceptAnswer\RunConceptAnswerRepositoryInterface;
+use App\Repositories\RunConceptQuestion\RunConceptQuestionRepository;
+use App\Repositories\RunConceptQuestion\RunConceptQuestionRepositoryInterface;
 use App\Repositories\Sample\SampleRepository;
 use App\Repositories\Sample\SampleRepositoryInterface;
 use App\Repositories\SampleImage\SampleImageRepository;
@@ -252,6 +256,10 @@ use App\Services\ProductImage\ProductImageService;
 use App\Services\ProductImage\ProductImageServiceInterface;
 use App\Services\Returned\ReturnedService;
 use App\Services\Returned\ReturnedServiceInterface;
+use App\Services\RunConceptAnswer\RunConceptAnswerService;
+use App\Services\RunConceptAnswer\RunConceptAnswerServiceInterface;
+use App\Services\RunConceptQuestion\RunConceptQuestionService;
+use App\Services\RunConceptQuestion\RunConceptQuestionServiceInterface;
 use App\Services\S3\S3Service;
 use App\Services\S3\S3ServiceInterface;
 use App\Services\Sample\SampleService;
@@ -428,6 +436,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CategoryViewHistoryRepositoryInterface::class, CategoryViewHistoryRepository::class);
 
+        $this->app->bind(RunConceptAnswerRepositoryInterface::class, RunConceptAnswerRepository::class);
+
+        $this->app->bind(RunConceptQuestionRepositoryInterface::class, RunConceptQuestionRepository::class);
+
 
         /** End Repository */
 
@@ -567,6 +579,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(WalletTransactionServiceInterface::class, WalletTransactionService::class);
 
         $this->app->bind(CategoryViewHistoryServiceInterface::class, CategoryViewHistoryService::class);
+
+        $this->app->bind(RunConceptAnswerServiceInterface::class, RunConceptAnswerService::class);
+
+        $this->app->bind(RunConceptQuestionServiceInterface::class, RunConceptQuestionService::class);
 
         /** End Service */
 
