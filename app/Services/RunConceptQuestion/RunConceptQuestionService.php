@@ -45,4 +45,9 @@ class RunConceptQuestionService implements RunConceptQuestionServiceInterface
             "parent_answer" => $parent_answer
         ]);
     }
+
+    public function list()
+    {
+        return $this->conceptQuestionRepository->list();
+    }
 }

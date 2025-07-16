@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1\RunConceptQuestion;
 
+use App\Http\Resources\V1\RunConceptAnswer\RunConceptAnswerResource;
 use App\Models\RunConceptQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,6 +24,7 @@ class RunConceptQuestionResource extends JsonResource
             'parent_answer' => $this->parent_answer,
 
             'parentQuestion' => new RunConceptQuestionResource($this->whenLoaded('parentQuestion')),
+            'parentAnswer' => new RunConceptAnswerResource($this->whenLoaded('parentAnswer')),
         ];
     }
 }

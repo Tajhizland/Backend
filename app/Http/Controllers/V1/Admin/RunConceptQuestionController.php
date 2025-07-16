@@ -25,6 +25,12 @@ class RunConceptQuestionController extends Controller
         return $this->dataResponseCollection(new RunConceptQuestionCollection($response));
     }
 
+    public function list()
+    {
+        $response = $this->conceptQuestionService->list();
+        return $this->dataResponseCollection(new RunConceptQuestionCollection($response));
+    }
+
     public function find($id)
     {
         $response = $this->conceptQuestionService->find($id);

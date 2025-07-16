@@ -21,4 +21,8 @@ class RunConceptQuestionRepository extends BaseRepository implements RunConceptQ
             ->paginate($this->pageSize);
     }
 
+    public function list()
+    {
+        return $this->model::where("status",1)->get();
+    }
 }
