@@ -10,8 +10,8 @@ class StoreRunConceptQuestionRequest extends FormRequest
     {
         return [
             'question' => ['required'],
-            'parent_question' => ['nullable', 'exists:run_concept_questions,id'],
-            'parent_answer' => ['nullable', 'exists:run_concept_answers,id'],
+            'parent_question' => ['nullable'],
+            'parent_answer' => ['nullable'],
             'status' => ['required', 'integer'],
             'level' => ['required', 'integer'],
         ];

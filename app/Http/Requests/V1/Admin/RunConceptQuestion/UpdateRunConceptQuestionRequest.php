@@ -11,8 +11,8 @@ class UpdateRunConceptQuestionRequest extends FormRequest
         return [
             'id' => ['exists:App\Models\RunConceptQuestion'],
             'question' => ['required'],
-            'parent_question' => ['nullable', 'exists:run_concept_questions'],
-            'parent_answer' => ['nullable', 'exists:run_concept_answers'],
+            'parent_question' => ['nullable'],
+            'parent_answer' => ['nullable'],
             'status' => ['required', 'integer'],
             'level' => ['required', 'integer'],
         ];
