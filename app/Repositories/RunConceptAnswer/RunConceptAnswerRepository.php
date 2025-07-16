@@ -3,7 +3,6 @@
 namespace App\Repositories\RunConceptAnswer;
 
 use App\Models\RunConceptAnswer;
-use App\Models\RunConceptQuestion;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -16,7 +15,7 @@ class RunConceptAnswerRepository extends BaseRepository implements RunConceptAns
 
     public function dataTable()
     {
-        return QueryBuilder::for(RunConceptQuestion::class)
+        return QueryBuilder::for(RunConceptAnswer::class)
             ->allowedFilters(['run_concept_question_id', 'answer', 'status', 'price', 'id', 'created_at'])
             ->allowedSorts(['run_concept_question_id', 'answer', 'status', 'price', 'id', 'created_at'])
             ->paginate($this->pageSize);
