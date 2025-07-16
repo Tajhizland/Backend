@@ -10,7 +10,7 @@ class UpdateRunConceptAnswerRequest extends FormRequest
     {
         return [
             'id' => ['required', 'exists:run_concept_answers'],
-            'run_concept_question_id' => ['required', 'exists:run_concept_questions'],
+            'run_concept_question_id' => ['required', 'exists:run_concept_questions,id'],
             'answer' => ['required'],
             'status' => ['required', 'integer'],
             'price' => ['required', 'integer'],

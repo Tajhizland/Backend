@@ -9,7 +9,7 @@ class StoreRunConceptAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'run_concept_question_id' => ['required', 'exists:run_concept_questions'],
+            'run_concept_question_id' => ['required', 'exists:run_concept_questions,id'],
             'answer' => ['required'],
             'status' => ['required', 'integer'],
             'price' => ['required', 'integer'],
