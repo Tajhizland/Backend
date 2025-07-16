@@ -65,4 +65,9 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
     {
         return $this->model::whereDate('created_at', Carbon::today())->count();
     }
+
+    public function getByUserId($userId)
+    {
+        return $this->model::where("user_id",$userId)->latest("id")->get();
+    }
 }

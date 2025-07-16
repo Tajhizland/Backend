@@ -87,6 +87,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\UserController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\UserController::class, "findById"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\UserController::class, "update"]);
+
+        Route::get('address/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getAddress"]);
+        Route::get('on-hold-order/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getOnHoldOrder"]);
+        Route::get('order/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getOrder"]);
+
     });
     Route::group(["prefix" => "gateway"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\GatewayController::class, "dataTable"]);

@@ -8,6 +8,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface OnHoldOrderRepositoryInterface extends  BaseRepositoryInterface
 {
     public function userOnHoldOrderPaginate($userId);
+    public function getByUserId($userId);
     public function setReject(OnHoldOrder $onHoldModel);
     public function setAccept(OnHoldOrder $onHoldModel);
     public function dataTable();
