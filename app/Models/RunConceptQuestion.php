@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RunConceptQuestion extends Model
 {
+    protected $guarded=["id"];
     public function parentQuestion(): BelongsTo
     {
         return $this->belongsTo(RunConceptQuestion::class, 'parent_question');
