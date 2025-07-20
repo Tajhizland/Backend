@@ -47,11 +47,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         ]);
     }
 
-    public function updateUser($id, $name, $username, $email, $gender, $role)
+    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code)
     {
         return $this->model::find($id)->update([
             "name" => $name,
             "username" => $username,
+            "last_name" => $last_name,
+            "national_code" => $national_code,
             "role" => $role,
             "gender" => $gender,
             "email" => $email,

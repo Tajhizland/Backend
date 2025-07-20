@@ -34,19 +34,19 @@ class UserController extends Controller
 
     public function getAddress($id)
     {
-        $response =$this->addressService->getByUserId($id);
+        $response = $this->addressService->getByUserId($id);
         return $this->dataResponseCollection(new AddressCollection($response));
     }
 
     public function getOnHoldOrder($id)
     {
-        $response =$this->onHoldOrderService->userHoldOnPaginate($id);
+        $response = $this->onHoldOrderService->userHoldOnPaginate($id);
         return $this->dataResponseCollection(new OnHoldOrderCollection($response));
     }
 
     public function getOrder($id)
     {
-        $response =$this->orderService->userOrderPaginate($id);
+        $response = $this->orderService->userOrderPaginate($id);
         return $this->dataResponseCollection(new OrderCollection($response));
     }
 
@@ -57,7 +57,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request)
     {
-        $this->userService->updateUser($request->get("id"), $request->get("name"), $request->get("username"), $request->get("email"), $request->get("gender"), $request->get("role"));
+        $this->userService->updateUser($request->get("id"), $request->get("name"), $request->get("username"), $request->get("email"), $request->get("gender"), $request->get("role"), $request->get("last_name"), $request->get("national_code"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.user")]));
     }
 }

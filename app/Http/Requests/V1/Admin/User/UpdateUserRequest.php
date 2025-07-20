@@ -11,6 +11,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'id' => ['required','integer','exists:App\Models\User'],
+            'last_name' => ['required','string'],
+            'national_code' => ['required','string'],
             'name' => ['required','string'],
             'email' => ['nullable','string' ,'email'],
             'gender' => ['numeric','in:0,1','nullable'],
