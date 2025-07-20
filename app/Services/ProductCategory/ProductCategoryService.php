@@ -20,7 +20,7 @@ class ProductCategoryService implements ProductCategoryServiceInterface
     public function syncProductCategory($productId, $categoryIds)
     {
         $oldCategory = $this->productCategoryRepository->findByProductId($productId);
-        if (!in_array($oldCategory->category_id, $categoryIds)) {
+        if ($oldCategory && !in_array($oldCategory->category_id, $categoryIds)) {
             $options = $this->optionRepository->getCategoryOptions($oldCategory->category_id);
             foreach ($options as $item) {
                 foreach ($item->optionItems as $optionItem) {
