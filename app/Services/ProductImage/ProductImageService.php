@@ -21,7 +21,7 @@ class ProductImageService implements ProductImageServiceInterface
         return $this->productImageRepository->getByProductId($productId);
     }
 
-    public function upload($productId, $images )
+    public function upload($productId, $images)
     {
         foreach ($images as $image) {
             $imagePath = $this->s3Service->upload($image, "product");
@@ -29,7 +29,12 @@ class ProductImageService implements ProductImageServiceInterface
             $this->s3Service->upload2($_800X, "product/800", $imagePath);
             $_300X = $this->imageResizeService->resize($image, 300, 300);
             $this->s3Service->upload2($_300X, "product/300", $imagePath);
-           $this->productImageRepository->create(["product_id" => $productId, "url" => $imagePath]);
+            $sort = 0;
+            $lastImage = $this->productImageRepository->findLastSortByProductId($productId);
+            if ($lastImage) {
+                $sort = $lastImage->sort + 1;
+            }
+            $this->productImageRepository->create(["product_id" => $productId, "url" => $imagePath, "sort" => $sort]);
         }
         return true;
     }
@@ -43,8 +48,12 @@ class ProductImageService implements ProductImageServiceInterface
 
         $_300X = $this->imageResizeService->resize($image, 300, 300);
         $this->s3Service->upload2($_300X, "product/300", $imagePath);
-
-        return $this->productImageRepository->create(["product_id" => $productId, "url" => $imagePath]);
+        $sort = 0;
+        $lastImage = $this->productImageRepository->findLastSortByProductId($productId);
+        if ($lastImage) {
+            $sort = $lastImage->sort + 1;
+        }
+        return $this->productImageRepository->create(["product_id" => $productId, "url" => $imagePath, "sort" => $sort]);
     }
 
     public function remove($id)
