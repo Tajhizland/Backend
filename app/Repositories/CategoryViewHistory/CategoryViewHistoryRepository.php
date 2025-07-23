@@ -15,11 +15,15 @@ class CategoryViewHistoryRepository extends BaseRepository implements CategoryVi
 
     public function findTop($userId)
     {
-        return  DB::table('category_view_histories')
+        return DB::table('category_view_histories')
             ->select('category_id', DB::raw('COUNT(*) as view_count'))
-            ->where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->take(20)
+            ->whereIn('id', function ($query) use ($userId) {
+                $query->select('id')
+                    ->from('category_view_histories')
+                    ->where('user_id', $userId)
+                    ->orderBy('created_at', 'desc')
+                    ->take(20);
+            })
             ->groupBy('category_id')
             ->orderBy('view_count', 'desc')
             ->first();
