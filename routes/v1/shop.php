@@ -46,6 +46,7 @@ Route::group(["prefix" => "search"], function () {
 Route::group(["prefix" => "product"], function () {
     Route::post('find', [ProductController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('discount', [ProductController::class, "getDiscountedProducts"]);
+    Route::get('suggest', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "suggest"])->middleware("auth:sanctum");
 });
 
 Route::group(["prefix" => "category"], function () {
