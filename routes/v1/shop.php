@@ -46,7 +46,6 @@ Route::group(["prefix" => "search"], function () {
 Route::group(["prefix" => "product"], function () {
     Route::post('find', [ProductController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('discount', [ProductController::class, "getDiscountedProducts"]);
-    Route::get('suggest', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "suggest"])->middleware("auth:sanctum");
 });
 
 Route::group(["prefix" => "category"], function () {
@@ -144,6 +143,7 @@ Route::group(["prefix" => "charge"], function () {
 
 Route::group(["prefix" => 'category-view-history'], function () {
     Route::post('store', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "store"])->middleware("auth:sanctum");
+    Route::get('suggest', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "suggest"])->middleware("auth:sanctum");
 
 });
 
