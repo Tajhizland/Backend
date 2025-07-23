@@ -15,17 +15,17 @@ class CategoryViewHistoryRepository extends BaseRepository implements CategoryVi
 
     public function findTop($userId)
     {
-        return DB::table('category_view_histories')
-            ->select('category_id', DB::raw('COUNT(*) as view_count'))
-            ->whereIn('id', function ($query) use ($userId) {
-                $query->select('id')
-                    ->from('category_view_histories')
-                    ->where('user_id', $userId)
-                    ->orderBy('created_at', 'desc')
-                    ->take(20);
-            })
-            ->groupBy('category_id')
-            ->orderBy('view_count', 'desc')
-            ->first();
+        $latestViews = $this->model::where('user_id', $userId)
+            ->latest("id")
+            ->limit(20)
+            ->get(['category_id']);
+
+        // شمارش تعداد هر category_id
+        $categoryCounts = $latestViews->countBy('category_id');
+
+        // پیدا کردن category_id با بیشترین تعداد
+        $mostViewedCategory = $categoryCounts->keys()->first();
+
+        return $mostViewedCategory;
     }
 }
