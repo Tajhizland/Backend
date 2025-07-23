@@ -11,7 +11,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function searchWithOption($query , $categoryIds);
 
     public function findById($id);
-    public function getByCategoryId($id ,$except);
+    public function getByCategoryId($id ,$except,$limit=10);
     public function getAllByCategoryId($id);
     public function getSpecial();
     public function sort($id , $sort);

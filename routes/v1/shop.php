@@ -143,6 +143,7 @@ Route::group(["prefix" => "charge"], function () {
 
 Route::group(["prefix" => 'category-view-history'], function () {
     Route::post('store', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "store"])->middleware("auth:sanctum");
+    Route::get('suggest', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "suggest"])->middleware("auth:sanctum");
 
 });
 
