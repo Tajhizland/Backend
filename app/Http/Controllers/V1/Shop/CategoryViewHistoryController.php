@@ -20,12 +20,21 @@ class CategoryViewHistoryController extends Controller
 
     public function store(StoreCategoryViewHistoryRequest $request)
     {
-        $this->categoryViewHistoryService->store(Auth::user()->id, $request->get("category_id"));
+        $userId = Auth::id();
+        $ip = request()->ip();
+        $this->categoryViewHistoryService->store($userId, $ip, $request->get("category_id"));
     }
 
     public function suggest()
     {
         $response = $this->categoryViewHistoryService->suggest(Auth::user()->id);
+        return $this->dataResponseCollection(
+            new ProductCollection($response)
+        );
+    }
+    public function suggestIp()
+    {
+        $response = $this->categoryViewHistoryService->suggestIp(request()->ip());
         return $this->dataResponseCollection(
             new ProductCollection($response)
         );

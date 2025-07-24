@@ -16,10 +16,11 @@ class CategoryViewHistoryService implements CategoryViewHistoryServiceInterface
     {
     }
 
-    public function store($userId, $categoryId)
+    public function store($userId, $ip, $categoryId)
     {
         return $this->categoryViewHistoryRepository->create(
             [
+                "ip" => $ip,
                 "user_id" => $userId,
                 "category_id" => $categoryId
             ]
@@ -29,6 +30,12 @@ class CategoryViewHistoryService implements CategoryViewHistoryServiceInterface
     public function suggest($userId)
     {
         $mostFrequentCategory = $this->categoryViewHistoryRepository->findTop($userId);
-        return $this->productRepository->getByCategoryId($mostFrequentCategory, 0,5);
+        return $this->productRepository->getByCategoryId($mostFrequentCategory, 0, 5);
+    }
+
+    public function suggestIp($ip)
+    {
+        $mostFrequentCategory = $this->categoryViewHistoryRepository->findTopByIp($ip);
+        return $this->productRepository->getByCategoryId($mostFrequentCategory, 0, 5);
     }
 }
