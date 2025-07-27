@@ -20,9 +20,18 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function findByUrl($url)
     {
         return $this->model::withActiveColor()
-            ->with(["groupItems", "groupItems.product", "groupItems.product.images", "groupItems.value", "groupItems.value.groupField"])
             ->whereHas("activeProductColors")
             ->active()
+            ->isProduct()
+            ->where("url", $url)
+            ->first();
+    }
+
+    public function findGroupByUrl($url)
+    {
+        return $this->model::with(["groupItems", "groupItems.product", "groupItems.product.images", "groupItems.value", "groupItems.value.groupField"])
+            ->active()
+            ->isGroup()
             ->where("url", $url)
             ->first();
     }
@@ -33,7 +42,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model::find($id);
     }
 
-    public function getByCategoryId($id, $except,$limit=10)
+    public function getByCategoryId($id, $except, $limit = 10)
     {
         return $this->model::active()->HasColorHasStock()->whereHas("productCategories", function ($query) use ($id) {
             $query->where("category_id", $id);
@@ -289,7 +298,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findProductWithOption($id)
     {
-        return $this->model::active()->with(["productOptions","images"])->find($id);
+        return $this->model::active()->with(["productOptions", "images"])->find($id);
     }
 
     public function searchWithOption($query, $categoryIds)
@@ -303,7 +312,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         })->whereHas("categories", function ($subQuery) use ($categoryIds) {
             $subQuery->whereIn("category_id", $categoryIds);
         })
-            ->with(["productOptions","images"])
+            ->with(["productOptions", "images"])
             ->whereHas("activeProductColors")
             ->limit(config("settings.search_item_limit"))
             ->get();

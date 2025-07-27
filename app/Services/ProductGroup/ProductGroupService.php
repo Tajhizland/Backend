@@ -25,6 +25,7 @@ class ProductGroupService implements ProductGroupServiceInterface
     {
         return $this->productRepository->groupDataTable();
     }
+
     public function getFieldByGroupId($groupId)
     {
         return $this->groupFieldRepository->getByGroupId($groupId);
@@ -35,14 +36,17 @@ class ProductGroupService implements ProductGroupServiceInterface
 //        return $this->groupFieldValueRepository->getByGroupId($groupId);
 
     }
+
     public function getProductByGroupId($groupId)
     {
         return $this->groupProductRepository->getByGroupId($groupId);
     }
+
     public function getProductByGroupIdWithValue($groupId)
     {
         return $this->groupProductRepository->getByGroupIdWithValue($groupId);
     }
+
     public function addProductToGroup($productId, $groupId)
     {
         $groupProduct = $this->groupProductRepository->findByGroupAndProduct($productId, $groupId);
@@ -78,7 +82,7 @@ class ProductGroupService implements ProductGroupServiceInterface
     {
         $groupFieldValue = $this->groupFieldValueRepository->findByGroupAndField($groupProductId, $fieldId);
         if ($groupFieldValue) {
-            return $this->groupFieldValueRepository->update($groupFieldValue,["value" => $value]);
+            return $this->groupFieldValueRepository->update($groupFieldValue, ["value" => $value]);
         }
         return $this->groupFieldValueRepository->create([
             "group_field_id" => $fieldId,
@@ -89,4 +93,8 @@ class ProductGroupService implements ProductGroupServiceInterface
     }
 
 
+    public function findByUrl($url)
+    {
+        return $this->productRepository->findGroupByUrl($url);
+    }
 }

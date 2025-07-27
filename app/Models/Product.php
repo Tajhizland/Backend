@@ -188,6 +188,16 @@ class Product extends Model
         return $query->where("status", ProductStatus::Active->value);
     }
 
+    public function scopeIsProduct(Builder $query): Builder
+    {
+        return $query->where("type", "product");
+    }
+
+    public function scopeIsGroup(Builder $query): Builder
+    {
+        return $query->where("type", "group");
+    }
+
     public function scopeHasColor(Builder $query): Builder
     {
         return $query->whereHas("productColors", function ($query) {

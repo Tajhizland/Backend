@@ -7,44 +7,66 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface ProductRepositoryInterface extends BaseRepositoryInterface
 {
     public function findByUrl($url);
+
+    public function findGroupByUrl($url);
+
     public function findProductWithOption($id);
-    public function searchWithOption($query , $categoryIds);
+
+    public function searchWithOption($query, $categoryIds);
 
     public function findById($id);
-    public function getByCategoryId($id ,$except,$limit=10);
+
+    public function getByCategoryId($id, $except, $limit = 10);
+
     public function getAllByCategoryId($id);
+
     public function getSpecial();
-    public function sort($id , $sort);
+
+    public function sort($id, $sort);
 
     public function dataTable();
+
     public function groupDataTable();
-    public function searchProductWithCategory($query , $categoryId);
-     public function incrementViewCount($product);
+
+    public function searchProductWithCategory($query, $categoryId);
+
+    public function incrementViewCount($product);
+
     public function customPaginate($perPage);
 
     public function search($query);
+
     public function searchPaginate($query);
 
     public function showFavoriteList($userId);
 
     public function activeProductQuery($categoryIds);
+
     public function activeProductByBrandQuery($brandId);
 
     public function paginated($query);
 
-    public function createProduct($name, $url, $description, $study ,$status, $brandId , $metaTitle , $metaDescription);
-    public function updateProduct($id,$name, $url, $description, $study ,$status, $brandId , $metaTitle , $metaDescription);
+    public function createProduct($name, $url, $description, $study, $status, $brandId, $metaTitle, $metaDescription);
+
+    public function updateProduct($id, $name, $url, $description, $study, $status, $brandId, $metaTitle, $metaDescription);
 
 
     public function getCustomCategoryProduct($categoryId);
+
     public function getNewProduct();
+
     public function getHasDiscountProduct();
+
     public function getMostPopularProduct();
+
     public function getDiscountedProducts();
+
     public function getDiscountedProductsId();
+
     /***Filters***/
 
     public function categoryFilters($query, $categoryId);
+
     public function categoryFilter($query, $categoryId);
 
     public function minPriceFilter($query, $minPrice);
@@ -61,5 +83,6 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
 
     public function getSitemapData();
+
     public function getTorobProducts();
 }

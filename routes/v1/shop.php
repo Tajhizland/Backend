@@ -48,6 +48,11 @@ Route::group(["prefix" => "product"], function () {
     Route::get('discount', [ProductController::class, "getDiscountedProducts"]);
 });
 
+Route::group(["prefix" => "group"], function () {
+    Route::post('find', [\App\Http\Controllers\V1\Shop\GroupController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+
+});
+
 Route::group(["prefix" => "category"], function () {
     Route::post('find', [CategoryController::class, "index"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
 });
