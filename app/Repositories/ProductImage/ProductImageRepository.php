@@ -11,13 +11,19 @@ class ProductImageRepository extends BaseRepository implements ProductImageRepos
     {
         parent::__construct($model);
     }
+
     public function getByProductId($productId)
     {
-        return $this->model::where("product_id",$productId)->orderBy("sort")->get();
+        return $this->model::where("product_id", $productId)->orderBy("sort")->get();
     }
 
     public function sort($id, $sort)
     {
         return $this->model::where("id", $id)->update(["sort" => $sort]);
+    }
+
+    public function findLastSortByProductId($productId)
+    {
+        return $this->model::where("product_id", $productId)->latest("sort")->first();
     }
 }

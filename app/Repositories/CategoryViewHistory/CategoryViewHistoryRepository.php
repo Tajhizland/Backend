@@ -28,4 +28,20 @@ class CategoryViewHistoryRepository extends BaseRepository implements CategoryVi
 
         return $mostViewedCategory;
     }
+
+    public function findTopByIp($ip)
+    {
+        $latestViews = $this->model::where('ip', $ip)
+            ->latest("id")
+            ->limit(20)
+            ->get(['category_id']);
+
+        // شمارش تعداد هر category_id
+        $categoryCounts = $latestViews->countBy('category_id');
+
+        // پیدا کردن category_id با بیشترین تعداد
+        $mostViewedCategory = $categoryCounts->keys()->first();
+
+        return $mostViewedCategory;
+    }
 }
