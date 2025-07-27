@@ -30,12 +30,12 @@ class CategoryViewHistoryService implements CategoryViewHistoryServiceInterface
     public function suggest($userId)
     {
         $mostFrequentCategory = $this->categoryViewHistoryRepository->findTop($userId);
-        return $this->productRepository->getByCategoryId($mostFrequentCategory, 0, 5);
+        return $this->productRepository->getByCategoryId($mostFrequentCategory, 0, 6);
     }
 
     public function suggestIp($ip)
     {
         $mostFrequentCategory = $this->categoryViewHistoryRepository->findTopByIp($ip);
-        return $this->productRepository->getByCategoryId($mostFrequentCategory, 0, 5);
+        return $this->productRepository->getByCategoryId($mostFrequentCategory, 0, 6);
     }
 }
