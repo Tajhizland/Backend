@@ -5,6 +5,8 @@ namespace App\Services\Category;
 interface CategoryServiceInterface
 {
     public function listing($url , $filters);
+    public function groupListing($url);
+
     public function findById($id);
     public function dataTable();
     public function list();

@@ -50,6 +50,22 @@ class CategoryService implements CategoryServiceInterface
             "children" => $children
         ];
     }
+    public function groupListing($url)
+    {
+        $category = $this->categoryRepository->findByUrl($url);
+        if (!$category) {
+            throw new NotFoundHttpException();
+        }
+        $categoryIds = $this->categoryTreeService->getCategoryAndChildrenIds($category);
+        $groups = $this->productRepository->activeGroupPaginate($categoryIds);
+        $breadcrumb = $this->breadcrumbService->generate($category);
+
+        return [
+            "groups" => $groups,
+            "category" => $category,
+            "breadcrumb" => $breadcrumb,
+        ];
+    }
 
     public function list()
     {

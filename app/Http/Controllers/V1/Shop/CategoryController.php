@@ -4,7 +4,6 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Breadcrumb\BreadcrumbCollection;
-use App\Http\Resources\V1\Category\CategoryCollection;
 use App\Http\Resources\V1\Category\CategoryResource;
 use App\Http\Resources\V1\Category\SimpleCategoryCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
@@ -34,6 +33,20 @@ class CategoryController extends Controller
             "products" => $productCollection,
             "groups" => $groups,
             "children" => $children,
+            "breadcrumb" => $breadcrumbCollection,
+        ]);
+    }
+
+    public function groupListing(Request $request)
+    {
+        $listing = $this->categoryService->groupListing($request->get("url"));
+        $categoryResource = new CategoryResource($listing["category"]);
+        $groups = new ProductCollection($listing["groups"]);
+        $breadcrumbCollection = new BreadcrumbCollection($listing["breadcrumb"]);
+
+        return $this->dataResponse([
+            "category" => $categoryResource,
+            "groups" => $groups,
             "breadcrumb" => $breadcrumbCollection,
         ]);
     }

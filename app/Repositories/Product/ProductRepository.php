@@ -129,6 +129,20 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->get();
     }
 
+    public function activeGroupPaginate($categoryIds)
+    {
+        return $this->model::with(["groupItems", "groupItems.product"])
+            ->active()
+            ->hasColor()
+            ->withActiveColor()
+            ->isGroup()
+            ->whereHas("productCategories", function ($query) use ($categoryIds) {
+                $query->whereIn("category_id", $categoryIds);
+            })
+            ->customOrder()
+            ->paginate($this->pageSize);
+    }
+
     public function activeProductByBrandQuery($brandId)
     {
         return $this->model::active()->hasColor()

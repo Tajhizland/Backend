@@ -55,6 +55,7 @@ Route::group(["prefix" => "group"], function () {
 
 Route::group(["prefix" => "category"], function () {
     Route::post('find', [CategoryController::class, "index"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+    Route::post('get-group', [CategoryController::class, "groupListing"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
 });
 Route::group(["prefix" => "brand"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\BrandController::class, "index"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
