@@ -106,11 +106,27 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function activeProductQuery($categoryIds)
     {
         return $this->model::active()->hasColor()
+            ->isProduct()
             ->withActiveColor()
             ->whereHas("productCategories", function ($query) use ($categoryIds) {
                 $query->whereIn("category_id", $categoryIds);
             })
             ->customOrder();
+    }
+
+    public function activeGroupLimit($categoryIds)
+    {
+        return $this->model::with(["groupItems", "groupItems.product"])
+            ->active()
+            ->hasColor()
+            ->withActiveColor()
+            ->isGroup()
+            ->whereHas("productCategories", function ($query) use ($categoryIds) {
+                $query->whereIn("category_id", $categoryIds);
+            })
+            ->customOrder()
+            ->limit(10)
+            ->get();
     }
 
     public function activeProductByBrandQuery($brandId)

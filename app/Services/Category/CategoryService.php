@@ -39,9 +39,16 @@ class CategoryService implements CategoryServiceInterface
         $productsQuery = $this->productRepository->activeProductQuery($categoryIds);
         $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
+        $groups = $this->productRepository->activeGroupLimit($categoryIds);
         $breadcrumb = $this->breadcrumbService->generate($category);
 
-        return ["products" => $products, "category" => $category, "breadcrumb" => $breadcrumb, "children" => $children];
+        return [
+            "products" => $products,
+            "groups" => $groups,
+            "category" => $category,
+            "breadcrumb" => $breadcrumb,
+            "children" => $children
+        ];
     }
 
     public function list()

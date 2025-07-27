@@ -26,11 +26,13 @@ class CategoryController extends Controller
         $categoryResource = new CategoryResource($listing["category"]);
         $children = new SimpleCategoryCollection($listing["children"]);
         $productCollection = new ProductCollection($listing["products"]);
+        $groups = new ProductCollection($listing["groups"]);
         $breadcrumbCollection = new BreadcrumbCollection($listing["breadcrumb"]);
 
         return $this->dataResponse([
             "category" => $categoryResource,
             "products" => $productCollection,
+            "groups" => $groups,
             "children" => $children,
             "breadcrumb" => $breadcrumbCollection,
         ]);
