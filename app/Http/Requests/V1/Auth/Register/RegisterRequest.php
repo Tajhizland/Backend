@@ -11,7 +11,7 @@ class RegisterRequest extends FormRequest
         return [
             "name" => "required|string",
             "last_name" => "required|string",
-            "national_code" => "required|string|size:10",
+            "national_code" => "nullable",
             'mobile' => 'required|string|regex:/^09\d{9}$/|unique:users,username',
             'password' => 'required|string|min:8|confirmed',
         ];
