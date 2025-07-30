@@ -43,6 +43,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getOption"]);
         Route::post("filter/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFilter"]);
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setOption"]);
+        Route::post("option/sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "sortOption"]);
         Route::post("sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "productSort"]);
         Route::post("image/delete/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "deleteImage"]);
     });
@@ -311,7 +312,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     Route::group(["prefix" => "run-concept-question"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "find"]);
-         Route::post("store", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "store"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "update"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "list"]);
     });

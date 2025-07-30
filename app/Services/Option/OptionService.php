@@ -11,8 +11,8 @@ class OptionService implements OptionServiceInterface
 
     public function __construct
     (
-        private OptionRepositoryInterface     $optionRepository,
-        private OptionItemRepositoryInterface $optionItemRepository,
+        private OptionRepositoryInterface        $optionRepository,
+        private OptionItemRepositoryInterface    $optionItemRepository,
         private ProductOptionRepositoryInterface $productOptionRepository,
     )
     {
@@ -30,7 +30,9 @@ class OptionService implements OptionServiceInterface
 
     public function createOption($title, $categoryId, $status, $items)
     {
-        $option = $this->optionRepository->createOption($title, $categoryId, $status);
+        $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
+        $sort = $lastSort->sort + 1;
+        $option = $this->optionRepository->createOption($title, $categoryId, $status, $sort);
         foreach ($items as $item) {
             $this->optionItemRepository->createFilterItem($option->id, $item["title"], $item["status"]);
         }
@@ -48,27 +50,30 @@ class OptionService implements OptionServiceInterface
         }
         return true;
     }
+
     public function getByProductId($productId)
     {
-      return  $this->optionRepository->getByProductId($productId);
+        return $this->optionRepository->getByProductId($productId);
     }
-    public function setOptionToProduct($productId, $options):void
+
+    public function setOptionToProduct($productId, $options): void
     {
-       foreach ($options as $option) {
+        foreach ($options as $option) {
             $productOption = $this->productOptionRepository->findProductOption($productId, $option["item_id"]);
             if ($productOption) {
-                if($option["value"])
+                if ($option["value"])
 
-                $this->productOptionRepository->updateValue($productOption, $option["value"]);
+                    $this->productOptionRepository->updateValue($productOption, $option["value"]);
                 else
-                $this->productOptionRepository->deleteValue($productOption);
+                    $this->productOptionRepository->deleteValue($productOption);
 
                 continue;
             }
-            if($option["value"])
-            $this->productOptionRepository->store($productId, $option["item_id"], $option["value"]);
+            if ($option["value"])
+                $this->productOptionRepository->store($productId, $option["item_id"], $option["value"]);
         }
     }
+
     public function getCategoryOptions($categoryId)
     {
         return $this->optionRepository->getCategoryOptions($categoryId);
@@ -77,24 +82,26 @@ class OptionService implements OptionServiceInterface
     public function setOption($categoryId, $options): void
     {
         foreach ($options as $option) {
-            if(@$option["id"]) {
-                $optionId=$option["id"];
+            if (@$option["id"]) {
+                $optionId = $option["id"];
                 $existOption = $this->optionRepository->find($option["id"]);
                 if ($existOption) {
                     $this->optionRepository->updateOption($option["id"], $option["title"], $categoryId, $option["status"]);
+                } else {
+                    $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
+                    $sort = $lastSort->sort + 1;
+                    $newOption = $this->optionRepository->createOption($option["title"], $categoryId, $option["status"], $sort);
+                    $optionId = $newOption->id;
                 }
-                else {
-                    $newOption=$this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
-                    $optionId=$newOption->id;
-                }
-            }
-            else {
-                $newOption=$this->optionRepository->createOption($option["title"], $categoryId, $option["status"]);
-                $optionId=$newOption->id;
+            } else {
+                $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
+                $sort = $lastSort->sort + 1;
+                $newOption = $this->optionRepository->createOption($option["title"], $categoryId, $option["status"], $sort);
+                $optionId = $newOption->id;
             }
             $optionItems = $option["item"];
             foreach ($optionItems as $optionItem) {
-                if(@$optionItem["id"]) {
+                if (@$optionItem["id"]) {
                     $existOptionItem = $this->optionItemRepository->find($optionItem["id"]);
                     if ($existOptionItem) {
                         $this->optionItemRepository->updateFilterItem($existOptionItem, $optionItem["title"], $optionItem["status"]);
@@ -104,5 +111,13 @@ class OptionService implements OptionServiceInterface
                 $this->optionItemRepository->createFilterItem($optionId, $optionItem["title"], $optionItem["status"]);
             }
         }
+    }
+
+    public function sortOption($array)
+    {
+        foreach ($array as $item) {
+            $this->optionRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
     }
 }

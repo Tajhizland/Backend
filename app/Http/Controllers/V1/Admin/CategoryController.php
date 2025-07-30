@@ -8,6 +8,7 @@ use App\Http\Requests\V1\Admin\Category\StoreCategoryRequest;
 use App\Http\Requests\V1\Admin\Category\UpdateCategoryRequest;
 use App\Http\Requests\V1\Admin\Filter\SetFilterRequest;
 use App\Http\Requests\V1\Admin\Option\SetOptionRequest;
+use App\Http\Requests\V1\Admin\Option\SortOptionRequest;
 use App\Http\Resources\V1\Category\CategoryCollection;
 use App\Http\Resources\V1\Category\CategoryResource;
 use App\Http\Resources\V1\Category\SimpleCategoryCollection;
@@ -40,6 +41,7 @@ class CategoryController extends Controller
     {
         return $this->dataResponseCollection(new ProductCollection($this->categoryService->productList($id)));
     }
+
     public function productSort(ProductSortRequest $request)
     {
         $this->categoryService->productSort($request->get("product"));
@@ -89,6 +91,13 @@ class CategoryController extends Controller
         $this->optionService->setOption($request->get("category_id"), $request->get("option"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.option")]));
     }
+
+    public function sortOption(SortOptionRequest $request)
+    {
+        $this->optionService->sortOption($request->get("option"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.option")]));
+    }
+
     public function deleteImage($id)
     {
         $this->categoryService->deleteImage($id);

@@ -15,12 +15,13 @@ class OptionRepository extends BaseRepository implements OptionRepositoryInterfa
         parent::__construct($model);
     }
 
-    public function createOption($title, $categoryId, $status)
+    public function createOption($title, $categoryId, $status, $sort = null)
     {
-        return$this->create([
+        return $this->create([
             "title" => $title,
             "category_id" => $categoryId,
             "status" => $status,
+            "sort" => $sort,
         ]);
     }
 
@@ -47,22 +48,34 @@ class OptionRepository extends BaseRepository implements OptionRepositoryInterfa
 
     public function getByProductId($productId)
     {
-        return $this->model::whereHas("category",function ($query) use($productId){
-            $query->whereHas("productCategory",function ($query2) use($productId){
-                $query2->where("product_id",$productId);
+        return $this->model::whereHas("category", function ($query) use ($productId) {
+            $query->whereHas("productCategory", function ($query2) use ($productId) {
+                $query2->where("product_id", $productId);
             });
-        })->with(["optionItems"=>function ($query) use($productId){
-            $query->with(["productOption"=>function ($query2) use($productId) {
-                $query2->where("product_id",$productId);
+        })->with(["optionItems" => function ($query) use ($productId) {
+            $query->with(["productOption" => function ($query2) use ($productId) {
+                $query2->where("product_id", $productId);
             }]);
         }])->get();
     }
+
     public function getCategoryOptions($categoryId)
     {
-        return $this->model::where("category_id",$categoryId)->with("optionItems")->get();
+        return $this->model::where("category_id", $categoryId)->with("optionItems")->get();
     }
+
     public function find($id)
     {
         return $this->model::find($id);
+    }
+
+    public function findLastSortOfCategory($categoryId)
+    {
+        return $this->model::where("category_id", $categoryId)->latest("sort")->first();
+    }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
 }
