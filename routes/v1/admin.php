@@ -38,12 +38,14 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\CategoryController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CategoryController::class, "update"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\CategoryController::class, "list"]);
+        Route::get("option-item/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getOptionItem"]);
         Route::get("product/list/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "productList"]);
         Route::get("filter/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getFilter"]);
         Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getOption"]);
         Route::post("filter/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFilter"]);
         Route::post("option/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setOption"]);
         Route::post("option/sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "sortOption"]);
+        Route::post("option-item/sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "sortOptionItem"]);
         Route::post("sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "productSort"]);
         Route::post("image/delete/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "deleteImage"]);
     });

@@ -15,6 +15,7 @@ use App\Http\Resources\V1\Category\SimpleCategoryCollection;
 use App\Http\Resources\V1\CategoryList\CategoryListCollection;
 use App\Http\Resources\V1\Filter\FilterCollection;
 use App\Http\Resources\V1\Option\OptionCollection;
+use App\Http\Resources\V1\OptionItem\OptionItemCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
@@ -80,6 +81,11 @@ class CategoryController extends Controller
         return $this->dataResponseCollection(new OptionCollection($this->optionService->getCategoryOptions($id)));
     }
 
+    public function getOptionItem($id)
+    {
+        return $this->dataResponseCollection(new OptionItemCollection($this->optionService->getItemOfOption($id)));
+    }
+
     public function setFilter(SetFilterRequest $request)
     {
         $this->filterService->setFilter($request->get("category_id"), $request->get("filter"));
@@ -95,6 +101,12 @@ class CategoryController extends Controller
     public function sortOption(SortOptionRequest $request)
     {
         $this->optionService->sortOption($request->get("option"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.option")]));
+    }
+
+    public function sortOptionItem(SortOptionRequest $request)
+    {
+        $this->optionService->sortOptionItem($request->get("option"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.option")]));
     }
 

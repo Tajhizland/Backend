@@ -21,6 +21,8 @@ interface OptionServiceInterface
     public function setOption($categoryId, $options): void;
 
     public function sortOption($options);
+    public function sortOptionItem($options);
+    public function getItemOfOption($optionId);
 
 
 }

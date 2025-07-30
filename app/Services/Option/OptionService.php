@@ -108,7 +108,9 @@ class OptionService implements OptionServiceInterface
                         continue;
                     }
                 }
-                $this->optionItemRepository->createFilterItem($optionId, $optionItem["title"], $optionItem["status"]);
+                $lastSort = $this->optionItemRepository->findLastSortOfOption_id($optionId);
+                $sort = $lastSort->sort + 1;
+                $this->optionItemRepository->createFilterItem($optionId, $optionItem["title"], $optionItem["status"],$sort);
             }
         }
     }
@@ -119,5 +121,18 @@ class OptionService implements OptionServiceInterface
             $this->optionRepository->sort($item["id"], $item["sort"]);
         }
         return true;
+    }
+
+    public function sortOptionItem($options)
+    {
+        foreach ($options as $item) {
+            $this->optionItemRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
+
+    public function getItemOfOption($optionId)
+    {
+        return $this->optionItemRepository->getByOptionId($optionId);
     }
 }
