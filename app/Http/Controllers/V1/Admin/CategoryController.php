@@ -8,6 +8,7 @@ use App\Http\Requests\V1\Admin\Category\StoreCategoryRequest;
 use App\Http\Requests\V1\Admin\Category\UpdateCategoryRequest;
 use App\Http\Requests\V1\Admin\Filter\SetFilterRequest;
 use App\Http\Requests\V1\Admin\Option\SetOptionRequest;
+use App\Http\Requests\V1\Admin\Option\SortOptionItemRequest;
 use App\Http\Requests\V1\Admin\Option\SortOptionRequest;
 use App\Http\Resources\V1\Category\CategoryCollection;
 use App\Http\Resources\V1\Category\CategoryResource;
@@ -104,9 +105,9 @@ class CategoryController extends Controller
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.option")]));
     }
 
-    public function sortOptionItem(SortOptionRequest $request)
+    public function sortOptionItem(SortOptionItemRequest $request)
     {
-        $this->optionService->sortOptionItem($request->get("option"));
+        $this->optionService->sortOptionItem($request->get("optionItem"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.option")]));
     }
 
