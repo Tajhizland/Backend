@@ -89,13 +89,20 @@ class OptionService implements OptionServiceInterface
                     $this->optionRepository->updateOption($option["id"], $option["title"], $categoryId, $option["status"]);
                 } else {
                     $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
-                    $sort = $lastSort->sort + 1;
+                    $sort=1;
+                    if($lastSort){
+                        $sort = $lastSort->sort??0 + 1;
+                    }
                     $newOption = $this->optionRepository->createOption($option["title"], $categoryId, $option["status"], $sort);
                     $optionId = $newOption->id;
                 }
             } else {
                 $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
-                $sort = $lastSort->sort + 1;
+                $sort=1;
+                if($lastSort){
+                    $sort = $lastSort->sort??0 + 1;
+                }
+
                 $newOption = $this->optionRepository->createOption($option["title"], $categoryId, $option["status"], $sort);
                 $optionId = $newOption->id;
             }
@@ -109,7 +116,10 @@ class OptionService implements OptionServiceInterface
                     }
                 }
                 $lastSort = $this->optionItemRepository->findLastSortOfOption_id($optionId);
-                $sort = $lastSort->sort + 1;
+                $sort=1;
+                if($lastSort){
+                    $sort = $lastSort->sort??0 + 1;
+                }
                 $this->optionItemRepository->createFilterItem($optionId, $optionItem["title"], $optionItem["status"],$sort);
             }
         }
