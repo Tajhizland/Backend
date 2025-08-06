@@ -7,5 +7,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface CategoryViewHistoryRepositoryInterface extends BaseRepositoryInterface
 {
     public function findTop($userId);
+    public function findTops($userId);
     public function findTopByIp($ip);
+    public function findTopsByIp($ip);
 }

@@ -58,6 +58,29 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         })->where("id", "<>", $except)->limit($limit)->get();
     }
 
+    public function getByCategoryIds(array $categoryIds, $except, $limit = 10)
+    {
+        $results = collect(); // برای ذخیره نتایج از کالکشن استفاده می‌کنیم
+
+        foreach ($categoryIds as $categoryId) {
+            // برای هر دسته‌بندی، محصولات مرتبط را می‌گیریم
+            $products = $this->model::active()
+                ->HasColorHasStock()
+                ->whereHas("productCategories", function ($query) use ($categoryId) {
+                    $query->where("category_id", $categoryId);
+                })
+                ->where("id", "<>", $except)
+                ->limit(ceil($limit / count($categoryIds))) // تقسیم حد محصولات بین دسته‌بندی‌ها
+                ->get();
+
+            // محصولات را به نتایج اضافه می‌کنیم
+            $results = $results->merge($products);
+        }
+
+        // محدود کردن کل نتایج به $limit
+        return $results->take($limit);
+    }
+
     public function incrementViewCount($product)
     {
         return $product->increment('view');
