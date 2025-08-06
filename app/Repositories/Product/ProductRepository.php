@@ -60,24 +60,55 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getByCategoryIds(array $categoryIds, $except, $limit = 10)
     {
-        $results = collect(); // برای ذخیره نتایج از کالکشن استفاده می‌کنیم
+        $results = collect(); // برای ذخیره نتایج
+        $remainingLimit = $limit; // تعداد محصولات باقی‌مانده برای رسیدن به limit
+        $perCategoryLimit = ceil($limit / count($categoryIds)); // حد اولیه برای هر دسته‌بندی
 
+        // مرحله 1: گرفتن محصولات از هر دسته‌بندی
         foreach ($categoryIds as $categoryId) {
-            // برای هر دسته‌بندی، محصولات مرتبط را می‌گیریم
+            if ($remainingLimit <= 0) {
+                break; // اگر به limit رسیدیم، حلقه را متوقف می‌کنیم
+            }
+
             $products = $this->model::active()
                 ->HasColorHasStock()
                 ->whereHas("productCategories", function ($query) use ($categoryId) {
                     $query->where("category_id", $categoryId);
                 })
                 ->where("id", "<>", $except)
-                ->limit(ceil($limit )) // تقسیم حد محصولات بین دسته‌بندی‌ها
+                ->limit($perCategoryLimit)
                 ->get();
 
-            // محصولات را به نتایج اضافه می‌کنیم
             $results = $results->merge($products);
+            $remainingLimit -= $products->count();
         }
 
-        // محدود کردن کل نتایج به $limit
+        // مرحله 2: پر کردن محصولات باقی‌مانده از دسته‌بندی‌های دارای محصول
+        if ($remainingLimit > 0 && !$results->isEmpty()) {
+            $availableCategoryIds = $categoryIds; // دسته‌بندی‌های موجود
+            foreach ($availableCategoryIds as $categoryId) {
+                if ($remainingLimit <= 0) {
+                    break;
+                }
+
+                // گرفتن محصولات اضافی از دسته‌بندی، بدون محصولاتی که قبلاً انتخاب شده‌اند
+                $existingProductIds = $results->pluck('id')->toArray();
+                $additionalProducts = $this->model::active()
+                    ->HasColorHasStock()
+                    ->whereHas("productCategories", function ($query) use ($categoryId) {
+                        $query->where("category_id", $categoryId);
+                    })
+                    ->where("id", "<>", $except)
+                    ->whereNotIn("id", $existingProductIds) // جلوگیری از انتخاب محصولات تکراری
+                    ->limit($remainingLimit)
+                    ->get();
+
+                $results = $results->merge($additionalProducts);
+                $remainingLimit -= $additionalProducts->count();
+            }
+        }
+
+        // محدود کردن نتایج نهایی به $limit
         return $results->take($limit);
     }
 
