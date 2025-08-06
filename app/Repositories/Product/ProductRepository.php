@@ -70,7 +70,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     $query->where("category_id", $categoryId);
                 })
                 ->where("id", "<>", $except)
-                ->limit(ceil($limit / count($categoryIds))) // تقسیم حد محصولات بین دسته‌بندی‌ها
+                ->limit(ceil($limit )) // تقسیم حد محصولات بین دسته‌بندی‌ها
                 ->get();
 
             // محصولات را به نتایج اضافه می‌کنیم
