@@ -321,8 +321,16 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function searchPaginate($query)
     {
-        return $this->model::where("name", "like", "%$query%")
-            ->customOrder()->paginate($this->pageSize);
+        $keywords = explode(' ', $query);
+
+        return $this->model::where(function ($q) use ($keywords) {
+            foreach ($keywords as $word) {
+                $q->where('name', 'like', '%' . $word . '%');
+            }
+        })->whereHas("activeProductColors")
+            ->customOrder()
+            ->paginate($this->pageSize);
+
     }
 
     public function getAllByCategoryId($id)
