@@ -7,5 +7,6 @@ interface CompareServiceInterface
     public function findProductCompare($productId);
 
     public function searchProductCompare($query , $categoryIds);
+    public function getProducts($categoryIds);
 
 }

@@ -22,4 +22,10 @@ class CompareService implements CompareServiceInterface
     {
         return $this->productRepository->searchWithOption($query, $categoryIds);
     }
+
+    public function getProducts($categoryIds)
+    {
+        return $this->productRepository->getWithOption($categoryIds);
+
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Shop\Compare\GetProductRequest;
 use App\Http\Requests\V1\Shop\Compare\SearchProductRequest;
 use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductCollection;
 use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductResource;
@@ -26,6 +27,12 @@ class CompareController extends Controller
     public function searchProduct(SearchProductRequest $request)
     {
         $response = $this->compareService->searchProductCompare($request->get("query"), $request->get("categoryIds"));
+        return $this->dataResponseCollection(new SimpleProductCollection($response));
+    }
+
+    public function getProducts(GetProductRequest $request)
+    {
+        $response = $this->compareService->getProducts($request->get("categoryIds"));
         return $this->dataResponseCollection(new SimpleProductCollection($response));
     }
 }

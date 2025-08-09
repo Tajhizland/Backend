@@ -140,6 +140,7 @@ Route::group(["prefix" => "leading"], function () {
 Route::group(["prefix" => "compare"], function () {
     Route::get('find/{id}', [\App\Http\Controllers\V1\Shop\CompareController::class, "findProduct"]);
     Route::post('search', [\App\Http\Controllers\V1\Shop\CompareController::class, "searchProduct"]);
+    Route::post('category/product', [\App\Http\Controllers\V1\Shop\CompareController::class, "getProducts"]);
 });
 
 Route::group(["prefix" => "charge"], function () {

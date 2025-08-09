@@ -418,4 +418,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->limit(config("settings.search_item_limit"))
             ->get();
     }
+
+    public function getWithOption($categoryIds)
+    {
+        return $this->model::whereHas("categories", function ($subQuery) use ($categoryIds) {
+            $subQuery->whereIn("category_id", $categoryIds);
+        })
+            ->with(["productOptions", "images"])
+            ->whereHas("activeProductColors")
+            ->get();
+    }
 }

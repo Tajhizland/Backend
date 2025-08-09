@@ -13,6 +13,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function findProductWithOption($id);
 
     public function searchWithOption($query, $categoryIds);
+    public function getWithOption($categoryIds);
+
 
     public function activeGroupLimit($categoryIds);
 
