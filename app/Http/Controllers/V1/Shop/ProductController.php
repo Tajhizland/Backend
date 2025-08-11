@@ -40,7 +40,7 @@ class ProductController extends Controller
         $relatedProductResponse = $this->productService->getRelatedProducts($productResponse->id);
         $breadcrumbCollection=[];
         if ($productResponse) {
-            $category = $productResponse->categories;
+            $category = $productResponse->categories[0];
             if ($category) {
                 $breadcrumb = $this->breadcrumbService->generate($category);
                 $breadcrumbCollection = new BreadcrumbCollection($breadcrumb);
