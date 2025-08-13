@@ -25,7 +25,8 @@ class ProductCategoryService implements ProductCategoryServiceInterface
             foreach ($options as $item) {
                 foreach ($item->optionItems as $optionItem) {
                     $productOption = $this->productOptionRepository->findProductOption($productId, $optionItem->id);
-                    $this->productOptionRepository->delete($productOption);
+                    if ($productOption)
+                        $this->productOptionRepository->delete($productOption);
                 }
             }
         }
