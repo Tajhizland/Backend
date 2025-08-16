@@ -31,6 +31,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("video/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getVideo"]);
         Route::delete("video/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "deleteVideo"]);
         Route::delete("image/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "removeImage"]);
+        Route::delete("option/update-product-option", [\App\Http\Controllers\V1\Admin\ProductController::class, "updateProductOption"]);
     });
     Route::group(["prefix" => "category"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CategoryController::class, "dataTable"]);

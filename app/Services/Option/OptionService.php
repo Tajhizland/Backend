@@ -138,4 +138,18 @@ class OptionService implements OptionServiceInterface
         return $this->optionItemRepository->create(["title" => $title, "status" => $status, "category_id" => $categoryId]);
 
     }
+
+    public function updateProductOption($id, $productId, $value, $optionItemId)
+    {
+        if ($id) {
+            $option = $this->productOptionRepository->findOrFail($id);
+            return $this->productOptionRepository->update($option,
+                [
+                    "value" => $value,
+                ]
+            );
+        }
+        return $this->productOptionRepository->create(["value" => $value, "productId" => $productId, "option_item_id" => $optionItemId]);
+
+    }
 }

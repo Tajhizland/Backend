@@ -28,6 +28,7 @@ interface OptionServiceInterface
 
 
     public function updateOptionItem($id, $categoryId,$title, $status);
+    public function updateProductOption($id, $productId, $value, $optionItemId);
 
 
 }

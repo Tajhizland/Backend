@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\ImageSortRequest;
+use App\Http\Requests\V1\Admin\Option\UpdateProductOptionRequest;
 use App\Http\Requests\V1\Admin\Product\ColorFastUpdateRequest;
 use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
@@ -147,6 +148,13 @@ class ProductController extends Controller
     public function sortImage(ImageSortRequest $request)
     {
         $this->productImageService->sort($request->get("image"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.image")]));
+
+    }
+
+    public function updateProductOption(UpdateProductOptionRequest $request)
+    {
+        $this->optionService->updateProductOption($request->get("id"),$request->get("productId"),$request->get("value"),$request->get("option_item_id"),);
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.image")]));
 
     }
