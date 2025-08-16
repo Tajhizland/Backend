@@ -14,6 +14,8 @@ interface OptionItemRepositoryInterface extends BaseRepositoryInterface
     public function getByOptionId($id);
 
     public function sort($id, $sort);
+    public function getByProductId($productId);
+
 
     public function findLastSortOfCategory($categoryId);
     public function getCategoryOptions($categoryId);

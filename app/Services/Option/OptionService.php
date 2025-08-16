@@ -50,7 +50,7 @@ class OptionService implements OptionServiceInterface
 
     public function getByProductId($productId)
     {
-        return $this->optionRepository->getByProductId($productId);
+        return $this->optionItemRepository->getByProductId($productId);
     }
 
     public function setOptionToProduct($productId, $options): void

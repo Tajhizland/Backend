@@ -47,4 +47,15 @@ class OptionItemRepository extends BaseRepository implements OptionItemRepositor
         return $this->model::where("category_id", $categoryId)->orderBy("sort")->get();
 
     }
+
+    public function getByProductId($productId)
+    {
+        return $this->model::whereHas("category", function ($query) use ($productId) {
+            $query->whereHas("productCategory", function ($query2) use ($productId) {
+                $query2->where("product_id", $productId);
+            });
+        })->with(["productOption" => function ($query2) use ($productId) {
+            $query2->where("product_id", $productId);
+        }])->get();
+    }
 }

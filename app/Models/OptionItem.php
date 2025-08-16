@@ -8,11 +8,18 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OptionItem extends Model
 {
-    protected $guarded=["id"];
+    protected $guarded = ["id"];
+
     public function option(): BelongsTo
     {
         return $this->belongsTo(Option::class);
     }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function productOption(): HasOne
     {
         return $this->hasOne(ProductOption::class);
