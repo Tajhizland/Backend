@@ -48,6 +48,9 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("option-item/sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "sortOptionItem"]);
         Route::post("sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "productSort"]);
         Route::post("image/delete/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "deleteImage"]);
+
+        Route::post("option/update", [\App\Http\Controllers\V1\Admin\CategoryController::class, "updateOption"]);
+
     });
     Route::group(["prefix" => "brand"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BrandController::class, "dataTable"]);

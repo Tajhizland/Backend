@@ -123,4 +123,19 @@ class OptionService implements OptionServiceInterface
     {
         return $this->optionItemRepository->getByOptionId($optionId);
     }
+
+    public function updateOptionItem($id, $categoryId, $title, $status)
+    {
+        if ($id) {
+            $option = $this->optionItemRepository->find($id);
+            return $this->optionItemRepository->update($option,
+                [
+                    "title" => $title,
+                    "status" => $status
+                ]
+            );
+        }
+        return $this->optionItemRepository->create(["title" => $title, "status" => $status, "category_id" => $categoryId]);
+
+    }
 }
