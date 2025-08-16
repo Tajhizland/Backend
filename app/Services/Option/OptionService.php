@@ -149,7 +149,7 @@ class OptionService implements OptionServiceInterface
                 ]
             );
         }
-        return $this->productOptionRepository->create(["value" => $value, "productId" => $productId, "option_item_id" => $optionItemId]);
+        return $this->productOptionRepository->create(["value" => $value, "product_id" => $productId, "option_item_id" => $optionItemId]);
 
     }
 }
