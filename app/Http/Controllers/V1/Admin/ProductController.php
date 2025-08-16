@@ -156,7 +156,7 @@ class ProductController extends Controller
     public function updateProductOption(UpdateProductOptionRequest $request)
     {
         $this->optionService->updateProductOption($request->get("id"),$request->get("productId"),$request->get("value"),$request->get("option_item_id"),);
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.image")]));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.option")]));
 
     }
 }
