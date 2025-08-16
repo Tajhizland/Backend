@@ -10,12 +10,10 @@ class SetOptionRequest extends FormRequest
     {
         return [
             "category_id" => "required|exists:categories,id",
-            "option.*.id"=>"numeric|exists:options,id|nullable",
-            "option.*.title"=>"string|required",
-            "option.*.status"=>"numeric|in:0,1|required",
-            "option.*.item.*.id"=>"numeric|exists:option_items,id|nullable",
-            "option.*.item.*.title"=>"string|required",
-            "option.*.item.*.status"=>"numeric|in:0,1|required",
+
+            "option.*.id" => "numeric|exists:option_items,id|nullable",
+            "option.*.title" => "string|required",
+            "option.*.status" => "numeric|in:0,1|required",
         ];
     }
 

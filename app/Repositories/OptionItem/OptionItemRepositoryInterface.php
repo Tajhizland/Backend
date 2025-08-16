@@ -7,7 +7,6 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface OptionItemRepositoryInterface extends BaseRepositoryInterface
 {
-    public function createFilterItem($optionId, $title, $status,$sort=null);
 
     public function updateFilterItem(OptionItem $optionItem, $title, $status);
 
@@ -16,7 +15,6 @@ interface OptionItemRepositoryInterface extends BaseRepositoryInterface
 
     public function sort($id, $sort);
 
-    public function findLastSortOfOption_id($optionId);
-
-
+    public function findLastSortOfCategory($categoryId);
+    public function getCategoryOptions($categoryId);
 }

@@ -13,16 +13,6 @@ class OptionItemRepository extends BaseRepository implements OptionItemRepositor
         parent::__construct($model);
     }
 
-    public function createFilterItem($optionId, $title, $status, $sort = null)
-    {
-        return $this->create([
-            "option_id" => $optionId,
-            "title" => $title,
-            "status" => $status,
-            "sort" => $sort,
-        ]);
-    }
-
     public function updateFilterItem(OptionItem $optionItem, $title, $status)
     {
         return $optionItem->update(
@@ -38,11 +28,10 @@ class OptionItemRepository extends BaseRepository implements OptionItemRepositor
         return $this->model::find($id);
     }
 
-    public function findLastSortOfOption_id($optionId)
-    {
-        return $this->model::where("option_id", $optionId)->latest("sort")->first();
-    }
+    public function findLastSortOfCategory($categoryId){
+        return $this->model::where("category_id", $categoryId)->latest("sort")->first();
 
+    }
     public function sort($id, $sort)
     {
         return $this->model::where("id", $id)->update(["sort" => $sort]);
@@ -51,5 +40,11 @@ class OptionItemRepository extends BaseRepository implements OptionItemRepositor
     public function getByOptionId($id)
     {
         return $this->model::where("option_id", $id)->orderBy("sort")->get();
+    }
+
+    public function getCategoryOptions($categoryId)
+    {
+        return $this->model::where("category_id", $categoryId)->orderBy("sort")->get();
+
     }
 }

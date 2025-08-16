@@ -33,9 +33,7 @@ class OptionService implements OptionServiceInterface
         $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
         $sort = $lastSort->sort + 1;
         $option = $this->optionRepository->createOption($title, $categoryId, $status, $sort);
-        foreach ($items as $item) {
-            $this->optionItemRepository->createFilterItem($option->id, $item["title"], $item["status"]);
-        }
+
         return true;
     }
 
@@ -45,8 +43,7 @@ class OptionService implements OptionServiceInterface
         foreach ($items as $item) {
             if (isset($item["id"]))
                 $this->optionItemRepository->updateFilterItem($item["id"], $item["title"], $item["status"]);
-            else
-                $this->optionItemRepository->createFilterItem($id, $item["title"], $item["status"]);
+
         }
         return true;
     }
@@ -76,52 +73,33 @@ class OptionService implements OptionServiceInterface
 
     public function getCategoryOptions($categoryId)
     {
-        return $this->optionRepository->getCategoryOptions($categoryId);
+        return $this->optionItemRepository->getCategoryOptions($categoryId);
     }
 
     public function setOption($categoryId, $options): void
     {
         foreach ($options as $option) {
             if (@$option["id"]) {
-                $optionId = $option["id"];
-                $existOption = $this->optionRepository->find($option["id"]);
-                if ($existOption) {
-                    $this->optionRepository->updateOption($option["id"], $option["title"], $categoryId, $option["status"]);
-                } else {
-                    $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
-                    $sort=1;
-                    if($lastSort){
-                        $sort = $lastSort->sort??0 + 1;
-                    }
-                    $newOption = $this->optionRepository->createOption($option["title"], $categoryId, $option["status"], $sort);
-                    $optionId = $newOption->id;
+                $existOptionItem = $this->optionItemRepository->find($option["id"]);
+                if ($existOptionItem) {
+                    $this->optionItemRepository->update($existOptionItem, [
+                        "title" => $option["title"],
+                        "status" => $option["status"],
+                    ]);
+                    continue;
                 }
-            } else {
-                $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
-                $sort=1;
-                if($lastSort){
-                    $sort = $lastSort->sort??0 + 1;
-                }
-
-                $newOption = $this->optionRepository->createOption($option["title"], $categoryId, $option["status"], $sort);
-                $optionId = $newOption->id;
             }
-            $optionItems = $option["item"];
-            foreach ($optionItems as $optionItem) {
-                if (@$optionItem["id"]) {
-                    $existOptionItem = $this->optionItemRepository->find($optionItem["id"]);
-                    if ($existOptionItem) {
-                        $this->optionItemRepository->updateFilterItem($existOptionItem, $optionItem["title"], $optionItem["status"]);
-                        continue;
-                    }
-                }
-                $lastSort = $this->optionItemRepository->findLastSortOfOption_id($optionId);
-                $sort=1;
-                if($lastSort){
-                    $sort = $lastSort->sort??0 + 1;
-                }
-                $this->optionItemRepository->createFilterItem($optionId, $optionItem["title"], $optionItem["status"],$sort);
+            $lastSort = $this->optionItemRepository->findLastSortOfCategory($categoryId);
+            $sort = 1;
+            if ($lastSort) {
+                $sort = ($lastSort->sort ?? 0) + 1;
             }
+            $this->optionItemRepository->create([
+                "category_id" => $categoryId,
+                "title" => $option["title"],
+                "status" => $option["status"],
+                "sort" => $sort,
+            ]);
         }
     }
 

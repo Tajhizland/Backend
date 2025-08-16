@@ -79,7 +79,7 @@ class CategoryController extends Controller
 
     public function getOption($id)
     {
-        return $this->dataResponseCollection(new OptionCollection($this->optionService->getCategoryOptions($id)));
+        return $this->dataResponseCollection(new OptionItemCollection($this->optionService->getCategoryOptions($id)));
     }
 
     public function getOptionItem($id)
