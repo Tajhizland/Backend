@@ -9,7 +9,7 @@ class SortOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "option.*.id" => "required|numeric|exists:App\Models\Option,id",
+            "option.*.id" => "required|numeric|exists:App\Models\OptionItem,id",
             "option.*.sort" => "required|numeric",
         ];
     }

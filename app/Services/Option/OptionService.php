@@ -106,7 +106,7 @@ class OptionService implements OptionServiceInterface
     public function sortOption($array)
     {
         foreach ($array as $item) {
-            $this->optionRepository->sort($item["id"], $item["sort"]);
+            $this->optionItemRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
