@@ -16,6 +16,7 @@ use App\Http\Requests\V1\Admin\Product\StoreProductRequest;
 use App\Http\Requests\V1\Admin\Product\UpdateProductRequest;
 use App\Http\Resources\V1\Filter\FilterCollection;
 use App\Http\Resources\V1\Option\OptionCollection;
+use App\Http\Resources\V1\OptionItem\OptionItemCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
@@ -72,7 +73,7 @@ class ProductController extends Controller
 
     public function getOption($id)
     {
-        return $this->dataResponseCollection(new OptionCollection($this->optionService->getByProductId($id)));
+        return $this->dataResponseCollection(new OptionItemCollection($this->optionService->getByProductId($id)));
     }
 
     public function getColor($id)
