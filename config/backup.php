@@ -297,7 +297,7 @@ return [
              * of that day will be kept. Older backups within the same day will be removed.
              * If you create backups only once a day, no backups will be removed yet.
              */
-            'keep_daily_backups_for_days' => 16,
+            'keep_daily_backups_for_days' => 2,
 
             /*
              * After the "keep_daily_backups_for_days" period is over, the most recent backup
