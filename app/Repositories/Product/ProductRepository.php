@@ -27,8 +27,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->with([
                 'productOptions' => function ($query) {
                     $query->join('option_items', 'product_options.option_item_id', '=', 'option_items.id')
-                        ->join('options', 'option_items.option_id', '=', 'options.id')
-                        ->orderBy('options.sort')
                         ->orderBy('option_items.sort')
                         ->select('product_options.*');
                 }
