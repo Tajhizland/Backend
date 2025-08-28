@@ -11,7 +11,7 @@ class UpdateProductOptionRequest extends FormRequest
         return [
             'id' => ['nullable'],
             'productId' => ['required', 'exists:App\Models\Product,id'],
-            'value' => ['required', 'string'],
+            'value' => ['nullable', 'string'],
             'option_item_id' => ['required', 'exists:App\Models\OptionItem,id'],
         ];
     }
