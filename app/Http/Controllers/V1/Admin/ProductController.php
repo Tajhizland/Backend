@@ -156,8 +156,7 @@ class ProductController extends Controller
     public function updateProductOption(UpdateProductOptionRequest $request)
     {
         $options = $request->get('options');
-        var_dump($options);
-        die();
+
         foreach ($options as $optionData) {
             $this->optionService->updateProductOption(
                 $optionData['id'] ?? null,
