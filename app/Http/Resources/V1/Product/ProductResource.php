@@ -34,6 +34,7 @@ class ProductResource extends JsonResource
             'url' => $this->url,
             'status' => $this->status,
             'view' => $this->view,
+            'images_count' => $this->images_count,
             'description' => $this->description,
             'category' => $this->categories->first()->name ?? "",
             'category_ids' => $this->productCategories->pluck('category_id'),
