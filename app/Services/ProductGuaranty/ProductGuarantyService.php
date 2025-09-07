@@ -13,15 +13,15 @@ class ProductGuarantyService implements ProductGuarantyServiceInterface
     {
     }
 
-    public function syncProductGuaranty($productId ,$guarantyids)
+    public function syncProductGuaranty($productId, $guarantyids)
     {
         $this->productGuarantyRepository->deleteByProductId($productId);
-        foreach ($guarantyids as $item)
-        {
-            $this->productGuarantyRepository->create([
-                "product_id"=>$productId,
-                "guaranty_id"=>$item
-            ]);
-        }
+        if ($guarantyids)
+            foreach ($guarantyids as $item) {
+                $this->productGuarantyRepository->create([
+                    "product_id" => $productId,
+                    "guaranty_id" => $item
+                ]);
+            }
     }
 }
