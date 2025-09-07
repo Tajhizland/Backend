@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Address\ChangeActiveAddressRequest;
 use App\Http\Requests\V1\Admin\Address\UpdateAddressRequest;
 use App\Http\Requests\V1\Admin\User\UpdateUserRequest;
+use App\Http\Requests\V1\Admin\User\UpdateWalletRequest;
 use App\Http\Resources\V1\Address\AddressCollection;
 use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderCollection;
 use App\Http\Resources\V1\Order\OrderCollection;
@@ -60,6 +61,12 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         $this->userService->updateUser($request->get("id"), $request->get("name"), $request->get("username"), $request->get("email"), $request->get("gender"), $request->get("role"), $request->get("last_name"), $request->get("national_code"));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.user")]));
+    }
+
+    public function updateWallet(UpdateWalletRequest $request)
+    {
+        $this->userService->updateWallet($request->get("id"), $request->get("wallet"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.user")]));
     }
 

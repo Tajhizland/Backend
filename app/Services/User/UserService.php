@@ -49,4 +49,10 @@ class UserService implements UserServiceInterface
     {
         return $this->repository->dataTable();
     }
+
+    public function updateWallet($id, $wallet)
+    {
+        $user = $this->repository->findOrFail($id);
+        return $this->repository->update($user, ["wallet" => $wallet]);
+    }
 }
