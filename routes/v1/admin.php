@@ -96,6 +96,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("update", [\App\Http\Controllers\V1\Admin\UserController::class, "update"]);
 
         Route::get('address/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getAddress"]);
+        Route::post('address/update', [\App\Http\Controllers\V1\Admin\UserController::class, "updateOrCreateAddress"]);
+
         Route::get('on-hold-order/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getOnHoldOrder"]);
         Route::get('order/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getOrder"]);
 
