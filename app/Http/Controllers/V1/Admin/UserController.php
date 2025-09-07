@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Address\ChangeActiveAddressRequest;
 use App\Http\Requests\V1\Admin\Address\UpdateAddressRequest;
 use App\Http\Requests\V1\Admin\User\UpdateUserRequest;
 use App\Http\Resources\V1\Address\AddressCollection;
@@ -65,6 +66,12 @@ class UserController extends Controller
     public function updateOrCreateAddress(UpdateAddressRequest $request)
     {
         $this->addressService->updateOrCreate($request->get("id"), $request->get("user_id"), $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"), $request->get("title"));
+        return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
+    }
+
+    public function changeActiveAddress(ChangeActiveAddressRequest $request)
+    {
+        $this->addressService->changeActiveAddress($request->get("id"), $request->get("user_id"));
         return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
     }
 }
