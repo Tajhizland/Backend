@@ -9,6 +9,7 @@ return [
     "order_payment_expire_day"=>1,
     "order_returned_expire_day"=>7,
     "default_gateway"=>1,
+    "order_payment_expire_hour"=>24,
     "register" => [
         "code_expire_minutes" => 2,
     ],
