@@ -13,10 +13,11 @@ class OnHoldOrderPolicy
 
     public function delete(User $user, OnHoldOrder $onHoldOrder): bool
     {
-        return ($onHoldOrder->order->user_id==$user->id && $onHoldOrder->status==OnHoldOrderStatus::Pending->value);
+        return ($onHoldOrder->order->user_id == $user->id && $onHoldOrder->status == OnHoldOrderStatus::Pending->value);
     }
+
     public function update(User $user, OnHoldOrder $onHoldOrder): bool
     {
-        return ($onHoldOrder->status==OnHoldOrderStatus::Pending->value);
+        return ($onHoldOrder->status == OnHoldOrderStatus::Pending->value || $onHoldOrder->status == OnHoldOrderStatus::Reject->value);
     }
 }
