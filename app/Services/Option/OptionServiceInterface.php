@@ -5,6 +5,7 @@ namespace App\Services\Option;
 interface OptionServiceInterface
 {
     public function findById($id);
+    public function getByProductIdAndCategoryId($productId, $categoryId);
 
     public function dataTable();
 

@@ -7,14 +7,17 @@ use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\Breadcrumb\BreadcrumbCollection;
 use App\Http\Resources\V1\Category\CategoryCollection;
 use App\Http\Resources\V1\Category\SimpleCategoryCollection;
+use App\Http\Resources\V1\Option\OptionCollection;
 use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
 use App\Http\Resources\V1\Price\PriceResource;
 use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
+use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\Option\OptionServiceInterface;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 use Illuminate\Http\Request;
@@ -24,6 +27,7 @@ class ProductController extends Controller
     public function __construct
     (
         private ProductServiceInterface        $productService,
+        private OptionServiceInterface         $optionService,
         private BannerServiceInterface         $bannerService,
         private PriceRepositoryInterface       $priceRepository,
         private PopularProductServiceInterface $popularProductService,
@@ -38,17 +42,21 @@ class ProductController extends Controller
     {
         $productResponse = $this->productService->findProductByUrl($request->url);
         $relatedProductResponse = $this->productService->getRelatedProducts($productResponse->id);
-        $breadcrumbCollection=[];
+        $breadcrumbCollection = [];
+        $options = [];
         if ($productResponse) {
             $category = $productResponse->categories[0];
             if ($category) {
                 $breadcrumb = $this->breadcrumbService->generate($category);
                 $breadcrumbCollection = new BreadcrumbCollection($breadcrumb);
+                $options=$this->optionService->getByProductIdAndCategoryId($productResponse->id, $category->id);
+                $optionsCollection = new ProductOptionCollection($options);
             }
         }
         return $this->dataResponse([
             "product" => new ProductResource($productResponse),
             "breadcrumb" => $breadcrumbCollection,
+            "options" => $optionsCollection,
             "relatedProduct" => new ProductCollection($relatedProductResponse),
         ]);
     }

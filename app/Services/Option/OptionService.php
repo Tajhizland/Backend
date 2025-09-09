@@ -23,6 +23,11 @@ class OptionService implements OptionServiceInterface
         return $this->optionRepository->findOrFail($id);
     }
 
+    public function getByProductIdAndCategoryId($productId, $categoryId)
+    {
+        return $this->productOptionRepository->getByProductIdAndCategoryId($productId, $categoryId);
+    }
+
     public function dataTable()
     {
         return $this->optionRepository->dataTable();

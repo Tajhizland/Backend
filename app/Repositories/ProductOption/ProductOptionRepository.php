@@ -14,25 +14,34 @@ class ProductOptionRepository extends BaseRepository implements ProductOptionRep
 
     public function findProductOption($productId, $optionItemId)
     {
-        return $this->model::where("product_id",$productId)->where("option_item_id",$optionItemId)->first();
+        return $this->model::where("product_id", $productId)->where("option_item_id", $optionItemId)->first();
     }
 
     public function store($productId, $optionItemId, $value)
     {
         return $this->create([
-            "product_id"=>$productId,
-            "option_item_id"=>$optionItemId,
-            "value"=>$value
+            "product_id" => $productId,
+            "option_item_id" => $optionItemId,
+            "value" => $value
         ]);
     }
 
     public function updateValue(ProductOption $productFilter, $value)
     {
-       return $productFilter->update(["value" => $value]);
+        return $productFilter->update(["value" => $value]);
     }
+
     public function deleteValue(ProductOption $productFilter)
     {
-       return $productFilter->delete();
+        return $productFilter->delete();
     }
-    
+
+    public function getByProductIdAndCategoryId($productId, $categoryId)
+    {
+        return $this->model::where("product_id", $productId)->whereHas("optionItem", function ($query) use ($categoryId) {
+            $query->where("category_id", $categoryId);
+        })->join('option_items', 'product_options.option_item_id', '=', 'option_items.id')
+            ->orderBy('option_items.sort')
+            ->select('product_options.*')->get();
+    }
 }
