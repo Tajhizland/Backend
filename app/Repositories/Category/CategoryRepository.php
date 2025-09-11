@@ -96,6 +96,6 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function getByIdsExpect($ids, $expect)
     {
-        return $this->model::whereIn("id", $ids)->whereNot("id", $expect)->orderBy("parent_id")->get();
+        return $this->model::whereIn("id", $ids)->whereNot("id", $expect)->whereNotNull("image")->orderBy("parent_id")->get();
     }
 }
