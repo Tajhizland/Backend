@@ -340,11 +340,26 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         $keywords = explode(' ', $query);
 
-        return $this->model::where(function ($q) use ($keywords) {
+// گرفتن همه‌ی لغات موجود در دیکشنری
+        $dictionary = Dictionary::whereIn('original_word', $keywords)->get()
+            ->groupBy('original_word'); // ممکنه یک کلمه چند mean داشته باشه
+
+        return $this->model::where(function ($q) use ($keywords, $dictionary) {
             foreach ($keywords as $word) {
-                $q->where('name', 'like', '%' . $word . '%');
+                $q->where(function ($sub) use ($word, $dictionary) {
+                    // همیشه خود کلمه
+                    $sub->where('name', 'like', '%' . $word . '%');
+
+                    // اگر معادل در دیکشنری هست، اضافه کن
+                    if ($dictionary->has($word)) {
+                        foreach ($dictionary[$word] as $dict) {
+                            $sub->orWhere('name', 'like', '%' . $dict->mean . '%');
+                        }
+                    }
+                });
             }
-        })->whereHas("activeProductColors")
+        })
+            ->whereHas("activeProductColors")
             ->customOrder()
             ->paginate($this->pageSize);
 
