@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Product;
 
+use App\Models\Dictionary;
 use App\Models\Product;
 use App\Repositories\Base\BaseRepository;
 use App\Services\Sort\Product\SortProductByCategoryName;
@@ -145,12 +146,24 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function search($query)
     {
         $keywords = explode(' ', $query);
+        $dictionary = Dictionary::whereIn('original_word', $keywords)->get()
+            ->pluck('mean', 'original_word')
+            ->toArray();
 
-        return $this->model::where(function ($q) use ($keywords) {
+        return $this->model::where(function ($q) use ($keywords, $dictionary) {
             foreach ($keywords as $word) {
-                $q->where('name', 'like', '%' . $word . '%');
+                $q->where(function ($sub) use ($word, $dictionary) {
+                    // همیشه خود کلمه سرچ میشه
+                    $sub->where('name', 'like', '%' . $word . '%');
+
+                    // اگه تو دیکشنری باشه mean هم اضافه می‌کنیم
+                    if (isset($dictionary[$word])) {
+                        $sub->orWhere('name', 'like', '%' . $dictionary[$word] . '%');
+                    }
+                });
             }
-        })->whereHas("activeProductColors")
+        })
+            ->whereHas("activeProductColors")
             ->limit(config("settings.search_item_limit"))
             ->get();
     }
