@@ -326,4 +326,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("update", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "update"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "list"]);
     });
+
+    Route::group(["prefix" => "dictionary"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "update"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "remove"]);
+    });
 });

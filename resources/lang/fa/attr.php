@@ -20,6 +20,7 @@ return
         "category" => 'دسته بندی',
         "display" => 'نام نمایشی',
         "list" => 'لیست',
+        "dictionary" => 'دیکشنری',
         "menu" => 'منو',
         "landing" => 'لندینگ',
         "concept" => 'کانسپت',

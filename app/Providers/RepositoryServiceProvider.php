@@ -34,6 +34,8 @@ use App\Repositories\Contact\ContactRepository;
 use App\Repositories\Contact\ContactRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepository;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
+use App\Repositories\Dictionary\DictionaryRepository;
+use App\Repositories\Dictionary\DictionaryRepositoryInterface;
 use App\Repositories\Faq\FaqRepository;
 use App\Repositories\Faq\FaqRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
@@ -194,6 +196,8 @@ use App\Services\Dashboard\DashboardService;
 use App\Services\Dashboard\DashboardServiceInterface;
 use App\Services\Delivery\DeliveryService;
 use App\Services\Delivery\DeliveryServiceInterface;
+use App\Services\Dictionary\DictionaryService;
+use App\Services\Dictionary\DictionaryServiceInterface;
 use App\Services\Faq\FaqService;
 use App\Services\Faq\FaqServiceInterface;
 use App\Services\Favorite\FavoriteService;
@@ -440,6 +444,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(RunConceptQuestionRepositoryInterface::class, RunConceptQuestionRepository::class);
 
+        $this->app->bind(DictionaryRepositoryInterface::class, DictionaryRepository::class);
+
 
         /** End Repository */
 
@@ -583,6 +589,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(RunConceptAnswerServiceInterface::class, RunConceptAnswerService::class);
 
         $this->app->bind(RunConceptQuestionServiceInterface::class, RunConceptQuestionService::class);
+
+        $this->app->bind(DictionaryServiceInterface::class, DictionaryService::class);
 
         /** End Service */
 
