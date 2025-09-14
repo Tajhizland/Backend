@@ -7,6 +7,7 @@ use App\Http\Resources\V1\Breadcrumb\BreadcrumbCollection;
 use App\Http\Resources\V1\Category\CategoryResource;
 use App\Http\Resources\V1\Category\SimpleCategoryCollection;
 use App\Http\Resources\V1\Product\ProductCollection;
+use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductCollection;
 use App\Services\Category\CategoryServiceInterface;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class CategoryController extends Controller
 
         $categoryResource = new CategoryResource($listing["category"]);
         $children = new SimpleCategoryCollection($listing["children"]);
-        $productCollection = new ProductCollection($listing["products"]);
+        $productCollection = new SimpleProductCollection($listing["products"]);
         $groups = new ProductCollection($listing["groups"]);
         $breadcrumbCollection = new BreadcrumbCollection($listing["breadcrumb"]);
 
