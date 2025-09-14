@@ -18,8 +18,9 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
     public function dataTable()
     {
         return QueryBuilder::for(OnHoldOrder::class)
-            ->allowedFilters(['order_id', 'expire_date', 'status'])
-            ->allowedSorts(['order_id', 'expire_date', 'status'])
+            ->allowedFilters(['id','order_id', 'expire_date', 'status'])
+            ->allowedSorts(['id','order_id', 'expire_date', 'status'])
+            ->latest("id")
             ->paginate($this->pageSize);
     }
 

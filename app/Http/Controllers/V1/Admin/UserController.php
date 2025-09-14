@@ -13,6 +13,7 @@ use App\Http\Resources\V1\Order\OrderCollection;
 use App\Http\Resources\V1\User\UserCollection;
 use App\Http\Resources\V1\User\UserResource;
 use App\Services\Address\AddressServiceInterface;
+use App\Services\Auth\Login\LoginServiceInterface;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use App\Services\Order\OrderServiceInterface;
 use App\Services\User\UserServiceInterface;
@@ -26,6 +27,7 @@ class UserController extends Controller
         private AddressServiceInterface     $addressService,
         private OnHoldOrderServiceInterface $onHoldOrderService,
         private OrderServiceInterface       $orderService,
+        private LoginServiceInterface       $loginService,
     )
     {
     }
@@ -80,5 +82,15 @@ class UserController extends Controller
     {
         $this->addressService->changeActiveAddress($request->get("id"), $request->get("user_id"));
         return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
+    }
+
+    public function loginUser($id)
+    {
+        $token = $this->loginService->loginWithUserId($id);
+        return $this->dataResponse
+        (
+            ["token" => $token],
+            (Lang::get("action.success", ["attr" => Lang::get("attr.login")]))
+        );
     }
 }
