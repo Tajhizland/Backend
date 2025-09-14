@@ -102,6 +102,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
 
         Route::get('on-hold-order/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getOnHoldOrder"]);
         Route::get('order/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getOrder"]);
+        Route::get('login/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "loginUser"]);
 
     });
     Route::group(["prefix" => "gateway"], function () {
