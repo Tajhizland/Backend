@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1\Product\ProductCategory;
 
+use App\Http\Resources\V1\Comment\CommentCollection;
 use App\Http\Resources\V1\GroupProduct\GroupProductCollection;
 use App\Http\Resources\V1\ProductColor\ProductColorCollection;
 use App\Http\Resources\V1\ProductImage\ProductImageCollection;
@@ -21,6 +22,7 @@ class ProductCategoryResource extends JsonResource
             'colors' => new ProductColorCollection($this->activeProductColors),
             'images' => new ProductImageCollection($this->images),
             'groupItems' => new GroupProductCollection($this->groupItems),
+            'comments' => new CommentCollection($this->confirmedComments),
 
         ];
     }
