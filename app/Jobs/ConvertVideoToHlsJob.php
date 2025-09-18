@@ -61,7 +61,7 @@ class ConvertVideoToHlsJob implements ShouldQueue
             exec($ffmpeg, $output, $returnCode);
 
             if ($returnCode !== 0) {
-                throw new \RuntimeException("FFmpeg failed for {$label}: " . implode("\n", $output));
+                throw new \RuntimeException("FFmpeg failed for {$label}: " . json_encode( $output));
             }
 
             $playlistPaths[$label] = "hls/{$videoId}/{$label}/index.m3u8";
