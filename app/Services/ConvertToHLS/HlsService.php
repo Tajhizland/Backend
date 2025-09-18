@@ -49,6 +49,58 @@ class HlsService implements HlsServiceInterface
         $videoId = \Str::uuid()->toString();
         $tempPath = storage_path("app/temp_videos/{$videoId}.mp4");
 
+        if (!file_exists(dirname($tempPath))) {
+            mkdir(dirname($tempPath), 0777, true);
+        }
+        $file->move(dirname($tempPath), basename($tempPath));
+
+        $outputDir = storage_path("app/hls_temp/{$videoId}");
+        if (!file_exists($outputDir)) {
+            mkdir($outputDir, 0777, true);
+        }
+
+        $qualities = [
+            '240p' => '400k',
+            '360p' => '800k',
+            '480p' => '1000k',
+            '720p' => '1400k',
+        ];
+
+        foreach ($qualities as $q => $bitrate) {
+            $dirPath = "{$outputDir}/{$q}";
+            if (!file_exists($dirPath)) {
+                mkdir($dirPath, 0777, true);
+            }
+
+            $segment = "{$dirPath}/segment_%03d.ts";
+            $playlist = "{$dirPath}/{$q}.m3u8";
+
+            // مسیر ffmpeg را پیدا کنید (در صورت نیاز)
+            $ffmpeg = '/usr/bin/ffmpeg'; // اگر which ffmpeg چیزی برگردوند همان را بگذارید
+
+            $cmd = $ffmpeg.' -i "'.$tempPath.'" -preset veryfast -g 48 -sc_threshold 0 '
+                . '-map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 '.$bitrate.' '
+                . '-c:a:0 aac -b:a:0 128k '
+                . '-f hls -hls_time 6 -hls_playlist_type vod '
+                . '-hls_segment_filename "'.$segment.'" "'.$playlist.'" 2>&1';
+
+            exec($cmd, $output, $ret);
+
+            if ($ret !== 0) {
+                \Log::error("FFmpeg failed for {$q}: ".implode("\n", $output));
+            }
+        }
+
+        unlink($tempPath);
+        return $outputDir;
+    }
+
+
+    private function convertToHls2(UploadedFile $file): string
+    {
+        $videoId = \Str::uuid()->toString();
+        $tempPath = storage_path("app/temp_videos/{$videoId}.mp4");
+
         // ذخیره فایل موقت
         if (!file_exists(dirname($tempPath))) {
             mkdir(dirname($tempPath), 0777, true);
@@ -68,11 +120,9 @@ class HlsService implements HlsServiceInterface
             if (!file_exists($dirPath)) {
                 mkdir($dirPath, 0777, true);
             }
-            var_dump(file_exists($dirPath), $dirPath);
         }
 
         $masterPlaylistPath = "{$outputDir}/master.m3u8";
-        var_dump($masterPlaylistPath);
 
         // اجرای ffmpeg برای ایجاد کیفیت‌های مختلف
         $ffmpeg = <<<EOL
@@ -99,10 +149,7 @@ EOL;
 
         // اجرای دستورات ffmpeg
         exec($ffmpeg);
-        var_dump($tempPath);
-        var_dump($outputDir);
 
-        die();
         // حذف فایل موقت mp4
         unlink($tempPath);
 
