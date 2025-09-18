@@ -60,8 +60,7 @@ class HlsService implements HlsServiceInterface
         if (!file_exists($outputDir)) {
             mkdir($outputDir, 0777, true);
         }
-        var_dump(file_exists(dirname($outputDir)), $outputDir);
-        die();
+
         // ایجاد پوشه‌های کیفیت‌های مختلف
         $qualityDirs = ['240p', '360p', '480p', '720p'];
         foreach ($qualityDirs as $qualityDir) {
@@ -69,6 +68,8 @@ class HlsService implements HlsServiceInterface
             if (!file_exists($dirPath)) {
                 mkdir($dirPath, 0777, true);
             }
+            var_dump(file_exists($dirPath), $dirPath);
+            die();
         }
 
         $masterPlaylistPath = "{$outputDir}/master.m3u8";
