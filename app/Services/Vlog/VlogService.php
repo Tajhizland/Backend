@@ -2,9 +2,9 @@
 
 namespace App\Services\Vlog;
 
+use App\Jobs\ConvertVideoToHlsJob;
 use App\Models\Vlog;
 use App\Repositories\Vlog\VlogRepositoryInterface;
-use App\Services\ConvertToHLS\HlsConvert;
 use App\Services\ConvertToHLS\HlsServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -15,7 +15,7 @@ class VlogService implements VlogServiceInterface
     (
         private VlogRepositoryInterface $vlogRepository,
         private S3ServiceInterface      $s3Service,
-        private HlsConvert     $hlsService,
+        private HlsServiceInterface     $hlsService,
     )
     {
     }
@@ -30,35 +30,49 @@ class VlogService implements VlogServiceInterface
         return $this->vlogRepository->findOrFail($id);
     }
 
+//    public function store($title, $description, $video, $poster, $url, $status, $categoryId, $author)
+//    {
+//        $hlsPath=$this->hlsService->convertAndUploadS3($video);
+////        $filePath = $this->s3Service->upload($video, "vlog");
+//        $posterPath = $this->s3Service->upload($poster, "vlog");
+//        return $this->vlogRepository->create([
+//            "title" => $title,
+//            "description" => $description,
+//            "video" => " ",
+//            "poster" => $posterPath,
+//            "status" => $status,
+//            "url" => $url,
+//            "hls" => $hlsPath,
+//            "category_id" => $categoryId,
+//            "author" => $author,
+//        ]);
+//    }
     public function store($title, $description, $video, $poster, $url, $status, $categoryId, $author)
     {
-        $hlsPath=$this->hlsService->convertAndUploadS3($video);
-//        $filePath = $this->s3Service->upload($video, "vlog");
+        $filePath = $this->s3Service->upload($video, "vlog");
         $posterPath = $this->s3Service->upload($poster, "vlog");
-        return $this->vlogRepository->create([
+        $vlog = $this->vlogRepository->create([
             "title" => $title,
             "description" => $description,
-            "video" => " ",
+            "video" => $filePath,
             "poster" => $posterPath,
             "status" => $status,
             "url" => $url,
-            "hls" => $hlsPath,
             "category_id" => $categoryId,
             "author" => $author,
         ]);
+        ConvertVideoToHlsJob::dispatch($vlog, $this->s3Service);
+        return $vlog;
     }
 
     public function update($id, $title, $description, $video, $poster, $url, $status, $categoryId)
     {
         $vlog = $this->vlogRepository->findOrFail($id);
         $filePath = $vlog->video;
-        $hlsPath = $vlog->hls;
         $posterPath = $vlog->poster;
         if (isset($video)) {
             $this->s3Service->remove("vlog/" . $filePath);
-            $this->s3Service->removeFolder("hls/".$hlsPath);
-            $hlsPath=$this->hlsService->convertAndUploadS3($video);
-//            $filePath = $this->s3Service->upload($video, "vlog");
+            $filePath = $this->s3Service->upload($video, "vlog");
         }
         if (isset($poster)) {
             $this->s3Service->remove("vlog/" . $posterPath);
@@ -70,11 +84,40 @@ class VlogService implements VlogServiceInterface
             "video" => $filePath,
             "poster" => $posterPath,
             "url" => $url,
-            "hls" => $hlsPath,
             "status" => $status,
             "category_id" => $categoryId,
         ]);
+
+        ConvertVideoToHlsJob::dispatch($vlog, $this->s3Service);
+        return $vlog;
     }
+//   public function update($id, $title, $description, $video, $poster, $url, $status, $categoryId)
+//    {
+//        $vlog = $this->vlogRepository->findOrFail($id);
+//        $filePath = $vlog->video;
+//        $hlsPath = $vlog->hls;
+//        $posterPath = $vlog->poster;
+//        if (isset($video)) {
+//            $this->s3Service->remove("vlog/" . $filePath);
+//            $this->s3Service->removeFolder("hls/".$hlsPath);
+//            $hlsPath=$this->hlsService->convertAndUploadS3($video);
+////            $filePath = $this->s3Service->upload($video, "vlog");
+//        }
+//        if (isset($poster)) {
+//            $this->s3Service->remove("vlog/" . $posterPath);
+//            $posterPath = $this->s3Service->upload($poster, "vlog");
+//        }
+//        $this->vlogRepository->update($vlog, [
+//            "title" => $title,
+//            "description" => $description,
+//            "video" => $filePath,
+//            "poster" => $posterPath,
+//            "url" => $url,
+//            "hls" => $hlsPath,
+//            "status" => $status,
+//            "category_id" => $categoryId,
+//        ]);
+//    }
 
     public function findByUrl($url)
     {
