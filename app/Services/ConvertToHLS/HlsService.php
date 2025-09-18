@@ -100,6 +100,7 @@ EOL;
         // اجرای دستورات ffmpeg
         exec($ffmpeg);
         var_dump($tempPath);
+        var_dump($outputDir);
 
         die();
         // حذف فایل موقت mp4
