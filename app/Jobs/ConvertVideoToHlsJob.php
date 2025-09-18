@@ -42,7 +42,7 @@ class ConvertVideoToHlsJob implements ShouldQueue
         if (!file_exists($outputDir)) mkdir($outputDir, 0777, true);
 
         // دانلود فایل mp4 از S3
-        $this->s3Service->download($this->vlog->video, $tempPath);
+        $this->s3Service->download("vlog/".$this->vlog->video, $tempPath);
 
         $playlistPaths = [];
 
