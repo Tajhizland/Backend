@@ -69,10 +69,10 @@ class HlsService implements HlsServiceInterface
                 mkdir($dirPath, 0777, true);
             }
             var_dump(file_exists($dirPath), $dirPath);
-            die();
         }
 
         $masterPlaylistPath = "{$outputDir}/master.m3u8";
+        var_dump($masterPlaylistPath);
 
         // اجرای ffmpeg برای ایجاد کیفیت‌های مختلف
         $ffmpeg = <<<EOL
@@ -99,7 +99,9 @@ EOL;
 
         // اجرای دستورات ffmpeg
         exec($ffmpeg);
+        var_dump($tempPath);
 
+        die();
         // حذف فایل موقت mp4
         unlink($tempPath);
 
