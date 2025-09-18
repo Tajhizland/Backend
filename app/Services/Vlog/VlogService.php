@@ -4,6 +4,7 @@ namespace App\Services\Vlog;
 
 use App\Models\Vlog;
 use App\Repositories\Vlog\VlogRepositoryInterface;
+use App\Services\ConvertToHLS\HlsConvert;
 use App\Services\ConvertToHLS\HlsServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,7 +15,7 @@ class VlogService implements VlogServiceInterface
     (
         private VlogRepositoryInterface $vlogRepository,
         private S3ServiceInterface      $s3Service,
-        private HlsServiceInterface     $hlsService,
+        private HlsConvert     $hlsService,
     )
     {
     }
