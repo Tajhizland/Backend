@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class ConvertVideoToHlsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    public $timeout = 7200;
     private Vlog $vlog;
     private S3ServiceInterface $s3Service;
 
