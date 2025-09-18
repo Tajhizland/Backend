@@ -49,8 +49,8 @@ class HlsService implements HlsServiceInterface
         $videoId = \Str::uuid()->toString();
         $tempPath = storage_path("app/temp_videos/{$videoId}.mp4");
 
-        dd(file_exists(dirname($tempPath)), $tempPath);
-
+        var_dump(file_exists(dirname($tempPath)), $tempPath);
+        die();
         // ذخیره فایل موقت
         if (!file_exists(dirname($tempPath))) {
             mkdir(dirname($tempPath), 0777, true);
