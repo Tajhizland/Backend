@@ -117,7 +117,7 @@ class HlsService implements HlsServiceInterface
 
 
         // حذف فایل موقت mp4
-        unlink($tempPath);
+//        unlink($tempPath);
 
         // بازگرداندن مسیر فولدر خروجی
         return $outputDir;
