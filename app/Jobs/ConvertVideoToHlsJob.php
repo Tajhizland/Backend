@@ -19,6 +19,13 @@ class ConvertVideoToHlsJob implements ShouldQueue
     private Vlog $vlog;
     private S3ServiceInterface $s3Service;
 
+    private array $qualities = [
+        '240p' => ['width' => 426, 'height' => 240, 'bitrate' => '400k'],
+        '360p' => ['width' => 640, 'height' => 360, 'bitrate' => '800k'],
+        '480p' => ['width' => 854, 'height' => 480, 'bitrate' => '1000k'],
+        '720p' => ['width' => 1280, 'height' => 720, 'bitrate' => '1400k'],
+    ];
+
     public function __construct(Vlog $vlog, S3ServiceInterface $s3Service)
     {
         $this->vlog = $vlog;
@@ -37,29 +44,33 @@ class ConvertVideoToHlsJob implements ShouldQueue
         // دانلود فایل mp4 از S3
         $this->s3Service->download($this->vlog->video, $tempPath);
 
-        // اجرای ffmpeg برای تولید HLS (همه کیفیت‌ها یکجا)
-        $ffmpeg = <<<EOL
-ffmpeg -i "{$tempPath}" \
--filter:v:0 scale=w=426:h=240 -c:v:0 libx264 -b:v:0 400k -c:a aac -ar 48000 -b:a 128k \
--filter:v:1 scale=w=640:h=360 -c:v:1 libx264 -b:v:1 800k \
--filter:v:2 scale=w=854:h=480 -c:v:2 libx264 -b:v:2 1000k \
--filter:v:3 scale=w=1280:h=720 -c:v:3 libx264 -b:v:3 1400k \
--map 0:a -map 0:v -map 0:a -map 0:v -map 0:a -map 0:v -map 0:a -map 0:v \
--var_stream_map "v:0,a:0 v:1,a:1 v:2,a:2 v:3,a:3" \
--f hls -hls_time 6 -hls_playlist_type vod \
--master_pl_name master.m3u8 \
--hls_segment_filename "{$outputDir}/%v/segment_%03d.ts" "{$outputDir}/%v/index.m3u8"
-EOL;
+        $playlistPaths = [];
 
-        exec($ffmpeg, $output, $returnCode);
-        if ($returnCode !== 0) {
-            throw new \RuntimeException("FFmpeg failed: " . implode("\n", $output));
+        // ایجاد هر کیفیت جداگانه
+        foreach ($this->qualities as $label => $q) {
+            $dir = "{$outputDir}/{$label}";
+            if (!file_exists($dir)) mkdir($dir, 0777, true);
+
+            $outputPlaylist = "{$dir}/index.m3u8";
+
+            $ffmpeg = "ffmpeg -i \"{$tempPath}\" -vf scale={$q['width']}:{$q['height']} " .
+                "-c:v libx264 -b:v {$q['bitrate']} -c:a aac -ar 48000 -b:a 128k " .
+                "-f hls -hls_time 6 -hls_playlist_type vod " .
+                "-hls_segment_filename \"{$dir}/segment_%03d.ts\" \"{$outputPlaylist}\"";
+
+            exec($ffmpeg, $output, $returnCode);
+
+            if ($returnCode !== 0) {
+                throw new \RuntimeException("FFmpeg failed for {$label}: " . implode("\n", $output));
+            }
+
+            $playlistPaths[$label] = "hls/{$videoId}/{$label}/index.m3u8";
         }
 
         // حذف فایل mp4 موقت
         unlink($tempPath);
 
-        // آپلود همه فایل‌های HLS به S3
+        // آپلود همه فایل‌ها به S3
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($outputDir, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::LEAVES_ONLY
@@ -75,6 +86,20 @@ EOL;
 
             $this->s3Service->upload(new File($localFile), $filePath, $filename);
         }
+
+        // ایجاد master playlist
+        $masterContent = "#EXTM3U\n#EXT-X-VERSION:3\n";
+        foreach ($this->qualities as $label => $q) {
+            $bandwidth = (int) rtrim($q['bitrate'], 'k') * 1000;
+            $masterContent .= "#EXT-X-STREAM-INF:BANDWIDTH={$bandwidth},RESOLUTION={$q['width']}x{$q['height']}\n";
+            $masterContent .= "{$label}/index.m3u8\n";
+        }
+
+        $masterPathLocal = "{$outputDir}/master.m3u8";
+        file_put_contents($masterPathLocal, $masterContent);
+
+        // آپلود master playlist
+        $this->s3Service->upload(new File($masterPathLocal), "hls/{$videoId}", "master.m3u8");
 
         // پاک کردن فولدر موقت HLS
         $this->deleteDirectory($outputDir);
