@@ -49,8 +49,6 @@ class HlsService implements HlsServiceInterface
         $videoId = \Str::uuid()->toString();
         $tempPath = storage_path("app/temp_videos/{$videoId}.mp4");
 
-        var_dump(file_exists(dirname($tempPath)), $tempPath);
-        die();
         // ذخیره فایل موقت
         if (!file_exists(dirname($tempPath))) {
             mkdir(dirname($tempPath), 0777, true);
@@ -62,7 +60,8 @@ class HlsService implements HlsServiceInterface
         if (!file_exists($outputDir)) {
             mkdir($outputDir, 0777, true);
         }
-
+        var_dump(file_exists(dirname($outputDir)), $outputDir);
+        die();
         // ایجاد پوشه‌های کیفیت‌های مختلف
         $qualityDirs = ['240p', '360p', '480p', '720p'];
         foreach ($qualityDirs as $qualityDir) {
