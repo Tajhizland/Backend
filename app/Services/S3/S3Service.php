@@ -11,16 +11,16 @@ class S3Service implements S3ServiceInterface
         if ($fileName == "")
             $fileName = time() . "_" . rand(10000, 99999) . '.' . $file->getClientOriginalExtension();
         $filePath = $path . '/' . $fileName;
-        Storage::disk('s3')->put($filePath,file_get_contents($file->getPathname()));
+        Storage::disk('s3')->put($filePath, file_get_contents($file->getPathname()));
         return $fileName;
     }
 
     public function upload2($file, $path, $fileName = ""): string
     {
         if ($fileName == "")
-            $fileName = time() . "_" . rand(10000, 99999) . '.jpg' ;
+            $fileName = time() . "_" . rand(10000, 99999) . '.jpg';
         $filePath = $path . '/' . $fileName;
-        Storage::disk('s3')->put($filePath,$file);
+        Storage::disk('s3')->put($filePath, $file);
 //        Storage::disk('s3')->put($filePath, file_get_contents($file));
         return $fileName;
     }
@@ -29,9 +29,17 @@ class S3Service implements S3ServiceInterface
     {
         Storage::disk('s3')->delete($path);
     }
+
     public function removeFolder($folderPath): void
     {
         $files = Storage::disk('s3')->allFiles($folderPath);
         Storage::disk('s3')->delete($files);
     }
+
+    public function download(string $s3Path, string $localPath): void
+    {
+        $content = Storage::disk('s3')->get($s3Path);
+        file_put_contents($localPath, $content);
+    }
+
 }
