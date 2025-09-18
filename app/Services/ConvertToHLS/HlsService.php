@@ -73,30 +73,48 @@ class HlsService implements HlsServiceInterface
         $masterPlaylistPath = "{$outputDir}/master.m3u8";
 
         // اجرای ffmpeg برای ایجاد کیفیت‌های مختلف
-        $ffmpeg = <<<EOL
-ffmpeg -i "{$tempPath}" -preset veryfast -g 48 -sc_threshold 0 \
--map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 400k -c:a:0 aac -b:a:0 128k \
--f hls -hls_time 6 -hls_playlist_type vod \
--hls_segment_filename "{$outputDir}/240p/segment_%03d.ts" "{$outputDir}/240p/240p.m3u8"
+//        $ffmpeg = <<<EOL
+//ffmpeg -i "{$tempPath}" -preset veryfast -g 48 -sc_threshold 0 \
+//-map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 400k -c:a:0 aac -b:a:0 128k \
+//-f hls -hls_time 6 -hls_playlist_type vod \
+//-hls_segment_filename "{$outputDir}/240p/segment_%03d.ts" "{$outputDir}/240p/240p.m3u8"
+//
+//ffmpeg -i "{$tempPath}" -preset veryfast -g 48 -sc_threshold 0 \
+//-map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 800k -c:a:0 aac -b:a:0 128k \
+//-f hls -hls_time 6 -hls_playlist_type vod \
+//-hls_segment_filename "{$outputDir}/360p/segment_%03d.ts" "{$outputDir}/360p/360p.m3u8"
+//
+//ffmpeg -i "{$tempPath}" -preset veryfast -g 48 -sc_threshold 0 \
+//-map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 1000k -c:a:0 aac -b:a:0 128k \
+//-f hls -hls_time 6 -hls_playlist_type vod \
+//-hls_segment_filename "{$outputDir}/480p/segment_%03d.ts" "{$outputDir}/480p/480p.m3u8"
+//
+//ffmpeg -i "{$tempPath}" -preset veryfast -g 48 -sc_threshold 0 \
+//-map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 1400k -c:a:0 aac -b:a:0 128k \
+//-f hls -hls_time 6 -hls_playlist_type vod \
+//-hls_segment_filename "{$outputDir}/720p/segment_%03d.ts" "{$outputDir}/720p/720p.m3u8"
+//EOL;
+//
+//        // اجرای دستورات ffmpeg
+//        exec($ffmpeg);
 
-ffmpeg -i "{$tempPath}" -preset veryfast -g 48 -sc_threshold 0 \
--map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 800k -c:a:0 aac -b:a:0 128k \
--f hls -hls_time 6 -hls_playlist_type vod \
--hls_segment_filename "{$outputDir}/360p/segment_%03d.ts" "{$outputDir}/360p/360p.m3u8"
+        $commands = [
+            'ffmpeg -i "'.$tempPath.'" -preset veryfast -g 48 -sc_threshold 0 -map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 400k -c:a:0 aac -b:a:0 128k -f hls -hls_time 6 -hls_playlist_type vod -hls_segment_filename "'.$outputDir.'/240p/segment_%03d.ts" "'.$outputDir.'/240p/240p.m3u8"',
 
-ffmpeg -i "{$tempPath}" -preset veryfast -g 48 -sc_threshold 0 \
--map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 1000k -c:a:0 aac -b:a:0 128k \
--f hls -hls_time 6 -hls_playlist_type vod \
--hls_segment_filename "{$outputDir}/480p/segment_%03d.ts" "{$outputDir}/480p/480p.m3u8"
+            'ffmpeg -i "'.$tempPath.'" -preset veryfast -g 48 -sc_threshold 0 -map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 800k -c:a:0 aac -b:a:0 128k -f hls -hls_time 6 -hls_playlist_type vod -hls_segment_filename "'.$outputDir.'/360p/segment_%03d.ts" "'.$outputDir.'/360p/360p.m3u8"',
 
-ffmpeg -i "{$tempPath}" -preset veryfast -g 48 -sc_threshold 0 \
--map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 1400k -c:a:0 aac -b:a:0 128k \
--f hls -hls_time 6 -hls_playlist_type vod \
--hls_segment_filename "{$outputDir}/720p/segment_%03d.ts" "{$outputDir}/720p/720p.m3u8"
-EOL;
+            'ffmpeg -i "'.$tempPath.'" -preset veryfast -g 48 -sc_threshold 0 -map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 1000k -c:a:0 aac -b:a:0 128k -f hls -hls_time 6 -hls_playlist_type vod -hls_segment_filename "'.$outputDir.'/480p/segment_%03d.ts" "'.$outputDir.'/480p/480p.m3u8"',
 
-        // اجرای دستورات ffmpeg
-        exec($ffmpeg);
+            'ffmpeg -i "'.$tempPath.'" -preset veryfast -g 48 -sc_threshold 0 -map 0:v:0 -map 0:a:0 -c:v:0 libx264 -b:v:0 1400k -c:a:0 aac -b:a:0 128k -f hls -hls_time 6 -hls_playlist_type vod -hls_segment_filename "'.$outputDir.'/720p/segment_%03d.ts" "'.$outputDir.'/720p/720p.m3u8"',
+        ];
+
+        foreach ($commands as $cmd) {
+            exec($cmd . ' 2>&1', $output, $returnCode);
+            if ($returnCode !== 0) {
+                \Log::error('FFMPEG error: '.implode("\n", $output));
+            }
+        }
+
 
         // حذف فایل موقت mp4
         unlink($tempPath);
