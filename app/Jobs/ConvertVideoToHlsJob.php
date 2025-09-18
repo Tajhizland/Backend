@@ -85,8 +85,7 @@ EOL;
 
         // به‌روز رسانی رکورد ویدیو
         $this->vlog->update([
-            'status' => 'ready',
-            'video' => "{$videoId}/master.m3u8",
+            'hls' => "{$videoId}/master.m3u8",
         ]);
     }
 
