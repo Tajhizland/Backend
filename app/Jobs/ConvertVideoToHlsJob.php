@@ -27,9 +27,6 @@ class ConvertVideoToHlsJob implements ShouldQueue
 
     public function handle(): void
     {
-        $this->vlog->update(['status' => 'processing']);
-
-        // شناسه و مسیرهای موقت
         $videoId = Str::uuid()->toString();
         $tempPath = storage_path("app/temp_videos/{$videoId}.mp4");
         $outputDir = storage_path("app/hls_temp/{$videoId}");
