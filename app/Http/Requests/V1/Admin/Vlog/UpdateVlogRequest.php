@@ -13,7 +13,7 @@ class UpdateVlogRequest extends FormRequest
             'title' => ['required'],
             'description' => ['nullable'],
             'url' => ['required'],
-            'video' => ['nullable'],
+            'video' => ['nullable', 'file', 'mimes:mp4'],
             'poster' => ['nullable'],
             'categoryId' => ['required',"exists:App\Models\VlogCategory,id"],
             'status' => ['required', 'integer'],
