@@ -53,7 +53,6 @@ EOL;
 
         exec($ffmpeg, $output, $returnCode);
         if ($returnCode !== 0) {
-            $this->vlog->update(['status' => 'failed']);
             throw new \RuntimeException("FFmpeg failed: " . implode("\n", $output));
         }
 
