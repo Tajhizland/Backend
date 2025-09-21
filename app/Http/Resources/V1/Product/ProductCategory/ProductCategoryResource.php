@@ -25,6 +25,7 @@ class ProductCategoryResource extends JsonResource
             'groupItems' => new GroupProductCollection($this->groupItems),
             'comments' => new CommentCollection($this->confirmedComments),
             'productOptions' => new ProductOptionCollection($this->productOptions),
+            'category_ids' => $this->productCategories->pluck('category_id'),
 
         ];
     }
