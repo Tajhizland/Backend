@@ -73,4 +73,20 @@ class SampleService implements SampleServiceInterface
     {
         return $this->sampleVideoRepository->getWithVlog();
     }
+
+    public function sortImage($array)
+    {
+        foreach ($array as $item) {
+            $this->sampleImageRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
+
+    public function sortVideo($array)
+    {
+        foreach ($array as $item) {
+            $this->sampleVideoRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
 }

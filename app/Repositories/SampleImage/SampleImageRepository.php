@@ -11,4 +11,9 @@ class SampleImageRepository extends BaseRepository implements SampleImageReposit
     {
         parent::__construct($model);
     }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
+    }
 }

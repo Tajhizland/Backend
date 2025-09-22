@@ -5,6 +5,8 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Sample\SampleImageRequest;
 use App\Http\Requests\V1\Admin\Sample\SampleVideoRequest;
+use App\Http\Requests\V1\Admin\Sample\SortImageRequest;
+use App\Http\Requests\V1\Admin\Sample\SortVideoRequest;
 use App\Http\Requests\V1\Admin\SampleRequest;
 use App\Http\Resources\V1\Sample\SampleResource;
 use App\Http\Resources\V1\SampleImage\SampleImageCollection;
@@ -67,5 +69,15 @@ class SampleController extends Controller
     public function getVideos()
     {
         return $this->dataResponseCollection(new SampleVideoCollection($this->sampleService->getVideos()));
+    }
+    public function sortVideo(SortVideoRequest $request)
+    {
+        $this->sampleService->sortVideo($request->get("banner"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.vlog")]));
+    }
+    public function sortImage(SortImageRequest $request)
+    {
+        $this->sampleService->sortImage($request->get("banner"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.image")]));
     }
 }

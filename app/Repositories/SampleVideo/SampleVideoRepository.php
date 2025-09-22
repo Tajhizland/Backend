@@ -22,4 +22,9 @@ class SampleVideoRepository extends BaseRepository implements SampleVideoReposit
         return $this->model::with("vlog")->latest("id")->get();
 
     }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id",$id)->update(["sort"=>$sort]);
+    }
 }

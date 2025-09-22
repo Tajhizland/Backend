@@ -12,4 +12,8 @@ interface SampleServiceInterface
     public function removeImage($id);
     public function addVideo($id);
     public function deleteVideo($id);
+    public function sortImage($array);
+
+    public function sortVideo($array);
+
 }

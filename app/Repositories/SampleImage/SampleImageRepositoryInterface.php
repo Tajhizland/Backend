@@ -6,5 +6,5 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface SampleImageRepositoryInterface extends BaseRepositoryInterface
 {
-
+    public function sort($id, $sort);
 }

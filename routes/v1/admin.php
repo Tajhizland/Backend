@@ -278,10 +278,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
 
         Route::get("image/get", [\App\Http\Controllers\V1\Admin\SampleController::class, "getImages"]);
         Route::post("image/upload", [\App\Http\Controllers\V1\Admin\SampleController::class, "uploadImage"]);
+        Route::post("image/sort", [\App\Http\Controllers\V1\Admin\SampleController::class, "sortImage"]);
         Route::delete("image/delete/{id}", [\App\Http\Controllers\V1\Admin\SampleController::class, "removeImage"]);
 
         Route::get("video/get", [\App\Http\Controllers\V1\Admin\SampleController::class, "getVideos"]);
         Route::post("video/add", [\App\Http\Controllers\V1\Admin\SampleController::class, "addVideo"]);
+        Route::post("video/sort", [\App\Http\Controllers\V1\Admin\SampleController::class, "sortVideo"]);
         Route::delete("video/delete/{id}", [\App\Http\Controllers\V1\Admin\SampleController::class, "deleteVideo"]);
     });
 
