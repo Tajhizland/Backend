@@ -72,12 +72,12 @@ class SampleController extends Controller
     }
     public function sortVideo(SortVideoRequest $request)
     {
-        $this->sampleService->sortVideo($request->get("banner"));
+        $this->sampleService->sortVideo($request->get("video"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.vlog")]));
     }
     public function sortImage(SortImageRequest $request)
     {
-        $this->sampleService->sortImage($request->get("banner"));
+        $this->sampleService->sortImage($request->get("image"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.image")]));
     }
 }
