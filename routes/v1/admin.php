@@ -13,6 +13,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
     Route::group(["prefix" => "product"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "dataTable"]);
+        Route::get("has-discount-dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "hasDiscountDataTable"]);
+        Route::get("has-limit-dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "hasLimitDataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "findById"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\ProductController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\ProductController::class, "update"]);

@@ -7,6 +7,8 @@ interface ProductServiceInterface
     public function findProductByUrl(string $url): mixed;
 
     public function dataTable(): mixed;
+    public function hasLimitDataTable(): mixed;
+    public function hasDiscountDataTable(): mixed;
 
     public function searchProductWithCategory($query, $categoryId): mixed;
 

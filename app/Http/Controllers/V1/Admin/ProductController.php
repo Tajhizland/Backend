@@ -48,6 +48,15 @@ class ProductController extends Controller
         return $this->dataResponseCollection(new ProductCollection($this->productService->dataTable()));
     }
 
+    public function hasDiscountDataTable()
+    {
+        return $this->dataResponseCollection(new ProductCollection($this->productService->hasDiscountDataTable()));
+    }
+    public function hasLimitDataTable()
+    {
+        return $this->dataResponseCollection(new ProductCollection($this->productService->hasLimitDataTable()));
+    }
+
     public function findById($id)
     {
         return $this->dataResponse(new ProductResource($this->productService->findById($id)));

@@ -173,4 +173,14 @@ class ProductService implements ProductServiceInterface
         $productVideo = $this->productVideoRepository->findOrFail($id);
         return $this->productVideoRepository->delete($productVideo);
     }
+
+    public function hasLimitDataTable(): mixed
+    {
+        return $this->productRepository->hasLimitDataTable();
+    }
+
+    public function hasDiscountDataTable(): mixed
+    {
+        return $this->productRepository->hasDiscountDataTable();
+    }
 }
