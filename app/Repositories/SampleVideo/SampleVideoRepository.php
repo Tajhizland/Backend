@@ -14,17 +14,17 @@ class SampleVideoRepository extends BaseRepository implements SampleVideoReposit
 
     public function findByVideoId($videoId)
     {
-        return $this->model::where("vlog_id",$videoId)->first();
+        return $this->model::where("vlog_id", $videoId)->first();
     }
 
     public function getWithVlog()
     {
-        return $this->model::with("vlog")->latest("id")->get();
+        return $this->model::with("vlog")->orderBy("sort")->get();
 
     }
 
     public function sort($id, $sort)
     {
-        return $this->model::where("id",$id)->update(["sort"=>$sort]);
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
 }

@@ -16,4 +16,9 @@ class SampleImageRepository extends BaseRepository implements SampleImageReposit
     {
         return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
+
+    public function getAll()
+    {
+        return $this->model::orderBy("sort")->get();
+    }
 }

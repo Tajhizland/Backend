@@ -66,7 +66,7 @@ class SampleService implements SampleServiceInterface
 
     public function getImages()
     {
-        return $this->sampleImageRepository->all();
+        return $this->sampleImageRepository->getAll();
     }
 
     public function getVideos()
