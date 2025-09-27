@@ -4,6 +4,7 @@ namespace App\Repositories\PopularProduct;
 
 use App\Models\PopularProduct;
 use App\Repositories\Base\BaseRepository;
+use Carbon\Carbon;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -35,7 +36,12 @@ class PopularProductRepository extends BaseRepository implements PopularProductR
     }
     public function getWithProduct()
     {
-        return $this->model::with(["product"=>function ($query) {
+        return $this->model::whereHas("product",function ($query){
+            return $query->whereHas("prices",function ($subQuery){
+                $subQuery->where("discount",">",0)->where("discount_expire_time",">",Carbon::now());
+            });
+        })->
+        with(["product"=>function ($query) {
             $query->WithActiveColor();
         }])->get();
     }
