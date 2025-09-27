@@ -13,11 +13,17 @@ class SearchController extends Controller
     public function __construct
     (
         private SearchServiceInterface $searchService
-    ) {}
+    )
+    {
+    }
 
+//    public function index(SearchRequest $request)
+//    {
+//        return $this->dataResponseCollection(new ProductCollection($this->searchService->searchQuery($request->get("query"))));
+//    }
     public function index(SearchRequest $request)
     {
-        return $this->dataResponseCollection(new ProductCollection($this->searchService->searchQuery($request->get("query"))));
+        return $this->dataResponse($this->searchService->searchQuery($request->get("query")));
     }
 
     public function paginate(SearchRequest $request)
