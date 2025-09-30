@@ -55,4 +55,24 @@ class UserService implements UserServiceInterface
         $user = $this->repository->findOrFail($id);
         return $this->repository->update($user, ["wallet" => $wallet]);
     }
+
+    public function getHasOrderUser()
+    {
+        return $this->repository->getHasOrderUser();
+    }
+
+    public function getHasNotOrderUser()
+    {
+        return $this->repository->getHasNotOrderUser();
+    }
+
+    public function getHasActiveCartUser()
+    {
+        return $this->repository->getHasActiveCartUser();
+    }
+
+    public function adminDataTable()
+    {
+        return $this->repository->adminDataTable();
+    }
 }

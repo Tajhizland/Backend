@@ -39,6 +39,15 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->allowedSorts(['name', 'role', 'username', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
+    public function adminDataTable()
+    {
+        return QueryBuilder::for(User::class)
+            ->select("users.*")
+            ->where("role","admin")
+            ->allowedFilters(['name', 'role', 'username', 'id', 'created_at'])
+            ->allowedSorts(['name', 'role', 'username', 'id', 'created_at'])
+            ->paginate($this->pageSize);
+    }
 
     public function resetPassword($username, $password)
     {
@@ -63,6 +72,27 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function todayUserCount()
     {
         return $this->model::whereDate('created_at', Carbon::today())->count();
+
+    }
+
+    public function getHasOrderUser()
+    {
+        return $this->model::whereHas("order",function ($query){
+            $query->paid();
+        })->get();
+    }
+
+    public function getHasNotOrderUser()
+    {
+        return $this->model::whereDoesntHave("order",function ($query){
+            $query->paid();
+        })->get();
+
+    }
+
+    public function getHasActiveCartUser()
+    {
+        return $this->model::whereHas("activeCart")->get();
 
     }
 }

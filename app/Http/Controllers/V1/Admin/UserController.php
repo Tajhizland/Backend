@@ -36,6 +36,10 @@ class UserController extends Controller
     {
         return $this->dataResponseCollection(new UserCollection($this->userService->dataTable()));
     }
+    public function adminDataTable()
+    {
+        return $this->dataResponseCollection(new UserCollection($this->userService->adminDataTable()));
+    }
 
     public function getAddress($id)
     {

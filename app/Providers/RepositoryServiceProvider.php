@@ -136,6 +136,10 @@ use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\Slider\SliderRepository;
 use App\Repositories\Slider\SliderRepositoryInterface;
+use App\Repositories\SmsLog\SmsLogRepository;
+use App\Repositories\SmsLog\SmsLogRepositoryInterface;
+use App\Repositories\SmsLogItem\SmsLogItemRepository;
+use App\Repositories\SmsLogItem\SmsLogItemRepositoryInterface;
 use App\Repositories\SpecialProduct\SpecialProductRepository;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
@@ -276,6 +280,10 @@ use App\Services\Slider\SliderService;
 use App\Services\Slider\SliderServiceInterface;
 use App\Services\Sms\SmsService;
 use App\Services\Sms\SmsServiceInterface;
+use App\Services\SmsLog\SmsLogService;
+use App\Services\SmsLog\SmsLogServiceInterface;
+use App\Services\SmsLogItem\SmsLogItemService;
+use App\Services\SmsLogItem\SmsLogItemServiceInterface;
 use App\Services\SpecialProduct\SpecialProductService;
 use App\Services\SpecialProduct\SpecialProductServiceInterface;
 use App\Services\TrustedBrand\TrustedBrandService;
@@ -446,6 +454,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(DictionaryRepositoryInterface::class, DictionaryRepository::class);
 
+        $this->app->bind(SmsLogRepositoryInterface::class, SmsLogRepository::class);
+
+        $this->app->bind(SmsLogItemRepositoryInterface::class, SmsLogItemRepository::class);
+
 
         /** End Repository */
 
@@ -591,6 +603,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(RunConceptQuestionServiceInterface::class, RunConceptQuestionService::class);
 
         $this->app->bind(DictionaryServiceInterface::class, DictionaryService::class);
+
+        $this->app->bind(SmsLogServiceInterface::class, SmsLogService::class);
+
+        $this->app->bind(SmsLogItemServiceInterface::class, SmsLogItemService::class);
 
         /** End Service */
 

@@ -94,6 +94,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
     Route::group(["prefix" => "user"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\UserController::class, "dataTable"]);
+        Route::get("admin/dataTable", [\App\Http\Controllers\V1\Admin\UserController::class, "adminDataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\UserController::class, "findById"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\UserController::class, "update"]);
         Route::post("wallet", [\App\Http\Controllers\V1\Admin\UserController::class, "updateWallet"]);
@@ -338,5 +339,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "update"]);
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "remove"]);
+    });
+    Route::group(["prefix" => "sms"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SmsController::class, "dataTable"]);
+        Route::get("item/{id}", [\App\Http\Controllers\V1\Admin\SmsController::class, "itemDataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\SmsController::class, "viewItem"]);
+        Route::post("send", [\App\Http\Controllers\V1\Admin\SmsController::class, "send"]);
     });
 });

@@ -13,7 +13,11 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
     public function findByUsername($username);
 
     public function dataTable();
+    public function adminDataTable();
     public function todayUserCount();
+    public function getHasOrderUser();
+    public function getHasNotOrderUser();
+    public function getHasActiveCartUser();
 
     public function updateUser($id, $name, $username, $email, $gender, $role,$last_name,$national_code);
 

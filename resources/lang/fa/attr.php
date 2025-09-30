@@ -43,6 +43,7 @@ return
         "answer" => 'پاسخ',
         "page" => 'صفحه',
         "logout" => 'خروج',
+        "sms" => 'پیامک',
         "address" => 'آدرس',
         "payment_method" => 'درگاه پرداخت',
         "delivery_method" => 'شیوه ارسال',

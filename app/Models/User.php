@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable ,HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -47,18 +47,24 @@ class User extends Authenticatable
         ];
     }
 
-    public function favorites():HasMany
+    public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class);
     }
 
     public function carts(): HasMany
     {
-        return $this->hasMany(Cart::class,"user_id","id")->latest("id");
+        return $this->hasMany(Cart::class, "user_id", "id")->latest("id");
     }
+
+    public function order(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function activeCart(): HasOne
     {
-        return $this->hasOne(Cart::class,"user_id","id")
-            ->where("status",CartStatus::Active->value)->latest("id");
+        return $this->hasOne(Cart::class, "user_id", "id")
+            ->where("status", CartStatus::Active->value)->latest("id");
     }
 }

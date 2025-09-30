@@ -15,5 +15,6 @@ return [
     "change" =>  ':attr با موفقیت تغییر کرد',
     "accept" =>  ':attr با موفقیت تأیید شد',
     "reject" =>  ':attr با موفقیت رد شد',
+    "queued" =>  ':attr با موفقیت در صف اجرا قرار گرفت',
     "remove_from" => ':attr با موفقیت از :from حذف شد',
 ];

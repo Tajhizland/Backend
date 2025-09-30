@@ -12,4 +12,9 @@ interface UserServiceInterface
     public function dataTable();
 
     public function findById($id);
+
+    public function getHasOrderUser();
+    public function getHasNotOrderUser();
+    public function getHasActiveCartUser();
+    public function adminDataTable();
 }
