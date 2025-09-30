@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 
-enum SmsLogStatus: int
+enum SmsLogStatus: string
 {
-    case Pending = 1;
-    case Completed = 2;
+    case Pending = "pending";
+    case Completed = "completed";
 
     public function label(): string
     {
