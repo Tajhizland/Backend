@@ -35,6 +35,7 @@ interface VlogRepositoryInterface extends BaseRepositoryInterface
     public function getMostViewed();
 
     public function search($query);
+    public function searchQuery($query);
 
     public function sort($id, $sort);
 
