@@ -12,7 +12,7 @@ class Role extends Model
     {
         return $this->belongsToMany(
             Permission::class,      // مدل مقصد
-            'role_permission',      // اسم جدول pivot
+            'role_permissions',      // اسم جدول pivot
             'role_id',              // کلید فیلد نقش در pivot
             'permission_id'         // کلید فیلد پرمیشن در pivot
         );
