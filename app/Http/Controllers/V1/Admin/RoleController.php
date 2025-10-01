@@ -38,13 +38,13 @@ class RoleController extends Controller
 
     public function store(StoreRoleRequest $request)
     {
-        $this->roleService->store($request->get("name"),$request->get("permission"));
+        $this->roleService->store($request->get("name"),$request->get("permissions"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.role")]));
     }
 
     public function update(UpdateRoleRequest $request)
     {
-        $this->roleService->update($request->get("id"), $request->get("name"),$request->get("permission"));
+        $this->roleService->update($request->get("id"), $request->get("name"),$request->get("permissions"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.role")]));
 
     }

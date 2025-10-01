@@ -11,6 +11,7 @@ class UpdateRoleRequest extends FormRequest
         return [
             'id' => ['required', 'exists:App\Models\Role'],
             'name' => ['required'],
+            'permissions.*' => ['required'],
         ];
     }
 
