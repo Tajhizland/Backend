@@ -19,6 +19,7 @@ class RoleService implements RoleServiceInterface
     {
         return $this->roleRepository->dataTable();
     }
+
     public function getAll()
     {
         return $this->roleRepository->all();
@@ -26,7 +27,7 @@ class RoleService implements RoleServiceInterface
 
     public function find($id)
     {
-        return $this->roleRepository->findOrFail($id);
+        return $this->roleRepository->findWithPermission($id);
     }
 
     public function store($name, $permission)

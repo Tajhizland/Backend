@@ -21,4 +21,9 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
             ->latest("id")
             ->paginate($this->pageSize);
     }
+
+    public function findWithPermission($id)
+    {
+        return $this->model::with("permissions")->findOrFail($id)
+    }
 }
