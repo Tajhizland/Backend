@@ -10,7 +10,7 @@ class StoreRoleRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'permission.*' => ['required',"array"],
+            'permissions.*' => ['required',"array"],
         ];
     }
 
