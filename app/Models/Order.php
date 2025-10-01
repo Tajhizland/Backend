@@ -41,6 +41,16 @@ class Order extends Model
         return $this->hasOne(OnHoldOrder::class);
     }
 
+    public function permissions()
+    {
+        return $this->belongsToMany(
+            Permission::class,      // مدل مقصد
+            'role_permission',      // اسم جدول pivot
+            'role_id',              // کلید فیلد نقش در pivot
+            'permission_id'         // کلید فیلد پرمیشن در pivot
+        );
+    }
+
     protected function casts()
     {
         return [

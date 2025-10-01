@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\V1\Permission\PermissionCollection;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -14,6 +15,7 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'permissions' => PermissionCollection::make($this->whenLoaded('permissions')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
