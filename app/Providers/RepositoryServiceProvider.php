@@ -92,6 +92,8 @@ use App\Repositories\OrderItem\OrderItemRepository;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
 use App\Repositories\Page\PageRepository;
 use App\Repositories\Page\PageRepositoryInterface;
+use App\Repositories\Permission\PermissionRepository;
+use App\Repositories\Permission\PermissionRepositoryInterface;
 use App\Repositories\PopularCategory\PopularCategoryRepository;
 use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepository;
@@ -122,6 +124,10 @@ use App\Repositories\ResetPassword\ResetPasswordRepository;
 use App\Repositories\ResetPassword\ResetPasswordRepositoryInterface;
 use App\Repositories\Returned\ReturnedRepository;
 use App\Repositories\Returned\ReturnedRepositoryInterface;
+use App\Repositories\Role\RoleRepository;
+use App\Repositories\Role\RoleRepositoryInterface;
+use App\Repositories\RolePermission\RolePermissionRepository;
+use App\Repositories\RolePermission\RolePermissionRepositoryInterface;
 use App\Repositories\RunConceptAnswer\RunConceptAnswerRepository;
 use App\Repositories\RunConceptAnswer\RunConceptAnswerRepositoryInterface;
 use App\Repositories\RunConceptQuestion\RunConceptQuestionRepository;
@@ -244,6 +250,8 @@ use App\Services\Payment\Gateways\Strategy\GatewayStrategyServices;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use App\Services\Payment\PaymentService;
 use App\Services\Payment\PaymentServicesInterface;
+use App\Services\Permission\PermissionService;
+use App\Services\Permission\PermissionServiceInterface;
 use App\Services\PopularCategory\PopularCategoryService;
 use App\Services\PopularCategory\PopularCategoryServiceInterface;
 use App\Services\PopularProduct\PopularProductService;
@@ -264,6 +272,8 @@ use App\Services\ProductImage\ProductImageService;
 use App\Services\ProductImage\ProductImageServiceInterface;
 use App\Services\Returned\ReturnedService;
 use App\Services\Returned\ReturnedServiceInterface;
+use App\Services\Role\RoleService;
+use App\Services\Role\RoleServiceInterface;
 use App\Services\RunConceptAnswer\RunConceptAnswerService;
 use App\Services\RunConceptAnswer\RunConceptAnswerServiceInterface;
 use App\Services\RunConceptQuestion\RunConceptQuestionService;
@@ -458,6 +468,12 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(SmsLogItemRepositoryInterface::class, SmsLogItemRepository::class);
 
+        $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
+
+        $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
+
+        $this->app->bind(RolePermissionRepositoryInterface::class, RolePermissionRepository::class);
+
 
         /** End Repository */
 
@@ -607,6 +623,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SmsLogServiceInterface::class, SmsLogService::class);
 
         $this->app->bind(SmsLogItemServiceInterface::class, SmsLogItemService::class);
+
+        $this->app->bind(PermissionServiceInterface::class, PermissionService::class);
+
+        $this->app->bind(RoleServiceInterface::class, RoleService::class);
 
         /** End Service */
 

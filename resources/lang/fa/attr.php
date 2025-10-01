@@ -18,6 +18,8 @@ return
         "comment" => 'نظر',
         "message" => 'پیام',
         "category" => 'دسته بندی',
+        "permission" => 'دسترسی',
+        "role" => 'نقش',
         "display" => 'نام نمایشی',
         "list" => 'لیست',
         "dictionary" => 'دیکشنری',

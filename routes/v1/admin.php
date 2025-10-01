@@ -346,4 +346,18 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\SmsController::class, "viewItem"]);
         Route::post("send", [\App\Http\Controllers\V1\Admin\SmsController::class, "send"]);
     });
+    Route::group(["prefix" => "permission"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PermissionController::class, "dataTable"]);
+        Route::get("list", [\App\Http\Controllers\V1\Admin\PermissionController::class, "getAll"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PermissionController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\PermissionController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\PermissionController::class, "update"]);
+    });
+    Route::group(["prefix" => "role"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\RoleController::class, "dataTable"]);
+        Route::get("list", [\App\Http\Controllers\V1\Admin\RoleController::class, "getAll"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\RoleController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\RoleController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\RoleController::class, "update"]);
+    });
 });
