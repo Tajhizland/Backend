@@ -24,6 +24,6 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
 
     public function findWithPermission($id)
     {
-        return $this->model::with("permissions")->findOrFail($id)
+        return $this->model::with("permissions")->findOrFail($id);
     }
 }
