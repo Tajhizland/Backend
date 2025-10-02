@@ -4,7 +4,7 @@ namespace App\Services\User;
 
 interface UserServiceInterface
 {
-    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code);
+    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code,$role_id);
     public function updateWallet($id, $wallet);
 
     public function updateProfile($id, $name, $email, $gender, $avatar, $last_name, $national_code);

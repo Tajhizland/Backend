@@ -15,9 +15,9 @@ class UserService implements UserServiceInterface
     {
     }
 
-    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code)
+    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code,$role_id)
     {
-        return $this->repository->updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code);
+        return $this->repository->updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code,$role_id);
     }
 
     public function updateProfile($id, $name, $email, $gender, $avatar, $last_name, $national_code)

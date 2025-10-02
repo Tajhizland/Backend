@@ -19,6 +19,6 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
     public function getHasNotOrderUser();
     public function getHasActiveCartUser();
 
-    public function updateUser($id, $name, $username, $email, $gender, $role,$last_name,$national_code);
+    public function updateUser($id, $name, $username, $email, $gender, $role,$last_name,$national_code,$role_id);
 
 }
