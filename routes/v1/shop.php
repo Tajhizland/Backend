@@ -8,6 +8,7 @@ use App\Http\Controllers\V1\Shop\HomePageController;
 use App\Http\Controllers\V1\Shop\NewsController;
 use App\Http\Controllers\V1\Shop\ProductController;
 use App\Http\Controllers\V1\Shop\SearchController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 
@@ -157,6 +158,20 @@ Route::group(["prefix" => 'category-view-history'], function () {
 
 Route::get('info', function () {
     phpinfo();
+});
+
+Route::post('per', function (Request $request) {
+
+    $routes = $request->input('routes', []);
+
+    foreach ($routes as $route) {
+        \App\Models\Permission::firstOrCreate(
+            ['value' => $route],
+            ['name' => $route] // یا هر ترجمه‌ای که بعداً اضافه می‌کنی
+        );
+    }
+
+    return response()->json(['success' => true, 'message' => 'Permissions synced']);
 });
 
 //Route::get('test', function (\App\Services\Sms\SmsServiceInterface $smsService) {
