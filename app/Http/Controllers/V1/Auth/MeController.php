@@ -28,9 +28,13 @@ class MeController extends Controller
 
     public function me(Request $request)
     {
-        if (!$request->user())
+        $user = $request->user();
+        if (!$user)
             return $this->UnauthorizedResponse("Unauthorized");
-        return $this->dataResponse(new UserResource($request->user()));
+
+        $user->load('roles.permissions');
+
+        return $this->dataResponse(new UserResource($user));
     }
 
     public function update(UpdateProfileRequest $request)

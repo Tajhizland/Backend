@@ -67,4 +67,21 @@ class User extends Authenticatable
         return $this->hasOne(Cart::class, "user_id", "id")
             ->where("status", CartStatus::Active->value)->latest("id");
     }
+
+    public function roles()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function permissions()
+    {
+        return $this->role
+            ? $this->role->permissions
+            : collect([]);
+    }
+
+    public function hasPermission($key)
+    {
+        return $this->permissions()->contains('key', $key);
+    }
 }
