@@ -39,4 +39,5 @@ interface ProductServiceInterface
     public function customPaginate($perPage);
 
     public function torobProduct();
+    public function searchList($categoryId , $brandId): mixed;
 }

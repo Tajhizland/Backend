@@ -183,4 +183,10 @@ class ProductService implements ProductServiceInterface
     {
         return $this->productRepository->hasDiscountDataTable();
     }
+
+    public function searchList($categoryId, $brandId): mixed
+    {
+        return $this->productRepository->searchList($categoryId, $brandId);
+
+    }
 }
