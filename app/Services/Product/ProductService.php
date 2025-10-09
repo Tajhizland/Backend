@@ -58,7 +58,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review,$type): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type): mixed
     {
         $product = $this->productRepository->create([
             "name" => $name,
@@ -81,7 +81,7 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review,$type): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type): mixed
     {
         $product = $this->productRepository->findOrFail($id);
         $this->productRepository->update($product,
@@ -187,6 +187,26 @@ class ProductService implements ProductServiceInterface
     public function searchList($categoryId, $brandId): mixed
     {
         return $this->productRepository->searchList($categoryId, $brandId);
+    }
 
+    public function groupChangePrice($ids, $action, $percent)
+    {
+        foreach ($ids as $id) {
+            $product = $this->productRepository->findOrFail($id);
+            $colors = $product->colors;
+            foreach ($colors as $color) {
+                $price = $color->price;
+                $currentPrice = $price->price;
+                $newPrice = $currentPrice;
+                if ($action == "inc")
+                    $newPrice = $currentPrice + ($currentPrice * $percent / 100);
+                if ($action == "dec")
+                    $newPrice = $currentPrice - ($currentPrice * $percent / 100);
+
+                $product->price = $newPrice;
+                $product->save();
+            }
+        }
+        return true;
     }
 }

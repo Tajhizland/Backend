@@ -7,7 +7,9 @@ interface ProductServiceInterface
     public function findProductByUrl(string $url): mixed;
 
     public function dataTable(): mixed;
+
     public function hasLimitDataTable(): mixed;
+
     public function hasDiscountDataTable(): mixed;
 
     public function searchProductWithCategory($query, $categoryId): mixed;
@@ -39,5 +41,8 @@ interface ProductServiceInterface
     public function customPaginate($perPage);
 
     public function torobProduct();
-    public function searchList($categoryId , $brandId): mixed;
+
+    public function searchList($categoryId, $brandId): mixed;
+
+    public function groupChangePrice($ids, $action, $percent);
 }
