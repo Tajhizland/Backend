@@ -204,8 +204,8 @@ class ProductService implements ProductServiceInterface
                     if ($action == "dec")
                         $newPrice = $currentPrice - ($currentPrice * $percent / 100);
 
-                    $product->price = $newPrice;
-                    $product->save();
+                    $price->price = $newPrice;
+                    $price->save();
                 }
             }
         }
