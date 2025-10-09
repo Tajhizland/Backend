@@ -526,18 +526,21 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             })
             ->paginate($this->pageSize);
     }
-
     public function searchList($categoryId, $brandId)
     {
-        return $this->model::where(function ($q) use ($categoryId, $brandId) {
-            if ($categoryId) {
-                $q->whereHas('productCategories', function ($query) use ($categoryId) {
-                    $query->where('category_id', $categoryId);
-                });
-            }
-            if ($brandId) {
-                $q->where('brand_id', $brandId);
-            }
-        })->get();
+        $query = $this->model::query();
+
+        if ($categoryId) {
+            $query->whereHas('productCategories', function ($q) use ($categoryId) {
+                $q->where('category_id', $categoryId);
+            });
+        }
+
+        if ($brandId) {
+            $query->where('brand_id', $brandId);
+        }
+
+        return $query->get();
     }
+
 }
