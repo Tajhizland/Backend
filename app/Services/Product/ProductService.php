@@ -193,7 +193,7 @@ class ProductService implements ProductServiceInterface
     {
         foreach ($ids as $id) {
             $product = $this->productRepository->findOrFail($id);
-            $colors = $product->colors;
+            $colors = $product->productColors;
             if ($colors) {
                 foreach ($colors as $color) {
                     $price = $color->price;
