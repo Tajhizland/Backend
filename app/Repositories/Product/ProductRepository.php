@@ -538,6 +538,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             if ($brandId) {
                 $q->where('brand_id', $brandId);
             }
-        });
+        })->get();
     }
 }
