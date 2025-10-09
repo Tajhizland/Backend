@@ -191,6 +191,8 @@ class ProductService implements ProductServiceInterface
 
     public function groupChangePrice($ids, $action, $percent)
     {
+        var_dump($ids);
+        die();
         foreach ($ids as $id) {
             $product = $this->productRepository->findOrFail($id);
             $colors = $product->colors;
