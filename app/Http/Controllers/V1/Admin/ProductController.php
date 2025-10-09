@@ -147,7 +147,7 @@ class ProductController extends Controller
 
     public function searchList(SearchListRequest $request)
     {
-        $response = $this->productService->searchList(request($request->get("categoryId")), $request->get("brandId"));
+        $response = $this->productService->searchList($request->get("categoryId"), $request->get("brandId"));
         return $this->dataResponseCollection(new ProductCollection($response));
     }
 

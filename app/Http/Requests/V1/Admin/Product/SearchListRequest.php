@@ -9,8 +9,8 @@ class SearchListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "categoryId" => ["nullable", "integer", "exists:categories,id"],
-            "brandId" => ["nullable", "integer", "exists:brands,id"],
+            "categoryId" => ["nullable"],
+            "brandId" => ["nullable"],
         ];
     }
 
