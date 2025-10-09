@@ -531,8 +531,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::where(function ($q) use ($categoryId, $brandId) {
             if ($categoryId) {
-                $q->whereHas('categories', function ($query) use ($categoryId) {
-                    $query->where('id', $categoryId);
+                $q->whereHas('productCategories', function ($query) use ($categoryId) {
+                    $query->where('category_id', $categoryId);
                 });
             }
             if ($brandId) {
