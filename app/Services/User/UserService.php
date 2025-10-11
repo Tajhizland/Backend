@@ -80,4 +80,8 @@ class UserService implements UserServiceInterface
     {
         return $this->repository->getByIds($userIds);
     }
+    public function getAll()
+    {
+        return $this->repository->all();
+    }
 }

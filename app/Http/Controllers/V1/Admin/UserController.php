@@ -64,6 +64,12 @@ class UserController extends Controller
         return $this->dataResponse(new UserResource($this->userService->findById($id)));
     }
 
+    public function all()
+    {
+        return $this->dataResponseCollection(new UserCollection($this->userService->getAll()));
+    }
+
+
     public function update(UpdateUserRequest $request)
     {
         $this->userService->updateUser($request->get("id"), $request->get("name"), $request->get("username"), $request->get("email"), $request->get("gender"), $request->get("role"), $request->get("last_name"), $request->get("national_code"), $request->get("role_id"));
