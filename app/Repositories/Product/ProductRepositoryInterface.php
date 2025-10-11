@@ -94,4 +94,5 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getSitemapData();
 
     public function getTorobProducts();
+    public function searchList($categoryId , $brandId);
 }

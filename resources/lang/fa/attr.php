@@ -9,6 +9,7 @@ return
         "password" => 'کلمه ی عبور',
         "group" => 'گروه',
         "product" => 'محصول',
+        "price" => 'قیمت',
         "profile" => 'پروفایل',
         "order" => 'سفارش',
         "order_status" => 'وضعیت سفارش',
