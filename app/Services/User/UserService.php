@@ -75,4 +75,9 @@ class UserService implements UserServiceInterface
     {
         return $this->repository->adminDataTable();
     }
+
+    public function getByIds($userIds)
+    {
+        return $this->repository->getByIds($userIds);
+    }
 }

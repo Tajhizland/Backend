@@ -20,16 +20,19 @@ class GroupSmsMarketingJob implements ShouldQueue
     private $type;
     private $message;
     private $smsLog;
+    private array $userIds;
 
     public function __construct(
         $type,
         $message,
         $smsLog,
+        $userIds = [],
     )
     {
         $this->type = $type;
         $this->message = $message;
         $this->smsLog = $smsLog;
+        $this->userIds = $userIds;
     }
 
     public function handle(SmsServiceInterface $smsService, UserServiceInterface $userService, SmsLogItemServiceInterface $smsLogItemService): void
@@ -44,8 +47,8 @@ class GroupSmsMarketingJob implements ShouldQueue
         if ($this->type == "has_active_cart") {
             $users = $userService->getHasActiveCartUser();
         }
-        if ($this->type == "test") {
-            $users [] = $userService->findById(2);
+        if ($this->type == "custom") {
+            $users = $userService->getByIds($this->userIds);
         }
 
         foreach ($users as $user) {

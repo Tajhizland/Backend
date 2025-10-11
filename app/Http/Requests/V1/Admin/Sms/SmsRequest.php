@@ -10,7 +10,8 @@ class SmsRequest extends FormRequest
     {
         return [
             "type" => ["required", "string"],
-            "message" => ["required", "string"]
+            "message" => ["required", "string"],
+            "userIds" => ["nullable"]
         ];
     }
 

@@ -39,11 +39,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->allowedSorts(['name', 'role', 'username', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
+
     public function adminDataTable()
     {
         return QueryBuilder::for(User::class)
             ->select("users.*")
-            ->where("role","admin")
+            ->where("role", "admin")
             ->allowedFilters(['name', 'role', 'username', 'id', 'created_at'])
             ->allowedSorts(['name', 'role', 'username', 'id', 'created_at'])
             ->paginate($this->pageSize);
@@ -56,7 +57,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         ]);
     }
 
-    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code,$role_id)
+    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code, $role_id)
     {
         return $this->model::find($id)->update([
             "name" => $name,
@@ -78,14 +79,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function getHasOrderUser()
     {
-        return $this->model::whereHas("order",function ($query){
+        return $this->model::whereHas("order", function ($query) {
             $query->paid();
         })->get();
     }
 
     public function getHasNotOrderUser()
     {
-        return $this->model::whereDoesntHave("order",function ($query){
+        return $this->model::whereDoesntHave("order", function ($query) {
             $query->paid();
         })->get();
 
@@ -95,5 +96,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $this->model::whereHas("activeCart")->get();
 
+    }
+
+    public function getByIds($userIds)
+    {
+        return $this->model::whereIn("id", $userIds)->get();
     }
 }

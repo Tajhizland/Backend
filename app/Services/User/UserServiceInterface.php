@@ -16,5 +16,6 @@ interface UserServiceInterface
     public function getHasOrderUser();
     public function getHasNotOrderUser();
     public function getHasActiveCartUser();
+    public function getByIds($userIds);
     public function adminDataTable();
 }
