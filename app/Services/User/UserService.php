@@ -15,9 +15,9 @@ class UserService implements UserServiceInterface
     {
     }
 
-    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code,$role_id)
+    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code, $role_id)
     {
-        return $this->repository->updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code,$role_id);
+        return $this->repository->updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code, $role_id);
     }
 
     public function updateProfile($id, $name, $email, $gender, $avatar, $last_name, $national_code)
@@ -80,8 +80,20 @@ class UserService implements UserServiceInterface
     {
         return $this->repository->getByIds($userIds);
     }
-    public function getAll()
+
+    public function getByType($type)
     {
-        return $this->repository->all();
+        if ($type == "all")
+            return $this->repository->all();
+        if ($type == "has_order") {
+            return $this->getHasOrderUser();
+        }
+        if ($type == "has_not_order") {
+            return $this->getHasNotOrderUser();
+        }
+        if ($type == "has_active_cart") {
+            return $this->getHasActiveCartUser();
+        }
+        return [];
     }
 }

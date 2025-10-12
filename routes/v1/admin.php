@@ -95,7 +95,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("update", [\App\Http\Controllers\V1\Admin\OptionController::class, "update"]);
     });
     Route::group(["prefix" => "user"], function () {
-        Route::get("all", [\App\Http\Controllers\V1\Admin\UserController::class, "all"]);
+        Route::post("type", [\App\Http\Controllers\V1\Admin\UserController::class, "getByType"]);
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\UserController::class, "dataTable"]);
         Route::get("admin/dataTable", [\App\Http\Controllers\V1\Admin\UserController::class, "adminDataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\UserController::class, "findById"]);

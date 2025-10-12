@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Address\ChangeActiveAddressRequest;
 use App\Http\Requests\V1\Admin\Address\UpdateAddressRequest;
+use App\Http\Requests\V1\Admin\User\GetUserByTypeRequest;
 use App\Http\Requests\V1\Admin\User\UpdateUserRequest;
 use App\Http\Requests\V1\Admin\User\UpdateWalletRequest;
 use App\Http\Resources\V1\Address\AddressCollection;
@@ -64,9 +65,9 @@ class UserController extends Controller
         return $this->dataResponse(new UserResource($this->userService->findById($id)));
     }
 
-    public function all()
+    public function getByType(GetUserByTypeRequest $request)
     {
-        return $this->dataResponseCollection(new UserCollection($this->userService->getAll()));
+        return $this->dataResponseCollection(new UserCollection($this->userService->getByType($request->get('type'))));
     }
 
 

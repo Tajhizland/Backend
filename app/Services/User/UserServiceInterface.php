@@ -18,6 +18,6 @@ interface UserServiceInterface
     public function getHasActiveCartUser();
     public function getByIds($userIds);
     public function adminDataTable();
-    public function getAll();
+    public function getByType($type);
 
 }
