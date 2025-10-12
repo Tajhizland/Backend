@@ -363,4 +363,10 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\RoleController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\RoleController::class, "update"]);
     });
+    Route::group(["prefix" => "phone-bock"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "update"]);
+    });
 });

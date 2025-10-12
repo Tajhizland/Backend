@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Repositories\PhoneBock\PhoneBockRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
@@ -9,8 +10,9 @@ class UserService implements UserServiceInterface
 {
     public function __construct
     (
-        private UserRepositoryInterface $repository,
-        private S3ServiceInterface      $s3Service,
+        private UserRepositoryInterface      $repository,
+        private PhoneBockRepositoryInterface $phoneBockRepository,
+        private S3ServiceInterface           $s3Service,
     )
     {
     }
@@ -93,6 +95,9 @@ class UserService implements UserServiceInterface
         }
         if ($type == "has_active_cart") {
             return $this->getHasActiveCartUser();
+        }
+        if ($type == "phone_bock") {
+            return $this->phoneBockRepository->all();
         }
         return [];
     }

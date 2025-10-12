@@ -94,6 +94,8 @@ use App\Repositories\Page\PageRepository;
 use App\Repositories\Page\PageRepositoryInterface;
 use App\Repositories\Permission\PermissionRepository;
 use App\Repositories\Permission\PermissionRepositoryInterface;
+use App\Repositories\PhoneBock\PhoneBockRepository;
+use App\Repositories\PhoneBock\PhoneBockRepositoryInterface;
 use App\Repositories\PopularCategory\PopularCategoryRepository;
 use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepository;
@@ -252,6 +254,8 @@ use App\Services\Payment\PaymentService;
 use App\Services\Payment\PaymentServicesInterface;
 use App\Services\Permission\PermissionService;
 use App\Services\Permission\PermissionServiceInterface;
+use App\Services\PhoneBock\PhoneBockService;
+use App\Services\PhoneBock\PhoneBockServiceInterface;
 use App\Services\PopularCategory\PopularCategoryService;
 use App\Services\PopularCategory\PopularCategoryServiceInterface;
 use App\Services\PopularProduct\PopularProductService;
@@ -474,6 +478,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(RolePermissionRepositoryInterface::class, RolePermissionRepository::class);
 
+        $this->app->bind(PhoneBockRepositoryInterface::class, PhoneBockRepository::class);
+
 
         /** End Repository */
 
@@ -627,6 +633,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PermissionServiceInterface::class, PermissionService::class);
 
         $this->app->bind(RoleServiceInterface::class, RoleService::class);
+
+        $this->app->bind(PhoneBockServiceInterface::class, PhoneBockService::class);
 
         /** End Service */
 

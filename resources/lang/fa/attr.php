@@ -19,6 +19,7 @@ return
         "comment" => 'نظر',
         "message" => 'پیام',
         "category" => 'دسته بندی',
+        "contact" => 'مخاطب',
         "permission" => 'دسترسی',
         "role" => 'نقش',
         "display" => 'نام نمایشی',
