@@ -348,6 +348,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("item/{id}", [\App\Http\Controllers\V1\Admin\SmsController::class, "itemDataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\SmsController::class, "viewItem"]);
         Route::post("send", [\App\Http\Controllers\V1\Admin\SmsController::class, "send"]);
+        Route::post("send-to-contact", [\App\Http\Controllers\V1\Admin\SmsController::class, "sendToContact"]);
     });
     Route::group(["prefix" => "permission"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PermissionController::class, "dataTable"]);

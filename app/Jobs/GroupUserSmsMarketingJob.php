@@ -12,12 +12,11 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class GroupSmsMarketingJob implements ShouldQueue
+class GroupUserSmsMarketingJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $timeout = 36000;
-    private $type;
     private $message;
     private $smsLog;
     private array $userIds;
