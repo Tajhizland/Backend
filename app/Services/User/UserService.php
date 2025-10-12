@@ -96,9 +96,6 @@ class UserService implements UserServiceInterface
         if ($type == "has_active_cart") {
             return $this->getHasActiveCartUser();
         }
-        if ($type == "phone_bock") {
-            return $this->phoneBockRepository->all();
-        }
         return [];
     }
 }

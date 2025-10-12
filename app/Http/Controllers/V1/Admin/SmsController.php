@@ -44,7 +44,7 @@ class SmsController extends Controller
     public function send(SmsRequest $request)
     {
         $smsLog = $this->smsLogService->store($request->get("type"), SmsLogStatus::Pending->value);
-        GroupSmsMarketingJob::dispatch($request->get("type"), $request->get("message"), $smsLog, $request->get("userIds"));
+        GroupSmsMarketingJob::dispatch($request->get("message"), $smsLog, $request->get("userIds"));
         return $this->successResponse(Lang::get("action.queued", ["attr" => Lang::get("attr.sms")]));
     }
 }

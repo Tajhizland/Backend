@@ -39,4 +39,9 @@ class PhoneBockService implements PhoneBockServiceInterface
     {
         return $this->phoneBockRepository->findOrFail($id);
     }
+
+    public function getAll()
+    {
+        return $this->phoneBockRepository->all();
+    }
 }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\PhoneBock\StorePhoneBockRequest;
 use App\Http\Requests\V1\Admin\PhoneBock\UpdatePhoneBockRequest;
-use App\Http\Resources\PhoneBockResource;
 use App\Http\Resources\V1\PhoneBock\PhoneBockCollection;
+use App\Http\Resources\V1\PhoneBock\PhoneBockResource;
 use App\Services\PhoneBock\PhoneBockService;
 use Illuminate\Support\Facades\Lang;
 
@@ -21,6 +21,12 @@ class PhoneBockController extends Controller
     public function dataTable()
     {
         $response = $this->phoneBockService->dataTable();
+        return $this->dataResponseCollection(PhoneBockCollection::make($response));
+    }
+
+    public function all()
+    {
+        $response = $this->phoneBockService->getAll();
         return $this->dataResponseCollection(PhoneBockCollection::make($response));
     }
 
