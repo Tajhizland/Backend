@@ -26,7 +26,7 @@ class CheckoutController extends Controller
 
     public function getShippingMethods()
     {
-        return $this->dataResponse(new DeliveryCollection($this->deliveryService->getActives()));
+        return $this->dataResponseCollection(new DeliveryCollection($this->deliveryService->getActives()));
     }
 
     public function checkoutOrder()
