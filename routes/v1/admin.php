@@ -370,5 +370,6 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "find"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "update"]);
+        Route::post("excel", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "uploadExcel"]);
     });
 });
