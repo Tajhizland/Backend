@@ -54,6 +54,6 @@ class PhoneBockController extends Controller
     {
         Excel::import(new PhoneBockImport, $request->file('excel_file'));
 
-        return $this->successResponse(Lang::get("action.upload_success", ["attr" => Lang::get("attr.contact")]));
+        return $this->successResponse(Lang::get("action.submit", ["attr" => Lang::get("attr.contact")]));
     }
 }
