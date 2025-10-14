@@ -50,7 +50,7 @@ class PaymentService implements PaymentServicesInterface
         $this->gatewayService = $this->gatewayStrategyServices->strategy();
     }
 
-    public function request($userId, $useWallet)
+    public function request($userId, $useWallet, $shippingMethod)
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
@@ -58,7 +58,7 @@ class PaymentService implements PaymentServicesInterface
         $limit = $this->cartItemService->checkLimit($cartItems);
         $user = $this->userRepository->findOrFail($userId);
         $address = $this->addressRepository->findActiveByUserId($userId);
-        $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
+        $delivery = $this->deliveryRepository->findOrFail($shippingMethod);
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
         $totalItemsPrice = $cartPrices["totalItemPrice"];
         $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
@@ -67,7 +67,7 @@ class PaymentService implements PaymentServicesInterface
 
             $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
             $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "",$finalPrice,0);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $shippingMethod, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, 0);
             $this->cartRepository->update($cart, ["order_id" => $order->id]);
             $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
             if ($limit) {
@@ -117,7 +117,7 @@ class PaymentService implements PaymentServicesInterface
             $finalPrice -= $user->wallet;
             $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
             $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "" , $totalPrice,$user->wallet);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $totalPrice, $user->wallet);
             $this->cartRepository->update($cart, ["order_id" => $order->id]);
             $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
             if ($limit) {
@@ -203,7 +203,7 @@ class PaymentService implements PaymentServicesInterface
             $this->stockRepository->decrement($item->product_color_id, $item->count);
         }
         $this->transactionRepository->createTransaction($order->user_id, $order->id, $request->trackId, $order->final_price);
-        $user=$this->userRepository->findOrFail($order->user_id);
+        $user = $this->userRepository->findOrFail($order->user_id);
         $this->userRepository->update($user, ["wallet" => $user->wallet - $order->use_wallet_price]);
 
         $cart = $this->cartRepository->getCartByOrderId($order->orderId);
