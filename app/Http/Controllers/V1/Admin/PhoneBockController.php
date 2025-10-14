@@ -11,7 +11,7 @@ use App\Http\Resources\V1\PhoneBock\PhoneBockResource;
 use App\Imports\PhoneBockImport;
 use App\Services\PhoneBock\PhoneBockService;
 use Illuminate\Support\Facades\Lang;
-use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PhoneBockController extends Controller
 {
