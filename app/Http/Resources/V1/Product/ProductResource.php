@@ -47,6 +47,7 @@ class ProductResource extends JsonResource
             'rating' => $this->getRatingAvg(),
             'favorite' => $isFavorite,
             'study' => $this->study,
+            'is_stock' => $this->is_stock,
             'type' => $this->type,
             'unboxing_video' => $this->unboxing_video,
             'intro_video' => $this->intro_video,

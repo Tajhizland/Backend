@@ -19,6 +19,7 @@ class ProductCategoryResource extends JsonResource
             'name' => $this->name,
             'url' => $this->url,
             'status' => $this->status,
+            'is_stock' => $this->is_stock,
             'rating' => $this->getRatingAvg(),
             'colors' => new ProductColorCollection($this->activeProductColors),
             'images' => new ProductImageCollection($this->images),
