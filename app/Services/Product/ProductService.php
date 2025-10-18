@@ -58,7 +58,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock): mixed
     {
         $product = $this->productRepository->create([
             "name" => $name,
@@ -70,6 +70,7 @@ class ProductService implements ProductServiceInterface
             "view" => 0,
             "review" => $review,
             "brand_id" => $brandId,
+            "is_stock" => $is_stock,
             "guaranty_time" => $guaranty_time,
             "meta_title" => $metaTitle,
             "meta_description" => $metaDescription,
@@ -81,7 +82,7 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock): mixed
     {
         $product = $this->productRepository->findOrFail($id);
         $this->productRepository->update($product,
@@ -96,6 +97,7 @@ class ProductService implements ProductServiceInterface
                 "brand_id" => $brandId,
                 "meta_title" => $metaTitle,
                 "review" => $review,
+                "is_stock" => $is_stock,
                 "meta_description" => $metaDescription,
             ]);
         $categoryIds = json_decode($categoryId);

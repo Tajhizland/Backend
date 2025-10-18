@@ -10,7 +10,7 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required','integer','exists:App\Models\Product'],
+            'id' => ['required', 'integer', 'exists:App\Models\Product'],
             'name' => ['required'],
             'type' => ['required'],
             'url' => ['required', Rule::unique('products')->ignore($this->id)],
@@ -21,9 +21,10 @@ class UpdateProductRequest extends FormRequest
             'guaranty_id' => ['nullable'],
             'guaranty_time' => ['nullable'],
             'review' => ['nullable'],
-            'brand_id' => ['nullable' ],
-            'status' => ['required','int','in:1,0'],
-            'categoryId' => ['required'  ],
+            'brand_id' => ['nullable'],
+            'status' => ['required', 'int', 'in:1,0'],
+            'categoryId' => ['required'],
+            'is_stock' => ['nullable'],
         ];
     }
 

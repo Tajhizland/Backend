@@ -11,17 +11,18 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => ['required'],
             'type' => ['required'],
-            'url' => ['required','unique:App\Models\Product'],
+            'url' => ['required', 'unique:App\Models\Product'],
             'description' => ['nullable'],
             'meta_description' => ['nullable'],
             'meta_title' => ['nullable'],
             'study' => ['nullable'],
             'guaranty_id' => ['nullable'],
             'guaranty_time' => ['nullable'],
-            'status' => ['required','int','in:1,0'],
-            'categoryId' => ['required' ],
-            'brand_id' => ['nullable' ],
-            'review' => ['nullable' ],
+            'status' => ['required', 'int', 'in:1,0'],
+            'categoryId' => ['required'],
+            'is_stock' => ['nullable'],
+            'brand_id' => ['nullable'],
+            'review' => ['nullable'],
         ];
     }
 
