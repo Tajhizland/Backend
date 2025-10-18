@@ -24,6 +24,7 @@ Route::post('goftino/sync', [\App\Http\Controllers\V1\Shop\ChatInfoController::c
 Route::get('emalls/list', [\App\Http\Controllers\V1\Shop\EmallsController::class, "list"]);
 Route::get('torob/list', [\App\Http\Controllers\V1\Shop\TorobController::class, "get"]);
 Route::post('footprint', [\App\Http\Controllers\V1\Shop\FootprintController::class, "handle"]);
+Route::get('delivery', [\App\Http\Controllers\V1\Shop\CheckoutController::class, "getShippingMethods"]);
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);

@@ -10,9 +10,19 @@ class PhoneBockImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
-        return new PhoneBock([
-            'name' => $row['name'],
-            'mobile' => $row['mobile'],
-        ]);
+        if (empty($row['mobile'])) {
+            return null;
+        }
+
+        $exists = PhoneBock::where('mobile', $row['mobile'])->exists();
+
+        if (!$exists) {
+            return new PhoneBock([
+                'name' => $row['name'] ?? null,
+                'mobile' => $row['mobile'],
+            ]);
+        }
+
+        return null;
     }
 }

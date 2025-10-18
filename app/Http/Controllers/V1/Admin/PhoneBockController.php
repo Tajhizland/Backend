@@ -11,7 +11,7 @@ use App\Http\Resources\V1\PhoneBock\PhoneBockResource;
 use App\Imports\PhoneBockImport;
 use App\Services\PhoneBock\PhoneBockService;
 use Illuminate\Support\Facades\Lang;
-use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PhoneBockController extends Controller
 {
@@ -54,6 +54,6 @@ class PhoneBockController extends Controller
     {
         Excel::import(new PhoneBockImport, $request->file('excel_file'));
 
-        return $this->successResponse(Lang::get("action.upload_success", ["attr" => Lang::get("attr.contact")]));
+        return $this->successResponse(Lang::get("action.submit", ["attr" => Lang::get("attr.contact")]));
     }
 }
