@@ -8,6 +8,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 {
     public function findByUrl($url);
     public function hasLimitDataTable();
+    public function getStockProducts();
     public function hasDiscountDataTable();
 
     public function findGroupByUrl($url);

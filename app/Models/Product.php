@@ -237,6 +237,11 @@ class Product extends Model
         });
     }
 
+    public function scopeIsStock(Builder $query): Builder
+    {
+        return $query->where("is_stock", 1);
+    }
+
     public function scopeCustomOrder(Builder $query): Builder
     {
         return $query->orderByRaw("

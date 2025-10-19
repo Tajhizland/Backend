@@ -32,6 +32,12 @@ class ProductService implements ProductServiceInterface
         $productsQuery = $this->filterService->apply($productsQuery, $filter);
         return $this->productRepository->paginated($productsQuery);
     }
+    public function getStockProducts($filter): mixed
+    {
+        $productsQuery = $this->productRepository->getStockProducts();
+        $productsQuery = $this->filterService->apply($productsQuery, $filter);
+        return $this->productRepository->paginated($productsQuery);
+    }
 
     public function findProductByUrl(string $url): mixed
     {

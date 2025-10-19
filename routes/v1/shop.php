@@ -40,6 +40,9 @@ Route::group(["prefix" => "favorite", "middleware" => "auth:sanctum"], function 
     Route::post('add-item', [FavoriteController::class, "addProduct"]);
     Route::post('remove-item', [FavoriteController::class, "removeProduct"]);
 });
+
+Route::get('stock-products-paginate', [ProductController::class, "getStockProducts"]);
+
 Route::group(["prefix" => "search"], function () {
     Route::post('/', [SearchController::class, "index"]);
     Route::post('/paginate', [SearchController::class, "paginate"]);
@@ -52,7 +55,6 @@ Route::group(["prefix" => "product"], function () {
 
 Route::group(["prefix" => "group"], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\GroupController::class, "find"])->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
-
 });
 
 Route::group(["prefix" => "category"], function () {

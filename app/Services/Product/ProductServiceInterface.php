@@ -35,6 +35,7 @@ interface ProductServiceInterface
     public function getVideo($productId);
 
     public function getDiscountedProducts($filter): mixed;
+    public function getStockProducts($filter): mixed;
 
     public function getSitemapData();
 

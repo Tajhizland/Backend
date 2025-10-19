@@ -49,7 +49,7 @@ class ProductController extends Controller
             if ($category) {
                 $breadcrumb = $this->breadcrumbService->generate($category);
                 $breadcrumbCollection = new BreadcrumbCollection($breadcrumb);
-                $options=$this->optionService->getByProductIdAndCategoryId($productResponse->id, $category->id);
+                $options = $this->optionService->getByProductIdAndCategoryId($productResponse->id, $category->id);
                 $optionsCollection = new ProductOptionCollection($options);
             }
         }
@@ -76,6 +76,18 @@ class ProductController extends Controller
                 "discountTimer" => $discountTimer,
                 "category" => $category,
                 "banner" => $banners
+            ]
+        );
+    }
+
+    public function getStockProducts(Request $request)
+    {
+        $response = $this->productService->getStockProducts($request->get("filter"));
+        $data = new ProductCollection($response);
+
+        return $this->dataResponse(
+            [
+                "data" => $data,
             ]
         );
     }
