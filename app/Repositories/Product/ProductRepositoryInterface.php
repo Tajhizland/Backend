@@ -35,6 +35,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function sort($id, $sort);
 
     public function dataTable();
+    public function stockDataTable();
 
     public function groupDataTable();
 

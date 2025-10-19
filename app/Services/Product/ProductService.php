@@ -53,6 +53,10 @@ class ProductService implements ProductServiceInterface
     {
         return $this->productRepository->dataTable();
     }
+    public function stockDataTable(): mixed
+    {
+        return $this->productRepository->stockDataTable();
+    }
 
     public function searchProduct($query): mixed
     {

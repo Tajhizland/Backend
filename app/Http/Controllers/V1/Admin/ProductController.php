@@ -49,6 +49,10 @@ class ProductController extends Controller
     {
         return $this->dataResponseCollection(new ProductCollection($this->productService->dataTable()));
     }
+    public function stockProductDataTable()
+    {
+        return $this->dataResponseCollection(new ProductCollection($this->productService->stockDataTable()));
+    }
 
     public function hasDiscountDataTable()
     {
@@ -191,4 +195,5 @@ class ProductController extends Controller
         $this->productService->groupChangePrice($request->get('ids'), $request->get('action'), $request->get('percent'));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.price")]));
     }
+
 }

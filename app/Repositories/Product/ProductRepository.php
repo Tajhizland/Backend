@@ -141,6 +141,35 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
             ])
+            ->latest("id")
+            ->paginate($this->pageSize);
+    }
+    public function stockDataTable()
+    {
+        return QueryBuilder::for(Product::class)
+            ->where("is_stock", 1)
+            ->select("products.*")
+            ->withCount("images") // اضافه کردن تعداد عکس‌ها
+            ->allowedFilters([
+                'name', 'url', 'status', 'id', 'view', 'created_at',
+                'images_count', // فیلتر روی تعداد عکس‌ها
+                AllowedFilter::callback('category', function ($query, $value) {
+                    $query->whereHas('categories', function ($query) use ($value) {
+                        $query->where('name', 'like', '%' . $value . '%');
+                    });
+                }),
+                AllowedFilter::callback('brand_name', function ($query, $value) {
+                    $query->whereHas('brand', function ($query) use ($value) {
+                        $query->where('name', 'like', '%' . $value . '%');
+                    });
+                }),
+            ])
+            ->allowedSorts([
+                'id', 'name', 'url', 'status', 'view', 'created_at',
+                'images_count', // سورت روی تعداد عکس‌ها
+                AllowedSort::custom("category", new SortProductByCategoryName()),
+            ])
+            ->latest("id")
             ->paginate($this->pageSize);
     }
 
