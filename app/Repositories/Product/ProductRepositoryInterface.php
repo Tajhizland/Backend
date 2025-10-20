@@ -24,6 +24,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function activeGroupPaginate($categoryIds);
 
     public function findById($id);
+    public function getStockProductIds();
+
 
     public function getByCategoryId($id, $except, $limit = 10);
     public function getByCategoryIds(array $categoryIds, $except, $limit = 10);

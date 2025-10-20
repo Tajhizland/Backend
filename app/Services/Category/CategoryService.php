@@ -151,4 +151,9 @@ class CategoryService implements CategoryServiceInterface
         $productIds = $this->productRepository->getDiscountedProductsId();
         return $this->categoryRepository->getCategoryByProductId($productIds);
     }
+    public function getStockProductCategory()
+    {
+        $productIds = $this->productRepository->getStockProductIds();
+        return $this->categoryRepository->getCategoryByProductId($productIds);
+    }
 }

@@ -84,10 +84,12 @@ class ProductController extends Controller
     {
         $response = $this->productService->getStockProducts($request->get("filter"));
         $data = new ProductCollection($response);
+        $category = new SimpleCategoryCollection($this->categoryService->getStockProductCategory());
 
         return $this->dataResponse(
             [
                 "data" => $data,
+                "category" => $category,
             ]
         );
     }

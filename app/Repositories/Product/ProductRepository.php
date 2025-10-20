@@ -415,6 +415,10 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::withActiveColor()->active()->isStock();
     }
+    public function getStockProductIds()
+    {
+        return $this->model::withActiveColor()->active()->isStock()->pluck("id");;
+    }
 
     public function getSpecial()
     {

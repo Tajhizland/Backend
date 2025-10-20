@@ -9,6 +9,7 @@ interface CategoryServiceInterface
 
     public function findById($id);
     public function dataTable();
+    public function getStockProductCategory();
     public function list();
     public function productList($id);
     public function productSort($array);
