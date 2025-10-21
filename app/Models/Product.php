@@ -241,6 +241,10 @@ class Product extends Model
     {
         return $query->where("is_stock", 1);
     }
+ public function scopeIsNotStock(Builder $query): Builder
+    {
+        return $query->where("is_stock", 0);
+    }
 
     public function scopeCustomOrder(Builder $query): Builder
     {

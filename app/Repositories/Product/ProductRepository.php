@@ -121,6 +121,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return QueryBuilder::for(Product::class)
             ->select("products.*")
+            ->where("is_stock", 0)
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
             ->allowedFilters([
                 'name', 'url', 'status', 'id', 'view', 'created_at',
