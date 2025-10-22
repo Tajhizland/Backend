@@ -61,6 +61,7 @@ class ProductResource extends JsonResource
             'stock_of' => $this->stock_of,
             'testing_time' => $this->testing_time,
             'guaranty_time' => $this->guaranty_time,
+            'stockOf' => new ProductResource($this->whenLoaded("stockOf")),
             'guaranty' => new GuarantyResource($this->guaranty),
             'guaranties' => new GuarantyCollection($this->guaranties),
             'productOptions' => new ProductOptionCollection($this->productOptions),
