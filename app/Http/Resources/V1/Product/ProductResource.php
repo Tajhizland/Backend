@@ -23,9 +23,9 @@ class ProductResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-         $user= Auth::guard('sanctum')->user();
-         $isFavorite = false;
-         if ($user)
+        $user = Auth::guard('sanctum')->user();
+        $isFavorite = false;
+        if ($user)
             $isFavorite = $user->favorites()->where('product_id', $this->id)->exists();
 
         return [
@@ -58,6 +58,8 @@ class ProductResource extends JsonResource
             'intro' => new VlogResource($this->intro),
             'usage' => new VlogResource($this->usage),
             'review' => $this->review,
+            'stock_of' => $this->stock_of,
+            'testing_time' => $this->tesing_time,
             'guaranty_time' => $this->guaranty_time,
             'guaranty' => new GuarantyResource($this->guaranty),
             'guaranties' => new GuarantyCollection($this->guaranties),

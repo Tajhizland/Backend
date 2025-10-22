@@ -23,6 +23,8 @@ class StoreProductRequest extends FormRequest
             'is_stock' => ['nullable'],
             'brand_id' => ['nullable'],
             'review' => ['nullable'],
+            'stock_of' => ['nullable'],
+            'testing_time' => ['nullable'],
         ];
     }
 

@@ -32,6 +32,7 @@ class ProductService implements ProductServiceInterface
         $productsQuery = $this->filterService->apply($productsQuery, $filter);
         return $this->productRepository->paginated($productsQuery);
     }
+
     public function getStockProducts($filter): mixed
     {
         $productsQuery = $this->productRepository->getStockProducts();
@@ -53,6 +54,7 @@ class ProductService implements ProductServiceInterface
     {
         return $this->productRepository->dataTable();
     }
+
     public function stockDataTable(): mixed
     {
         return $this->productRepository->stockDataTable();
@@ -68,7 +70,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of): mixed
     {
         $product = $this->productRepository->create([
             "name" => $name,
@@ -84,6 +86,8 @@ class ProductService implements ProductServiceInterface
             "guaranty_time" => $guaranty_time,
             "meta_title" => $metaTitle,
             "meta_description" => $metaDescription,
+            "testing_time" => $testing_time,
+            "stock_of" => $stock_of,
         ]);
         $categoryIds = json_decode($categoryId);
         $this->productCategoryService->syncProductCategory($product->id, $categoryIds);
@@ -92,7 +96,7 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of): mixed
     {
         $product = $this->productRepository->findOrFail($id);
         $this->productRepository->update($product,
@@ -109,6 +113,8 @@ class ProductService implements ProductServiceInterface
                 "review" => $review,
                 "is_stock" => $is_stock,
                 "meta_description" => $metaDescription,
+                "testing_time" => $testing_time,
+                "stock_of" => $stock_of,
             ]);
         $categoryIds = json_decode($categoryId);
         $this->productCategoryService->syncProductCategory($product->id, $categoryIds);

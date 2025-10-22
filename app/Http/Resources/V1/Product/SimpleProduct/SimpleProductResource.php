@@ -31,6 +31,8 @@ class SimpleProductResource extends JsonResource
             'category_ids' => $this->productCategories->pluck('category_id'),
             'study' => $this->study,
             'is_stock' => $this->is_stock,
+            'stock_of' => $this->stock_of,
+            'testing_time' => $this->tesing_time,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
             'colors' => new ProductColorCollection($this->activeProductColors),

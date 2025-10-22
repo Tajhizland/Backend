@@ -7,6 +7,7 @@ interface ProductServiceInterface
     public function findProductByUrl(string $url): mixed;
 
     public function dataTable(): mixed;
+
     public function stockDataTable(): mixed;
 
     public function hasLimitDataTable(): mixed;
@@ -23,9 +24,9 @@ interface ProductServiceInterface
 
     public function getRelatedProducts($id): mixed;
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock): mixed;
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of): mixed;
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock): mixed;
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of): mixed;
 
     public function setVideo($productId, $vlogId, $type): mixed;
 
@@ -36,6 +37,7 @@ interface ProductServiceInterface
     public function getVideo($productId);
 
     public function getDiscountedProducts($filter): mixed;
+
     public function getStockProducts($filter): mixed;
 
     public function getSitemapData();
