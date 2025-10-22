@@ -59,7 +59,7 @@ class ProductResource extends JsonResource
             'usage' => new VlogResource($this->usage),
             'review' => $this->review,
             'stock_of' => $this->stock_of,
-            'testing_time' => $this->tesing_time,
+            'testing_time' => $this->testing_time,
             'guaranty_time' => $this->guaranty_time,
             'guaranty' => new GuarantyResource($this->guaranty),
             'guaranties' => new GuarantyCollection($this->guaranties),
