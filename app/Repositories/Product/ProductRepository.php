@@ -27,7 +27,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->isProduct()
             ->where("url", $url)
             ->with([
-                "stockOf",
+                "stockOf" => function ($query) {
+                    $query->withActiveColor();
+                },
                 'productOptions' => function ($query) {
                     $query->join('option_items', 'product_options.option_item_id', '=', 'option_items.id')
                         ->orderBy('option_items.sort')
