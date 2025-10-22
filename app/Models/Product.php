@@ -35,6 +35,11 @@ class Product extends Model
         return $this->hasMany(ProductImage::class)->orderBy("sort")->orderBy("id");
     }
 
+    public function stockOf(): HasOne
+    {
+        return $this->hasOne(Product::class, "id", "stock_of");
+    }
+
     public function videos(): HasMany
     {
         return $this->hasMany(ProductVideo::class);
@@ -241,7 +246,8 @@ class Product extends Model
     {
         return $query->where("is_stock", 1);
     }
- public function scopeIsNotStock(Builder $query): Builder
+
+    public function scopeIsNotStock(Builder $query): Builder
     {
         return $query->where("is_stock", 0);
     }

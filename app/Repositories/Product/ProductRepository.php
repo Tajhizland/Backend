@@ -48,7 +48,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function findById($id)
     {
-        return $this->model::find($id);
+        return $this->model::with("stockOf")->find($id);
     }
 
     public function getByCategoryId($id, $except, $limit = 10)
@@ -145,6 +145,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->latest("id")
             ->paginate($this->pageSize);
     }
+
     public function stockDataTable()
     {
         return QueryBuilder::for(Product::class)
@@ -412,10 +413,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return $this->model::withActiveColor()->active()->hasDiscount();
     }
+
     public function getStockProducts()
     {
         return $this->model::withActiveColor()->active()->isStock();
     }
+
     public function getStockProductIds()
     {
         return $this->model::withActiveColor()->active()->isStock()->pluck("id");;
