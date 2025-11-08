@@ -16,6 +16,8 @@ use App\Repositories\Cart\CartRepository;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepository;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
+use App\Repositories\Cast\CastRepository;
+use App\Repositories\Cast\CastRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\CategoryConcept\CategoryConceptRepository;
@@ -184,6 +186,8 @@ use App\Services\Cart\CartService;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\CartItem\CartItemService;
 use App\Services\CartItem\CartItemServiceInterface;
+use App\Services\Cast\CastService;
+use App\Services\Cast\CastServiceInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\CategoryTree\CategoryTreeService;
@@ -480,6 +484,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(PhoneBockRepositoryInterface::class, PhoneBockRepository::class);
 
+        $this->app->bind(CastRepositoryInterface::class, CastRepository::class);
+
 
         /** End Repository */
 
@@ -635,6 +641,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(RoleServiceInterface::class, RoleService::class);
 
         $this->app->bind(PhoneBockServiceInterface::class, PhoneBockService::class);
+
+        $this->app->bind(CastServiceInterface::class, CastService::class);
 
         /** End Service */
 

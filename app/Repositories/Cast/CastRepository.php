@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Repositories\Cast;
+
+use App\Models\Cast;
+use App\Repositories\Base\BaseRepository;
+use Spatie\QueryBuilder\QueryBuilder;
+
+class CastRepository extends BaseRepository implements CastRepositoryInterface
+{
+    public function __construct(Cast $model)
+    {
+        parent::__construct($model);
+    }
+
+    public function dataTable()
+    {
+        return QueryBuilder::for(Cast::class)
+            ->allowedFilters(['id', 'title', 'url', 'status'])
+            ->allowedSorts(['id', 'title', 'url', 'status'])
+            ->latest("id")
+            ->paginate($this->pageSize);
+    }
+}
