@@ -15,6 +15,7 @@ class CastResource extends JsonResource
         return [
             'id' => $this->id,
             'audio' => $this->audio,
+            'image' => $this->image,
             'title' => $this->title,
             'description' => $this->description,
             'url' => $this->url,

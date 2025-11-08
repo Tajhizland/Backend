@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('casts', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
             $table->string('audio');
             $table->foreignId('vlog_id');
             $table->string('title');

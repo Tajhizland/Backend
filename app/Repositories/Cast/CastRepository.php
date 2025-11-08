@@ -16,8 +16,8 @@ class CastRepository extends BaseRepository implements CastRepositoryInterface
     public function dataTable()
     {
         return QueryBuilder::for(Cast::class)
-            ->allowedFilters(['id', 'title', 'url', 'status'])
-            ->allowedSorts(['id', 'title', 'url', 'status'])
+            ->allowedFilters(['id', 'image', 'title', 'url', 'status'])
+            ->allowedSorts(['id', 'image', 'title', 'url', 'status'])
             ->latest("id")
             ->paginate($this->pageSize);
     }

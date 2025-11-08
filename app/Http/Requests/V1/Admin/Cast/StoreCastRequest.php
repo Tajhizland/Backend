@@ -10,7 +10,8 @@ class StoreCastRequest extends FormRequest
     {
         return [
             'audio' => ['required'],
-            'vlog_id' => ['required', 'exists:vlogs'],
+            'image' => ['required'],
+            'vlog_id' => ['required', 'exists:App\Models\Vlog,id'],
             'title' => ['required'],
             'description' => ['nullable'],
             'url' => ['required'],

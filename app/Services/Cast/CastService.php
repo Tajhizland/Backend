@@ -25,33 +25,41 @@ class CastService implements CastServiceInterface
         return $this->castRepository->dataTable();
     }
 
-    public function store($title, $description, $url, $status, $audio, $vlog_id)
+    public function store($title, $image, $description, $url, $status, $audio, $vlog_id)
     {
-        $path = $this->s3Service->upload($audio, "cast");
+        $audioPath = $this->s3Service->upload($audio, "cast/audio");
+        $imagePath = $this->s3Service->upload($audio, "cast/image");
         return $this->castRepository->create([
             'title' => $title,
+            'image' => $imagePath,
             'description' => $description,
             'url' => $url,
             'status' => $status,
-            'audio' => $path,
+            'audio' => $audioPath,
             'vlog_id' => $vlog_id
         ]);
     }
 
-    public function update($id, $title, $description, $url, $status, $audio, $vlog_id)
+    public function update($id, $title, $image, $description, $url, $status, $audio, $vlog_id)
     {
         $cast = $this->castRepository->findOrFail($id);
-        $path = $cast->audio;
+        $audioPath = $cast->audio;
+        $imagePath = $cast->image;
         if ($audio) {
-            $this->s3Service->remove("cast/" . $path);
-            $path = $this->s3Service->upload($audio, "cast");
+            $this->s3Service->remove("cast/audio/" . $audioPath);
+            $audioPath = $this->s3Service->upload($audio, "cast/audio");
+        }
+        if ($image) {
+            $this->s3Service->remove("cast/image/" . $imagePath);
+            $imagePath = $this->s3Service->upload($audio, "cast/image");
         }
         return $cast->update($cast, [
             'title' => $title,
             'description' => $description,
             'url' => $url,
             'status' => $status,
-            'audio' => $path,
+            'audio' => $audioPath,
+            'image' => $imagePath,
             'vlog_id' => $vlog_id
         ]);
     }
