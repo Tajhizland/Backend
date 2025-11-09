@@ -159,6 +159,10 @@ Route::group(["prefix" => 'category-view-history'], function () {
     Route::get('suggest-ip', [\App\Http\Controllers\V1\Shop\CategoryViewHistoryController::class, "suggestIp"]);
 });
 
+Route::group(["prefix" => 'cast'], function () {
+    Route::get('/', [\App\Http\Controllers\V1\Shop\CastController::class, "index"]);
+});
+
 Route::get('info', function () {
     phpinfo();
 });

@@ -64,4 +64,8 @@ class CastService implements CastServiceInterface
         ]);
     }
 
+    public function paginated()
+    {
+        return $this->castRepository->paginate();
+    }
 }

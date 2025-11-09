@@ -4,6 +4,7 @@ namespace App\Services\Cast;
 
 interface CastServiceInterface
 {
+    public function paginated();
     public function dataTable();
 
     public function find($id);
