@@ -33,13 +33,13 @@ class CastController extends Controller
 
     public function store(StoreCastRequest $request)
     {
-        $this->castService->store($request->get("title"), $request->get("description"), $request->get("url"), $request->get("status"), $request->file("audio"), $request->get("vlog_id"));
+        $this->castService->store($request->get("title"), $request->file("image"), $request->get("description"), $request->get("url"), $request->get("status"), $request->file("audio"), $request->get("vlog_id"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.cast")]));
     }
 
     public function update(UpdateCastRequest $request)
     {
-        $this->castService->update($request->get("id"), $request->get("title"), $request->get("description"), $request->get("url"), $request->get("status"), $request->file("audio"), $request->get("vlog_id"));
+        $this->castService->update($request->get("id"), $request->get("title"), $request->file("image"), $request->get("description"), $request->get("url"), $request->get("status"), $request->file("audio"), $request->get("vlog_id"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.cast")]));
     }
 
