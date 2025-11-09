@@ -53,7 +53,7 @@ class CastService implements CastServiceInterface
             $this->s3Service->remove("cast/image/" . $imagePath);
             $imagePath = $this->s3Service->upload($audio, "cast/image");
         }
-        return $cast->update($cast, [
+        return $this->castRepository->update($cast, [
             'title' => $title,
             'description' => $description,
             'url' => $url,
