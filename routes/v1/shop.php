@@ -161,6 +161,7 @@ Route::group(["prefix" => 'category-view-history'], function () {
 
 Route::group(["prefix" => 'cast'], function () {
     Route::get('/', [\App\Http\Controllers\V1\Shop\CastController::class, "index"]);
+    Route::post('find', [\App\Http\Controllers\V1\Shop\CastController::class, "find"]);
 });
 
 Route::get('info', function () {

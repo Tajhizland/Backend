@@ -68,4 +68,9 @@ class CastService implements CastServiceInterface
     {
         return $this->castRepository->paginate();
     }
+
+    public function findByUrl($url)
+    {
+        return $this->castRepository->findByUrl($url);
+    }
 }
