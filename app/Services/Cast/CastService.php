@@ -17,7 +17,7 @@ class CastService implements CastServiceInterface
 
     public function find($id)
     {
-        return $this->castRepository->findOrFail($id);
+        return $this->castRepository->findWithVlog($id);
     }
 
     public function dataTable()

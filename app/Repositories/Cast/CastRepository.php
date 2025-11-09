@@ -21,4 +21,9 @@ class CastRepository extends BaseRepository implements CastRepositoryInterface
             ->latest("id")
             ->paginate($this->pageSize);
     }
+
+    public function findWithVlog($id)
+    {
+        return $this->model::with("vlog")->firstOrFail($id);
+    }
 }
