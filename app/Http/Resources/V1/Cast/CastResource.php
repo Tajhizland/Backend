@@ -17,6 +17,7 @@ class CastResource extends JsonResource
             'audio' => $this->audio,
             'title' => $this->title,
             'description' => $this->description,
+            'image' => $this->image,
             'url' => $this->url,
             'status' => $this->status,
             'created_at' => $this->created_at,
