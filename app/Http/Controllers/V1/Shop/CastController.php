@@ -26,6 +26,6 @@ class CastController extends Controller
     public function find(Request $request)
     {
         $response = $this->castService->findByUrl($request->url);
-        return $this->dataResponseCollection(new CastResource($response));
+        return $this->dataResponse(new CastResource($response));
     }
 }
