@@ -24,6 +24,6 @@ class CastRepository extends BaseRepository implements CastRepositoryInterface
 
     public function findWithVlog($id)
     {
-        return $this->model::with("vlog")->firstOrFail($id);
+        return $this->model::with("vlog")->findOrFail($id);
     }
 }
