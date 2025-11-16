@@ -55,11 +55,13 @@ class ProductController extends Controller
             }
         }
         $campaign = $this->campaignService->findActiveCampaign();
+        if ($campaign)
+            $campaign = new CampaignResource($this->campaignService->findActiveCampaign());
         return $this->dataResponse([
             "product" => new ProductResource($productResponse),
             "breadcrumb" => $breadcrumbCollection,
             "options" => $optionsCollection,
-            "campaign" => new CampaignResource($campaign),
+            "campaign" => $campaign,
             "relatedProduct" => new ProductCollection($relatedProductResponse),
         ]);
     }
