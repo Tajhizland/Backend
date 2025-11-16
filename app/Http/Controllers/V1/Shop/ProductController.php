@@ -71,7 +71,9 @@ class ProductController extends Controller
         $discounts = new PopularProductCollection($this->popularProductService->get());
         $discountTimer = new PriceResource($this->priceRepository->findFirstExpireDiscount());
         $category = new SimpleCategoryCollection($this->categoryService->getDiscountedCategory());
-        $campaign = new CampaignResource($this->campaignService->findActiveCampaign());
+        $campaign = $this->campaignService->findActiveCampaign();
+        if ($campaign)
+            $campaign = new CampaignResource($this->campaignService->findActiveCampaign());
 
         return $this->dataResponse(
             [
