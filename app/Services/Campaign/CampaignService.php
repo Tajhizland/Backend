@@ -32,7 +32,7 @@ class CampaignService implements CampaignServiceInterface
         $logoPath = $this->s3Service->upload($logo, "campaign");
         $bannerPath = null;
         if ($banner) {
-            $bannerPath = $this->s3Service->upload($banner, "campaign");
+            $bannerPath = $this->s3Service->upload($banner, "banner");
         }
         return $this->campaignRepository->create([
             "title" => $title,
@@ -55,8 +55,8 @@ class CampaignService implements CampaignServiceInterface
             $logoPath = $this->s3Service->upload($logo, "campaign");
         }
         if ($banner) {
-            $this->s3Service->remove("campaign/$bannerPath");
-            $bannerPath = $this->s3Service->upload($banner, "campaign");
+            $this->s3Service->remove("banner/$bannerPath");
+            $bannerPath = $this->s3Service->upload($banner, "banner");
         }
         return $this->campaignRepository->update($campaign, [
             "title" => $title,
