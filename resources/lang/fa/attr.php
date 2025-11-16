@@ -44,6 +44,7 @@ return
         "color" => 'رنگ محصول',
         "file" => 'فایل',
         "brand" => 'برند',
+        "campaign" => 'جشنواره',
         "question" => 'پرسش',
         "answer" => 'پاسخ',
         "page" => 'صفحه',

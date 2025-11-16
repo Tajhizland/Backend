@@ -376,8 +376,15 @@ Route::group(["middleware" => "auth:sanctum"], function () {
 
     Route::group(["prefix" => "cast"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CastController::class, "dataTable"]);
-         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CastController::class, "find"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CastController::class, "find"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\CastController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CastController::class, "update"]);
+    });
+
+    Route::group(["prefix" => "campaign"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CampaignController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CampaignController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\CampaignController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignController::class, "update"]);
     });
 });

@@ -12,6 +12,8 @@ use App\Repositories\BlogCategory\BlogCategoryRepository;
 use App\Repositories\BlogCategory\BlogCategoryRepositoryInterface;
 use App\Repositories\Brand\BrandRepository;
 use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Repositories\Campaign\CampaignRepository;
+use App\Repositories\Campaign\CampaignRepositoryInterface;
 use App\Repositories\Cart\CartRepository;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepository;
@@ -182,6 +184,8 @@ use App\Services\Brand\BrandService;
 use App\Services\Brand\BrandServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbService;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
+use App\Services\Campaign\CampaignService;
+use App\Services\Campaign\CampaignServiceInterface;
 use App\Services\Cart\CartService;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\CartItem\CartItemService;
@@ -486,6 +490,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CastRepositoryInterface::class, CastRepository::class);
 
+        $this->app->bind(CampaignRepositoryInterface::class, CampaignRepository::class);
+
 
         /** End Repository */
 
@@ -644,6 +650,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CastServiceInterface::class, CastService::class);
 
+        $this->app->bind(CampaignServiceInterface::class, CampaignService::class);
         /** End Service */
 
     }
