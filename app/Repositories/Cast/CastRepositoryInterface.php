@@ -7,6 +7,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface CastRepositoryInterface extends BaseRepositoryInterface
 {
     public function dataTable();
+    public function findByUrl($url);
 
     public function findWithVlog($id);
 }

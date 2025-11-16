@@ -28,7 +28,7 @@ class HomePageService implements HomePageServiceInterface
         private VlogRepositoryInterface             $vlogRepository,
         private NewRepositoryInterface              $newRepository,
         private PosterRepositoryInterface           $posterRepository,
-        private PriceRepositoryInterface           $priceRepository,
+        private PriceRepositoryInterface            $priceRepository,
     )
     {
     }
@@ -48,11 +48,12 @@ class HomePageService implements HomePageServiceInterface
         $banners3 = $this->bannerRepository->getBannerByType("home_page3");
         $banners4 = $this->bannerRepository->getBannerByType("home_page4");
         $banners5 = $this->bannerRepository->getBannerByType("home_page5");
+        $bannersStock = $this->bannerRepository->getBannerByType("home_page6");
         $lastNews = $this->newRepository->getLastActiveNews();
 //        $lastVlogs = $this->vlogRepository->getLastActives();
         $lastVlogs = $this->vlogRepository->getHomePageVlogs();
         $discountTimer = $this->priceRepository->findFirstExpireDiscount();
-        $posters=$this->posterRepository->getHomepagePosters();
+        $posters = $this->posterRepository->getHomepagePosters();
         return [
             "popularProducts" => $popularProducts,
             "discount" => $discountTimer,
@@ -69,6 +70,7 @@ class HomePageService implements HomePageServiceInterface
             "banners3" => $banners3,
             "banners4" => $banners4,
             "banners5" => $banners5,
+            "bannersStock" => $bannersStock,
             "posters" => $posters,
         ];
     }
