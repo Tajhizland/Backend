@@ -5,9 +5,8 @@ namespace App\Http\Controllers\V1\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\Breadcrumb\BreadcrumbCollection;
-use App\Http\Resources\V1\Category\CategoryCollection;
+use App\Http\Resources\V1\Campaign\CampaignResource;
 use App\Http\Resources\V1\Category\SimpleCategoryCollection;
-use App\Http\Resources\V1\Option\OptionCollection;
 use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
 use App\Http\Resources\V1\Price\PriceResource;
 use App\Http\Resources\V1\Product\ProductCollection;
@@ -16,6 +15,7 @@ use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
+use App\Services\Campaign\CampaignServiceInterface;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\PopularProduct\PopularProductServiceInterface;
@@ -33,6 +33,7 @@ class ProductController extends Controller
         private PopularProductServiceInterface $popularProductService,
         private CategoryServiceInterface       $categoryService,
         private BreadcrumbServiceInterface     $breadcrumbService,
+        private CampaignServiceInterface       $campaignService,
 
     )
     {
@@ -53,10 +54,12 @@ class ProductController extends Controller
                 $optionsCollection = new ProductOptionCollection($options);
             }
         }
+        $campaign = $this->campaignService->findActiveCampaign();
         return $this->dataResponse([
             "product" => new ProductResource($productResponse),
             "breadcrumb" => $breadcrumbCollection,
             "options" => $optionsCollection,
+            "campaign" => new CampaignResource($campaign),
             "relatedProduct" => new ProductCollection($relatedProductResponse),
         ]);
     }
@@ -68,10 +71,12 @@ class ProductController extends Controller
         $discounts = new PopularProductCollection($this->popularProductService->get());
         $discountTimer = new PriceResource($this->priceRepository->findFirstExpireDiscount());
         $category = new SimpleCategoryCollection($this->categoryService->getDiscountedCategory());
+        $campaign = new CampaignResource($this->campaignService->findActiveCampaign());
 
         return $this->dataResponse(
             [
                 "data" => $data,
+                "campaign" => $campaign,
                 "discounts" => $discounts,
                 "discountTimer" => $discountTimer,
                 "category" => $category,
