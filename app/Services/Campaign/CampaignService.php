@@ -37,8 +37,8 @@ class CampaignService implements CampaignServiceInterface
             "title" => $title,
             "status" => $status,
             "color" => $color,
-            "startDate" => $startDate,
-            "endDate" => $endDate,
+            "start_date" => $startDate,
+            "end_date" => $endDate,
             "logo" => $logoPath,
             "banner" => $bannerPath,
         ]);
@@ -61,8 +61,8 @@ class CampaignService implements CampaignServiceInterface
             "title" => $title,
             "status" => $status,
             "color" => $color,
-            "startDate" => $startDate,
-            "endDate" => $endDate,
+            "start_date" => $startDate,
+            "end_date" => $endDate,
             "logo" => $logoPath,
             "banner" => $bannerPath,
         ]);
