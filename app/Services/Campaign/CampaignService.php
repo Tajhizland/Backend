@@ -4,6 +4,7 @@ namespace App\Services\Campaign;
 
 use App\Repositories\Campaign\CampaignRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
+use Carbon\Carbon;
 
 class CampaignService implements CampaignServiceInterface
 {
@@ -37,8 +38,8 @@ class CampaignService implements CampaignServiceInterface
             "title" => $title,
             "status" => $status,
             "color" => $color,
-            "start_date" => $startDate,
-            "end_date" => $endDate,
+            "start_date" =>  Carbon::parse($startDate),
+            "end_date" => Carbon::parse($endDate),
             "logo" => $logoPath,
             "banner" => $bannerPath,
         ]);
@@ -61,8 +62,8 @@ class CampaignService implements CampaignServiceInterface
             "title" => $title,
             "status" => $status,
             "color" => $color,
-            "start_date" => $startDate,
-            "end_date" => $endDate,
+            "start_date" =>  Carbon::parse($startDate),
+            "end_date" => Carbon::parse($endDate),
             "logo" => $logoPath,
             "banner" => $bannerPath,
         ]);
