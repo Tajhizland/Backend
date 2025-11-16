@@ -5,6 +5,7 @@ namespace App\Http\Resources\V1\Campaign;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin Campaign */
 class CampaignResource extends JsonResource
@@ -19,6 +20,10 @@ class CampaignResource extends JsonResource
             'status' => $this->status,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
+
+            'start_date_fa' => $this->start_date != null ? Jalalian::fromDateTime($this->start_date)->format('Y/m/d') : "",
+            'end_date_fa' => $this->end_date != null ? Jalalian::fromDateTime($this->end_date)->format('Y/m/d') : "",
+
             'banner' => $this->banner,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
