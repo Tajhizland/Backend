@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1\HomePage;
 
 use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\Brand\BrandCollection;
+use App\Http\Resources\V1\Campaign\CampaignResource;
 use App\Http\Resources\V1\Concept\ConceptCollection;
 use App\Http\Resources\V1\HomepageCategory\HomepageCategoryCollection;
 use App\Http\Resources\V1\News\NewsCollection;
@@ -23,6 +24,7 @@ class HomePageResource extends JsonResource
     {
         return [
             "popularProducts" => new PopularProductCollection($this["popularProducts"]),
+            "campaign" => new CampaignResource($this["campaign"]),
             "discount" => new PriceResource($this["discount"]),
 //            "popularCategories" => new PopularCategoryCollection($this["popularCategories"]),
             "homepageCategories" => new HomepageCategoryCollection($this["homepageCategories"]),

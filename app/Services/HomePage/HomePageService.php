@@ -13,6 +13,7 @@ use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Slider\SliderRepositoryInterface;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;
+use App\Services\Campaign\CampaignServiceInterface;
 
 class HomePageService implements HomePageServiceInterface
 {
@@ -29,6 +30,7 @@ class HomePageService implements HomePageServiceInterface
         private NewRepositoryInterface              $newRepository,
         private PosterRepositoryInterface           $posterRepository,
         private PriceRepositoryInterface            $priceRepository,
+        private CampaignServiceInterface            $campaignService,
     )
     {
     }
@@ -54,7 +56,9 @@ class HomePageService implements HomePageServiceInterface
         $lastVlogs = $this->vlogRepository->getHomePageVlogs();
         $discountTimer = $this->priceRepository->findFirstExpireDiscount();
         $posters = $this->posterRepository->getHomepagePosters();
+        $campaign = $this->campaignService->findActiveCampaign();
         return [
+            "campaign" => $campaign,
             "popularProducts" => $popularProducts,
             "discount" => $discountTimer,
             "homepageCategories" => $homepageCategories,
