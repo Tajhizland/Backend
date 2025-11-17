@@ -27,9 +27,10 @@ class CampaignService implements CampaignServiceInterface
 
     }
 
-    public function store($title, $status, $color, $startDate, $endDate, $logo, $banner)
+    public function store($title, $status, $color, $startDate, $endDate, $logo, $banner, $background_color, $discount_logo)
     {
         $logoPath = $this->s3Service->upload($logo, "campaign");
+        $discountLogoPath = $this->s3Service->upload($discount_logo, "campaign");
         $bannerPath = null;
         if ($banner) {
             $bannerPath = $this->s3Service->upload($banner, "campaign");
@@ -38,18 +39,25 @@ class CampaignService implements CampaignServiceInterface
             "title" => $title,
             "status" => $status,
             "color" => $color,
-            "start_date" =>  Carbon::parse($startDate),
+            "start_date" => Carbon::parse($startDate),
             "end_date" => Carbon::parse($endDate),
             "logo" => $logoPath,
             "banner" => $bannerPath,
+            "background_color" => $background_color,
+            "discount_logo" => $discountLogoPath,
         ]);
     }
 
-    public function update($id, $title, $status, $color, $startDate, $endDate, $logo, $banner)
+    public function update($id, $title, $status, $color, $startDate, $endDate, $logo, $banner, $background_color, $discount_logo)
     {
         $campaign = $this->campaignRepository->findOrFail($id);
         $logoPath = $campaign->logo;
         $bannerPath = $campaign->banner;
+        $discountLogoPath = $campaign->discount_logo;
+        if ($logo) {
+            $this->s3Service->remove("campaign/$discountLogoPath");
+            $discountLogoPath = $this->s3Service->upload($discount_logo, "campaign");
+        }
         if ($logo) {
             $this->s3Service->remove("campaign/$logoPath");
             $logoPath = $this->s3Service->upload($logo, "campaign");
@@ -62,10 +70,12 @@ class CampaignService implements CampaignServiceInterface
             "title" => $title,
             "status" => $status,
             "color" => $color,
-            "start_date" =>  Carbon::parse($startDate),
+            "start_date" => Carbon::parse($startDate),
             "end_date" => Carbon::parse($endDate),
             "logo" => $logoPath,
             "banner" => $bannerPath,
+            "background_color" => $background_color,
+            "discount_logo" => $discountLogoPath,
         ]);
     }
 

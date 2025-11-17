@@ -11,6 +11,8 @@ class StoreCampaignRequest extends FormRequest
         return [
             'title' => ['required'],
             'logo' => ['required'],
+            'background_color' => ['required'],
+            'discount_logo' => ['required'],
             'color' => ['required'],
             'status' => ['required', 'integer'],
             'start_date' => ['nullable'],

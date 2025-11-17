@@ -41,6 +41,8 @@ class CampaignController extends Controller
             $request->get("end_date"),
             $request->file("logo"),
             $request->file("banner"),
+            $request->get("background_color"),
+            $request->file("discount_logo"),
         );
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.campaign")]));
     }
@@ -56,6 +58,8 @@ class CampaignController extends Controller
             $request->get("end_date"),
             $request->file("logo"),
             $request->file("banner"),
+            $request->get("background_color"),
+            $request->file("discount_logo"),
         );
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.campaign")]));
     }
