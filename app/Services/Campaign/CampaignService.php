@@ -54,7 +54,7 @@ class CampaignService implements CampaignServiceInterface
         $logoPath = $campaign->logo;
         $bannerPath = $campaign->banner;
         $discountLogoPath = $campaign->discount_logo;
-        if ($logo) {
+        if ($discount_logo) {
             $this->s3Service->remove("campaign/$discountLogoPath");
             $discountLogoPath = $this->s3Service->upload($discount_logo, "campaign");
         }
