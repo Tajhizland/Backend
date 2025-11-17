@@ -17,6 +17,8 @@ class UpdateCampaignRequest extends FormRequest
             'start_date' => ['nullable'],
             'end_date' => ['nullable'],
             'banner' => ['nullable'],
+            'background_color' => ['required'],
+            'discount_logo' => ['required'],
         ];
     }
 
