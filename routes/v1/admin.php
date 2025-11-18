@@ -387,4 +387,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\CampaignController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignController::class, "update"]);
     });
+
+    Route::group(["prefix" => "discount"], function () {
+        Route::get("get/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "get"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\DiscountController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "update"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "delete"]);
+    });
 });

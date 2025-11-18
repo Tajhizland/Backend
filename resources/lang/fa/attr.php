@@ -24,6 +24,7 @@ return
         "permission" => 'دسترسی',
         "role" => 'نقش',
         "display" => 'نام نمایشی',
+        "discount" => 'تخفیف',
         "list" => 'لیست',
         "dictionary" => 'دیکشنری',
         "menu" => 'منو',
