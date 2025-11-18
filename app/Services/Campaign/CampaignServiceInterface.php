@@ -9,6 +9,7 @@ interface CampaignServiceInterface
     public function find($id);
 
     public function findActiveCampaign();
+    public function findPendingActiveCampaign();
 
     public function store($title, $status, $color, $startDate, $endDate, $logo, $banner, $background_color, $discount_logo);
 

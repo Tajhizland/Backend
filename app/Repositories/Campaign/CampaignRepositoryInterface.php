@@ -9,6 +9,7 @@ interface CampaignRepositoryInterface extends BaseRepositoryInterface
     public function dataTable();
 
     public function findActiveCampaign();
+    public function findPendingActiveCampaign();
 
 
 }

@@ -83,4 +83,9 @@ class CampaignService implements CampaignServiceInterface
     {
         return $this->campaignRepository->findActiveCampaign();
     }
+
+    public function findPendingActiveCampaign()
+    {
+        return $this->campaignRepository->findPendingActiveCampaign();
+    }
 }

@@ -25,6 +25,7 @@ class HomePageResource extends JsonResource
         return [
             "popularProducts" => new PopularProductCollection($this["popularProducts"]),
             "campaign" => new CampaignResource($this["campaign"]),
+            "pending_campaign" => new CampaignResource($this["pending_campaign"]),
             "discount" => new PriceResource($this["discount"]),
 //            "popularCategories" => new PopularCategoryCollection($this["popularCategories"]),
             "homepageCategories" => new HomepageCategoryCollection($this["homepageCategories"]),

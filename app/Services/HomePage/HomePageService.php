@@ -57,6 +57,7 @@ class HomePageService implements HomePageServiceInterface
         $discountTimer = $this->priceRepository->findFirstExpireDiscount();
         $posters = $this->posterRepository->getHomepagePosters();
         $campaign = $this->campaignService->findActiveCampaign();
+        $pendingCampaign = $this->campaignService->findPendingActiveCampaign();
         return [
             "campaign" => $campaign,
             "popularProducts" => $popularProducts,
@@ -76,6 +77,7 @@ class HomePageService implements HomePageServiceInterface
             "banners5" => $banners5,
             "bannersStock" => $bannersStock,
             "posters" => $posters,
+            "pending_campaign" => $pendingCampaign,
         ];
     }
 }

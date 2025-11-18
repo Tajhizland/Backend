@@ -32,4 +32,12 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                 $query->whereNull("end_date")->orWhere("end_date", ">", Carbon::now());
             })->latest("id")->first();
     }
+
+    public function findPendingActiveCampaign()
+    {
+        return $this->model::where("status", 1)
+            ->where(function ($query) {
+                $query->whereNull("end_date")->orWhere("end_date", ">", Carbon::now());
+            })->latest("id")->first();
+    }
 }
