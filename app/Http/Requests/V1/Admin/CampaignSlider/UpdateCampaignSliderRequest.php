@@ -10,7 +10,7 @@ class UpdateCampaignSliderRequest extends FormRequest
     {
         return [
             'id' => ['required'],
-            'image' => ['required'],
+            'image' => ['nullable'],
             'url' => ['required'],
             'status' => ['required', 'integer'],
             'type' => ['required'],
