@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\CampaignSlider\SortCampaignSliderRequest;
 use App\Http\Requests\V1\Admin\CampaignSlider\StoreCampaignSliderRequest;
 use App\Http\Requests\V1\Admin\CampaignSlider\UpdateCampaignSliderRequest;
 use App\Http\Resources\V1\CampaignSlider\CampaignSliderCollection;
@@ -50,7 +51,7 @@ class CampaignSliderController extends Controller
         return $this->dataResponseCollection(new CampaignSliderCollection($response));
     }
 
-    public function sort(StoreCampaignSliderRequest $request)
+    public function sort(SortCampaignSliderRequest $request)
     {
         $this->campaignSliderService->sort($request->get("slider"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.slider")]));
