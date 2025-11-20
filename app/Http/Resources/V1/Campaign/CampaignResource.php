@@ -26,7 +26,8 @@ class CampaignResource extends JsonResource
 
             'start_date_fa' => $this->start_date != null ? Jalalian::fromDateTime($this->start_date)->format('Y/m/d H:i') : "",
             'end_date_fa' => $this->end_date != null ? Jalalian::fromDateTime($this->end_date)->format('Y/m/d H:i') : "",
-            'sliders' => new CampaignSliderCollection($this->whenLoaded('sliders')),
+            'mobileSliders' => new CampaignSliderCollection($this->whenLoaded('mobileSliders')),
+            'desktopSliders' => new CampaignSliderCollection($this->whenLoaded('desktopSliders')),
 
             'banner' => $this->banner,
             'created_at' => $this->created_at,

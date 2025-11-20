@@ -15,8 +15,13 @@ class Campaign extends Model
         ];
     }
 
-    public function sliders(): HasMany
+    public function mobileSliders(): HasMany
     {
-        return $this->hasMany(CampaignSlider::class);
+        return $this->hasMany(CampaignSlider::class)->where("type", "desktop");
+    }
+
+    public function desktopSliders(): HasMany
+    {
+        return $this->hasMany(CampaignSlider::class)->where("type", "mobile");
     }
 }
