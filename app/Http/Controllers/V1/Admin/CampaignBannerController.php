@@ -4,8 +4,8 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Banner\BannerSortRequest;
-use App\Http\Requests\V1\Admin\Banner\StoreBannerRequest;
-use App\Http\Requests\V1\Admin\Banner\UpdateBannerRequest;
+use App\Http\Requests\V1\Admin\CampaignBanner\StoreCampaignBannerRequest;
+use App\Http\Requests\V1\Admin\CampaignBanner\UpdateCampaignBannerRequest;
 use App\Http\Resources\V1\CampaignBanner\CampaignBannerCollection;
 use App\Http\Resources\V1\CampaignBanner\CampaignBannerResource;
 use App\Services\CampaignBanner\CampaignBannerServiceInterface;
@@ -36,13 +36,13 @@ class CampaignBannerController extends Controller
         return $this->dataResponse(new CampaignBannerResource($this->campaignBannerService->findById($id)));
     }
 
-    public function store(StoreBannerRequest $request)
+    public function store(StoreCampaignBannerRequest $request)
     {
         $this->campaignBannerService->create($request->file("image"), $request->get("url"), $request->get("type"), $request->get("campaign_id"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.banner")]));
     }
 
-    public function update(UpdateBannerRequest $request)
+    public function update(UpdateCampaignBannerRequest $request)
     {
         $this->campaignBannerService->update($request->get("id"), $request->file("image"), $request->get("url"), $request->get("type"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.banner")]));
