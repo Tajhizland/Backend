@@ -9,7 +9,7 @@ class SortCampaignSliderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "slider.*.id" => "required|numeric|exists:App\Models\Slider,id",
+            "slider.*.id" => "required|numeric|exists:App\Models\CampaignSlider,id",
             "slider.*.sort" => "required|numeric",
         ];
     }
