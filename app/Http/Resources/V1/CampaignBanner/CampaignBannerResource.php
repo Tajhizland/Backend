@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\V1\CampaignBanner;
 
 use App\Http\Resources\V1\Campaign\CampaignResource;
-use App\Models\CampaignSlider;
+use App\Models\CampaignBanner;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin CampaignSlider */
-class CampaignSliderResource extends JsonResource
+/** @mixin CampaignBanner */
+class CampaignBannerResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -16,10 +16,8 @@ class CampaignSliderResource extends JsonResource
             'id' => $this->id,
             'image' => $this->image,
             'url' => $this->url,
-            'status' => $this->status,
             'type' => $this->type,
             'sort' => $this->sort,
-            'title' => $this->title,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 

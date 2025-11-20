@@ -14,6 +14,8 @@ use App\Repositories\Brand\BrandRepository;
 use App\Repositories\Brand\BrandRepositoryInterface;
 use App\Repositories\Campaign\CampaignRepository;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
+use App\Repositories\CampaignBanner\CampaignBannerRepository;
+use App\Repositories\CampaignBanner\CampaignBannerRepositoryInterface;
 use App\Repositories\CampaignSlider\CampaignSliderRepository;
 use App\Repositories\CampaignSlider\CampaignSliderRepositoryInterface;
 use App\Repositories\Cart\CartRepository;
@@ -188,6 +190,8 @@ use App\Services\Breadcrumb\BreadcrumbService;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
 use App\Services\Campaign\CampaignService;
 use App\Services\Campaign\CampaignServiceInterface;
+use App\Services\CampaignBanner\CampaignBannerService;
+use App\Services\CampaignBanner\CampaignBannerServiceInterface;
 use App\Services\CampaignSlider\CampaignSliderService;
 use App\Services\CampaignSlider\CampaignSliderServiceInterface;
 use App\Services\Cart\CartService;
@@ -498,6 +502,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CampaignSliderRepositoryInterface::class, CampaignSliderRepository::class);
 
+        $this->app->bind(CampaignBannerRepositoryInterface::class, CampaignBannerRepository::class);
+
 
         /** End Repository */
 
@@ -659,6 +665,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CampaignServiceInterface::class, CampaignService::class);
 
         $this->app->bind(CampaignSliderServiceInterface::class, CampaignSliderService::class);
+
+        $this->app->bind(CampaignBannerServiceInterface::class, CampaignBannerService::class);
+
         /** End Service */
 
     }

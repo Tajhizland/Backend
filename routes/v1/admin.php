@@ -406,4 +406,14 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "delete"]);
     });
 
+    Route::group(["prefix" => "campaign-banner"], function () {
+        Route::get("dataTable/{id}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "find"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "delete"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "update"]);
+        Route::get("list", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "list"]);
+        Route::post("sort", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "sort"]);
+    });
+
 });
