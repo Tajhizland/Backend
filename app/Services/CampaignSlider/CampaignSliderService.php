@@ -24,7 +24,7 @@ class CampaignSliderService implements CampaignSliderServiceInterface
 
     public function find($id)
     {
-
+        return $this->campaignSliderRepository->findOrFail($id);
     }
 
     public function update($id, $title, $url, $status, $type, $image)
