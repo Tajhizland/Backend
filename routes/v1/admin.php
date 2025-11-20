@@ -394,4 +394,16 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "update"]);
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "delete"]);
     });
+
+    Route::group(["prefix" => "campaign-slider"], function () {
+        Route::get("dataTable/{id}", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "campaignDataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "find"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "update"]);
+        Route::get("all_desktop", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "getAllDesktop"]);
+        Route::get("all_mobile", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "getAllMobile"]);
+        Route::post("sort", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "sort"]);
+        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "delete"]);
+    });
+
 });

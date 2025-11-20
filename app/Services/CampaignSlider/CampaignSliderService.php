@@ -59,6 +59,12 @@ class CampaignSliderService implements CampaignSliderServiceInterface
 
     public function getByCampaignId($campaignId)
     {
+        return $this->campaignSliderRepository->getByCampaignId($campaignId);
+    }
 
+    public function delete($id)
+    {
+        $slider = $this->campaignSliderRepository->findOrFail($id);
+        return $this->campaignSliderRepository->delete($slider);
     }
 }
