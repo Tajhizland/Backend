@@ -412,7 +412,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "delete"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "update"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "list"]);
+        Route::get("list/{type}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "list"]);
         Route::post("sort", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "sort"]);
     });
 
