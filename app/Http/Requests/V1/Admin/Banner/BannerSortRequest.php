@@ -9,7 +9,7 @@ class BannerSortRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "banner.*.id" => "required|numeric|exists:App\Models\Banner,id",
+            "banner.*.id" => "required|numeric|exists:App\Models\CampaignBanner,id",
             "banner.*.sort" => "required|numeric",
         ];
     }
