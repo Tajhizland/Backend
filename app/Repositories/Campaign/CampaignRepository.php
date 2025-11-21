@@ -27,7 +27,9 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         return $this->model::where("status", 1)
             ->with([
                 "mobileSliders",
-                "desktopSliders"
+                "desktopSliders",
+                "homepageBanner",
+                "homepage2Banner"
             ])
             ->where(function ($query) {
                 $query->whereNull("start_date")->orWhere("start_date", "<", Carbon::now());

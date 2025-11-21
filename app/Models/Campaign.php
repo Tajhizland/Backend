@@ -24,4 +24,13 @@ class Campaign extends Model
     {
         return $this->hasMany(CampaignSlider::class)->where("type", "mobile");
     }
+
+    public function homepageBanner(): HasMany
+    {
+        return $this->hasMany(CampaignBanner::class)->where("type", "home_page");
+    }
+    public function homepage2Banner(): HasMany
+    {
+        return $this->hasMany(CampaignBanner::class)->where("type", "home_page2");
+    }
 }

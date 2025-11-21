@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1\Campaign;
 
+use App\Http\Resources\V1\CampaignBanner\CampaignBannerCollection;
 use App\Http\Resources\V1\CampaignSlider\CampaignSliderCollection;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
@@ -28,6 +29,9 @@ class CampaignResource extends JsonResource
             'end_date_fa' => $this->end_date != null ? Jalalian::fromDateTime($this->end_date)->format('Y/m/d H:i') : "",
             'mobileSliders' => new CampaignSliderCollection($this->whenLoaded('mobileSliders')),
             'desktopSliders' => new CampaignSliderCollection($this->whenLoaded('desktopSliders')),
+
+            'homepageBanner' => new CampaignBannerCollection($this->whenLoaded('homepageBanner')),
+            'homepage2Banner' => new CampaignBannerCollection($this->whenLoaded('homepage2Banner')),
 
             'banner' => $this->banner,
             'created_at' => $this->created_at,
