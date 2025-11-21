@@ -10,7 +10,6 @@ class UpdateCampaignBannerRequest extends FormRequest
     {
         return [
             'id' => ['required', 'exists:App\Models\CampaignBanner,id'],
-            'campaign_id' => ['required', 'exists:App\Models\Campaign,id'],
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
             'url' => ['required'],
             'type' => ['required'],
