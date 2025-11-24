@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\V1\Discount;
 
-use App\Http\Resources\V1\Campaign\CampaignResource;
-use App\Http\Resources\V1\ProductColor\ProductColorResource;
 use App\Models\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,15 +13,12 @@ class DiscountResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'discount' => $this->discount,
+            'title' => $this->title,
+            'status' => $this->status,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-
-            'product_color_id' => $this->product_color_id,
-            'campaign_id' => $this->campaign_id,
-
-            'campaign' => new CampaignResource($this->whenLoaded('campaign')),
-            'productColor' => new ProductColorResource($this->whenLoaded('productColor')),
         ];
     }
 }

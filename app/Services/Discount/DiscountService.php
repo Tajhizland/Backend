@@ -19,19 +19,27 @@ class DiscountService implements DiscountServiceInterface
         return $this->discountRepository->getByCampaignId($campaignId);
     }
 
-    public function store($campaignId, $productColorId, $discount)
+    public function store($title, $status, $start_date, $end_date)
     {
         return $this->discountRepository->create([
-            "discount" => $discount,
-            "campaign_id" => $campaignId,
-            "product_color_id" => $productColorId,
+            "title" => $title,
+            "status" => $status,
+            "start_date" => $start_date,
+            "end_date" => $end_date,
         ]);
     }
 
-    public function update($id, $discount)
+    public function update($id, $title, $status, $start_date, $end_date)
     {
         $discountModel = $this->discountRepository->findOrFail($id);
-        return $this->discountRepository->update($discountModel, ["discount" => $discount]);
+        return $this->discountRepository->update($discountModel,
+            [
+                "title" => $title,
+                "status" => $status,
+                "start_date" => $start_date,
+                "end_date" => $end_date,
+            ]
+        );
     }
 
     public function delete($id)

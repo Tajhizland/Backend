@@ -11,9 +11,4 @@ class DiscountRepository extends BaseRepository implements DiscountRepositoryInt
     {
         parent::__construct($model);
     }
-
-    public function getByCampaignId($campaignId)
-    {
-        return $this->model::where("campaign_id", $campaignId)->get();
-    }
 }

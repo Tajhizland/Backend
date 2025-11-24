@@ -25,13 +25,13 @@ class DiscountController extends Controller
 
     public function store(StoreDiscountRequest $request)
     {
-        $this->discountService->store($request->get("campaign_id"), $request->get("product_color_id"), $request->get("discount"));
+        $this->discountService->store($request->get("title"), $request->get("status"), $request->get("start_date"), $request->get("end_date"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.discount")]));
     }
 
     public function update(UpdateDiscountRequest $request)
     {
-        $this->discountService->update($request->get("id"), $request->get("discount"));
+        $this->discountService->update($request->get("id"), $request->get("title"), $request->get("status"), $request->get("start_date"), $request->get("end_date"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.discount")]));
     }
 

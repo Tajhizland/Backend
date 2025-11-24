@@ -10,7 +10,10 @@ class UpdateDiscountRequest extends FormRequest
     {
         return [
             'id' => ['required', 'exists:App\Models\Discount,id'],
-            'discount' => ['required', 'integer'],
+            'title' => ['required'],
+            'status' => ['required', 'integer'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date'],
         ];
     }
 

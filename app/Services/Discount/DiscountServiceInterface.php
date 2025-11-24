@@ -6,9 +6,9 @@ interface DiscountServiceInterface
 {
     public function getByCampaignId($campaignId);
 
-    public function store($campaignId, $productColorId, $discount);
+    public function store($title, $status, $start_date, $end_date);
 
-    public function update($id, $discount);
+    public function update($id, $title, $status, $start_date, $end_date);
 
     public function delete($id);
 

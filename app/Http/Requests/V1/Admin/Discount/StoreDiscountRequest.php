@@ -9,9 +9,10 @@ class StoreDiscountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_color_id' => ['required', 'exists:App\Models\ProductColor,id'],
-            'campaign_id' => ['required', 'exists:App\Models\Campaign,id'],
-            'discount' => ['required', 'integer'],
+            'title' => ['required'],
+            'status' => ['required', 'integer'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date'],
         ];
     }
 

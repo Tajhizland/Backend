@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\V1\Discount;
+namespace App\Http\Resources\V1\DiscountItem;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-/** @see \App\Models\Discount */
-class DiscountCollection extends ResourceCollection
+/** @see \App\Models\DiscountItem */
+class DiscountItemCollection extends ResourceCollection
 {
     public function toArray(Request $request): array
     {
