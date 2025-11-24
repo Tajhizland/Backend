@@ -44,6 +44,10 @@ use App\Repositories\Delivery\DeliveryRepository;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Repositories\Dictionary\DictionaryRepository;
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
+use App\Repositories\Discount\DiscountRepository;
+use App\Repositories\Discount\DiscountRepositoryInterface;
+use App\Repositories\DiscountItem\DiscountItemRepository;
+use App\Repositories\DiscountItem\DiscountItemRepositoryInterface;
 use App\Repositories\Faq\FaqRepository;
 use App\Repositories\Faq\FaqRepositoryInterface;
 use App\Repositories\Favorite\FavoriteRepository;
@@ -226,6 +230,10 @@ use App\Services\Delivery\DeliveryService;
 use App\Services\Delivery\DeliveryServiceInterface;
 use App\Services\Dictionary\DictionaryService;
 use App\Services\Dictionary\DictionaryServiceInterface;
+use App\Services\Discount\DiscountService;
+use App\Services\Discount\DiscountServiceInterface;
+use App\Services\DiscountItem\DiscountItemService;
+use App\Services\DiscountItem\DiscountItemServiceInterface;
 use App\Services\Faq\FaqService;
 use App\Services\Faq\FaqServiceInterface;
 use App\Services\Favorite\FavoriteService;
@@ -504,6 +512,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CampaignBannerRepositoryInterface::class, CampaignBannerRepository::class);
 
+        $this->app->bind(DiscountRepositoryInterface::class, DiscountRepository::class);
+
+        $this->app->bind(DiscountItemRepositoryInterface::class, DiscountItemRepository::class);
+
 
         /** End Repository */
 
@@ -667,6 +679,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CampaignSliderServiceInterface::class, CampaignSliderService::class);
 
         $this->app->bind(CampaignBannerServiceInterface::class, CampaignBannerService::class);
+
+        $this->app->bind(DiscountServiceInterface::class, DiscountService::class);
+
+        $this->app->bind(DiscountItemServiceInterface::class, DiscountItemService::class);
 
         /** End Service */
 
