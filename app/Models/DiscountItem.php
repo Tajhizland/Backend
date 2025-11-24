@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DiscountItem extends Model
 {
+    protected $guarded=["id"];
     public function discount(): BelongsTo
     {
         return $this->belongsTo(Discount::class);
