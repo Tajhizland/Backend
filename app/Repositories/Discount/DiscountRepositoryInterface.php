@@ -6,5 +6,5 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface DiscountRepositoryInterface extends BaseRepositoryInterface
 {
-
+    public function dataTable();
 }

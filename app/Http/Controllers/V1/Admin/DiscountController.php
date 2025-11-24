@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Discount\StoreDiscountRequest;
 use App\Http\Requests\V1\Admin\Discount\UpdateDiscountRequest;
 use App\Http\Resources\V1\Discount\DiscountCollection;
+use App\Http\Resources\V1\Discount\DiscountResource;
 use App\Services\Discount\DiscountServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
@@ -17,9 +18,9 @@ class DiscountController extends Controller
     {
     }
 
-    public function get($id)
+    public function dataTable()
     {
-        $response = $this->discountService->getByCampaignId($id);
+        $response = $this->discountService->dataTable();
         return $this->dataResponseCollection(new DiscountCollection($response));
     }
 
@@ -35,9 +36,9 @@ class DiscountController extends Controller
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.discount")]));
     }
 
-    public function delete($id)
+    public function find($id)
     {
-        $this->discountService->delete($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.discount")]));
+        $response = $this->discountService->find($id);
+        return $this->dataResponse(new DiscountResource($response));
     }
 }

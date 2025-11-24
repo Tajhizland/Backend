@@ -389,10 +389,10 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     });
 
     Route::group(["prefix" => "discount"], function () {
-        Route::get("get/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "get"]);
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\DiscountController::class, "dataTable"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\DiscountController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "update"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "delete"]);
+        Route::delete("find/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "find"]);
     });
 
     Route::group(["prefix" => "campaign-slider"], function () {

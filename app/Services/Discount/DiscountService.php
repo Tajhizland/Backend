@@ -14,11 +14,6 @@ class DiscountService implements DiscountServiceInterface
 
     }
 
-    public function getByCampaignId($campaignId)
-    {
-        return $this->discountRepository->getByCampaignId($campaignId);
-    }
-
     public function store($title, $status, $start_date, $end_date)
     {
         return $this->discountRepository->create([
@@ -46,5 +41,15 @@ class DiscountService implements DiscountServiceInterface
     {
         $discount = $this->discountRepository->findOrFail($id);
         return $this->discountRepository->delete($discount);
+    }
+
+    public function dataTable()
+    {
+        return $this->discountRepository->dataTable();
+    }
+
+    public function find($id)
+    {
+        return $this->discountRepository->findOrFail($id);
     }
 }
