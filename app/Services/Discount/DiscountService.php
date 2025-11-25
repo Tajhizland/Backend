@@ -65,7 +65,7 @@ class DiscountService implements DiscountServiceInterface
         foreach ($discount as $item) {
 
             $discountItem = $this->discountItemRepository->findByProductColorId($discountId, $item["product_color_id"]);
-            if ($item["discount_price"] == null || $item["discount_price"] == 0)
+            if ($discountItem && $item["discount_price"] == null || $item["discount_price"] == 0)
                 $this->discountItemRepository->delete($discountItem);
 
             if ($discountItem) {
