@@ -7,8 +7,11 @@ use App\Repositories\Base\BaseRepositoryInterface;
 interface ProductRepositoryInterface extends BaseRepositoryInterface
 {
     public function findByUrl($url);
+
     public function hasLimitDataTable();
+
     public function getStockProducts();
+
     public function hasDiscountDataTable();
 
     public function findGroupByUrl($url);
@@ -16,6 +19,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function findProductWithOption($id);
 
     public function searchWithOption($query, $categoryIds);
+
     public function getWithOption($categoryIds);
 
 
@@ -24,10 +28,12 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function activeGroupPaginate($categoryIds);
 
     public function findById($id);
+
     public function getStockProductIds();
 
 
     public function getByCategoryId($id, $except, $limit = 10);
+
     public function getByCategoryIds(array $categoryIds, $except, $limit = 10);
 
     public function getAllByCategoryId($id);
@@ -37,6 +43,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function sort($id, $sort);
 
     public function dataTable();
+
     public function stockDataTable();
 
     public function groupDataTable();
@@ -98,5 +105,6 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getSitemapData();
 
     public function getTorobProducts();
-    public function searchList($categoryId , $brandId);
+
+    public function searchList($categoryId, $brandId, $discountId = 0);
 }

@@ -571,7 +571,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->paginate($this->pageSize);
     }
 
-    public function searchList($categoryId, $brandId)
+    public function searchList($categoryId, $brandId, $discountId=0)
     {
         return $this->model::query()
             ->when($categoryId, function ($q) use ($categoryId) {
@@ -582,7 +582,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->when($brandId, function ($q) use ($brandId) {
                 $q->where('brand_id', $brandId);
             })
-            ->with(["activeProductColors","activeProductColors.discountItem"])
+            ->with(["activeProductColors", "activeProductColors.discountItem" => function ($query) use ($discountId) {
+                $query->where('discount_id', $discountId);
+            }])
             ->get();
     }
 
