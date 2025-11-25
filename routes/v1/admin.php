@@ -393,6 +393,10 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\DiscountController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "update"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "find"]);
+        Route::get("item/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "getItem"]);
+        Route::post("item/set", [\App\Http\Controllers\V1\Admin\DiscountController::class, "setItem"]);
+        Route::post("item/update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "updateItem"]);
+        Route::delete("item/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "deleteItem"]);
     });
 
     Route::group(["prefix" => "campaign-slider"], function () {

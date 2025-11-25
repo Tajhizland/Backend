@@ -16,4 +16,9 @@ class DiscountItemRepository extends BaseRepository implements DiscountItemRepos
     {
         return $this->model::with(["productColor", "productColor.product"])->where("discount_id", $discountId)->get();
     }
+
+    public function findByProductColorId($discountId, $productColorId)
+    {
+        return $this->model::where("product_color_id", $productColorId)->where("discount_id", $discountId)->first();
+    }
 }

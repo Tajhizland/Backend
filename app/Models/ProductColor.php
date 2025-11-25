@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ProductColor extends Model
@@ -22,4 +23,9 @@ class ProductColor extends Model
     {
         return $this->hasOne(Price::class,'product_color_id');
     }
+    public function discountItem(): HasMany
+    {
+        return $this->hasMany(DiscountItem::class, "product_color_id", "id");
+    }
+
 }

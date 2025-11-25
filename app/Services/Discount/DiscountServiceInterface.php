@@ -12,4 +12,12 @@ interface DiscountServiceInterface
 
     public function find($id);
 
+    public function getItem($id);
+
+    public function deleteItem($id);
+
+    public function setItem($discountId, $discount);
+
+    public function updateItem($discount);
+
 }
