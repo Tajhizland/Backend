@@ -70,12 +70,12 @@ class DiscountService implements DiscountServiceInterface
 
             if ($discountItem) {
                 $this->discountItemRepository->update($discountItem, ["discount" => $item["discount_price"]]);
-            }
-            $this->discountItemRepository->create([
-                "discount_id" => $discountId,
-                "product_color_id" => $item["product_color_id"],
-                "discount" => $item["discount_price"]
-            ]);
+            } else
+                $this->discountItemRepository->create([
+                    "discount_id" => $discountId,
+                    "product_color_id" => $item["product_color_id"],
+                    "discount" => $item["discount_price"]
+                ]);
         }
     }
 
