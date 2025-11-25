@@ -582,6 +582,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->when($brandId, function ($q) use ($brandId) {
                 $q->where('brand_id', $brandId);
             })
+            ->with(["activeProductColors","activeProductColors.discountItem"])
             ->get();
     }
 
