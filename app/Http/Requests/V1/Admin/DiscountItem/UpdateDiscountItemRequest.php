@@ -12,7 +12,7 @@ class UpdateDiscountItemRequest extends FormRequest
             'id' => ['required', 'exists:discount_items,id'],
             'discount_id' => ['required', 'exists:App\Models\Discount'],
             'product_color_id' => ['required', 'exists:App\Models\ProductColor'],
-            'discount' => ['nullable', 'integer'],
+            'discount_price' => ['nullable', 'integer'],
         ];
     }
 

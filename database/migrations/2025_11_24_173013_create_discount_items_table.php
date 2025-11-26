@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('discount_id');
             $table->foreignId('product_color_id');
-            $table->integer('discount')->nullable();
+            $table->integer('discount_price')->nullable();
             $table->timestamps();
         });
     }

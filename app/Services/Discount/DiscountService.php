@@ -67,12 +67,12 @@ class DiscountService implements DiscountServiceInterface
             $discountItem = $this->discountItemRepository->findByProductColorId($discountId, $item["product_color_id"]);
             if ($item["discount_price"] != null && $item["discount_price"] != 0) {
                 if ($discountItem) {
-                    $this->discountItemRepository->update($discountItem, ["discount" => $item["discount_price"]]);
+                    $this->discountItemRepository->update($discountItem, ["discount_price" => $item["discount_price"]]);
                 } else
                     $this->discountItemRepository->create([
                         "discount_id" => $discountId,
                         "product_color_id" => $item["product_color_id"],
-                        "discount" => $item["discount_price"]
+                        "discount_price" => $item["discount_price"]
                     ]);
             } else {
                 if ($discountItem) {
@@ -95,7 +95,7 @@ class DiscountService implements DiscountServiceInterface
                 continue;
             $discountItem = $this->discountItemRepository->findOrFail($item["id"]);
             if ($discountItem) {
-                $this->discountItemRepository->update($discountItem, ["discount" => $item["discount_price"]]);
+                $this->discountItemRepository->update($discountItem, ["discount_price" => $item["discount_price"]]);
             }
         }
     }
