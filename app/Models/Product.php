@@ -277,7 +277,9 @@ class Product extends Model
     public function scopeWithActiveColor(Builder $query): Builder
     {
         return $query->with(["activeProductColors" => function ($query) {
-            $query->with("stock")->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
+            $query->with(["stock", "discountItem" => function ($subQuery) {
+                $subQuery->latest("id")->limit(1);
+            }])->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
         }]);
     }
 }
