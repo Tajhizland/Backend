@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\V1\DiscountItem;
 
-use App\Http\Resources\DiscountResource;
+use App\Http\Resources\V1\Discount\DiscountResource;
 use App\Http\Resources\V1\ProductColor\ProductColorResource;
 use App\Models\DiscountItem;
 use Illuminate\Http\Request;
