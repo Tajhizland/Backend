@@ -10,8 +10,8 @@ class Discount extends Model
     protected function casts(): array
     {
         return [
-            'start_date' => 'timestamp',
-            'end_date' => 'timestamp',
+//            'start_date' => 'timestamp',
+//            'end_date' => 'timestamp',
         ];
     }
 }
