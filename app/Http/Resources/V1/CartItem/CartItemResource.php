@@ -11,10 +11,12 @@ class CartItemResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $hasStock=true;
-         if($this->count > $this->productColor->stock->stock || $this->productColor->status == ProductColorStatus::DeActive->value)
-        {
-            $hasStock=false;
+        $price = $this->productColor?->price?->price;
+        $discountItem = $this->productColor->discountItem->first();
+
+        $hasStock = true;
+        if ($this->count > $this->productColor->stock->stock || $this->productColor->status == ProductColorStatus::DeActive->value) {
+            $hasStock = false;
         }
         return [
             'id' => $this->id,
@@ -30,8 +32,8 @@ class CartItemResource extends JsonResource
                 "status" => $this->productColor->status,
                 "delivery_delay" => $this->productColor->delivery_delay,
                 "price" => $this->productColor->price?->price,
-                "discountedPrice" => $this->productColor->discountItem[0]?->discount_price,
-                "discount" =>$this->productColor?->price?->price - ($this->productColor?->price?->price * ( $this->productColor->discountItem[0]?->discount_pric/ 100))
+                "discountedPrice" => $discountItem?->discount_price,
+                "discount" => $this->productColor?->price?->price - ($this->productColor?->price?->price * ($discountItem?->discount_price / 100))
             ],
             'guaranty' => [
                 'id' => $this->guaranty?->id,
