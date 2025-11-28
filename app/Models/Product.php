@@ -280,7 +280,7 @@ class Product extends Model
             $query->with(["stock", "discountItem" => function ($subQuery) {
                 $subQuery->whereHas("discount", function ($subQuery2) {
                     $subQuery2->where("status", 1)->where("start_date", "<", Carbon::now())->where("end_date", ">", Carbon::now());
-                })->latest("id")->limit(1);
+                })->latest("discount_id")->limit(1);
             }])->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
         }]);
     }
