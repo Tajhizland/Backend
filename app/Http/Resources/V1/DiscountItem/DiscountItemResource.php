@@ -22,7 +22,7 @@ class DiscountItemResource extends JsonResource
             'discount_id' => $this->discount_id,
             'product_color_id' => $this->product_color_id,
 
-//            'discount' => new DiscountResource($this->whenLoaded('discount')),
+            'discount' => new DiscountResource($this->whenLoaded('discount')),
             'productColor' => new ProductColorResource($this->whenLoaded('productColor')),
         ];
     }

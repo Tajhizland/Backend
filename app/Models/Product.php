@@ -285,7 +285,7 @@ class Product extends Model
                         $subQuery3->whereNull("end_date")->orWhere("end_date", ">", Carbon::now());
                     });
                 })->latest("discount_id")->limit(1);
-            }])->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
+            },"discountItem.discount"])->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
         }]);
     }
 }
