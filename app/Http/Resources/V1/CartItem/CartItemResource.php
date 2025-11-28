@@ -12,7 +12,7 @@ class CartItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         $price = $this->productColor?->price?->price;
-        $discountItem = $this->productColor->discountItem->first();
+        $discountItem = $this->productColor->activeDiscountItem->first();
 
         $hasStock = true;
         if ($this->count > $this->productColor->stock->stock || $this->productColor->status == ProductColorStatus::DeActive->value) {

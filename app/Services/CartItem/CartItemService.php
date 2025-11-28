@@ -44,8 +44,11 @@ class CartItemService implements CartItemServiceInterface
             }
             $itemsPrice += $price->price * $cartItem->count;
 
-            if ($price->discount && $price->discount != 0 && ($price->discount_expire_time == null || $price->discount_expire_time > Carbon::now())) {
-                $totalItemPrice += $price->discount * $cartItem->count + $guarantyPrice;
+            $productColor=$this->productColorRepository->findOrFail($cartItem->product_color_id);
+            $discountItem = $productColor->activeDiscountItem->first();
+
+            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0) {
+                $totalItemPrice += $discountItem->discount_price * $cartItem->count + $guarantyPrice;
             } else {
                 $totalItemPrice += $price->price * $cartItem->count + $guarantyPrice;
             }
@@ -96,6 +99,7 @@ class CartItemService implements CartItemServiceInterface
     {
         foreach ($cartItems as $cartItem) {
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
+            $discountItem = $productColor->activeDiscountItem->first();
             $price = $productColor->price;
             $guarantyPrice = 0;
             $discount = 0;
@@ -105,9 +109,9 @@ class CartItemService implements CartItemServiceInterface
                     $guarantyPrice = $this->guarantyService->calculatePrice($price->price);
                 }
             }
-            if ($price->discount && $price->discount != 0 && ($price->discount_expire_time == null || $price->discount_expire_time > Carbon::now())) {
-                $finalPrice = ($price->discount + $guarantyPrice);
-                $discount = $price->price - $price->discount;
+            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0) {
+                $finalPrice = ($discountItem->discount_price + $guarantyPrice);
+                $discount = $price->price - $discountItem->discount_price;
             } else {
                 $finalPrice = ($price->price + $guarantyPrice);
             }
