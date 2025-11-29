@@ -395,7 +395,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             }
         })
             ->whereHas("activeProductColors")
-            ->with(["withActiveColor"])
+            ->withActiveColor()
             ->customOrder()
             ->paginate($this->pageSize);
 
