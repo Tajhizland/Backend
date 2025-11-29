@@ -395,6 +395,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             }
         })
             ->whereHas("activeProductColors")
+            ->with(["withActiveColor"])
             ->customOrder()
             ->paginate($this->pageSize);
 
@@ -571,7 +572,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->paginate($this->pageSize);
     }
 
-    public function searchList($categoryId, $brandId, $discountId=0)
+    public function searchList($categoryId, $brandId, $discountId = 0)
     {
         return $this->model::query()
             ->when($categoryId, function ($q) use ($categoryId) {
