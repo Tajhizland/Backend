@@ -73,7 +73,7 @@ class DiscountService implements DiscountServiceInterface
                         "discount_id" => $discountId,
                         "product_color_id" => $item["product_color_id"],
                         "discount_price" => $item["discount_price"],
-                        "discount_expire_time" => $item["discount_expire_time"]
+                        "discount_expire_time" => @$item["discount_expire_time"]??null
                     ]);
             } else {
                 if ($discountItem) {
