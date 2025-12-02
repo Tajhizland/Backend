@@ -34,14 +34,13 @@ class PopularProductRepository extends BaseRepository implements PopularProductR
                 }),])
             ->paginate($this->pageSize);
     }
+
     public function getWithProduct()
     {
-        return $this->model::whereHas("product",function ($query){
-            return $query->whereHas("prices",function ($subQuery){
-                $subQuery->where("discount",">",0)->where("discount_expire_time",">",Carbon::now());
-            });
+        return $this->model::whereHas("product", function ($query) {
+            $query->hasDiscount();
         })->
-        with(["product"=>function ($query) {
+        with(["product" => function ($query) {
             $query->WithActiveColor();
         }])->get();
     }
