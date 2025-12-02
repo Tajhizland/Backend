@@ -281,7 +281,17 @@ class Product extends Model
     public function scopeWithActiveColor(Builder $query): Builder
     {
         return $query->with(["activeProductColors" => function ($query) {
-            $query->with(["stock", "activeDiscountItem", "discountItem.discount"])->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
+            $query->with(["stock", "discountItem" => function ($subQuery) {
+                $subQuery->where(function ($subQuery2) {
+                    $subQuery2->whereNull("discount_expire_time")->orWhere("discount_expire_time", ">", Carbon::now());
+                })->whereHas("discount", function ($subQuery2) {
+                    $subQuery2->where("status", 1)->where(function ($subQuery3) {
+                        $subQuery3->whereNull("start_date")->orWhere("start_date", "<", Carbon::now());
+                    })->where(function ($subQuery3) {
+                        $subQuery3->whereNull("end_date")->orWhere("end_date", ">", Carbon::now());
+                    });
+                })->latest("discount_id")->limit(1);
+            }, "discountItem.discount"])->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
         }]);
     }
 }
