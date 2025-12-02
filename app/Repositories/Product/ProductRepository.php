@@ -562,13 +562,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 AllowedSort::custom("category", new SortProductByCategoryName()),
             ])
             ->whereHas("activeProductColors")
-            ->whereHas("prices", function ($query) {
-                $query->where("discount", ">", 0)
-                    ->where(function ($q) {
-                        $q->whereNull('discount_expire_time')
-                            ->orWhere('discount_expire_time', '>', now());
-                    });
-            })
+            ->whereHas("prices")
             ->paginate($this->pageSize);
     }
 

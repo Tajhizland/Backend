@@ -35,6 +35,9 @@ class ProductColor extends Model
     public function activeDiscountItem(): HasMany
     {
         return $this->hasMany(DiscountItem::class, "product_color_id", "id")
+            ->where(function ($query) {
+                $query->whereNull("discount_expire_time")->orWhere("discount_expire_time", "<", Carbon::now());
+            })
             ->whereHas("discount", function ($query) {
                 $query->where("status", 1)
                     ->where(function ($subQuery3) {
