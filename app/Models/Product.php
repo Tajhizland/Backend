@@ -230,7 +230,7 @@ class Product extends Model
         return $query->whereHas("productColors", function ($query) {
             $query->whereHas("discountItem", function ($subQuery) {
                 $subQuery->where(function ($subQuery2) {
-                    $subQuery2->whereNull("discount_expire_time")->orWhere("discount_expire_time", "<", Carbon::now());
+                    $subQuery2->whereNull("discount_expire_time")->orWhere("discount_expire_time", ">", Carbon::now());
                 })->whereHas("discount", function ($subQuery2) {
                     $subQuery2->where("status", 1)->where(function ($subQuery3) {
                         $subQuery3->whereNull("start_date")->orWhere("start_date", "<", Carbon::now());
@@ -283,7 +283,7 @@ class Product extends Model
         return $query->with(["activeProductColors" => function ($query) {
             $query->with(["stock", "discountItem" => function ($subQuery) {
                 $subQuery->where(function ($subQuery2) {
-                    $subQuery2->whereNull("discount_expire_time")->orWhere("discount_expire_time", "<", Carbon::now());
+                    $subQuery2->whereNull("discount_expire_time")->orWhere("discount_expire_time", ">", Carbon::now());
                 })->whereHas("discount", function ($subQuery2) {
                     $subQuery2->where("status", 1)->where(function ($subQuery3) {
                         $subQuery3->whereNull("start_date")->orWhere("start_date", "<", Carbon::now());

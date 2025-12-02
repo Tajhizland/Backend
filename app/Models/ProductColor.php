@@ -36,7 +36,7 @@ class ProductColor extends Model
     {
         return $this->hasMany(DiscountItem::class, "product_color_id", "id")
             ->where(function ($query) {
-                $query->whereNull("discount_expire_time")->orWhere("discount_expire_time", "<", Carbon::now());
+                $query->whereNull("discount_expire_time")->orWhere("discount_expire_time", ">", Carbon::now());
             })
             ->whereHas("discount", function ($query) {
                 $query->where("status", 1)
