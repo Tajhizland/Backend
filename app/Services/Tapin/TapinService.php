@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Service\Tapin;
+namespace App\Services\Tapin;
 
 use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\TapinCity\TapinCityRepositoryInterface;
-use App\Service\Lang\LangService;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -22,7 +20,7 @@ class TapinService implements TapinServiceInterface
     {
     }
 
-    public function send($order, $boxId, $postStatus, $weight, $part)
+    public function send($order, $postStatus, $weight, $part, $boxId=10)
     {
         try {
             $data = $this->getData($order, $boxId, $postStatus, $weight, $part);
@@ -47,7 +45,7 @@ class TapinService implements TapinServiceInterface
         $items = [];
         $items["count"] = 1;
         $items["discount"] = 0;
-        $items["title"] = "محصولات خرازی";
+        $items["title"] = "محصولات لوازم خانگی";
         $items["weight"] = round($weight);
         $items["price"] = $order->total_items * 10;
         $items["product_id"] = null;
@@ -87,19 +85,47 @@ class TapinService implements TapinServiceInterface
         return $data;
     }
 
-    //    public function send($data)
-//    {
-//        $ch = curl_init();
-//        curl_setopt($ch, CURLOPT_URL,"https://api.tapin.ir/api/v2/public/order/post/register/");
-//        curl_setopt($ch, CURLOPT_POST, true);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-//            'Authorization: ' . "jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZmJhY2JiMzEtMmVlMC00ZDRlLWE3MGYtZTk1ZWYzN2VhMzUzIiwidXNlcm5hbWUiOiIwOTEyNDEyNDEzMCIsImVtYWlsIjoiZmF0dGFoemFkZWhAZ21haWwuY29tIiwiZXhwIjoyNTY0MDM0MTgzLCJvcmlnX2lhdCI6MTcwMDAzNDE4M30.wbxqBnk8pbHuOgKXEcAUwTRh0Jan-NAc2VIJTojxa9w"
-//            ,'Content-type: application/json'
-//        ]);
-//        $result = curl_exec($ch);
-//        return $result;
-//
-//    }
+    public function checkPrice($province, $city, $weight, $price, $boxId = 10)
+    {
+
+
+        $data = [
+            "shop_id" => config("tapin.shopId"),
+            "address" => " iran",
+            "city_code" => $city,
+            "province_code" => $province,
+            "description" => null,
+            "email" => null,
+            "employee_code" => "-1",
+            "first_name" => "Tajhizland",
+            "last_name" => "Tajhizland",
+            "mobile" => "09011111111",
+            "phone" => null,
+            "postal_code" => "1313131313",
+            "pay_type" => "1",
+            "box_id" => $boxId,
+            "order_type" => "1",
+            "package_weight" => 0,
+            "products" => [
+                [
+                    "count" => 1,
+                    "discount" => 0,
+                    "price" => $price,
+                    "title" => "my product",
+                    "weight" => $weight,
+                    "product_id" => null
+                ]
+            ],
+        ];
+        return Http::withToken(config("tapin.token"), "")->post('https://api.tapin.ir/api/v2/public/order/post/check-price/', $data)->json();
+    }
+
+    public function getBox()
+    {
+        $data = [
+            "shop_id" => config("tapin.shopId"),
+        ];
+        return Http::withToken(config("tapin.token"), "")->post('https://api.tapin.ir/api/v2/public/order/post/packing-box/', $data)->json();
+    }
+
 }

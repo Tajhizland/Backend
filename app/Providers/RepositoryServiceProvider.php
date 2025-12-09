@@ -164,6 +164,8 @@ use App\Repositories\SpecialProduct\SpecialProductRepository;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 use App\Repositories\Stock\StockRepository;
 use App\Repositories\Stock\StockRepositoryInterface;
+use App\Repositories\TapinCity\TapinCityRepository;
+use App\Repositories\TapinCity\TapinCityRepositoryInterface;
 use App\Repositories\Transaction\TransactionRepository;
 use App\Repositories\Transaction\TransactionRepositoryInterface;
 use App\Repositories\TrustedBrand\TrustedBrandRepository;
@@ -176,6 +178,7 @@ use App\Repositories\VlogCategory\VlogCategoryRepository;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Repositories\WalletTransaction\WalletTransactionRepository;
 use App\Repositories\WalletTransaction\WalletTransactionRepositoryInterface;
+use App\Services\Tapin\TapinServiceInterface;
 use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
@@ -324,6 +327,7 @@ use App\Services\SmsLogItem\SmsLogItemService;
 use App\Services\SmsLogItem\SmsLogItemServiceInterface;
 use App\Services\SpecialProduct\SpecialProductService;
 use App\Services\SpecialProduct\SpecialProductServiceInterface;
+use App\Services\Tapin\TapinService;
 use App\Services\TrustedBrand\TrustedBrandService;
 use App\Services\TrustedBrand\TrustedBrandServiceInterface;
 use App\Services\User\UserService;
@@ -516,6 +520,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(DiscountItemRepositoryInterface::class, DiscountItemRepository::class);
 
+        $this->app->bind(TapinCityRepositoryInterface::class, TapinCityRepository::class);
+
 
         /** End Repository */
 
@@ -683,6 +689,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(DiscountServiceInterface::class, DiscountService::class);
 
         $this->app->bind(DiscountItemServiceInterface::class, DiscountItemService::class);
+
+        $this->app->bind(TapinServiceInterface::class, TapinService::class);
 
         /** End Service */
 

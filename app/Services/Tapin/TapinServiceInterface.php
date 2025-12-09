@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Service\Tapin;
+namespace App\Services\Tapin;
 
 interface TapinServiceInterface
 {
-    public function send($order, $boxId, $postStatus,$weight, $part);
-
+    public function send($order, $postStatus, $weight, $part, $boxId);
 }
