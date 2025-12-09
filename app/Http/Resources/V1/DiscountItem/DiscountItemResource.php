@@ -7,6 +7,7 @@ use App\Http\Resources\V1\ProductColor\ProductColorResource;
 use App\Models\DiscountItem;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin DiscountItem */
 class DiscountItemResource extends JsonResource
@@ -21,6 +22,8 @@ class DiscountItemResource extends JsonResource
 
             'discount_id' => $this->discount_id,
             'product_color_id' => $this->product_color_id,
+            'discount_expire_time' => $this->discount_expire_time,
+            'discount_expire_time_fa' => $this->discount_expire_time != null ? Jalalian::fromDateTime($this->discount_expire_time)->format('Y/m/d H:i') : "",
 
             'discount' => new DiscountResource($this->whenLoaded('discount')),
             'productColor' => new ProductColorResource($this->whenLoaded('productColor')),

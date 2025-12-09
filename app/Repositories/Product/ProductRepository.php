@@ -127,7 +127,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->where("is_stock", 0)
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
             ->allowedFilters([
-                'name', 'url', 'status', 'id', 'view', 'created_at',
+                'width', 'height', 'length', 'weight', 'name', 'url', 'status', 'id', 'view', 'created_at',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('categories', function ($query) use ($value) {
@@ -141,7 +141,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 }),
             ])
             ->allowedSorts([
-                'id', 'name', 'url', 'status', 'view', 'created_at',
+                'width', 'height', 'length', 'weight', 'id', 'name', 'url', 'status', 'view', 'created_at',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
             ])
@@ -562,13 +562,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 AllowedSort::custom("category", new SortProductByCategoryName()),
             ])
             ->whereHas("activeProductColors")
-            ->whereHas("prices", function ($query) {
-                $query->where("discount", ">", 0)
-                    ->where(function ($q) {
-                        $q->whereNull('discount_expire_time')
-                            ->orWhere('discount_expire_time', '>', now());
-                    });
-            })
+            ->whereHas("prices")
             ->paginate($this->pageSize);
     }
 

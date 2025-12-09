@@ -6,6 +6,8 @@ use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\Brand\BrandCollection;
 use App\Http\Resources\V1\Campaign\CampaignResource;
 use App\Http\Resources\V1\Concept\ConceptCollection;
+use App\Http\Resources\V1\Discount\DiscountResource;
+use App\Http\Resources\V1\DiscountItem\DiscountItemResource;
 use App\Http\Resources\V1\HomepageCategory\HomepageCategoryCollection;
 use App\Http\Resources\V1\News\NewsCollection;
 use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
@@ -26,7 +28,7 @@ class HomePageResource extends JsonResource
             "popularProducts" => new PopularProductCollection($this["popularProducts"]),
             "campaign" => new CampaignResource($this["campaign"]),
             "pending_campaign" => new CampaignResource($this["pending_campaign"]),
-            "discount" => new PriceResource($this["discount"]),
+            "discount" => new DiscountItemResource($this["discount"]),
 //            "popularCategories" => new PopularCategoryCollection($this["popularCategories"]),
             "homepageCategories" => new HomepageCategoryCollection($this["homepageCategories"]),
             "desktopSliders" => new SliderCollection($this["desktopSliders"]),

@@ -70,7 +70,7 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of): mixed
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $width, $height, $length, $weight): mixed
     {
         $product = $this->productRepository->create([
             "name" => $name,
@@ -88,6 +88,10 @@ class ProductService implements ProductServiceInterface
             "meta_description" => $metaDescription,
             "testing_time" => $testing_time,
             "stock_of" => $stock_of,
+            "width" => $width,
+            "height" => $height,
+            "length" => $length,
+            "weight" => $weight,
         ]);
         $categoryIds = json_decode($categoryId);
         $this->productCategoryService->syncProductCategory($product->id, $categoryIds);
@@ -96,7 +100,7 @@ class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of): mixed
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $width, $height, $length, $weight): mixed
     {
         $product = $this->productRepository->findOrFail($id);
         $this->productRepository->update($product,
@@ -115,6 +119,10 @@ class ProductService implements ProductServiceInterface
                 "meta_description" => $metaDescription,
                 "testing_time" => $testing_time,
                 "stock_of" => $stock_of,
+                "width" => $width,
+                "height" => $height,
+                "length" => $length,
+                "weight" => $weight,
             ]);
         $categoryIds = json_decode($categoryId);
         $this->productCategoryService->syncProductCategory($product->id, $categoryIds);
@@ -202,9 +210,9 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->hasDiscountDataTable();
     }
 
-    public function searchList($categoryId, $brandId, $discountId=0): mixed
+    public function searchList($categoryId, $brandId, $discountId = 0): mixed
     {
-        return $this->productRepository->searchList($categoryId, $brandId,$discountId);
+        return $this->productRepository->searchList($categoryId, $brandId, $discountId);
     }
 
     public function groupChangePrice($ids, $action, $percent)

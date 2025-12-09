@@ -7,6 +7,7 @@ use App\Http\Resources\V1\Banner\BannerCollection;
 use App\Http\Resources\V1\Breadcrumb\BreadcrumbCollection;
 use App\Http\Resources\V1\Campaign\CampaignResource;
 use App\Http\Resources\V1\Category\SimpleCategoryCollection;
+use App\Http\Resources\V1\DiscountItem\DiscountItemResource;
 use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
 use App\Http\Resources\V1\Price\PriceResource;
 use App\Http\Resources\V1\Product\ProductCollection;
@@ -17,6 +18,7 @@ use App\Services\Banner\BannerServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
 use App\Services\Campaign\CampaignServiceInterface;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\DiscountItem\DiscountItemServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use App\Services\Product\ProductServiceInterface;
@@ -34,6 +36,7 @@ class ProductController extends Controller
         private CategoryServiceInterface       $categoryService,
         private BreadcrumbServiceInterface     $breadcrumbService,
         private CampaignServiceInterface       $campaignService,
+        private DiscountItemServiceInterface   $discountItemService,
 
     )
     {
@@ -71,7 +74,7 @@ class ProductController extends Controller
         $banners = new BannerCollection($this->bannerService->getDiscountedBanner());
         $data = new ProductCollection($this->productService->getDiscountedProducts($request->get("filter")));
         $discounts = new PopularProductCollection($this->popularProductService->get());
-        $discountTimer = new PriceResource($this->priceRepository->findFirstExpireDiscount());
+        $discountTimer = new DiscountItemResource($this->discountItemService->findFirstExpireDiscount());
         $category = new SimpleCategoryCollection($this->categoryService->getDiscountedCategory());
         $campaign = $this->campaignService->findActiveCampaign();
         if ($campaign)

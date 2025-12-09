@@ -71,7 +71,10 @@ class ProductResource extends JsonResource
             'brand' => new BrandResource($this->brand),
             'videos' => new ProductVideoCollection($this->videos),
             'groupItems' => new GroupProductCollection($this->groupItems),
-
+            'width' => $this->width,
+            'height' => $this->height,
+            'length' => $this->length,
+            'weight' => $this->weight,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];

@@ -16,4 +16,9 @@ class DiscountItemService implements DiscountItemServiceInterface
     {
         return $this->discountItemRepository->getByDiscountId($discountId);
     }
+
+    public function findFirstExpireDiscount()
+    {
+        return $this->discountItemRepository->findFirstExpireDiscount();
+    }
 }
