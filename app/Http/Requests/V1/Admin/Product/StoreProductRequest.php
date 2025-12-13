@@ -24,9 +24,7 @@ class StoreProductRequest extends FormRequest
             'brand_id' => ['nullable'],
             'review' => ['nullable'],
             'stock_of' => ['nullable'],
-            'width' => ['nullable'],
-            'height' => ['nullable'],
-            'length' => ['nullable'],
+            'box_id' => ['nullable'],
             'weight' => ['nullable'],
             'testing_time' => ['nullable'],
         ];
