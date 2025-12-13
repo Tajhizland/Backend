@@ -190,7 +190,6 @@ class ProductController extends Controller
         }
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.option")]));
     }
-
     public function groupChange(GroupChangePriceRequest $request)
     {
         $this->productService->groupChangePrice($request->get('ids'), $request->get('action'), $request->get('percent'));
