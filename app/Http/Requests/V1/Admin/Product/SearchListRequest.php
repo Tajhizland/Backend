@@ -11,7 +11,7 @@ class SearchListRequest extends FormRequest
         return [
             "categoryId" => ["nullable"],
             "brandId" => ["nullable"],
-            "query" => ["nullable"],
+            "searchQuery" => ["nullable"],
             "discountId" => ["nullable"],
         ];
     }
