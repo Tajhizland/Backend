@@ -566,9 +566,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->paginate($this->pageSize);
     }
 
-    public function searchList($categoryId, $brandId, $discountId = 0)
+    public function searchList($categoryId, $brandId, $searchQuery, $discountId = 0)
     {
         return $this->model::query()
+            ->when($searchQuery, function ($q) use ($searchQuery) {
+                $q->where('name', 'like', '%' . $searchQuery . '%');
+            })
             ->when($categoryId, function ($q) use ($categoryId) {
                 $q->whereHas('productCategories', function ($query) use ($categoryId) {
                     $query->where('category_id', $categoryId);

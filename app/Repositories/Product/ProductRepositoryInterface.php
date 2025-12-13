@@ -106,5 +106,5 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function getTorobProducts();
 
-    public function searchList($categoryId, $brandId, $discountId = 0);
+    public function searchList($categoryId, $brandId, $searchQuery, $discountId = 0);
 }

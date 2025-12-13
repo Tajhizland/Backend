@@ -46,7 +46,7 @@ interface ProductServiceInterface
 
     public function torobProduct();
 
-    public function searchList($categoryId, $brandId, $discountId = 0): mixed;
+    public function searchList($categoryId, $brandId, $searchQuery, $discountId = 0): mixed;
 
     public function groupChangePrice($ids, $action, $percent);
 }
