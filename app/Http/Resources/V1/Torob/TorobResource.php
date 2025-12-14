@@ -12,10 +12,16 @@ class TorobResource extends JsonResource
         $availability = "outofstock";
         $minPrice = PHP_INT_MAX;
         $minDiscountPrice = PHP_INT_MAX;
-         foreach ($this->prices as $price) {
-            if ($price->price < $minPrice && $price->price!=0) {
+        foreach ($this->prices as $price) {
+            if ($price->price < $minPrice && $price->price != 0) {
                 $minPrice = $price->price;
                 $minDiscountPrice = $price->discount > 0 ? $price->discount : $price->price;
+            }
+        }
+        foreach ($this->activeProductColors as $colors) {
+            if ($colors->price->price < $minPrice && $colors->price->price != 0) {
+                $minPrice = $colors->price->price;
+                $minDiscountPrice = ($colors->activeDiscountItem && $colors->activeDiscountItem[0]) ? $colors->activeDiscountItem[0]->discount_price : $colors->price->price;
             }
         }
         foreach ($this->stocks as $stock) {
@@ -25,7 +31,7 @@ class TorobResource extends JsonResource
         }
         return [
             "product_id" => $this->id,
-            "page_url" => "https://tajhizland.com/product/".$this->url,
+            "page_url" => "https://tajhizland.com/product/" . $this->url,
             "price" => $minDiscountPrice,
             "availability" => $availability,
             "old_price" => $minPrice,
