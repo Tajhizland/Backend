@@ -74,8 +74,13 @@ class ProductController extends Controller
         $banners = new BannerCollection($this->bannerService->getDiscountedBanner());
         $data = new ProductCollection($this->productService->getDiscountedProducts($request->get("filter")));
         $discounts = new PopularProductCollection($this->popularProductService->get());
-        $discountTimer = new DiscountItemResource($this->discountItemService->findFirstExpireDiscount());
+
         $category = new SimpleCategoryCollection($this->categoryService->getDiscountedCategory());
+
+        $discountTimer = $this->discountItemService->findFirstExpireDiscount();
+        if ($discountTimer)
+            $discountTimer = new DiscountItemResource($discountTimer);
+
         $campaign = $this->campaignService->findActiveCampaign();
         if ($campaign)
             $campaign = new CampaignResource($this->campaignService->findActiveCampaign());
