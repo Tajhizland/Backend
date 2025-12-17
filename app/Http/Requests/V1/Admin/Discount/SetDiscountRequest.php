@@ -13,7 +13,8 @@ class SetDiscountRequest extends FormRequest
             'discount' => ['required', 'array'],
             'discount.*.product_color_id' => ['required', 'exists:App\Models\ProductColor,id'],
             'discount.*.discount_price' => ['nullable', 'numeric'],
-            'discount.*.discount_expire_time' => ['nullable' ],
+            'discount.*.discount_expire_time' => ['nullable'],
+            'discount.*.top' => ['nullable'],
         ];
     }
 

@@ -69,14 +69,16 @@ class DiscountService implements DiscountServiceInterface
                 if ($discountItem) {
                     $this->discountItemRepository->update($discountItem, [
                         "discount_price" => $item["discount_price"],
-                        "discount_expire_time" => @$item["discount_expire_time"] ?? null
+                        "discount_expire_time" => @$item["discount_expire_time"] ?? null,
+                        "top" => @$item["top"] ?? null
                     ]);
                 } else
                     $this->discountItemRepository->create([
                         "discount_id" => $discountId,
                         "product_color_id" => $item["product_color_id"],
                         "discount_price" => $item["discount_price"],
-                        "discount_expire_time" => @$item["discount_expire_time"] ?? null
+                        "discount_expire_time" => @$item["discount_expire_time"] ?? null,
+                        "top" => @$item["top"] ?? null
                     ]);
             } else {
                 if ($discountItem) {
