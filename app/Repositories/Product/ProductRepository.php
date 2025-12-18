@@ -420,7 +420,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getTopDiscountedProducts()
     {
-        return $this->model::withActiveColor()->active()->hasTopDiscount();
+        return $this->model::withActiveColor()->active()->hasTopDiscount()->get();
     }
 
     public function getStockProducts()
