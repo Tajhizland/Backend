@@ -32,7 +32,7 @@ class DiscountItemRepository extends BaseRepository implements DiscountItemRepos
 
     public function getTopByDiscountId($discountId)
     {
-        return $this->model::with(["productColor", "productColor.product"])->where("discount_id", $discountId)->where("top", 1)->get();
+        return $this->model::with(["productColor", "productColor.product"])->where("discount_id", $discountId)->where("top", 1)->orderBy("sort")->get();
 
     }
 
