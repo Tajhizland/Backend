@@ -79,7 +79,7 @@ class DiscountController extends Controller
 
     public function sort(SortTopRequest $request)
     {
-        $this->discountService->sort($request->get("discount"));
+        $this->discountService->sort($request->get("discounts"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.discount")]));
     }
 }

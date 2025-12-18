@@ -9,8 +9,8 @@ class SortTopRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "discount.*.id" => "required|numeric|exists:App\Models\DiscountItem,id",
-            "discount.*.sort" => "required|numeric",
+            "discounts.*.id" => "required|numeric|exists:App\Models\DiscountItem,id",
+            "discounts.*.sort" => "required|numeric",
         ];
     }
 
