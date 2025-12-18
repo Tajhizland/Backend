@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Discount\SetDiscountRequest;
+use App\Http\Requests\V1\Admin\Discount\SortTopRequest;
 use App\Http\Requests\V1\Admin\Discount\StoreDiscountRequest;
 use App\Http\Requests\V1\Admin\Discount\UpdateDiscountRequest;
 use App\Http\Requests\V1\Admin\Discount\UpdateItemRequest;
@@ -68,5 +69,17 @@ class DiscountController extends Controller
     {
         $this->discountService->deleteItem($id);
         return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.discount")]));
+    }
+
+    public function getTopDiscountItem($id)
+    {
+        $response = $this->discountService->getTopItem($id);
+        return $this->dataResponseCollection(new DiscountItemCollection($response));
+    }
+
+    public function sort(SortTopRequest $request)
+    {
+        $this->discountService->sort($request->get("discount"));
+        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.discount")]));
     }
 }

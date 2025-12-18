@@ -394,6 +394,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "update"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "find"]);
         Route::get("item/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "getItem"]);
+        Route::get("top-item/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "getTopDiscountItem"]);
+        Route::post("top-item/sort", [\App\Http\Controllers\V1\Admin\DiscountController::class, "sort"]);
         Route::post("item/set", [\App\Http\Controllers\V1\Admin\DiscountController::class, "setItem"]);
         Route::post("item/update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "updateItem"]);
         Route::delete("item/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "deleteItem"]);

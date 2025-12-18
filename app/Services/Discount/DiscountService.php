@@ -59,6 +59,10 @@ class DiscountService implements DiscountServiceInterface
     {
         return $this->discountItemRepository->getByDiscountId($id);
     }
+    public function getTopItem($id)
+    {
+        return $this->discountItemRepository->getTopByDiscountId($id);
+    }
 
     public function setItem($discountId, $discount)
     {
@@ -104,5 +108,13 @@ class DiscountService implements DiscountServiceInterface
                 $this->discountItemRepository->update($discountItem, ["discount_price" => $item["discount_price"]]);
             }
         }
+    }
+
+    public function sort($discounts)
+    {
+        foreach ($discounts as $item) {
+            $this->discountItemRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
     }
 }

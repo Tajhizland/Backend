@@ -29,4 +29,15 @@ class DiscountItemRepository extends BaseRepository implements DiscountItemRepos
             $query->whereDate("end_date", ">", Carbon::now())->where('status', 1);
         })->orderBy("discount_expire_time")->first();
     }
+
+    public function getTopByDiscountId($discountId)
+    {
+        return $this->model::with(["productColor", "productColor.product"])->where("discount_id", $discountId)->where("top", 1)->get();
+
+    }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
+    }
 }
