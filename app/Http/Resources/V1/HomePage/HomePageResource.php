@@ -14,6 +14,7 @@ use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
 use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
 use App\Http\Resources\V1\Poster\PosterCollection;
 use App\Http\Resources\V1\Price\PriceResource;
+use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Slider\SliderCollection;
 use App\Http\Resources\V1\SpecialProduct\SpecialProductCollection;
 use App\Http\Resources\V1\Vlog\VlogCollection;
@@ -26,6 +27,7 @@ class HomePageResource extends JsonResource
     {
         return [
             "popularProducts" => new PopularProductCollection($this["popularProducts"]),
+            "topDiscountedProducts" => new ProductCollection($this["topDiscountedProducts"]),
             "campaign" => new CampaignResource($this["campaign"]),
             "pending_campaign" => new CampaignResource($this["pending_campaign"]),
             "discount" => new DiscountItemResource($this["discount"]),

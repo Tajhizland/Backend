@@ -80,6 +80,7 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getMostPopularProduct();
 
     public function getDiscountedProducts();
+    public function getTopDiscountedProducts();
 
     public function getDiscountedProductsId();
 

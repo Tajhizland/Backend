@@ -10,6 +10,7 @@ use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
 use App\Repositories\Poster\PosterRepositoryInterface;
 use App\Repositories\Price\PriceRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Slider\SliderRepositoryInterface;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;
@@ -33,6 +34,7 @@ class HomePageService implements HomePageServiceInterface
         private PriceRepositoryInterface            $priceRepository,
         private CampaignServiceInterface            $campaignService,
         private DiscountItemServiceInterface        $discountItemService,
+        private ProductRepositoryInterface          $productRepository,
     )
     {
     }
@@ -41,6 +43,7 @@ class HomePageService implements HomePageServiceInterface
     public function buildData()
     {
         $popularProducts = $this->popularProductRepository->getWithProduct();
+        $discountedProducts = $this->productRepository->getTopDiscountedProducts();
         $homepageCategories = $this->homepageCategoryRepository->getWithCategory();
         $specialProducts = $this->specialProductRepository->getWithProduct();
         $desktopSliders = $this->sliderRepository->getActiveDesktopSlider();
@@ -63,6 +66,7 @@ class HomePageService implements HomePageServiceInterface
         return [
             "campaign" => $campaign,
             "popularProducts" => $popularProducts,
+            "topDiscountedProducts" => $discountedProducts,
             "discount" => $discountTimer,
             "homepageCategories" => $homepageCategories,
             "desktopSliders" => $desktopSliders,

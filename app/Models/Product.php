@@ -246,6 +246,28 @@ class Product extends Model
         });
     }
 
+    public function scopeHasTopDiscount(Builder $query): Builder
+    {
+        return $query->whereHas("productColors", function ($query) {
+            $query->whereHas("discountItem", function ($subQuery) {
+                $subQuery->where("top", 1)->
+                where(function ($subQuery2) {
+                    $subQuery2->whereNull("discount_expire_time")->orWhere("discount_expire_time", ">", Carbon::now());
+                })->whereHas("discount", function ($subQuery2) {
+                    $subQuery2->where("status", 1)->where(function ($subQuery3) {
+                        $subQuery3->whereNull("start_date")->orWhere("start_date", "<", Carbon::now());
+                    })->where(function ($subQuery3) {
+                        $subQuery3->whereNull("end_date")->orWhere("end_date", ">", Carbon::now());
+                    });
+                });
+            })->
+            where("status", "<>", ProductColorStatus::DeActive->value)
+                ->whereHas("price")->whereHas("stock", function ($q) {
+                    $q->where("stock", ">", 0);
+                });
+        });
+    }
+
     public function scopeIsStock(Builder $query): Builder
     {
         return $query->where("is_stock", 1);
