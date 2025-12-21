@@ -167,6 +167,26 @@ Route::group(["prefix" => 'cast'], function () {
 Route::get('info', function () {
     phpinfo();
 });
+Route::get('d', function () {
+    $items = \App\Models\PopularProduct::all();
+    $arr = [];
+    foreach ($items as $item) {
+        $colors = $item->product->activeProductColors;
+        foreach ($colors as $color) {
+            $di = \App\Models\DiscountItem::where("product_color_id", $color->id)->whereHas("discount", function ($query) {
+                $query->where("status", 1);
+            })->first();
+
+            if ($di) {
+                \App\Models\DiscountItem::where("id", $di->id)->update(["top" => 1]);
+//                $di->top = 1;
+//                $di->save();
+                $arr[] = $di;
+            }
+        }
+    }
+    dd($arr);
+});
 
 Route::post('per', function (Request $request) {
 

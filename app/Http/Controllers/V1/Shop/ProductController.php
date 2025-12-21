@@ -14,6 +14,7 @@ use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Product\ProductResource;
 use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
 use App\Repositories\Price\PriceRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
 use App\Services\Campaign\CampaignServiceInterface;
@@ -37,6 +38,7 @@ class ProductController extends Controller
         private BreadcrumbServiceInterface     $breadcrumbService,
         private CampaignServiceInterface       $campaignService,
         private DiscountItemServiceInterface   $discountItemService,
+        private ProductRepositoryInterface     $productRepository,
 
     )
     {
@@ -85,9 +87,14 @@ class ProductController extends Controller
         if ($campaign)
             $campaign = new CampaignResource($this->campaignService->findActiveCampaign());
 
+        $discountedProducts = $this->productRepository->getTopDiscountedProducts();
+        if ($discountedProducts) {
+            $discountedProducts = new ProductCollection($discountedProducts);
+        }
         return $this->dataResponse(
             [
                 "data" => $data,
+                "topDiscountedProducts" => $discountedProducts,
                 "campaign" => $campaign,
                 "discounts" => $discounts,
                 "discountTimer" => $discountTimer,
