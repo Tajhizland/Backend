@@ -26,7 +26,9 @@ class UpdateProductRequest extends FormRequest
             'categoryId' => ['required'],
             'is_stock' => ['nullable'],
             'stock_of' => ['nullable'],
-            'box_id' => ['nullable'],
+            'length' => ['nullable'],
+            'width' => ['nullable'],
+            'height' => ['nullable'],
             'weight' => ['nullable'],
             'testing_time' => ['nullable'],
         ];

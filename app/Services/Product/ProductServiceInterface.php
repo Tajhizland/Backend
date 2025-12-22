@@ -24,9 +24,9 @@ interface ProductServiceInterface
 
     public function getRelatedProducts($id): mixed;
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $box_id, $weight): mixed;
+    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $length, $width, $height, $weight): mixed;
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $box_id, $weight): mixed;
+    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $length, $width, $height, $weight): mixed;
 
     public function setVideo($productId, $vlogId, $type): mixed;
 
