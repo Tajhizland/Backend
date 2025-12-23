@@ -25,4 +25,9 @@ class VlogCategoryRepository extends BaseRepository implements VlogCategoryRepos
     {
         return $this->model::active()->get();
     }
+
+    public function findByUrl($url)
+    {
+        return $this->model::active()->where("url",$url)->firstOrFail();
+    }
 }

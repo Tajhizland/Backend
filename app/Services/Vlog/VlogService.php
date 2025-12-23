@@ -5,6 +5,7 @@ namespace App\Services\Vlog;
 use App\Jobs\ConvertVideoToHlsJob;
 use App\Models\Vlog;
 use App\Repositories\Vlog\VlogRepositoryInterface;
+use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Services\ConvertToHLS\HlsServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -13,9 +14,10 @@ class VlogService implements VlogServiceInterface
 {
     public function __construct
     (
-        private VlogRepositoryInterface $vlogRepository,
-        private S3ServiceInterface      $s3Service,
-        private HlsServiceInterface     $hlsService,
+        private VlogRepositoryInterface         $vlogRepository,
+        private VlogCategoryRepositoryInterface $vlogCategoryRepository,
+        private S3ServiceInterface              $s3Service,
+        private HlsServiceInterface             $hlsService,
     )
     {
     }
@@ -196,5 +198,13 @@ class VlogService implements VlogServiceInterface
     public function list()
     {
         return $this->vlogRepository->activeList();
+    }
+
+    public function getByCategoryUrl($url , $filters)
+    {
+        $category = $this->vlogCategoryRepository->findByUrl($url);
+        $vlogQuery=$this->vlogRepository->getByCategoryQuery($category->id);
+        $vlogQuery = $this->renderFilter($vlogQuery, $filters);
+        return $this->vlogRepository->paginated($vlogQuery);
     }
 }

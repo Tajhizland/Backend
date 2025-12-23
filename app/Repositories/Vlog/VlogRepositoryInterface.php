@@ -11,6 +11,7 @@ interface VlogRepositoryInterface extends BaseRepositoryInterface
     public function activeList();
 
     public function findByUrl($url);
+    public function getByCategoryQuery($categoryId);
 
     public function activeVlogQuery();
 
