@@ -36,13 +36,13 @@ class VlogCategoryController extends Controller
 
     public function store(StoreVlogCategoryRequest $request)
     {
-        $this->vlogCategoryService->store($request->get("name"), $request->get("status"));
+        $this->vlogCategoryService->store($request->get("name"), $request->get("status"), $request->get("url"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.category")]));
     }
 
     public function update(UpdateVlogCategoryRequest $request)
     {
-        $this->vlogCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"));
+        $this->vlogCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
     }
 }

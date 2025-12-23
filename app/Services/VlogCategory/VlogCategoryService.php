@@ -28,19 +28,21 @@ class VlogCategoryService implements VlogCategoryServiceInterface
         return $this->vlogCategoryRepository->findOrFail($id);
     }
 
-    public function store($name, $status)
+    public function store($name, $status, $url)
     {
         return $this->vlogCategoryRepository->create([
             "name" => $name,
+            "url" => $url,
             "status" => $status
         ]);
     }
 
-    public function update($id, $name, $status)
+    public function update($id, $name, $status, $url)
     {
         $vlogCategory = $this->vlogCategoryRepository->findOrFail($id);
         return $this->vlogCategoryRepository->update($vlogCategory,
             [
+                "url" => $url,
                 "name" => $name,
                 "status" => $status
             ]);

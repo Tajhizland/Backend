@@ -10,6 +10,7 @@ class StoreVlogCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'url' => ['required', 'unique:App\Models\VlogCategory'],
             'status' => ['required'],
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\V1\Admin\VlogCategory;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateVlogCategoryRequest extends FormRequest
 {
@@ -11,6 +12,7 @@ class UpdateVlogCategoryRequest extends FormRequest
         return [
             'id' => ['required'],
             'name' => ['required'],
+            'url' => ['required', Rule::unique('url')->ignore($this->id)],
             'status' => ['required'],
         ];
     }
