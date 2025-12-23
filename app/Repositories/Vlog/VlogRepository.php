@@ -148,6 +148,6 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function getByCategoryQuery($categoryId)
     {
-        return $this->model::active()->where("category_id", $categoryId)->orderBy("sort");
+        return $this->model::active()->where("category_id", $categoryId);
     }
 }
