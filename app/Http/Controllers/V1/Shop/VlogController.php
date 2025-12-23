@@ -42,7 +42,9 @@ class VlogController extends Controller
         $listing = new VlogCollection($this->vlogService->getByCategoryUrl($request->get("url"), $request->get("filter")));
         $mostViewed = new VlogCollection($this->vlogService->getMostViewed());
         $banners = new BannerCollection($this->bannerService->getVlogBanner());
+        $category = new VlogCategoryResource($this->vlogCategoryRepository->findByUrl($request->get("url")));
         return $this->dataResponse([
+            "category" => $category,
             "listing" => $listing,
             "banner" => $banners,
             "mostViewed" => $mostViewed
