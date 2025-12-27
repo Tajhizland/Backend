@@ -414,6 +414,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
 
     Route::group(["prefix" => "cast-category"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "dataTable"]);
+        Route::get("get", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "get"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "find"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "update"]);

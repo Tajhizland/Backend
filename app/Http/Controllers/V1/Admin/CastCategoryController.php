@@ -25,6 +25,12 @@ class CastCategoryController extends Controller
         return $this->dataResponseCollection(new CastCategoryCollection($response));
     }
 
+    public function get()
+    {
+        $response = $this->castCategoryService->get();
+        return $this->dataResponseCollection(new CastCategoryCollection($response));
+    }
+
     public function find($id)
     {
         $response = $this->castCategoryService->find($id);
