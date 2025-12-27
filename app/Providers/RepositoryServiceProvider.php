@@ -24,6 +24,8 @@ use App\Repositories\CartItem\CartItemRepository;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\Cast\CastRepository;
 use App\Repositories\Cast\CastRepositoryInterface;
+use App\Repositories\CastCategory\CastCategoryRepository;
+use App\Repositories\CastCategory\CastCategoryRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\CategoryConcept\CategoryConceptRepository;
@@ -178,6 +180,8 @@ use App\Repositories\VlogCategory\VlogCategoryRepository;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Repositories\WalletTransaction\WalletTransactionRepository;
 use App\Repositories\WalletTransaction\WalletTransactionRepositoryInterface;
+use App\Services\CastCategory\CastCategoryService;
+use App\Services\CastCategory\CastCategoryServiceInterface;
 use App\Services\Tapin\TapinServiceInterface;
 use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
@@ -522,6 +526,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(TapinCityRepositoryInterface::class, TapinCityRepository::class);
 
+        $this->app->bind(CastCategoryRepositoryInterface::class, CastCategoryRepository::class);
+
 
         /** End Repository */
 
@@ -691,6 +697,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(DiscountItemServiceInterface::class, DiscountItemService::class);
 
         $this->app->bind(TapinServiceInterface::class, TapinService::class);
+
+        $this->app->bind(CastCategoryServiceInterface::class, CastCategoryService::class);
 
         /** End Service */
 
