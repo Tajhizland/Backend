@@ -25,13 +25,14 @@ class CastService implements CastServiceInterface
         return $this->castRepository->dataTable();
     }
 
-    public function store($title, $image, $description, $url, $status, $audio, $vlog_id)
+    public function store($title, $image, $description, $url, $status, $audio, $vlog_id, $category_id)
     {
         $audioPath = $this->s3Service->upload($audio, "cast/audio");
         $imagePath = $this->s3Service->upload($audio, "cast/image");
         return $this->castRepository->create([
             'title' => $title,
             'image' => $imagePath,
+            'category_id' => $category_id,
             'description' => $description,
             'url' => $url,
             'status' => $status,
@@ -40,7 +41,7 @@ class CastService implements CastServiceInterface
         ]);
     }
 
-    public function update($id, $title, $image, $description, $url, $status, $audio, $vlog_id)
+    public function update($id, $title, $image, $description, $url, $status, $audio, $vlog_id, $category_id)
     {
         $cast = $this->castRepository->findOrFail($id);
         $audioPath = $cast->audio;
@@ -57,6 +58,7 @@ class CastService implements CastServiceInterface
             'title' => $title,
             'description' => $description,
             'url' => $url,
+            'category_id' => $category_id,
             'status' => $status,
             'audio' => $audioPath,
             'image' => $imagePath,

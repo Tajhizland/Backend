@@ -13,6 +13,7 @@ class UpdateCastRequest extends FormRequest
             'audio' => ['nullable'],
             'image' => ['nullable'],
             'vlog_id' => ['required', 'exists:App\Models\Vlog,id'],
+            'category_id' => ['required', 'exists:App\Models\CastCategory,id'],
             'title' => ['required'],
             'description' => ['nullable'],
             'url' => ['required'],

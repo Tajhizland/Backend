@@ -13,4 +13,9 @@ class Cast extends Model
     {
         return $this->belongsTo(Vlog::class);
     }
+
+    public function castCategory(): BelongsTo
+    {
+        return $this->belongsTo(CastCategory::class);
+    }
 }
