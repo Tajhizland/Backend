@@ -21,8 +21,9 @@ class CastCategoryService implements CastCategoryServiceInterface
 
     public function get()
     {
-        return $this->castCategoryRepository->get();
+        return $this->castCategoryRepository->getActives();
     }
+
     public function find($id)
     {
         return $this->castCategoryRepository->findOrFail($id);

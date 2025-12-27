@@ -20,4 +20,9 @@ class CastCategoryRepository extends BaseRepository implements CastCategoryRepos
             ->allowedSorts(['name', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
+
+    public function getActives()
+    {
+        return $this->model::where('status', 1)->get();
+    }
 }
