@@ -31,4 +31,38 @@ class CastRepository extends BaseRepository implements CastRepositoryInterface
     {
         return $this->model::with("vlog")->where('url', $url)->where("status", 1)->firstOrFail();
     }
+
+    public function activeQuery()
+    {
+        return $this->model::where("status", 1)->orderBy("sort");
+    }
+
+    public function filterCategory($query, $categoryIds)
+    {
+        return $query->whereIn("category_id", $categoryIds);
+    }
+
+    public function sortView($query)
+    {
+        return $query->orderBy("view", "desc");
+    }
+
+    public function sortNew($query)
+    {
+        return $query->orderBy("id", "desc");
+    }
+
+    public function sortOld($query)
+    {
+        return $query->orderBy("id");
+    }
+    public function paginated($query)
+    {
+        return $query->paginate($this->pageSize);
+    }
+
+    public function getMostViewed()
+    {
+        return $this->model::active()->orderBy("view", "desc")->latest("id")->limit(5)->get();
+    }
 }

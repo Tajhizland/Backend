@@ -73,6 +73,42 @@ class CastService implements CastServiceInterface
 
     public function findByUrl($url)
     {
-        return $this->castRepository->findByUrl($url);
+        $response = $this->castRepository->findByUrl($url);
+        $this->castRepository->update($response, ["view" => $response->view + 1]);
+        return $response;
+    }
+
+    public function listing($filters)
+    {
+        $castQuery = $this->castRepository->activeQuery();
+        $castQuery = $this->renderFilter($castQuery, $filters);
+        return $this->castRepository->paginated($castQuery);
+    }
+
+    private function renderFilter($vlogQuery, $filters)
+    {
+        if ($filters) {
+            foreach ($filters as $filter => $value) {
+                if ($filter == "category") {
+                    /** Example : filter[category]=10 */
+                    $vlogQuery = $this->castRepository->filterCategory($vlogQuery, $value);
+                }
+                if ($filter == "sort") {
+                    /** Example : filter[sort]=10 */
+                    if ($value == "view")
+                        $vlogQuery = $this->castRepository->sortView($vlogQuery);
+                    if ($value == "new")
+                        $vlogQuery = $this->castRepository->sortNew($vlogQuery);
+                    if ($value == "old")
+                        $vlogQuery = $this->castRepository->sortOld($vlogQuery);
+                }
+            }
+        }
+        return $vlogQuery;
+    }
+
+    public function getMostViewed()
+    {
+        return $this->castRepository->getMostViewed();
     }
 }

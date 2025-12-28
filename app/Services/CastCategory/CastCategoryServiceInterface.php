@@ -10,6 +10,8 @@ interface CastCategoryServiceInterface
 
     public function store($name, $status);
 
+    public function get();
+
     public function update($id, $name, $status);
 
 

@@ -39,4 +39,5 @@ class CastCategoryService implements CastCategoryServiceInterface
         $castCategory = $this->castCategoryRepository->findOrFail($id);
         return $this->castCategoryRepository->update($castCategory, ['name' => $name, 'status' => $status]);
     }
+
 }

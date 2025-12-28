@@ -5,8 +5,10 @@ namespace App\Services\Cast;
 interface CastServiceInterface
 {
     public function paginated();
+    public function listing($filters);
 
     public function dataTable();
+    public function getMostViewed();
 
     public function find($id);
 
