@@ -34,7 +34,7 @@ class CastRepository extends BaseRepository implements CastRepositoryInterface
 
     public function activeQuery()
     {
-        return $this->model::where("status", 1)->orderBy("sort");
+        return $this->model::where("status", 1);
     }
 
     public function filterCategory($query, $categoryIds)
