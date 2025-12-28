@@ -164,6 +164,7 @@ Route::group(["prefix" => 'cast'], function () {
     Route::get('/', [\App\Http\Controllers\V1\Shop\CastController::class, "index"]);
     Route::post('find', [\App\Http\Controllers\V1\Shop\CastController::class, "find"]);
 });
+Route::get('cast-category', [\App\Http\Controllers\V1\Shop\CastCategoryController::class, "index"]);
 
 Route::get('info', function () {
     phpinfo();
