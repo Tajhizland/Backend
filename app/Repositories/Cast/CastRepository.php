@@ -63,6 +63,6 @@ class CastRepository extends BaseRepository implements CastRepositoryInterface
 
     public function getMostViewed()
     {
-        return $this->model::active()->orderBy("view", "desc")->latest("id")->limit(5)->get();
+        return $this->model::where("status", 1)->orderBy("view", "desc")->latest("id")->limit(5)->get();
     }
 }
