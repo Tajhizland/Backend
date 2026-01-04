@@ -4,6 +4,7 @@ namespace App\Services\Coupon;
 
 use App\Repositories\Coupon\CouponRepositoryInterface;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CouponService implements CouponServiceInterface
 {
@@ -65,5 +66,16 @@ class CouponService implements CouponServiceInterface
             "min_order_value" => $min_order_value,
             "max_order_value" => $max_order_value,
         ]);
+    }
+
+    public function check($code, $userId)
+    {
+        $coupon = $this->couponRepository->findActiveUserCode($code, $userId);
+        if (!$coupon) {
+            throw new  BadRequestHttpException("کد تخفیف یافت نشد");
+        }
+        return $coupon;
+
+
     }
 }

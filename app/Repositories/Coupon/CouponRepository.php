@@ -4,6 +4,7 @@ namespace App\Repositories\Coupon;
 
 use App\Models\Coupon;
 use App\Repositories\Base\BaseRepository;
+use Carbon\Carbon;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CouponRepository extends BaseRepository implements CouponRepositoryInterface
@@ -24,5 +25,20 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
     public function findByCode($code)
     {
         return $this->model::where("code", $code)->first();
+    }
+
+    public function findActiveUserCode($code, $userId)
+    {
+        return $this->model::where("code", $code)
+            ->where("status", 1)
+            ->where(function ($subQuery) {
+                $subQuery->whereNull("start_time")->orWhere("start_time", "<", Carbon::now());
+            })->where(function ($subQuery) {
+                $subQuery->whereNull("end_time")->orWhere("end_time", ">", Carbon::now());
+            })->where(function ($subQuery) use ($userId) {
+                $subQuery->whereNull("user_id")->orWhere("user_id", $userId);
+            })
+            ->first();
+
     }
 }
