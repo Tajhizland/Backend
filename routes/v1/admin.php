@@ -419,6 +419,13 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "update"]);
     });
+    Route::group(["prefix" => "coupon"], function () {
+        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CouponController::class, "dataTable"]);
+        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CouponController::class, "find"]);
+        Route::get("generate", [\App\Http\Controllers\V1\Admin\CouponController::class, "generate"]);
+        Route::post("store", [\App\Http\Controllers\V1\Admin\CouponController::class, "store"]);
+        Route::post("update", [\App\Http\Controllers\V1\Admin\CouponController::class, "update"]);
+    });
 
     Route::group(["prefix" => "campaign-banner"], function () {
         Route::get("dataTable/{id}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "dataTable"]);

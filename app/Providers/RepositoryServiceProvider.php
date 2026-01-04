@@ -42,6 +42,8 @@ use App\Repositories\Concept\ConceptRepository;
 use App\Repositories\Concept\ConceptRepositoryInterface;
 use App\Repositories\Contact\ContactRepository;
 use App\Repositories\Contact\ContactRepositoryInterface;
+use App\Repositories\Coupon\CouponRepository;
+use App\Repositories\Coupon\CouponRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepository;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Repositories\Dictionary\DictionaryRepository;
@@ -182,6 +184,8 @@ use App\Repositories\WalletTransaction\WalletTransactionRepository;
 use App\Repositories\WalletTransaction\WalletTransactionRepositoryInterface;
 use App\Services\CastCategory\CastCategoryService;
 use App\Services\CastCategory\CastCategoryServiceInterface;
+use App\Services\Coupon\CouponService;
+use App\Services\Coupon\CouponServiceInterface;
 use App\Services\Tapin\TapinServiceInterface;
 use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
@@ -528,6 +532,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(CastCategoryRepositoryInterface::class, CastCategoryRepository::class);
 
+        $this->app->bind(CouponRepositoryInterface::class, CouponRepository::class);
+
 
         /** End Repository */
 
@@ -699,6 +705,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TapinServiceInterface::class, TapinService::class);
 
         $this->app->bind(CastCategoryServiceInterface::class, CastCategoryService::class);
+
+        $this->app->bind(CouponServiceInterface::class, CouponService::class);
 
         /** End Service */
 
