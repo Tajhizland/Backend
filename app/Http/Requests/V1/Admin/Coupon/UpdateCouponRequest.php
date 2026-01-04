@@ -12,7 +12,7 @@ class UpdateCouponRequest extends FormRequest
         return [
             'id' => ['required','exists:App\Models\Coupon'],
             'code' => ['required', Rule::unique('coupons')->ignore($this->id)],
-            'user_id' => ['nullable', 'exists:users'],
+            'user_id' => ['nullable' ],
             'start_time' => ['nullable', 'date'],
             'end_time' => ['nullable', 'date'],
             'status' => ['required', 'integer'],

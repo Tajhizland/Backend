@@ -10,7 +10,7 @@ class StoreCouponRequest extends FormRequest
     {
         return [
             'code' => ['required', 'unique:coupons,code'],
-            'user_id' => ['nullable', 'exists:users'],
+            'user_id' => ['nullable'],
             'start_time' => ['nullable', 'date'],
             'end_time' => ['nullable', 'date'],
             'status' => ['required', 'integer'],
