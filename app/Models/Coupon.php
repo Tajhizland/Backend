@@ -16,8 +16,6 @@ class Coupon extends Model
     protected function casts(): array
     {
         return [
-            'start_time' => 'timestamp',
-            'end_time' => 'timestamp',
         ];
     }
 }
