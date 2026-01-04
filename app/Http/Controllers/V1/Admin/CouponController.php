@@ -42,11 +42,11 @@ class CouponController extends Controller
         $this->couponService->store(
             $request->get("code"),
             $request->get("status"),
-            $request->get("start_time"),
-            $request->get("end_time"),
-            $request->get("user_id"),
             $request->get("price"),
             $request->get("percent"),
+            $request->get("user_id"),
+            $request->get("start_time"),
+            $request->get("end_time"),
             $request->get("min_order_value"),
             $request->get("max_order_value"),
         );
