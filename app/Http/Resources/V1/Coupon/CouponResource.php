@@ -6,6 +6,7 @@ use App\Http\Resources\V1\User\UserResource;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
 
 /** @mixin Coupon */
 class CouponResource extends JsonResource
@@ -26,6 +27,10 @@ class CouponResource extends JsonResource
             'updated_at' => $this->updated_at,
 
             'user_id' => $this->user_id,
+
+            'created_at_fa' => $this->created_at != null ? Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i') : "",
+            'start_time_fa' => $this->start_time != null ? Jalalian::fromDateTime($this->start_time)->format('Y/m/d H:i') : "",
+            'end_time_fa' => $this->end_time != null ? Jalalian::fromDateTime($this->end_time)->format('Y/m/d H:i') : "",
 
             'user' => new UserResource($this->whenLoaded('user')),
         ];
