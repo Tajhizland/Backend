@@ -208,6 +208,11 @@ Route::post('per', function (Request $request) {
     return response()->json(['success' => true, 'message' => 'Permissions synced']);
 });
 
+Route::get('sp', function (Request $request) {
+    $snappay=new \App\Services\SnappPay\SnappPayService();
+    $snappay->request(34481,\App\Models\OrderItem::where("order_id",34481)->get(),743200000);
+});
+
 //Route::get('test', function (\App\Services\Sms\SmsServiceInterface $smsService) {
 //    $order = \App\Models\Order::find(15);
 //    event(new OrderPaidEvent($order));

@@ -48,9 +48,9 @@ class CartItemService implements CartItemServiceInterface
             $discountItem = $productColor->activeDiscountItem->first();
 
             if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0) {
-                $totalItemPrice += $discountItem->discount_price * $cartItem->count + $guarantyPrice;
+                $totalItemPrice +=( $discountItem->discount_price + $guarantyPrice ) * $cartItem->count;
             } else {
-                $totalItemPrice += $price->price * $cartItem->count + $guarantyPrice;
+                $totalItemPrice += ($price->price + $guarantyPrice)* $cartItem->count ;
             }
 
             if ($cartItem->productColor->delivery_delay > $maxDeliveryDelay) {
