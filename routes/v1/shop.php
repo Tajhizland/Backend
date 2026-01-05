@@ -54,7 +54,7 @@ Route::group(["prefix" => "product"], function () {
 });
 
 Route::group(["prefix" => "coupon"], function () {
-    Route::post("check", [\App\Http\Controllers\V1\Shop\CouponController::class, "check"]);
+    Route::post("check", [\App\Http\Controllers\V1\Shop\CouponController::class, "check"])->middleware("auth:sanctum");
 });
 
 Route::group(["prefix" => "group"], function () {
