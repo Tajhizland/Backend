@@ -86,13 +86,11 @@ class CouponService implements CouponServiceInterface
             $cartItemsCalculate = $this->cartItemService->calculatePrice($cartItems);
             $totalItemsPrice = $cartItemsCalculate["totalItemPrice"];
 
-            if ($coupon->min_order_value  && $totalItemsPrice < $coupon->min_order_value )
-            {
-                throw new  BadRequestHttpException("برای استفاده از این کد تخفیف مجموع قیمت محصولات سبد خرید باید بالای " . $coupon->min_order_value ." تومان باشد .");
+            if ($coupon->min_order_value != null && $totalItemsPrice <= $coupon->min_order_value) {
+                throw new  BadRequestHttpException("برای استفاده از این کد تخفیف مجموع قیمت محصولات سبد خرید باید بالای " . $coupon->min_order_value . " تومان باشد .");
             }
-            if ($coupon->max_order_value  && $totalItemsPrice > $coupon->max_order_value )
-            {
-                throw new  BadRequestHttpException("برای استفاده از این کد تخفیف مجموع قیمت محصولات سبد خرید باید کمتر از  " . $coupon->max_order_value ." تومان باشد .");
+            if ($coupon->max_order_value != null && $totalItemsPrice >= $coupon->max_order_value) {
+                throw new  BadRequestHttpException("برای استفاده از این کد تخفیف مجموع قیمت محصولات سبد خرید باید کمتر از  " . $coupon->max_order_value . " تومان باشد .");
             }
         }
         return $coupon;
