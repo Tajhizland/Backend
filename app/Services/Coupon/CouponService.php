@@ -83,8 +83,8 @@ class CouponService implements CouponServiceInterface
         if ($coupon->min_order_value || $coupon->max_order_value) {
             $cart = $this->cartRepository->getCartByUserId($userId);
             $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
-            $cartItemsCalculate = $this->cartItemService->calculatePrice($cartItems);
             dd("salam");
+            $cartItemsCalculate = $this->cartItemService->calculatePrice($cartItems);
             $totalItemsPrice = $cartItemsCalculate["totalItemPrice"];
 
             if ($coupon->min_order_value != null && $totalItemsPrice <= $coupon->min_order_value) {
