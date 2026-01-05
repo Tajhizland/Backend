@@ -60,9 +60,9 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             ->paginate($this->pageSize);
     }
 
-    public function createOrder($user_id, $order_info_id, $price, $delivery_price, $final_price, $status, $payment_method, $delivery_method, $order_date, $delivery_date, $tracking_number,$total_price=0,$use_wallet_price=0)
+    public function createOrder($user_id, $order_info_id, $price, $delivery_price, $final_price, $status, $payment_method, $delivery_method, $order_date, $delivery_date, $tracking_number, $total_price = 0, $use_wallet_price = 0, $off = 0)
     {
-        $payment_method=$payment_method??config("settings.default_gateway");
+        $payment_method = $payment_method ?? config("settings.default_gateway");
         return $this->create(
             [
                 "user_id" => $user_id,
@@ -73,6 +73,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 "delivery_price" => $delivery_price,
                 "final_price" => $final_price,
                 "status" => $status,
+                "off" => $off,
                 "payment_method" => $payment_method,
                 "delivery_method" => $delivery_method,
                 "order_date" => $order_date,
@@ -93,7 +94,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             ->where("id", $id)
             ->first();
     }
-    public function totalPriceChartData($fromDate,$toDate)
+
+    public function totalPriceChartData($fromDate, $toDate)
     {
         if ($fromDate) {
             $startDate = Carbon::parse($fromDate);
@@ -134,7 +136,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return $final->values();
 
     }
-    public function totalCountChartData($fromDate,$toDate)
+
+    public function totalCountChartData($fromDate, $toDate)
     {
         if ($fromDate) {
             $startDate = Carbon::parse($fromDate);

@@ -44,6 +44,8 @@ use App\Repositories\Contact\ContactRepository;
 use App\Repositories\Contact\ContactRepositoryInterface;
 use App\Repositories\Coupon\CouponRepository;
 use App\Repositories\Coupon\CouponRepositoryInterface;
+use App\Repositories\CouponUser\CouponUserRepository;
+use App\Repositories\CouponUser\CouponUserRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepository;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Repositories\Dictionary\DictionaryRepository;
@@ -533,6 +535,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CastCategoryRepositoryInterface::class, CastCategoryRepository::class);
 
         $this->app->bind(CouponRepositoryInterface::class, CouponRepository::class);
+
+        $this->app->bind(CouponUserRepositoryInterface::class, CouponUserRepository::class);
 
 
         /** End Repository */

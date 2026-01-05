@@ -12,6 +12,7 @@ use App\Exceptions\BreakException;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
+use App\Repositories\CouponUser\CouponUserRepositoryInterface;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Repositories\OnHoldOrder\OnHoldOrderRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
@@ -22,6 +23,7 @@ use App\Repositories\Transaction\TransactionRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Checkout\CheckoutServiceInterface;
+use App\Services\Coupon\CouponServiceInterface;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use Carbon\Carbon;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -45,12 +47,14 @@ class PaymentService implements PaymentServicesInterface
         private CartItemServiceInterface         $cartItemService,
         private OnHoldOrderRepositoryInterface   $onHoldOrderRepository,
         private CheckoutServiceInterface         $checkoutService,
+        private CouponServiceInterface           $couponService,
+        private CouponUserRepositoryInterface    $couponUserRepository,
     )
     {
         $this->gatewayService = $this->gatewayStrategyServices->strategy();
     }
 
-    public function request($userId, $useWallet, $shippingMethod)
+    public function request($userId, $useWallet, $shippingMethod, $code = null)
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
@@ -63,11 +67,27 @@ class PaymentService implements PaymentServicesInterface
         $totalItemsPrice = $cartPrices["totalItemPrice"];
         $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
         $finalPrice = $totalItemsPrice + $delivery->price;
+        $coupon = null;
+        $off = 0;
+        if ($code != null) {
+            $coupon = $this->couponService->check($code, $userId);
+            if ($coupon) {
+                if ($coupon->price) {
+                    $off = $coupon->price;
+                } elseif ($coupon->percent) {
+                    $off = $finalPrice * $coupon->percent / 100;
+                }
+            }
+        }
+        $finalPrice = $finalPrice - $off;
         if (!$useWallet) {
 
             $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
             $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $shippingMethod, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, 0);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $shippingMethod, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, 0, $off);
+            if ($coupon) {
+                $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
+            }
             $this->cartRepository->update($cart, ["order_id" => $order->id]);
             $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
             if ($limit) {
@@ -88,7 +108,10 @@ class PaymentService implements PaymentServicesInterface
         if ($finalPrice <= $user->wallet) {
             $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
             $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, 2, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, $finalPrice);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, 2, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, $finalPrice, $off);
+            if ($coupon) {
+                $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
+            }
             $this->cartRepository->update($cart, ["order_id" => $order->id]);
             $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
             if ($limit) {
@@ -117,7 +140,10 @@ class PaymentService implements PaymentServicesInterface
             $finalPrice -= $user->wallet;
             $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
             $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $totalPrice, $user->wallet);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $totalPrice, $user->wallet, $off);
+            if ($coupon) {
+                $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
+            }
             $this->cartRepository->update($cart, ["order_id" => $order->id]);
             $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
             if ($limit) {
