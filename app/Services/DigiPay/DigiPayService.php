@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Gateway\DigiPay;
+namespace App\Services\DigiPay;
 
 class DigiPayService
 {
