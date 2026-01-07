@@ -198,14 +198,16 @@ class ProductController extends Controller
         $this->productService->groupChangePrice($request->get('ids'), $request->get('action'), $request->get('percent'));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.price")]));
     }
-    public function groupChangeStock(GroupChangeStockRequest$request)
+
+    public function groupChangeStock(GroupChangeStockRequest $request)
     {
-        $this->productService->groupChangePrice($request->get('ids'), $request->get('stock') );
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.price")]));
+        $this->productService->groupChangeStock($request->get('ids'), $request->get('stock'));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
     }
+
     public function groupChangeStatus(GroupChangeStatusRequest $request)
     {
-        $this->productService->groupChangePrice($request->get('ids'), $request->get('status') );
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.price")]));
+        $this->productService->groupChangeStatus($request->get('ids'), $request->get('status'));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
     }
 }
