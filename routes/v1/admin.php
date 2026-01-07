@@ -37,6 +37,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("option/update-product-option", [\App\Http\Controllers\V1\Admin\ProductController::class, "updateProductOption"]);
         Route::post("search-list", [\App\Http\Controllers\V1\Admin\ProductController::class, "searchList"]);
         Route::post("group-change", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChange"]);
+        Route::post("group-change-stock", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeStock"]);
+        Route::post("group-change-status", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeStatus"]);
     });
     Route::group(["prefix" => "category"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CategoryController::class, "dataTable"]);

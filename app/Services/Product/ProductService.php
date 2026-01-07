@@ -235,4 +235,35 @@ class ProductService implements ProductServiceInterface
         }
         return true;
     }
+
+    public function groupChangeStock($ids, $stock)
+    {
+        foreach ($ids as $id) {
+            $product = $this->productRepository->findOrFail($id);
+            $colors = $product->productColors;
+            if ($colors) {
+                foreach ($colors as $color) {
+                    $stock = $color->stock;
+                    $stock->stock = $stock;
+                    $stock->save();
+                }
+            }
+        }
+        return true;
+    }
+
+    public function groupChangeStatus($ids, $status)
+    {
+        foreach ($ids as $id) {
+            $product = $this->productRepository->findOrFail($id);
+            $colors = $product->productColors;
+            if ($colors) {
+                foreach ($colors as $color) {
+                    $color->status = $status;
+                    $color->save();
+                }
+            }
+        }
+        return true;
+    }
 }

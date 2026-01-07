@@ -7,6 +7,8 @@ use App\Http\Requests\V1\Admin\ImageSortRequest;
 use App\Http\Requests\V1\Admin\Option\UpdateProductOptionRequest;
 use App\Http\Requests\V1\Admin\Product\ColorFastUpdateRequest;
 use App\Http\Requests\V1\Admin\Product\GroupChangePriceRequest;
+use App\Http\Requests\V1\Admin\Product\GroupChangeStatusRequest;
+use App\Http\Requests\V1\Admin\Product\GroupChangeStockRequest;
 use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
 use App\Http\Requests\V1\Admin\Product\ProductImageRequest;
@@ -194,6 +196,16 @@ class ProductController extends Controller
     public function groupChange(GroupChangePriceRequest $request)
     {
         $this->productService->groupChangePrice($request->get('ids'), $request->get('action'), $request->get('percent'));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.price")]));
+    }
+    public function groupChangeStock(GroupChangeStockRequest$request)
+    {
+        $this->productService->groupChangePrice($request->get('ids'), $request->get('stock') );
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.price")]));
+    }
+    public function groupChangeStatus(GroupChangeStatusRequest $request)
+    {
+        $this->productService->groupChangePrice($request->get('ids'), $request->get('status') );
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.price")]));
     }
 }

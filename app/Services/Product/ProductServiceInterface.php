@@ -49,4 +49,6 @@ interface ProductServiceInterface
     public function searchList($categoryId, $brandId, $searchQuery, $discountId = 0): mixed;
 
     public function groupChangePrice($ids, $action, $percent);
+    public function groupChangeStock($ids, $stock);
+    public function groupChangeStatus($ids, $status);
 }
