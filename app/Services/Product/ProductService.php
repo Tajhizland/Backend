@@ -243,9 +243,9 @@ class ProductService implements ProductServiceInterface
             $colors = $product->productColors;
             if ($colors) {
                 foreach ($colors as $color) {
-                    $stock = $color->stock;
-                    $stock->stock = $stock;
-                    $stock->save();
+                    $colorStock = $color->stock;
+                    $colorStock->stock = $stock;
+                    $colorStock->save();
                 }
             }
         }
