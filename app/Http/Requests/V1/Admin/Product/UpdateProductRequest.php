@@ -31,6 +31,8 @@ class UpdateProductRequest extends FormRequest
             'height' => ['nullable'],
             'weight' => ['nullable'],
             'testing_time' => ['nullable'],
+            'use_packet' => ['nullable'],
+
         ];
     }
 

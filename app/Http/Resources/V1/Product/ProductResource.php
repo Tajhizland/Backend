@@ -75,6 +75,7 @@ class ProductResource extends JsonResource
             'width' => $this->width,
             'height' => $this->height,
             'weight' => $this->weight,
+            'use_packet' => $this->use_packet,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];

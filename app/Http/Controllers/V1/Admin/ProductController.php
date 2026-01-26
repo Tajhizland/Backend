@@ -72,15 +72,15 @@ class ProductController extends Controller
         return $this->dataResponse(new ProductResource($this->productService->findById($id)));
     }
 
-    public function store(StoreProductRequest $request)
+ public function store(StoreProductRequest $request)
     {
-        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"), $request->get("type"), $request->get("is_stock", 0), $request->get("testing_time"), $request->get("stock_of"), $request->get("length"), $request->get("width"), $request->get("height"), $request->get("weight"));
+        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"), $request->get("type"), $request->get("is_stock", 0), $request->get("testing_time"), $request->get("stock_of"), $request->get("length"), $request->get("width"), $request->get("height"), $request->get("weight"), $request->get("use_packet"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.product")]));
     }
 
     public function update(UpdateProductRequest $request)
     {
-        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"), $request->get("type"), $request->get("is_stock", 0), $request->get("testing_time"), $request->get("stock_of"), $request->get("length"), $request->get("width"), $request->get("height"), $request->get("weight"));
+        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"), $request->get("type"), $request->get("is_stock", 0), $request->get("testing_time"), $request->get("stock_of"), $request->get("length"), $request->get("width"), $request->get("height"), $request->get("weight"), $request->get("use_packet"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
     }
 
