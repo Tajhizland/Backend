@@ -11,7 +11,9 @@ class PaymentRequest extends FormRequest
         return [
             "wallet" => ["nullable", "bool"],
             "code" => ["nullable" ],
-            "shippingMethod" => ["nullable"]
+            "shippingMethod" => ["nullable"] ,
+            "shippingPrice" => ["nullable"]
+
         ];
     }
 

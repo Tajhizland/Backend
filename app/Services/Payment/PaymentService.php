@@ -54,7 +54,7 @@ class PaymentService implements PaymentServicesInterface
         $this->gatewayService = $this->gatewayStrategyServices->strategy();
     }
 
-    public function request($userId, $useWallet, $shippingMethod, $code = null)
+    public function request($userId, $useWallet, $shippingMethod, $code = null , $shippingPrice=0)
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
@@ -66,7 +66,7 @@ class PaymentService implements PaymentServicesInterface
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
         $totalItemsPrice = $cartPrices["totalItemPrice"];
         $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
-        $finalPrice = $totalItemsPrice + $delivery->price;
+        $finalPrice = $totalItemsPrice + $shippingPrice;
         $coupon = null;
         $off = 0;
         if ($code != null) {
@@ -84,7 +84,7 @@ class PaymentService implements PaymentServicesInterface
 
             $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
             $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $shippingMethod, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, 0, $off);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $shippingPrice, $finalPrice, $orderStatus, $cart->payment_method, $shippingMethod, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, 0, $off);
             if ($coupon) {
                 $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
             }
