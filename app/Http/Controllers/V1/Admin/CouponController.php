@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\Coupon\StoreCouponRequest;
+use App\Http\Requests\V1\Admin\Coupon\StoreGroupCouponRequest;
 use App\Http\Requests\V1\Admin\Coupon\UpdateCouponRequest;
 use App\Http\Resources\V1\Coupon\CouponCollection;
 use App\Http\Resources\V1\Coupon\CouponResource;
@@ -45,6 +46,20 @@ class CouponController extends Controller
             $request->get("price"),
             $request->get("percent"),
             $request->get("user_id"),
+            $request->get("start_time"),
+            $request->get("end_time"),
+            $request->get("min_order_value"),
+            $request->get("max_order_value"),
+        );
+        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.discount")]));
+    }
+    public function storeGroup(StoreGroupCouponRequest $request)
+    {
+        $this->couponService->storeGroup(
+            $request->get("status"),
+            $request->get("price"),
+            $request->get("percent"),
+            $request->get("userIds"),
             $request->get("start_time"),
             $request->get("end_time"),
             $request->get("min_order_value"),

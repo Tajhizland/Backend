@@ -426,6 +426,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CouponController::class, "find"]);
         Route::get("generate", [\App\Http\Controllers\V1\Admin\CouponController::class, "generate"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\CouponController::class, "store"]);
+        Route::post("store-group", [\App\Http\Controllers\V1\Admin\CouponController::class, "storeGroup"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\CouponController::class, "update"]);
     });
 

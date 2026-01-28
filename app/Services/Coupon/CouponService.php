@@ -97,4 +97,23 @@ class CouponService implements CouponServiceInterface
 
 
     }
+
+    public function storeGroup($status, $price, $percent, $user_ids, $start_time, $end_time, $min_order_value, $max_order_value)
+    {
+        foreach ($user_ids as $user_id) {
+            $code = $this->generate();
+            $this->couponRepository->create([
+                "code" => $code,
+                "status" => $status,
+                "price" => $price,
+                "percent" => $percent,
+                "user_id" => $user_id,
+                "start_time" => $start_time,
+                "end_time" => $end_time,
+                "min_order_value" => $min_order_value,
+                "max_order_value" => $max_order_value,
+            ]);
+
+        }
+    }
 }

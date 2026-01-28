@@ -11,7 +11,16 @@ interface CouponServiceInterface
 
     public function find($id);
 
-    public function store(
+    public function storeGroup(
+        $status,
+        $price,
+        $percent,
+        $user_ids,
+        $start_time,
+        $end_time,
+        $min_order_value,
+        $max_order_value
+    );  public function store(
         $code,
         $status,
         $price,
