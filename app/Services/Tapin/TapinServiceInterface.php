@@ -4,5 +4,5 @@ namespace App\Services\Tapin;
 
 interface TapinServiceInterface
 {
-    public function send($order, $postStatus, $weight, $part, $boxId);
+    public function send($order, $postStatus, $weight, $boxId);
 }

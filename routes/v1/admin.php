@@ -144,6 +144,9 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OrderController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OrderController::class, "findById"]);
         Route::post("update/status", [\App\Http\Controllers\V1\Admin\OrderController::class, "updateStatus"]);
+
+        Route::post('tapin/{id}', [\App\Http\Controllers\V1\Admin\TapinController::class, "register"]);
+
     });
     Route::group(["prefix" => "onHoldOrder"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "dataTable"]);

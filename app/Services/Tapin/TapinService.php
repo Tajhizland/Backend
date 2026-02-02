@@ -4,14 +4,12 @@ namespace App\Services\Tapin;
 
 use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\TapinCity\TapinCityRepositoryInterface;
+use App\Service\Lang\LangService;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class TapinService implements TapinServiceInterface
 {
-    protected string $baseUrl = 'https://api.tapin.ir/api/v2/public/order/post/register/';
-    protected string $apiToken = 'jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZmJhY2JiMzEtMmVlMC00ZDRlLWE3MGYtZTk1ZWYzN2VhMzUzIiwidXNlcm5hbWUiOiIwOTEyNDEyNDEzMCIsImVtYWlsIjoiZmF0dGFoemFkZWhAZ21haWwuY29tIiwiZXhwIjoyNTY0MDM0MTgzLCJvcmlnX2lhdCI6MTcwMDAzNDE4M30.wbxqBnk8pbHuOgKXEcAUwTRh0Jan-NAc2VIJTojxa9w';
-
     public function __construct
     (
         private CityRepositoryInterface      $cityRepository,
@@ -20,14 +18,14 @@ class TapinService implements TapinServiceInterface
     {
     }
 
-    public function send($order, $postStatus, $weight, $part, $boxId=10)
+    public function send($order, $postStatus, $weight,    $boxId=10)
     {
         try {
-            $data = $this->getData($order, $boxId, $postStatus, $weight, $part);
+            $data = $this->getData($order, $boxId, $postStatus, $weight );
             $response = Http::withHeaders([
-                'Authorization' => $this->apiToken,
+                'Authorization' =>config("tapin.token"),
                 'Content-Type' => 'application/json',
-            ])->post($this->baseUrl, $data);
+            ])->post( 'https://api.tapin.ir/api/v2/public/order/post/register/', $data);
 
             if ($response->successful()) {
                 return $response->json();
@@ -38,16 +36,16 @@ class TapinService implements TapinServiceInterface
         }
     }
 
-    private function getData($order, $boxId, $postStatus, $weight, $part)
+    private function getData($order, $boxId, $postStatus, $weight )
     {
 
-        $orderInfo = $order->info;
+        $orderInfo = $order->orderInfo;
         $items = [];
         $items["count"] = 1;
         $items["discount"] = 0;
         $items["title"] = "محصولات لوازم خانگی";
         $items["weight"] = round($weight);
-        $items["price"] = $order->total_items * 10;
+        $items["price"] = $order->total_price * 10;
         $items["product_id"] = null;
 
         $city_code = $orderInfo->city_id;
@@ -67,19 +65,19 @@ class TapinService implements TapinServiceInterface
         $data["shop_id"] = "150bf688-c2ed-4069-ad7b-6acead3da505";
         $data["address"] = $address;
         $data["city_code"] = $city_code;
-        $data["province_code"] = $city->parent_province;
+        $data["province_code"] = $orderInfo->province_id;
         $data["description"] = null;
         $data["email"] = null;
         $data["employee_code"] = "-1";
-        $data["first_name"] = $orderInfo->fname;
-        $data["last_name"] = $orderInfo->lname;
+        $data["first_name"] = $orderInfo->name;
+        $data["last_name"] = $orderInfo->last_name;
         $data["mobile"] = $orderInfo->mobile;
         $data["phone"] = null;
-        $data["postal_code"] = $orderInfo->postal_code;
+        $data["postal_code"] = $orderInfo->zip_code;
         $data["pay_type"] = 1;
         $data["order_type"] = 1;
         $data["package_weight"] = 0;
-        $data["manual_id"] = $part == 1 ? $order->id : ($order->id . "00000");
+        $data["manual_id"] = $order->id ;
         $data["box_id"] = $boxId;
         $data["products"] = [$items];
         return $data;

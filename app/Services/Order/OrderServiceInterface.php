@@ -10,5 +10,6 @@ interface OrderServiceInterface
     public function findById($id);
     public function findWithDetails($id);
     public function dataTable();
+    public function setDeliveryToken($id , $token);
     public function updateOrderStatus($id , $status);
 }

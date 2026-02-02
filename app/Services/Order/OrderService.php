@@ -29,8 +29,9 @@ class OrderService implements OrderServiceInterface
 
     public function findWithDetails($id)
     {
-        return  $this->orderRepository->findWithDetails($id); 
+        return $this->orderRepository->findWithDetails($id);
     }
+
     public function dataTable()
     {
         return $this->orderRepository->dataTable();
@@ -45,5 +46,11 @@ class OrderService implements OrderServiceInterface
             throw new  BreakException($throwable->getMessage());
         }
         return $this->orderRepository->updateOrderStatus($order, $status->value);
+    }
+
+    public function setDeliveryToken($id, $token)
+    {
+        $order = $this->orderRepository->findOrFail($id);
+        return $this->orderRepository->update($order, ["delivery_token" => $token]);
     }
 }
