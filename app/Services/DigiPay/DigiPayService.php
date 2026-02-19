@@ -62,6 +62,9 @@ class DigiPayService
                 "basketId" => $orderId
             ],
         ];
+
+        var_dump($data);
+        die();
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, config("Gateway.digipay.API_BASE_URL") . '/tickets/business?type=11');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
