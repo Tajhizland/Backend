@@ -54,7 +54,7 @@ class DigiPayService
         }
         $data = [
             "cellNumber" => $mobile,
-            "amount" => $amount * 10,
+            "amount" => $amount ,
             "providerId" => $orderId,
             "callbackUrl" => config("Gateway.digipay.ORDER_CALLBACK_URL"),
             "basketDetailsDto" => [
