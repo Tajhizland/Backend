@@ -103,8 +103,6 @@ class PaymentService implements PaymentServicesInterface
             event(new OrderPaymentRequestEvent($order));
             if ($gateway == 3) {
                 $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-                var_dump($finalPrice , $address->mobile , $order->id , json_encode($orderItems));
-                die();
                 $path = $this->digiPayService->request($finalPrice * 10, $address->mobile, $order->id, $orderItems);
             } else {
                 $path = $this->gatewayService->request($finalPrice * 10, $order->id);
