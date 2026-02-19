@@ -83,7 +83,7 @@ class DigiPayService
             $response = json_decode($response);
             return $response->redirectUrl;
         } catch (\Exception $e) {
-            throw new BreakException($e);
+            throw new BreakException(json_encode($response));
         }
     }
 
