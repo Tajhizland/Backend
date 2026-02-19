@@ -86,7 +86,7 @@ class PaymentService implements PaymentServicesInterface
 
             $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
             $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $shippingPrice, $finalPrice, $orderStatus, $cart->payment_method, $shippingMethod, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, 0, $off);
+            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $shippingPrice, $finalPrice, $orderStatus, $gateway, $shippingMethod, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, 0, $off);
             if ($coupon) {
                 $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
             }

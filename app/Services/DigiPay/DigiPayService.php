@@ -79,8 +79,12 @@ class DigiPayService
         curl_close($ch);
 
 
-        $response = json_decode($response);
-        return $response->redirectUrl;
+        try {
+            $response = json_decode($response);
+            return $response->redirectUrl;
+        } catch (\Exception $e) {
+            throw new BreakException($e);
+        }
     }
 
 
