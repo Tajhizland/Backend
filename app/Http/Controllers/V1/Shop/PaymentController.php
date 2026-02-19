@@ -20,7 +20,7 @@ class PaymentController extends Controller
 
     public function requestPayment(PaymentRequest $request)
     {
-        $paymentPath = $this->paymentServices->request(Auth::user()->id, $request->get("wallet"), $request->get("shippingMethod", 1) , $request->get("code") , $request->get("shippingPrice" , 0));
+        $paymentPath = $this->paymentServices->request(Auth::user()->id, $request->get("wallet"), $request->get("shippingMethod", 1), $request->get("code"), $request->get("shippingPrice", 0), $request->get("gateway", 1));
         return $this->dataResponse($paymentPath);
     }
 
@@ -28,6 +28,16 @@ class PaymentController extends Controller
     {
         try {
             $this->paymentServices->verifyPayment($request);
+            return Redirect::to("https://tajhizland.com/thank_you_page");
+        } catch (\Throwable $exception) {
+            return Redirect::to("https://tajhizland.com/failed_payment");
+        }
+    }
+
+    public function verifyDigipay(Request $request)
+    {
+        try {
+            $this->paymentServices->verifyPayment2($request);
             return Redirect::to("https://tajhizland.com/thank_you_page");
         } catch (\Throwable $exception) {
             return Redirect::to("https://tajhizland.com/failed_payment");

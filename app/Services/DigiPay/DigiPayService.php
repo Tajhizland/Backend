@@ -2,19 +2,21 @@
 
 namespace App\Services\DigiPay;
 
+use App\Exceptions\BreakException;
+
 class DigiPayService
 {
     public function login()
     {
 
-        $client_id = config("gateway.digipay.client_id");
-        $client_secret = config("gateway.digipay.client_secret");
-        $username = config("gateway.digipay.username");
-        $password = config("gateway.digipay.password");
+        $client_id = config("Gateway.digipay.client_id");
+        $client_secret = config("Gateway.digipay.client_secret");
+        $username = config("Gateway.digipay.username");
+        $password = config("Gateway.digipay.password");
         $basicAuth = base64_encode("{$client_id}:{$client_secret}");
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.mydigipay.com/digipay/api/oauth/token');
+        curl_setopt($ch, CURLOPT_URL, config("Gateway.digipay.API_BASE_URL") . '/oauth/token');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -54,14 +56,14 @@ class DigiPayService
             "cellNumber" => $mobile,
             "amount" => $amount * 10,
             "providerId" => $orderId,
-            "callbackUrl" => config("gateway.digipay.ORDER_CALLBACK_URL"),
+            "callbackUrl" => config("Gateway.digipay.ORDER_CALLBACK_URL"),
             "basketDetailsDto" => [
                 "items" => $orderItemsDto,
                 "basketId" => $orderId
             ],
         ];
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.mydigipay.com/digipay/api/tickets/business?type=11');
+        curl_setopt($ch, CURLOPT_URL, config("Gateway.digipay.API_BASE_URL") . '/tickets/business?type=11');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -77,7 +79,8 @@ class DigiPayService
         curl_close($ch);
 
 
-        return json_decode($response);
+        $response = json_decode($response);
+        return $response->redirectUrl;
     }
 
 
@@ -87,7 +90,7 @@ class DigiPayService
         $auth = $this->login();
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.mydigipay.com/digipay/api/purchases/verify?type=5');
+        curl_setopt($ch, CURLOPT_URL, config("Gateway.digipay.API_BASE_URL") . '/purchases/verify?type=5');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -107,4 +110,21 @@ class DigiPayService
         return json_decode($response);
 
     }
+
+    public function callbackParams($request)
+    {
+        $amount = $request->get("amount");
+        $result = $request->get("result");
+        $providerId = $request->get("providerId");
+        $trackingCode = $request->get("trackingCode");
+        if ($result != "SUCCESS" || !$amount || !$providerId || !$trackingCode) {
+            throw new BreakException();
+        }
+
+        $result = new \stdClass();
+        $result->trackId = $trackingCode;
+        $result->orderId = $providerId;
+        return $result;
+    }
+
 }

@@ -104,6 +104,7 @@ Route::group(["prefix" => "delivery"], function () {
 Route::group(["prefix" => "payment"], function () {
     Route::post('request', [\App\Http\Controllers\V1\Shop\PaymentController::class, "requestPayment"])->middleware("auth:sanctum");
     Route::get('verify', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyPayment"]);
+    Route::post('digipay', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyDigipay"]);
     Route::post('wallet', [\App\Http\Controllers\V1\Shop\WalletController::class, "paymentOrderByWallet"])->middleware("auth:sanctum");
 });
 
@@ -209,9 +210,9 @@ Route::post('per', function (Request $request) {
     return response()->json(['success' => true, 'message' => 'Permissions synced']);
 });
 
-Route::get('sp', function (Request $request) {
-    $snappay=new \App\Services\SnappPay\SnappPayService();
-    $snappay->request(34481,\App\Models\OrderItem::where("order_id",34481)->get(),743200000);
+Route::get('sp', function (Request $request , \App\Services\DigiPay\DigiPayService $service) {
+$s=$service->request(100000,"09194961416",34,\App\Models\OrderItem::where("order_id",34500)->get());
+dd($s);
 });
 
 //Route::get('test', function (\App\Services\Sms\SmsServiceInterface $smsService) {

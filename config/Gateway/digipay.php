@@ -1,9 +1,11 @@
 <?php
 return [
-    "client_id" =>"tajhizland67-client-id",
-    "client_secret" =>"oC5v/31eb1L,6RK",
-    "username" =>"tajhizland67",
-    "password" =>"tajhizland!",
-    'ORDER_CALLBACK_URL' => "https://tajhizland/api/v1/digipay",
+    "client_id" =>"tajhizland3376-client-id",
+    "client_secret" =>"HI7)87ufpLV3j/0",
+    "username" =>"tajhizland3376",
+    "password" =>"Tajhizland@3376",
+    'ORDER_CALLBACK_URL' => "https://tajhizland/api/v1/payment/digipay",
     "PURCHASE_BASE_URL" => "https://web.mydigipay.com/web-pay/tgs/",
+   // "API_BASE_URL" => "https://uat.mydigipay.info/digipay/api",
+    "API_BASE_URL" => "https://api.mydigipay.com/digipay/api",
 ];

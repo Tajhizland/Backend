@@ -4,7 +4,8 @@ namespace App\Services\Payment;
 
 interface PaymentServicesInterface
 {
-    public function request($userId, $useWallet, $shippingMethod, $code = null , $shippingPrice=0);
+    public function request($userId, $useWallet, $shippingMethod, $code = null , $shippingPrice=0, $gateway=1);
+    public function verifyPayment2($request);
 
     public function verifyPayment($request);
 

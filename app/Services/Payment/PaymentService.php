@@ -24,6 +24,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Coupon\CouponServiceInterface;
+use App\Services\DigiPay\DigiPayService;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use Carbon\Carbon;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -49,12 +50,13 @@ class PaymentService implements PaymentServicesInterface
         private CheckoutServiceInterface         $checkoutService,
         private CouponServiceInterface           $couponService,
         private CouponUserRepositoryInterface    $couponUserRepository,
+        private DigiPayService                   $digiPayService,
     )
     {
         $this->gatewayService = $this->gatewayStrategyServices->strategy();
     }
 
-    public function request($userId, $useWallet, $shippingMethod, $code = null , $shippingPrice=0)
+    public function request($userId, $useWallet, $shippingMethod, $code = null, $shippingPrice = 0, $gateway = 1)
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
@@ -99,9 +101,14 @@ class PaymentService implements PaymentServicesInterface
                 ];
             }
             event(new OrderPaymentRequestEvent($order));
-
+            if ($gateway == 3) {
+                $orderItems = $this->orderItemRepository->getByOrderId($order->id);
+                $path = $this->digiPayService->request($finalPrice * 10, $address->mobile, $order->id, $orderItems);
+            } else {
+                $path = $this->gatewayService->request($finalPrice * 10, $order->id);
+            }
             return [
-                "path" => $this->gatewayService->request($finalPrice * 10, $order->id),
+                "path" => $path,
                 "type" => "payment"
             ];
         }
@@ -222,6 +229,28 @@ class PaymentService implements PaymentServicesInterface
     {
         $request = $this->gatewayService->callbackParams($request);
         $this->gatewayService->verify($request->trackId);
+        $order = $this->orderRepository->findOrFail($request->orderId);
+        $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
+        $orderItems = $this->orderItemRepository->getByOrderId($order->id);
+        foreach ($orderItems as $item) {
+            $this->stockRepository->decrement($item->product_color_id, $item->count);
+        }
+        $this->transactionRepository->createTransaction($order->user_id, $order->id, $request->trackId, $order->final_price);
+        $user = $this->userRepository->findOrFail($order->user_id);
+        $this->userRepository->update($user, ["wallet" => $user->wallet - $order->use_wallet_price]);
+
+        $cart = $this->cartRepository->getCartByOrderId($order->orderId);
+        $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
+
+        event(new OrderPaidEvent($order));
+
+        return 1;
+    }
+
+    public function verifyPayment2($request)
+    {
+        $request = $this->digiPayService->callbackParams($request);
+        $this->digiPayService->verify($request->trackId , $request->orderId);
         $order = $this->orderRepository->findOrFail($request->orderId);
         $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
         $orderItems = $this->orderItemRepository->getByOrderId($order->id);
