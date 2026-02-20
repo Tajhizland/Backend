@@ -211,7 +211,7 @@ Route::post('per', function (Request $request) {
 });
 
 Route::get('sp', function (Request $request , \App\Services\DigiPay\DigiPayService $service) {
-$s=$service->request(100000,"09194961416",38,\App\Models\OrderItem::where("order_id",34500)->get());
+$s=$service->request(1500000000,"09194961416",2,\App\Models\OrderItem::where("order_id",34500)->get());
 dd($s);
 });
 
