@@ -222,12 +222,10 @@ class PaymentService implements PaymentServicesInterface
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->checkoutService->finalCheckout($cart, $cartItems);
         $order = $this->orderRepository->findOrFail($orderId);
-        if ($order->payment_method==3)
-        {
-            $request= $this->digiPayService->request($order->final_price,$order->orderInfo->mobile,$orderId,$this->orderItemRepository->getByOrderId($orderId));
-        }
-        else
-            $request= $this->gatewayService->request($order->final_price, $orderId);
+        if ($order->payment_method == 3) {
+            $request = $this->digiPayService->request($order->final_price * 10, $order->orderInfo->mobile, $orderId, $this->orderItemRepository->getByOrderId($orderId));
+        } else
+            $request = $this->gatewayService->request($order->final_price * 10, $orderId);
         return $request;
     }
 
@@ -256,7 +254,7 @@ class PaymentService implements PaymentServicesInterface
     public function verifyPayment2($request)
     {
         $request = $this->digiPayService->callbackParams($request);
-        $this->digiPayService->verify($request->trackId , $request->orderId);
+        $this->digiPayService->verify($request->trackId, $request->orderId);
         $order = $this->orderRepository->findOrFail($request->orderId);
         $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
         $orderItems = $this->orderItemRepository->getByOrderId($order->id);
