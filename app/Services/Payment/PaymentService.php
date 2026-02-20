@@ -222,7 +222,13 @@ class PaymentService implements PaymentServicesInterface
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->checkoutService->finalCheckout($cart, $cartItems);
         $order = $this->orderRepository->findOrFail($orderId);
-        return $this->gatewayService->request($order->final_price, $orderId);
+        if ($order->payMethod==3)
+        {
+            $request= $this->digiPayService->request($order->final_price,$order->orderInfo->mobile,$orderId,$this->orderItemRepository->getByOrderId($orderId));
+        }
+        else
+            $request= $this->gatewayService->request($order->final_price, $orderId);
+        return $request;
     }
 
     public function verifyPayment($request)
