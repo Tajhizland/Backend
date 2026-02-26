@@ -28,7 +28,7 @@ class CastService implements CastServiceInterface
     public function store($title, $image, $description, $url, $status, $audio, $vlog_id, $category_id)
     {
         $audioPath = $this->s3Service->upload($audio, "cast/audio");
-        $imagePath = $this->s3Service->upload($audio, "cast/image");
+        $imagePath = $this->s3Service->upload($image, "cast/image");
         return $this->castRepository->create([
             'title' => $title,
             'image' => $imagePath,
@@ -52,7 +52,7 @@ class CastService implements CastServiceInterface
         }
         if ($image) {
             $this->s3Service->remove("cast/image/" . $imagePath);
-            $imagePath = $this->s3Service->upload($audio, "cast/image");
+            $imagePath = $this->s3Service->upload($image, "cast/image");
         }
         return $this->castRepository->update($cast, [
             'title' => $title,
