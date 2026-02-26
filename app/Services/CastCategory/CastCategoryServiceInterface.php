@@ -8,11 +8,11 @@ interface CastCategoryServiceInterface
 
     public function find($id);
 
-    public function store($name, $status);
+    public function store($name, $status,$icon);
 
     public function get();
 
-    public function update($id, $name, $status);
+    public function update($id, $name, $status,$icon);
 
 
 }
