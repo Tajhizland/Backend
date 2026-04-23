@@ -22,9 +22,10 @@ Route::post('contact', [\App\Http\Controllers\V1\Shop\ContactController::class, 
 Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
 Route::post('goftino/sync', [\App\Http\Controllers\V1\Shop\ChatInfoController::class, "sync"])->middleware("auth:sanctum");
 Route::get('emalls/list', [\App\Http\Controllers\V1\Shop\EmallsController::class, "list"]);
-Route::get('torob/list', [\App\Http\Controllers\V1\Shop\TorobController::class, "get"]);
+//Route::get('torob/list', [\App\Http\Controllers\V1\Shop\TorobController::class, "get"]);
 Route::post('footprint', [\App\Http\Controllers\V1\Shop\FootprintController::class, "handle"]);
 Route::get('delivery', [\App\Http\Controllers\V1\Shop\CheckoutController::class, "getShippingMethods"])->middleware("auth:sanctum");
+Route::post('torob/product', [\App\Http\Controllers\V1\Shop\TorobController::class, "list"]);
 
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {

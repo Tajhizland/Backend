@@ -44,11 +44,13 @@ interface ProductServiceInterface
 
     public function customPaginate($perPage);
 
-    public function torobProduct();
+    public function torobProduct($page_urls,$page_uniques,$page,$sort);
 
     public function searchList($categoryId, $brandId, $searchQuery, $discountId = 0): mixed;
 
     public function groupChangePrice($ids, $action, $percent);
     public function groupChangeStock($ids, $stock);
     public function groupChangeStatus($ids, $status);
+    public function groupChangeDigipay($ids, $digipay);
+
 }

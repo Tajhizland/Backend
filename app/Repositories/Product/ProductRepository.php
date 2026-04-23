@@ -590,5 +590,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             }])
             ->get();
     }
+    public function getTorobProductsWithIds($page_uniques)
+    {
+        return $this->model::active()->latest("id")->whereIn("id",$page_uniques)->paginate(100);
+
+    }
+    public function getTorobProductsWithUrls($page_urls)
+    {
+        return $this->model::active()->latest("id")->whereIn("url",$page_urls)->paginate(100);
+    }
 
 }

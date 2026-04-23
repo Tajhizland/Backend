@@ -177,11 +177,23 @@ class ProductService implements ProductServiceInterface
         return $this->productRepository->customPaginate($perPage);
     }
 
-    public function torobProduct()
-    {
-        return $this->productRepository->getTorobProducts();
-    }
 
+    public function torobProduct($page_urls, $page_uniques, $page, $sort)
+    {
+        if ($page_urls) {
+            $urls=[];
+            foreach ($page_urls as $url)
+            {
+                $urls[]=str_replace("https://tajhizland.com/product/", "", $url);
+            }
+            $response = $this->productRepository->getTorobProductsWithUrls($urls);
+        } else if ($page_uniques) {
+            $response = $this->productRepository->getTorobProductsWithIds($page_uniques);
+        } else {
+            $response = $this->productRepository->getTorobProducts();
+        }
+        return $response;
+    }
     public function setVideo2($productId, $vlogId, $title)
     {
         return $this->productVideoRepository->create(
@@ -268,6 +280,16 @@ class ProductService implements ProductServiceInterface
                     $color->save();
                 }
             }
+        }
+        return true;
+    }
+
+    public function groupChangeDigipay($ids, $digipay)
+    {
+        foreach ($ids as $id) {
+            $product = $this->productRepository->findOrFail($id);
+            $product->allow_digipay = $digipay;
+            $product->save();
         }
         return true;
     }

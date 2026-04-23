@@ -5,6 +5,7 @@ namespace App\Http\Resources\V1\Vlog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\V1\VlogCategory\VlogCategoryResource;
 
 /** @mixin \App\Models\Vlog */
 class VlogResource extends JsonResource
@@ -23,6 +24,7 @@ class VlogResource extends JsonResource
             'status' => $this->status,
             'view' => $this->view,
             'author' => $this->user->name ??"",
+            'category' => $this->category?->name ??"",
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];

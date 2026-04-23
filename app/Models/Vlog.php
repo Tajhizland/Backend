@@ -16,6 +16,10 @@ class Vlog extends Model
     {
         return $this->belongsTo(User::class , "author");
     }
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(VlogCategory::class , "category_id","id");
+    }
     public function homePage(): HasOne
     {
         return $this->hasOne(HomepageVlog::class );

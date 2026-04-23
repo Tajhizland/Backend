@@ -106,6 +106,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getSitemapData();
 
     public function getTorobProducts();
+    public function getTorobProductsWithIds($page_uniques);
+    public function getTorobProductsWithUrls($page_urls);
 
     public function searchList($categoryId, $brandId, $searchQuery, $discountId = 0);
 }

@@ -28,6 +28,7 @@ class ProductCategoryResource extends JsonResource
             'height' => $this->height,
             'weight' => $this->weight,
             'rating' => $this->getRatingAvg(),
+            'allow_digipay' => $this->allow_digipay,
             'colors' => new ProductColorCollection($this->activeProductColors),
             'images' => new ProductImageCollection($this->images),
             'groupItems' => new GroupProductCollection($this->groupItems),
