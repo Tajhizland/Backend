@@ -25,15 +25,17 @@ class NewTorobResource extends JsonResource
             }
         }
         return [
-            "page_unique" => $this->id . "",
-            "spec"=>[],
-            "title" => $this->name,
-            "page_url" => "https://tajhizland.com/product/" . $this->url,
+            "page_unique" => $this?->id . "",
+            "spec" => [
+                "name" => $this?->name
+            ],
+            "title" => $this?->name,
+            "page_url" => "https://tajhizland.com/product/" . $this?->url,
             "current_price" => $minDiscountPrice,
             "availability" => $availability,
             "old_price" => $minPrice,
-            "date_added" => $this->created_at,
-            "image_links" => [config("settings.image_base_url")."product/".$this->images->first()->url],
+            "date_added" => $this?->created_at,
+            "image_links" => [config("settings.image_base_url")."product/".$this?->images?->first()?->url],
         ];
     }
 }

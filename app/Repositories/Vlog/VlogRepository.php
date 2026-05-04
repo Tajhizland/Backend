@@ -30,7 +30,7 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
 
     public function activeVlogQuery()
     {
-        return $this->model::active()->orderBy("sort");
+        return $this->model::active()->orderBy("sort")->orderBy('id', 'desc');
     }
 
     public function filterCategory($query, $categoryIds)

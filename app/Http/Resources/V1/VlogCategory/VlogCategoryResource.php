@@ -16,6 +16,8 @@ class VlogCategoryResource extends JsonResource
             'name' => $this->name,
             'status' => $this->status,
             'url' => $this->url,
+            'icon'=>$this->icon,
+            'sort' => $this->sort,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

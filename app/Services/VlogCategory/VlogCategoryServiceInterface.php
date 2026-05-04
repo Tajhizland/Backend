@@ -10,7 +10,9 @@ interface VlogCategoryServiceInterface
 
     public function findById($id);
 
-    public function store($name, $status, $url);
+    public function store($name, $status, $url,$icon);
 
-    public function update($id, $name, $status, $url);
+    public function update($id, $name, $status, $url,$icon);
+    public function sort($vlogs);
+
 }

@@ -12,7 +12,8 @@ class UpdateVlogCategoryRequest extends FormRequest
         return [
             'id' => ['required'],
             'name' => ['required'],
-            'url' => ['required', Rule::unique('url')->ignore($this->id)],
+            'url' => ['required', Rule::unique('vlog_categories')->ignore($this->id)],
+            'icon' => ['nullable'],
             'status' => ['required'],
         ];
     }

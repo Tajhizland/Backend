@@ -23,11 +23,15 @@ class VlogCategoryRepository extends BaseRepository implements VlogCategoryRepos
 
     public function getActiveList()
     {
-        return $this->model::active()->get();
+        return $this->model::active()->orderBy("sort")->get();
     }
 
     public function findByUrl($url)
     {
         return $this->model::active()->where("url", $url)->firstOrFail();
+    }
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
 }

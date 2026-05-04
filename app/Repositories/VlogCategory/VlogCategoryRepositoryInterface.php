@@ -9,4 +9,6 @@ interface VlogCategoryRepositoryInterface extends BaseRepositoryInterface
     public function dataTable();
     public function getActiveList();
     public function findByUrl($url);
+    public function sort($id , $sort);
+
 }
