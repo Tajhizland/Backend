@@ -4,7 +4,7 @@ namespace App\Services\Tapin;
 
 use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\TapinCity\TapinCityRepositoryInterface;
-use App\Service\Lang\LangService;
+use App\Services\Lang\LangService;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -62,7 +62,7 @@ class TapinService implements TapinServiceInterface
         $data = [];
         $data["content_type"] = $postStatus;
         $data["register_type"] = 2;
-        $data["shop_id"] = "150bf688-c2ed-4069-ad7b-6acead3da505";
+        $data["shop_id"] =  config("tapin.shopId");
         $data["address"] = $address;
         $data["city_code"] = $city_code;
         $data["province_code"] = $orderInfo->province_id;

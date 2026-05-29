@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Lang;
+namespace App\Services\Lang;
 
 class LangService
 {

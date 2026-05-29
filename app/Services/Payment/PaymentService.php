@@ -28,6 +28,7 @@ use App\Services\DigiPay\DigiPayService;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use Carbon\Carbon;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use App\Models\Gateway;
 
 class PaymentService implements PaymentServicesInterface
 {
@@ -102,6 +103,12 @@ class PaymentService implements PaymentServicesInterface
             }
             event(new OrderPaymentRequestEvent($order));
             if ($gateway == 3) {
+            //    $gatewayObject=Gateway::find(3);
+            //    if ($gatewayObject->extra_price > 0) {
+            //        $percentage = $gatewayObject->extra_price;
+            //        $finalPrice = $finalPrice * (1 + ($percentage / 100));
+            //        $finalPrice = round($finalPrice);
+            //    }
                 $orderItems = $this->orderItemRepository->getByOrderId($order->id);
                 $path = $this->digiPayService->request($finalPrice * 10, $address->mobile, $order->id, $orderItems);
             } else {

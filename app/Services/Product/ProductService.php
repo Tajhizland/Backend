@@ -293,4 +293,13 @@ class ProductService implements ProductServiceInterface
         }
         return true;
     }
+   public function groupChangeDigipayPercent($ids, $percent)
+    {
+        foreach ($ids as $id) {
+            $product = $this->productRepository->findOrFail($id);
+            $product->digipay_extra_price = $percent;
+            $product->save();
+        }
+        return true;
+    }
 }

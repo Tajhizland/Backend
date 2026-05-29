@@ -15,6 +15,11 @@ class TrustedBrandService implements TrustedBrandServiceInterface
     {
     }
 
+    public function get()
+    {
+        return $this->trustedBrandRepository->all();
+    }
+
     public function dataTable()
     {
         return $this->trustedBrandRepository->dataTable();

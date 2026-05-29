@@ -86,38 +86,38 @@ class GuarantyService implements GuarantyServiceInterface
         }
 
         if ($price <= 10000000) {
-            return $price * 1.1 / 100;
+            return $price * 1.1 / 100 * 2;
         }
 
         if ($price <= 20000000) {
-            return $price * 1 / 100;
+            return $price * 1 / 100 *2;
         }
 
         if ($price <= 30000000) {
-            return $price * 0.9 / 100;
+            return $price * 0.9 / 100 *2;
         }
 
         if ($price <= 40000000) {
-            return $price * 0.8 / 100;
+            return $price * 0.8 / 100 *2;
         }
 
         if ($price <= 50000000) {
-            return $price * 0.7 / 100;
+            return $price * 0.7 / 100 *2;
         }
 
         if ($price <= 70000000) {
-            return $price * 0.6 / 100;
+            return $price * 0.6 / 100 *2;
         }
 
         if ($price <= 100000000) {
-            return $price * 0.5 / 100;
+            return $price * 0.5 / 100 *2;
         }
 
         if ($price <= 200000000) {
-            return $price * 0.4 / 100;
+            return $price * 0.4 / 100 *2 ;
         }
 
-        return $price * 0.3 / 100;
+        return $price * 0.3 / 100 *2;
 
     }
 }

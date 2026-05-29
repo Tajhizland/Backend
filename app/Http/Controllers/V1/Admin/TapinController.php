@@ -27,7 +27,8 @@ class TapinController extends Controller
         $width = 0;
         $height = 0;
         $length = 0;
-
+        $isPacketAllow=true;
+        $isPacket=false;
         foreach ($orderItems as $orderItem) {
             $product = $orderItem->productColor->product;
             $weight += $product->weight;
@@ -41,7 +42,7 @@ class TapinController extends Controller
                 }
             }
         }
-
+        $isPacket=$isPacketAllow;
         $boxs = $this->tapinService->getBox();
         $boxs = json_decode(json_encode($boxs));
         $boxs = $boxs->entries->list;

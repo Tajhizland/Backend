@@ -8,6 +8,7 @@ use App\Http\Requests\V1\Admin\ImageSortRequest;
 use App\Http\Requests\V1\Admin\Option\UpdateProductOptionRequest;
 use App\Http\Requests\V1\Admin\Product\ColorFastUpdateRequest;
 use App\Http\Requests\V1\Admin\Product\GroupChangePriceRequest;
+use App\Http\Requests\V1\Admin\Product\GroupChangePercentRequest;
 use App\Http\Requests\V1\Admin\Product\GroupChangeStatusRequest;
 use App\Http\Requests\V1\Admin\Product\GroupChangeStockRequest;
 use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
@@ -198,6 +199,12 @@ class ProductController extends Controller
     {
         $this->productService->groupChangePrice($request->get('ids'), $request->get('action'), $request->get('percent'));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.price")]));
+    }
+
+    public function groupChangePercent(GroupChangePercentRequest $request)
+    {
+        $this->productService->groupChangeDigipayPercent($request->get('ids'), $request->get('percent'));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
     }
 
     public function groupChangeStock(GroupChangeStockRequest $request)

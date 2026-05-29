@@ -34,6 +34,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     $query->join('option_items', 'product_options.option_item_id', '=', 'option_items.id')
                         ->orderBy('option_items.sort')
                         ->select('product_options.*');
+                },
+        "guaranties" => function ($query) {
+                    $query->orderBy('free', "desc");
                 }
             ])
             ->first();
@@ -75,6 +78,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
             $products = $this->model::active()
                 ->HasColorHasStock()
+                ->withActiveColor()
                 ->whereHas("productCategories", function ($query) use ($categoryId) {
                     $query->where("category_id", $categoryId);
                 })
@@ -98,6 +102,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 $existingProductIds = $results->pluck('id')->toArray();
                 $additionalProducts = $this->model::active()
                     ->HasColorHasStock()
+                    ->withActiveColor()
                     ->whereHas("productCategories", function ($query) use ($categoryId) {
                         $query->where("category_id", $categoryId);
                     })

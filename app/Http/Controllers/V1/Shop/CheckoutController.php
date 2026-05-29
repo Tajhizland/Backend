@@ -47,12 +47,20 @@ class CheckoutController extends Controller
         $width = 0;
         $height = 0;
         $length = 0;
-
+  $hasInvalidProduct = false;
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
         $totalItemsPrice = $cartPrices["totalItemPrice"];
-
+if($totalItemsPrice <50000)
+{
+$totalItemsPrice=50000;
+}
         foreach ($cartItems as $item) {
             $product = $item->productColor->product;
+  if (empty($product->weight) || $product->weight <= 0 || 
+            empty($product->width) || empty($product->height) || empty($product->length) ||
+            $product->width <= 0 || $product->height <= 0 || $product->length <= 0) {
+            $hasInvalidProduct = true;
+        }
             $weight += $product->weight;
             $width += $product->width;
             $height += $product->height;
@@ -91,18 +99,29 @@ class CheckoutController extends Controller
             $weight = 50;
         }
         if ($weight > 30000) {
+ $hasInvalidProduct = true;
             $weight = 30000;
         }
 
         $response = $this->deliveryService->getActives();
+$filterResponse=[];
         foreach ($response as $delivery) {
             if ($delivery->id == 1) {
+if( $hasInvalidProduct == true)
+{
+ unset($delivery);
+                continue;
+}
                 $priceCheck = $this->checkPrice->check($address->province_id, $address->city_id, $weight, $totalItemsPrice, $size);
                 $priceCheck = json_decode(json_encode($priceCheck));
                 $delivery->price = ceil($priceCheck->entries->total_price / 1000) * 100;
+                $filterResponse[]=$delivery;
             }
+else{
+$filterResponse[]=$delivery;
+}
         }
-        return $this->dataResponseCollection(new DeliveryCollection($response));
+        return $this->dataResponseCollection(new DeliveryCollection($filterResponse));
     }
 
     public function getShippingMethods2()

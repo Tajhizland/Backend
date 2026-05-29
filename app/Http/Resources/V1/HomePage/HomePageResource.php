@@ -18,6 +18,7 @@ use App\Http\Resources\V1\Product\ProductCollection;
 use App\Http\Resources\V1\Slider\SliderCollection;
 use App\Http\Resources\V1\SpecialProduct\SpecialProductCollection;
 use App\Http\Resources\V1\Vlog\VlogCollection;
+use App\Http\Resources\V1\TrustedBrand\TrustedBrandCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -44,9 +45,12 @@ class HomePageResource extends JsonResource
             "banners3" => new BannerCollection($this["banners3"]),
             "banners4" => new BannerCollection($this["banners4"]),
             "banners5" => new BannerCollection($this["banners5"]),
+            "bannersCast" => new BannerCollection($this["bannersCast"]),
             "bannersStock" => new BannerCollection($this["bannersStock"]),
             "posters" => new PosterCollection($this["posters"]),
             "specialProducts" => new SpecialProductCollection($this["specialProducts"]),
+            "trustedBrands" => new TrustedBrandCollection($this["trustedBrands"]),
+
         ];
     }
 }

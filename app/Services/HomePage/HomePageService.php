@@ -16,6 +16,7 @@ use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Services\Campaign\CampaignServiceInterface;
 use App\Services\DiscountItem\DiscountItemServiceInterface;
+use App\Services\TrustedBrand\TrustedBrandServiceInterface;
 
 class HomePageService implements HomePageServiceInterface
 {
@@ -35,6 +36,8 @@ class HomePageService implements HomePageServiceInterface
         private CampaignServiceInterface            $campaignService,
         private DiscountItemServiceInterface        $discountItemService,
         private ProductRepositoryInterface          $productRepository,
+        private TrustedBrandServiceInterface        $trustedBrandService,
+
     )
     {
     }
@@ -55,6 +58,7 @@ class HomePageService implements HomePageServiceInterface
         $banners3 = $this->bannerRepository->getBannerByType("home_page3");
         $banners4 = $this->bannerRepository->getBannerByType("home_page4");
         $banners5 = $this->bannerRepository->getBannerByType("home_page5");
+        $bannersCast = $this->bannerRepository->getBannerByType("homepage_cast");
         $bannersStock = $this->bannerRepository->getBannerByType("home_page6");
         $lastNews = $this->newRepository->getLastActiveNews();
 //        $lastVlogs = $this->vlogRepository->getLastActives();
@@ -63,6 +67,7 @@ class HomePageService implements HomePageServiceInterface
         $posters = $this->posterRepository->getHomepagePosters();
         $campaign = $this->campaignService->findActiveCampaign();
         $pendingCampaign = $this->campaignService->findPendingActiveCampaign();
+        $trustedBrands=$this->trustedBrandService->get();
         return [
             "campaign" => $campaign,
             "popularProducts" => $popularProducts,
@@ -81,9 +86,11 @@ class HomePageService implements HomePageServiceInterface
             "banners3" => $banners3,
             "banners4" => $banners4,
             "banners5" => $banners5,
+            "bannersCast" => $bannersCast,
             "bannersStock" => $bannersStock,
             "posters" => $posters,
             "pending_campaign" => $pendingCampaign,
+            "trustedBrands" => $trustedBrands,
         ];
     }
 }

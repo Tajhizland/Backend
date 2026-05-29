@@ -4,6 +4,8 @@ namespace App\Services\TrustedBrand;
 
 interface TrustedBrandServiceInterface
 {
+    public function get();
+
     public function dataTable();
 
     public function find($id);
