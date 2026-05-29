@@ -10,6 +10,7 @@ class StoreCastCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'icon' => ['required'],
             'status' => ['required', 'integer'],
         ];
     }

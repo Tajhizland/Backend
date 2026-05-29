@@ -39,13 +39,13 @@ class CastCategoryController extends Controller
 
     public function store(StoreCastCategoryRequest $request)
     {
-        $this->castCategoryService->store($request->get("name"), $request->get("status"));
+        $this->castCategoryService->store($request->get("name"), $request->get("status"), $request->file("icon"));
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.category")]));
     }
 
     public function update(UpdateCastCategoryRequest $request)
     {
-        $this->castCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"));
+        $this->castCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->file("icon"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
     }
 }

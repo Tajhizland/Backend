@@ -10,6 +10,7 @@ class UpdateCastCategoryRequest extends FormRequest
     {
         return [
             'id' => ['required', 'exists:App\Models\CastCategory'],
+            'icon' => ['nullable'],
             'name' => ['required'],
             'status' => ['required', 'integer'],
         ];
