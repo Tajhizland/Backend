@@ -26,7 +26,7 @@ class CartController extends Controller
     {
         $this->cartService->addProductToCart(Auth::user()->id, $request->get("productColorId"), $request->get("count"), $request->get("guaranty_id"));
         return $this->successResponse(Lang::get("action.add_to",["attr"=>Lang::get("attr.product") , "to"=>Lang::get("attr.cart")]));
-     }
+    }
 
     public function removeItem(UpdateCartItemRequest $request)
     {
