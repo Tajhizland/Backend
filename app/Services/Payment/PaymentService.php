@@ -67,11 +67,14 @@ class PaymentService implements PaymentServicesInterface
         $address = $this->addressRepository->findActiveByUserId($userId);
         $delivery = $this->deliveryRepository->findOrFail($shippingMethod);
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
+        $extraPrice = $cartPrices["extraPrice"];
         $totalItemsPrice = $cartPrices["totalItemPrice"];
         $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
         $finalPrice = $totalItemsPrice + $shippingPrice;
+        $finalExtraPrice = $extraPrice + $shippingPrice;
         $coupon = null;
         $off = 0;
+        $extraPriceOff = 0;
         if ($code != null) {
             $coupon = $this->couponService->check($code, $userId);
             if ($coupon) {
@@ -79,10 +82,12 @@ class PaymentService implements PaymentServicesInterface
                     $off = $coupon->price;
                 } elseif ($coupon->percent) {
                     $off = $finalPrice * $coupon->percent / 100;
+                    $extraPriceOff = $finalExtraPrice * $coupon->percent / 100;
                 }
             }
         }
         $finalPrice = $finalPrice - $off;
+        $finalExtraPrice = $finalExtraPrice - $extraPriceOff;
         if (!$useWallet) {
 
             $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
@@ -110,7 +115,7 @@ class PaymentService implements PaymentServicesInterface
             //        $finalPrice = round($finalPrice);
             //    }
                 $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-                $path = $this->digiPayService->request($finalPrice * 10, $address->mobile, $order->id, $orderItems);
+                $path = $this->digiPayService->request($finalExtraPrice * 10, $address->mobile, $order->id, $orderItems);
             } else {
                 $path = $this->gatewayService->request($finalPrice * 10, $order->id);
             }

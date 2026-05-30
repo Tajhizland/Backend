@@ -33,6 +33,8 @@ class CartItemService implements CartItemServiceInterface
         $itemsPrice = 0;
         $totalItemPrice = 0;
         $maxDeliveryDelay = 0;
+        $extraPrice = 0;
+
         foreach ($cartItems as $cartItem) {
             $price = $this->priceRepository->findByProductColorId($cartItem->product_color_id);
             $guarantyPrice = 0;
@@ -48,9 +50,14 @@ class CartItemService implements CartItemServiceInterface
             $discountItem = $productColor->activeDiscountItem->first();
 
             if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0) {
+                $itemCartPrice = ($discountItem->discount_price + $guarantyPrice) * $cartItem->count;
                 $totalItemPrice +=( $discountItem->discount_price + $guarantyPrice ) * $cartItem->count;
+                $extraPrice += round($itemCartPrice + ($itemCartPrice * $productColor->product->digipay_extra_price / 100));
             } else {
+                $itemCartPrice = ($price->price + $guarantyPrice) * $cartItem->count;
                 $totalItemPrice += ($price->price + $guarantyPrice)* $cartItem->count ;
+                $extraPrice += round($itemCartPrice + ($itemCartPrice * $productColor->product->digipay_extra_price / 100));
+
             }
 
             if ($cartItem->productColor->delivery_delay > $maxDeliveryDelay) {
@@ -59,6 +66,7 @@ class CartItemService implements CartItemServiceInterface
         }
         return [
             "itemsPrice" => $itemsPrice,
+            "extraPrice" => $extraPrice,
             "maxDeliveryDelay" => $maxDeliveryDelay,
             "totalItemPrice" => $totalItemPrice,
         ];
