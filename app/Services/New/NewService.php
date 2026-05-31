@@ -59,7 +59,7 @@ class NewService implements NewServiceInterface
             "title" => $title,
             "url" => $url,
             "content" => $content,
-            "image" => $imagePath,
+            "img" => $imagePath,
             "published" => $published,
             "category_id" => $categoryId,
             "author" => $author,
@@ -78,7 +78,7 @@ class NewService implements NewServiceInterface
             "title" => $title,
             "url" => $url,
             "content" => $content,
-            "image" => $imagePath,
+            "img" => $imagePath,
             "category_id" => $categoryId,
             "published" => $published,
         ]);
