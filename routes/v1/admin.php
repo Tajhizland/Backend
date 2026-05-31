@@ -147,6 +147,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OrderController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OrderController::class, "findById"]);
         Route::post("update/status", [\App\Http\Controllers\V1\Admin\OrderController::class, "updateStatus"]);
+        Route::post('digipay_calc', [\App\Http\Controllers\V1\Admin\OrderController::class, "digipayCalc"]);
 
         Route::post('tapin/{id}', [\App\Http\Controllers\V1\Admin\TapinController::class, "register"]);
 
@@ -255,7 +256,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "update"]);
         Route::post("sort", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "sort"]);
-  
+
   });
     Route::group(["prefix" => "banner"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BannerController::class, "dataTable"]);

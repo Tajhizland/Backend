@@ -182,4 +182,9 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     {
         return $this->model::whereDate('order_date', Carbon::today())->paid()->count();
     }
+
+    public function digipaySumOrder($startDate, $endDate)
+    {
+        return $this->model::whereBetween('order_date', [$startDate, $endDate])->sum('final_price');
+    }
 }

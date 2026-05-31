@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Order\DigipayCalcRequest;
 use App\Http\Requests\V1\Admin\Order\UpdateOrderStatusRequest;
 use App\Http\Resources\V1\Order\OrderCollection;
 use App\Http\Resources\V1\Order\OrderResource;
@@ -30,7 +31,13 @@ class OrderController extends Controller
 
     public function updateStatus(UpdateOrderStatusRequest $request)
     {
-        $this->orderService->updateOrderStatus($request->get("id"),$request->get("status"));
-        return $this->successResponse(Lang::get("action.update" , ["attr"=>Lang::get("attr.order_status")]));
+        $this->orderService->updateOrderStatus($request->get("id"), $request->get("status"));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.order_status")]));
+    }
+
+    public function digipayCalc(DigipayCalcRequest $request)
+    {
+        $value = $this->orderService->digipayCalc($request->get("start_date"), $request->get("end_date"));
+        return $this->dataResponse(["value" => $value]);
     }
 }

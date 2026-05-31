@@ -53,4 +53,9 @@ class OrderService implements OrderServiceInterface
         $order = $this->orderRepository->findOrFail($id);
         return $this->orderRepository->update($order, ["delivery_token" => $token]);
     }
+
+    public function digipayCalc($startDate, $endDate)
+    {
+        return $this->orderRepository->digipaySumOrder($startDate, $endDate);
+    }
 }

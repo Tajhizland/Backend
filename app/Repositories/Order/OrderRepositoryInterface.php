@@ -26,4 +26,6 @@ interface OrderRepositoryInterface extends BaseRepositoryInterface
     public function totalCountChartData($fromDate, $toDate);
 
     public function todayOrderCount();
+
+    public function digipaySumOrder($startDate, $endDate);
 }
