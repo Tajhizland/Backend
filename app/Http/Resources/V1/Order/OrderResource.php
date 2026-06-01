@@ -22,6 +22,8 @@ class OrderResource extends JsonResource
             'price' => $this->price,
             'delivery_price' => $this->delivery_price,
             'final_price' => $this->final_price,
+            'total_price' => $this->total_price,
+            'use_wallet_price' => $this->use_wallet_price,
             'status' => $this->status,
             'payment_method' => $this->payment_method,
             'delivery_method' => $this->delivery_method,
