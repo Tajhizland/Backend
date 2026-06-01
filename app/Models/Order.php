@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
-    protected $guarded=["id"];
+    protected $guarded = ["id"];
 
     public function user(): BelongsTo
     {
@@ -23,14 +23,17 @@ class Order extends Model
     {
         return $this->belongsTo(OrderInfo::class);
     }
+
     public function delivery(): BelongsTo
     {
-        return $this->belongsTo(Delivery::class , "delivery_method" , "id");
+        return $this->belongsTo(Delivery::class, "delivery_method", "id");
     }
+
     public function payment(): BelongsTo
     {
-        return $this->belongsTo(Gateway::class , "payment_method" ,"id");
+        return $this->belongsTo(Gateway::class, "payment_method", "id");
     }
+
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
@@ -60,17 +63,23 @@ class Order extends Model
 
     public function scopePaid(Builder $query): Builder
     {
-        return $query->whereIn("status",[
+        return $query->whereIn("status", [
             OrderStatus::Paid->value,
             OrderStatus::Delivered->value,
             OrderStatus::Processing->value,
             OrderStatus::Shipped->value,
         ]);
     }
+
     public function scopeHasOnHoldPending(Builder $query): Builder
     {
-        return $query->whereHas("onHoldOrder",function ($q){
-           $q->where("status",OnHoldOrderStatus::Pending);
+        return $query->whereHas("onHoldOrder", function ($q) {
+            $q->where("status", OnHoldOrderStatus::Pending);
         });
+    }
+
+    public function scopePaymentDigipay(Builder $query): Builder
+    {
+        return $query->where("payment_method",3);
     }
 }

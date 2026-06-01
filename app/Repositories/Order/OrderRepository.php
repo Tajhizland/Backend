@@ -40,7 +40,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function dataTable()
     {
         return QueryBuilder::for(Order::class)
-            ->allowedFilters(['user_id', 'final_price', 'status', 'payment_method', 'delivery_method', 'order_date',
+            ->allowedFilters(['user_id', 'final_price', 'total_price', 'use_wallet_price', 'status', 'payment_method', 'delivery_method', 'order_date',
                 AllowedFilter::callback('user', function ($query, $value) {
                     $query->whereHas('user', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
@@ -52,7 +52,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                     });
                 })
             ])
-            ->allowedSorts(['user_id', 'order_id', 'track_id', 'price'
+            ->allowedSorts(['user_id', 'order_id', 'track_id', 'final_price', 'use_wallet_price', 'total_price'
                 , AllowedSort::custom("user", new SortTransactionByUserName())
                 , AllowedSort::custom("mobile", new SortTransactionByUserMobile())
             ])
@@ -116,7 +116,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 return Jalalian::fromDateTime($order->order_date)->format('Y/m/d');
             })
             ->mapWithKeys(function ($orders, $date) {
-                return [$date => $orders->sum('final_price')];
+                return [$date => $orders->sum('total_price')];
             });
 
         // ساخت لیست همه روزها از ۳۰ روز پیش تا امروز (شمسی)
@@ -185,6 +185,6 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     public function digipaySumOrder($startDate, $endDate)
     {
-        return $this->model::whereBetween('order_date', [$startDate, $endDate])->paid()->sum('final_price');
+        return $this->model::whereBetween('order_date', [$startDate, $endDate])->paymentDigipay()->paid()->sum('total_price');
     }
 }
