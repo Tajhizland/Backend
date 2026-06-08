@@ -26,6 +26,7 @@ use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Coupon\CouponServiceInterface;
 use App\Services\DigiPay\DigiPayService;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
+use App\Services\SnappPay\SnappPayService;
 use Carbon\Carbon;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Models\Gateway;
@@ -52,6 +53,7 @@ class PaymentService implements PaymentServicesInterface
         private CouponServiceInterface           $couponService,
         private CouponUserRepositoryInterface    $couponUserRepository,
         private DigiPayService                   $digiPayService,
+        private SnappPayService                  $snappPayService,
     )
     {
         $this->gatewayService = $this->gatewayStrategyServices->strategy();
@@ -108,14 +110,18 @@ class PaymentService implements PaymentServicesInterface
             }
             event(new OrderPaymentRequestEvent($order));
             if ($gateway == 3) {
-            //    $gatewayObject=Gateway::find(3);
-            //    if ($gatewayObject->extra_price > 0) {
-            //        $percentage = $gatewayObject->extra_price;
-            //        $finalPrice = $finalPrice * (1 + ($percentage / 100));
-            //        $finalPrice = round($finalPrice);
-            //    }
+                //    $gatewayObject=Gateway::find(3);
+                //    if ($gatewayObject->extra_price > 0) {
+                //        $percentage = $gatewayObject->extra_price;
+                //        $finalPrice = $finalPrice * (1 + ($percentage / 100));
+                //        $finalPrice = round($finalPrice);
+                //    }
                 $orderItems = $this->orderItemRepository->getByOrderId($order->id);
                 $path = $this->digiPayService->request($finalExtraPrice * 10, $address->mobile, $order->id, $orderItems);
+            } else if ($gateway == 4) {
+
+                $orderItems = $this->orderItemRepository->getByOrderId($order->id);
+                $path = $this->snappPayService->request($order->id, $orderItems, $finalExtraPrice * 10);
             } else {
                 $path = $this->gatewayService->request($finalPrice * 10, $order->id);
             }

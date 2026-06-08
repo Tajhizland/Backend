@@ -10,11 +10,11 @@ class SnappPayService
 {
     public function auth()
     {
-        $client_id = config("gateway.snappPay.client_id");
-        $client_secret = config("gateway.snappPay.client_secret");
-        $username = config("gateway.snappPay.username");
-        $password = config("gateway.snappPay.password");
-        $url = config("gateway.snappPay.base_url");
+        $client_id = config("Gateway.snappay.client_id");
+        $client_secret = config("Gateway.snappay.client_secret");
+        $username = config("Gateway.snappay.username");
+        $password = config("Gateway.snappay.password");
+        $url = config("Gateway.snappay.API_BASE_URL");
         $basicAuth = base64_encode("{$client_id}:{$client_secret}");
 
         $response = Http::withHeaders([
@@ -32,7 +32,6 @@ class SnappPayService
         if ($response->successful()) {
             return $response->json();
         }
-
         return [
             'error' => $response->status(),
             'message' => $response->body(),
@@ -43,7 +42,7 @@ class SnappPayService
     {
         $auth = $this->auth();
         $access_token = $auth["access_token"];
-        $url = config("gateway.snappPay.base_url");
+        $url = config("Gateway.snappay.base_url");
         $response = Http::withHeaders([
             'Authorization' => "Bearer {$access_token}",
             'Content-Type' => 'application/x-www-form-urlencoded',
@@ -83,7 +82,7 @@ class SnappPayService
             "externalSourceAmount" => $order->use_wallet_price * 10,
             "mobile" => $mobile,
             "paymentMethodTypeDto" => "INSTALLMENT",
-            "returnURL" => config("gateway.snappPay.order_callback_url"),
+            "returnURL" => config("Gateway.snappay.order_callback_url"),
             "transactionId" => (string)$orderId,
             "cartList" => [
                 [
@@ -98,10 +97,9 @@ class SnappPayService
             ]
         ];
 
-        dd($data);
         $auth = $this->auth();
         $access_token = $auth["access_token"];
-        $url = config("gateway.snappPay.base_url");
+        $url = config("Gateway.snappay.base_url");
 
         $response = Http::withHeaders([
             'Authorization' => "Bearer {$access_token}",
@@ -132,7 +130,7 @@ class SnappPayService
 
         $auth = $this->auth();
         $access_token = $auth["access_token"];
-        $url = config("gateway.snappPay.base_url");
+        $url = config("Gateway.snappay.base_url");
 
         $response = Http::timeout(60)->withHeaders([
             'Authorization' => "Bearer {$access_token}",
@@ -152,7 +150,7 @@ class SnappPayService
                 } else if ($status["response"]["status"] == "PENDING") {
                     $auth = $this->auth();
                     $access_token = $auth["access_token"];
-                    $url = config("gateway.snappPay.base_url");
+                    $url = config("Gateway.snappay.base_url");
 
                     $response = Http::timeout(60)->withHeaders([
                         'Authorization' => "Bearer {$access_token}",
@@ -182,7 +180,7 @@ class SnappPayService
     {
         $auth = $this->auth();
         $access_token = $auth["access_token"];
-        $url = config("gateway.snappPay.base_url");
+        $url = config("Gateway.snappay.base_url");
 
         $response = Http::withHeaders([
             'Authorization' => "Bearer {$access_token}",
@@ -209,7 +207,7 @@ class SnappPayService
 
         $auth = $this->auth();
         $access_token = $auth["access_token"];
-        $url = config("gateway.snappPay.base_url");
+        $url = config("Gateway.snappay.base_url");
 
         $response = Http::timeout(60)->withHeaders([
             'Authorization' => "Bearer {$access_token}",
@@ -229,7 +227,7 @@ class SnappPayService
                 } else if ($status["response"]["status"] == "VERIFY") {
                     $auth = $this->auth();
                     $access_token = $auth["access_token"];
-                    $url = config("gateway.snappPay.base_url");
+                    $url = config("Gateway.snappay.base_url");
 
                     $response = Http::timeout(60)->withHeaders([
                         'Authorization' => "Bearer {$access_token}",
@@ -264,7 +262,7 @@ class SnappPayService
 
         $auth = $this->auth();
         $access_token = $auth["access_token"];
-        $url = config("gateway.snappPay.base_url");
+        $url = config("Gateway.snappay.base_url");
 
         $response = Http::withHeaders([
             'Authorization' => "Bearer {$access_token}",
