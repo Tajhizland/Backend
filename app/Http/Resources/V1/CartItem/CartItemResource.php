@@ -35,7 +35,7 @@ class CartItemResource extends JsonResource
                 "delivery_delay" => $this->productColor->delivery_delay,
                 "price" => $this->productColor->price?->price,
                 "discountedPrice" => $discountItem?->discount_price,
-                "discount" => $discountItem?->discount_price * 100 / ($this->productColor?->price?->price??1)
+                "discount" => $discountItem?->discount_price * 100 / ($this->productColor?->price?->price==0?1:$this->productColor?->price?->price)
             ],
             'guaranty' => [
                 'id' => $this->guaranty?->id,
