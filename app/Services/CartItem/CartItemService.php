@@ -50,9 +50,10 @@ class CartItemService implements CartItemServiceInterface
             $discountItem = $productColor->activeDiscountItem->first();
 
             if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0) {
+                $discountAmount = ($price->price - $discountItem->discount_price) * $cartItem->count;
                 $itemCartPrice = ($discountItem->discount_price + $guarantyPrice) * $cartItem->count;
                 $totalItemPrice +=( $discountItem->discount_price + $guarantyPrice ) * $cartItem->count;
-                $extraPrice += round($itemCartPrice + ($itemCartPrice * $productColor->product->digipay_extra_price / 100));
+                $extraPrice += round($discountAmount + $itemCartPrice + ($itemCartPrice * $productColor->product->digipay_extra_price / 100));
             } else {
                 $itemCartPrice = ($price->price + $guarantyPrice) * $cartItem->count;
                 $totalItemPrice += ($price->price + $guarantyPrice)* $cartItem->count ;

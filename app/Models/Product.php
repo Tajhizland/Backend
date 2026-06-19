@@ -243,7 +243,7 @@ class Product extends Model
                 ->whereHas("price")->whereHas("stock", function ($q) {
                     $q->where("stock", ">", 0);
                 });
-        })->where("allow_digipay", 0);
+        });
     }
 
     public function scopeHasTopDiscount(Builder $query): Builder
@@ -265,7 +265,7 @@ class Product extends Model
                 ->whereHas("price")->whereHas("stock", function ($q) {
                     $q->where("stock", ">", 0);
                 });
-        })->where("allow_digipay", 0);
+        });
     }
 
     public function scopeIsStock(Builder $query): Builder
@@ -304,9 +304,7 @@ class Product extends Model
     {
         return $query->with(["activeProductColors" => function ($query) {
             $query->with(["stock", "discountItem" => function ($subQuery) {
-                $subQuery->whereHas('productColor.product', function ($q) {
-                    $q->where('allow_digipay', 0);
-                })->where(function ($subQuery2) {
+                $subQuery->where(function ($subQuery2) {
                     $subQuery2->whereNull("discount_expire_time")->orWhere("discount_expire_time", ">", Carbon::now());
                 })->whereHas("discount", function ($subQuery2) {
                     $subQuery2->where("status", 1)->where(function ($subQuery3) {

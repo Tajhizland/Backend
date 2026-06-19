@@ -46,8 +46,6 @@ class ProductColor extends Model
                     ->where(function ($subQuery3) {
                         $subQuery3->whereNull("end_date")->orWhere("end_date", ">", Carbon::now());
                     });
-            })->whereHas("productColor.product" , function ($query){
-                $query->where("allow_digipay", 0);
             })->latest("discount_id");
     }
 
