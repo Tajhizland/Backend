@@ -28,6 +28,7 @@ use App\Services\DigiPay\DigiPayService;
 use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use App\Services\SnappPay\SnappPayService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Models\Gateway;
 
@@ -289,6 +290,45 @@ class PaymentService implements PaymentServicesInterface
         event(new OrderPaidEvent($order));
 
         return 1;
+    }
+
+    public function verifyPaymentSnapppay($request)
+    {
+        $request = $this->snappPayService->callbackParams($request);
+        $order = $this->orderRepository->findOrFail($request->orderId);
+        $this->snappPayService->verify($order->payment_token);
+
+
+        try {
+            DB::beginTransaction();
+            $verify = $this->snappPayService->verify($order->payment_token);
+            if ($verify["successful"] != true) {
+                throw new BreakException("پرداخت ناموفق بود");
+            }
+            $TransactionReferenceID = $verify["response"]["transactionId"];
+            $this->snappPayService->settle($order->payment_token);
+            $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
+
+
+            $order = $this->orderRepository->findOrFail($request->orderId);
+            $orderItems = $this->orderItemRepository->getByOrderId($order->id);
+            foreach ($orderItems as $item) {
+                $this->stockRepository->decrement($item->product_color_id, $item->count);
+            }
+            $this->transactionRepository->createTransaction($order->user_id, $order->id, $TransactionReferenceID, $order->final_price);
+
+            $cart = $this->cartRepository->getCartByOrderId($order->orderId);
+            $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
+
+            DB::commit();
+            event(new OrderPaidEvent($order));
+
+            return 1;
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function verifyOrderByWallet($userId)

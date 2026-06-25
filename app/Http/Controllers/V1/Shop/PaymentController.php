@@ -42,5 +42,13 @@ class PaymentController extends Controller
         } catch (\Throwable $exception) {
             return Redirect::to("https://tajhizland.com/failed_payment");
         }
+    }    public function verifySnappay(Request $request)
+    {
+        try {
+            $this->paymentServices->verifyPaymentSnapppay($request);
+            return Redirect::to("https://tajhizland.com/thank_you_page");
+        } catch (\Throwable $exception) {
+            return Redirect::to("https://tajhizland.com/failed_payment");
+        }
     }
 }

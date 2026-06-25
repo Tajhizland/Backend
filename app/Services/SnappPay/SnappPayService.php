@@ -2,6 +2,7 @@
 
 namespace App\Services\SnappPay;
 
+use App\Exceptions\BreakException;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Http;
@@ -279,5 +280,21 @@ class SnappPayService
             'message' => $response->body(),
         ];
     }
+    public function callbackParams($request)
+    {
+        if (!$request->transactionId || !$request->state || $request->state != "OK") {
+            return $this->Failed();
+        }
 
+        $transactionId = $request->get("transactionId");
+        $result = $request->get("state");
+        if ($result != "OK" || !$transactionId ) {
+            throw new BreakException();
+        }
+
+        $result = new \stdClass();
+        $result->trackId = $transactionId;
+        $result->orderId = $transactionId;
+        return $result;
+    }
 }
