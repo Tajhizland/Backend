@@ -46,17 +46,17 @@ class CartItemService implements CartItemServiceInterface
             }
             $itemsPrice += $price->price * $cartItem->count;
 
-            $productColor=$this->productColorRepository->findOrFail($cartItem->product_color_id);
+            $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             $discountItem = $productColor->activeDiscountItem->first();
 
-            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0) {
+            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$productColor->product->allow_digipay) {
                 $discountAmount = ($price->price - $discountItem->discount_price) * $cartItem->count;
                 $itemCartPrice = ($discountItem->discount_price + $guarantyPrice) * $cartItem->count;
-                $totalItemPrice +=( $discountItem->discount_price + $guarantyPrice ) * $cartItem->count;
-                $extraPrice += round($discountAmount + $itemCartPrice + ($itemCartPrice * $productColor->product->digipay_extra_price / 100));
+                $totalItemPrice += ($discountItem->discount_price + $guarantyPrice) * $cartItem->count;
+                $extraPrice += round($itemCartPrice + ($itemCartPrice * $productColor->product->digipay_extra_price / 100));
             } else {
                 $itemCartPrice = ($price->price + $guarantyPrice) * $cartItem->count;
-                $totalItemPrice += ($price->price + $guarantyPrice)* $cartItem->count ;
+                $totalItemPrice += ($price->price + $guarantyPrice) * $cartItem->count;
                 $extraPrice += round($itemCartPrice + ($itemCartPrice * $productColor->product->digipay_extra_price / 100));
 
             }
