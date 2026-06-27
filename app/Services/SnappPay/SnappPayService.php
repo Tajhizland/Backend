@@ -83,7 +83,7 @@ class SnappPayService
             "externalSourceAmount" => $order->use_wallet_price * 10,
             "mobile" => $mobile,
             "paymentMethodTypeDto" => "INSTALLMENT",
-            "returnURL" => config("Gateway.snappay.order_callback_url"),
+            "returnURL" => config("Gateway.snappay.ORDER_CALLBACK_URL"),
             "transactionId" => (string)$orderId,
             "cartList" => [
                 [
