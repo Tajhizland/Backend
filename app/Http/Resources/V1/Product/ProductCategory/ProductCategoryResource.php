@@ -29,6 +29,7 @@ class ProductCategoryResource extends JsonResource
             'weight' => $this->weight,
             'rating' => $this->getRatingAvg(),
             'allow_digipay' => $this->allow_digipay,
+            'allow_snappay' => $this->allow_snappay,
             'colors' => new ProductColorCollection($this->activeProductColors),
             'images' => new ProductImageCollection($this->images),
             'groupItems' => new GroupProductCollection($this->groupItems),

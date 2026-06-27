@@ -40,6 +40,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("group-change-stock", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeStock"]);
         Route::post("group-change-status", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeStatus"]);
         Route::post("group-change-digipay", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeDigipay"]);
+        Route::post("group-change-snappay", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeSnappay"]);
         Route::post("group-change-percent", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangePercent"]);
 
     });

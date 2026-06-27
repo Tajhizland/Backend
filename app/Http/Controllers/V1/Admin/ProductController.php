@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Admin\GroupChangeDigipayRequest;
+use App\Http\Requests\V1\Admin\GroupChangeSnappayRequest;
 use App\Http\Requests\V1\Admin\ImageSortRequest;
 use App\Http\Requests\V1\Admin\Option\UpdateProductOptionRequest;
 use App\Http\Requests\V1\Admin\Product\ColorFastUpdateRequest;
@@ -221,6 +222,11 @@ class ProductController extends Controller
     public function groupChangeDigipay(GroupChangeDigipayRequest $request)
     {
         $this->productService->groupChangeDigipay($request->get('ids'), $request->get('digipay'));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
+    }
+    public function groupChangeSnappay(GroupChangeSnappayRequest $request)
+    {
+        $this->productService->groupChangeSnappay($request->get('ids'), $request->get('snappay'));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.product")]));
     }
 }

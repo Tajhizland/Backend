@@ -52,6 +52,7 @@ interface ProductServiceInterface
     public function groupChangeStock($ids, $stock);
     public function groupChangeStatus($ids, $status);
     public function groupChangeDigipay($ids, $digipay);
+    public function groupChangeSnappay($ids, $snappay);
     public function groupChangeDigipayPercent($ids, $percent);
 
 }

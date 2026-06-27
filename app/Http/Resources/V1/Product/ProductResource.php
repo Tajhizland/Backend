@@ -77,6 +77,7 @@ class ProductResource extends JsonResource
             'weight' => $this->weight,
             'use_packet' => $this->use_packet,
             'allow_digipay' => $this->allow_digipay,
+            'allow_snappay' => $this->allow_snappay,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];

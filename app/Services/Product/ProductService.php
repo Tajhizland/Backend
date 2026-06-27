@@ -293,6 +293,16 @@ class ProductService implements ProductServiceInterface
         }
         return true;
     }
+
+    public function groupChangeSnappay($ids, $snappay)
+    {
+        foreach ($ids as $id) {
+            $product = $this->productRepository->findOrFail($id);
+            $product->allow_snappay = $snappay;
+            $product->save();
+        }
+        return true;
+    }
    public function groupChangeDigipayPercent($ids, $percent)
     {
         foreach ($ids as $id) {
