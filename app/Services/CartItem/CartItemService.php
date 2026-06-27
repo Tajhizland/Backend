@@ -104,7 +104,7 @@ class CartItemService implements CartItemServiceInterface
         return true;
     }
 
-    public function convertCartItemToOrderItem($cartItems, $orderId): bool
+    public function convertCartItemToOrderItem($cartItems, $orderId, $disableDiscount = false): bool
     {
         foreach ($cartItems as $cartItem) {
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
@@ -118,7 +118,7 @@ class CartItemService implements CartItemServiceInterface
                     $guarantyPrice = $this->guarantyService->calculatePrice($price->price);
                 }
             }
-            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0) {
+            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$disableDiscount) {
                 $finalPrice = ($discountItem->discount_price + $guarantyPrice);
                 $discount = $price->price - $discountItem->discount_price;
             } else {

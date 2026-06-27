@@ -100,7 +100,7 @@ class PaymentService implements PaymentServicesInterface
                 $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
             }
             $this->cartRepository->update($cart, ["order_id" => $order->id]);
-            $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
+            $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id, $gateway == 3);
             if ($limit) {
                 $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
                 event(new OrderRequestEvent($onHoldOrder));

@@ -4,6 +4,7 @@ namespace App\Repositories\Product;
 
 use App\Enums\ProductColorStatus;
 use App\Models\Dictionary;
+use App\Models\DiscountItem;
 use App\Models\Product;
 use App\Repositories\Base\BaseRepository;
 use App\Services\Sort\Product\SortProductByCategoryName;
@@ -425,7 +426,16 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getTopDiscountedProducts()
     {
-        return $this->model::withActiveColor()->active()->hasTopDiscount()->get();
+        return $this->model::withActiveColor()->active()->hasTopDiscount()
+            ->orderBy(
+                DiscountItem::select("discount_items.sort")
+                    ->join("product_colors", "product_colors.id", "=", "discount_items.product_color_id")
+                    ->whereColumn("product_colors.product_id", "products.id")
+                    ->where("discount_items.top", 1)
+                    ->orderBy("discount_items.sort")
+                    ->limit(1)
+            )
+            ->get();
     }
 
     public function getStockProducts()
