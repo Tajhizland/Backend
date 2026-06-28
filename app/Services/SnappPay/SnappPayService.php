@@ -114,7 +114,7 @@ class SnappPayService
             $paymentToken = $res["response"]["paymentToken"];
             $order->payment_token = $paymentToken;
             $order->save();
-            return $res;
+            return $res->paymentPageUrl;
         }
 
         return [
