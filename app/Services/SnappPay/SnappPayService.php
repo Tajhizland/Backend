@@ -98,6 +98,9 @@ class SnappPayService
             ]
         ];
 
+        $order->test = json_encode($data);
+        $order->save();
+
         $auth = $this->auth();
         $access_token = $auth["access_token"];
         $url = config("Gateway.snappay.API_BASE_URL");
@@ -114,7 +117,7 @@ class SnappPayService
             $paymentToken = $res["response"]["paymentToken"];
             $order->payment_token = $paymentToken;
             $order->save();
-            return  $res["response"]["paymentPageUrl"];
+            return $res["response"]["paymentPageUrl"];
         }
 
         return [
@@ -280,6 +283,7 @@ class SnappPayService
             'message' => $response->body(),
         ];
     }
+
     public function callbackParams($request)
     {
         if (!$request->transactionId || !$request->state || $request->state != "OK") {
@@ -288,7 +292,7 @@ class SnappPayService
 
         $transactionId = $request->get("transactionId");
         $result = $request->get("state");
-        if ($result != "OK" || !$transactionId ) {
+        if ($result != "OK" || !$transactionId) {
             throw new BreakException();
         }
 
