@@ -122,7 +122,7 @@ class PaymentService implements PaymentServicesInterface
             } else if ($gateway == 4) {
 
                 $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-                $path = $this->snappPayService->request($order->id, $orderItems, $finalExtraPrice * 10);
+                $path = $this->snappPayService->request($order->id, $orderItems, $finalPrice * 10);
             } else {
                 $path = $this->gatewayService->request($finalPrice * 10, $order->id);
             }
