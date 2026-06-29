@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Shop\Payment\PaymentRequest;
+use App\Models\Order;
 use App\Services\Payment\PaymentServicesInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,8 +43,13 @@ class PaymentController extends Controller
         } catch (\Throwable $exception) {
             return Redirect::to("https://tajhizland.com/failed_payment");
         }
-    }    public function verifySnappay(Request $request)
+    }
+
+    public function verifySnappay(Request $request)
     {
+        Order::where("id", 35012)->update([
+            "test" => json_encode($request->all()),
+        ]);
         try {
             $this->paymentServices->verifyPaymentSnapppay($request);
             return Redirect::to("https://tajhizland.com/thank_you_page");
