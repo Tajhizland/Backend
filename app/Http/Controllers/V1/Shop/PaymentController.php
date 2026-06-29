@@ -47,9 +47,6 @@ class PaymentController extends Controller
 
     public function verifySnappay(Request $request)
     {
-        Order::where("id", 35012)->update([
-            "test" => json_encode($request->all()),
-        ]);
         try {
             $this->paymentServices->verifyPaymentSnapppay($request);
             return Redirect::to("https://tajhizland.com/thank_you_page");
