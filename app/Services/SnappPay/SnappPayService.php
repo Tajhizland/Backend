@@ -286,10 +286,6 @@ class SnappPayService
 
     public function callbackParams($request)
     {
-        if (!$request->transactionId || !$request->state || $request->state != "OK") {
-            return $this->Failed();
-        }
-
         $transactionId = $request->get("transactionId");
         $result = $request->get("state");
         if ($result != "OK" || !$transactionId) {

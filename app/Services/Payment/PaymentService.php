@@ -29,6 +29,7 @@ use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
 use App\Services\SnappPay\SnappPayService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Models\Gateway;
 
@@ -327,6 +328,7 @@ class PaymentService implements PaymentServicesInterface
 
         } catch (\Throwable $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             throw $e;
         }
     }
