@@ -297,21 +297,39 @@ class PaymentService implements PaymentServicesInterface
     public function verifyPaymentSnapppay($request)
     {
         try {
-            DB::beginTransaction();
-
+//            DB::beginTransaction();
+            Order::where("id", 35012)->update([
+                "delivery_token" => "1",
+            ]);
             $request = $this->snappPayService->callbackParams($request);
+            Order::where("id", 35012)->update([
+                "delivery_token" => "2",
+            ]);
             $order = $this->orderRepository->findOrFail($request->orderId);
+            Order::where("id", 35012)->update([
+                "delivery_token" => "3",
+            ]);
             $this->snappPayService->verify($order->payment_token);
-
+            Order::where("id", 35012)->update([
+                "delivery_token" => "4",
+            ]);
             $verify = $this->snappPayService->verify($order->payment_token);
             if ($verify["successful"] != true) {
                 throw new BreakException("پرداخت ناموفق بود");
             }
+            Order::where("id", 35012)->update([
+                "delivery_token" => "5",
+            ]);
             $TransactionReferenceID = $verify["response"]["transactionId"];
             $this->snappPayService->settle($order->payment_token);
+            Order::where("id", 35012)->update([
+                "delivery_token" => "6",
+            ]);
             $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
 
-
+            Order::where("id", 35012)->update([
+                "delivery_token" => "7",
+            ]);
             $order = $this->orderRepository->findOrFail($request->orderId);
             $orderItems = $this->orderItemRepository->getByOrderId($order->id);
             foreach ($orderItems as $item) {
@@ -322,14 +340,14 @@ class PaymentService implements PaymentServicesInterface
             $cart = $this->cartRepository->getCartByOrderId($order->orderId);
             $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
 
-            DB::commit();
+//            DB::commit();
             event(new OrderPaidEvent($order));
 
             return 1;
 
         } catch (\Throwable $e) {
 
-            DB::rollBack();
+//            DB::rollBack();
             Log::error($e->getMessage());
 
             Order::where("id", 35012)->update([
