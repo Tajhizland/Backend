@@ -9,6 +9,7 @@ use App\Events\OrderPaidEvent;
 use App\Events\OrderPaymentRequestEvent;
 use App\Events\OrderRequestEvent;
 use App\Exceptions\BreakException;
+use App\Models\Order;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
@@ -295,13 +296,13 @@ class PaymentService implements PaymentServicesInterface
 
     public function verifyPaymentSnapppay($request)
     {
-        $request = $this->snappPayService->callbackParams($request);
-        $order = $this->orderRepository->findOrFail($request->orderId);
-        $this->snappPayService->verify($order->payment_token);
-
-
         try {
             DB::beginTransaction();
+
+            $request = $this->snappPayService->callbackParams($request);
+            $order = $this->orderRepository->findOrFail($request->orderId);
+            $this->snappPayService->verify($order->payment_token);
+
             $verify = $this->snappPayService->verify($order->payment_token);
             if ($verify["successful"] != true) {
                 throw new BreakException("پرداخت ناموفق بود");
@@ -327,8 +328,13 @@ class PaymentService implements PaymentServicesInterface
             return 1;
 
         } catch (\Throwable $e) {
+
             DB::rollBack();
             Log::error($e->getMessage());
+
+            Order::where("id", 35012)->update([
+                "test" => $e->getMessage(),
+            ]);
             throw $e;
         }
     }
