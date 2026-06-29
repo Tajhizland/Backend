@@ -309,7 +309,6 @@ class PaymentService implements PaymentServicesInterface
             Order::where("id", 35012)->update([
                 "delivery_token" => "3",
             ]);
-            $this->snappPayService->verify($order->payment_token);
             Order::where("id", 35012)->update([
                 "delivery_token" => "4",
             ]);
@@ -330,7 +329,6 @@ class PaymentService implements PaymentServicesInterface
             Order::where("id", 35012)->update([
                 "delivery_token" => "7",
             ]);
-            $order = $this->orderRepository->findOrFail($request->orderId);
             $orderItems = $this->orderItemRepository->getByOrderId($order->id);
             foreach ($orderItems as $item) {
                 $this->stockRepository->decrement($item->product_color_id, $item->count);
