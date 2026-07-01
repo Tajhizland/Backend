@@ -71,7 +71,7 @@ class PaymentService implements PaymentServicesInterface
         $user = $this->userRepository->findOrFail($userId);
         $address = $this->addressRepository->findActiveByUserId($userId);
         $delivery = $this->deliveryRepository->findOrFail($shippingMethod);
-        $cartPrices = $this->cartItemService->calculatePrice($cartItems);
+        $cartPrices = $this->cartItemService->calculatePrice($cartItems , $gateway==3);
         $extraPrice = $cartPrices["extraPrice"];
         $totalItemsPrice = $cartPrices["totalItemPrice"];
         $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];

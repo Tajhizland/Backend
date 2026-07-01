@@ -28,7 +28,7 @@ class CartItemService implements CartItemServiceInterface
     {
     }
 
-    public function calculatePrice($cartItems): array
+    public function calculatePrice($cartItems , $isDigipay=false): array
     {
         $itemsPrice = 0;
         $totalItemPrice = 0;
@@ -49,7 +49,7 @@ class CartItemService implements CartItemServiceInterface
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             $discountItem = $productColor->activeDiscountItem->first();
 
-            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$productColor->product->allow_digipay) {
+            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$isDigipay) {
                 $discountAmount = ($price->price - $discountItem->discount_price) * $cartItem->count;
                 $itemCartPrice = ($discountItem->discount_price + $guarantyPrice) * $cartItem->count;
                 $totalItemPrice += ($discountItem->discount_price + $guarantyPrice) * $cartItem->count;
