@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Shop\Payment\PaymentRequest;
+use App\Http\Requests\V1\Shop\Payment\SnappPayEligibleRequest;
 use App\Models\Order;
 use App\Services\Payment\PaymentServicesInterface;
 use Illuminate\Http\Request;
@@ -43,6 +44,12 @@ class PaymentController extends Controller
         } catch (\Throwable $exception) {
             return Redirect::to("https://tajhizland.com/failed_payment");
         }
+    }
+
+    public function snappPayEligible(SnappPayEligibleRequest $request)
+    {
+        $result = $this->paymentServices->snappPayEligible($request->get("amount"));
+        return $this->dataResponse($result);
     }
 
     public function verifySnappay(Request $request)

@@ -126,6 +126,71 @@ class SnappPayService
         ];
     }
 
+    public function update($orderId, $orderItems, $amount)
+    {
+        $order = Order::find($orderId);
+
+        if (!$order->payment_token) {
+            return [
+                'error' => 'no_payment_token',
+                'message' => 'payment token not found for this order',
+            ];
+        }
+
+        $cartItems = [];
+        $sumCartPrice = 0;
+        foreach ($orderItems as $item) {
+            $object = new \stdClass();
+            $object->id = $item->product_color_id;
+            $object->amount = $item->final_price * 10;
+            $object->name = $item->product->name;
+            $object->count = $item->count;
+            $object->commissionType = 10500;
+            $object->category = $item->product->categories[0]->name;
+            $cartItems[] = $object;
+            $sumCartPrice += ($item->final_price) * $item->count * 10;
+        }
+
+        $data = [
+            "amount" => $amount,
+            "paymentToken" => $order->payment_token,
+            "discountAmount" => $order->off * 10,
+            "externalSourceAmount" => $order->use_wallet_price * 10,
+            "paymentMethodTypeDto" => "INSTALLMENT",
+            "transactionId" => (string)$orderId,
+            "cartList" => [
+                [
+                    "cartId" => $orderId,
+                    "isShipmentIncluded" => true,
+                    "isTaxIncluded" => true,
+                    "shippingAmount" => ($order->delivery_price) * 10,
+                    "taxAmount" => 0,
+                    "totalAmount" => $sumCartPrice + ($order->delivery_price * 10),
+                    "cartItems" => $cartItems
+                ]
+            ]
+        ];
+
+        $auth = $this->auth();
+        $access_token = $auth["access_token"];
+        $url = config("Gateway.snappay.API_BASE_URL");
+
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$access_token}",
+            'Content-Type' => 'application/json',
+        ])
+            ->post("{$url}/api/online/payment/v1/update", $data);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return [
+            'error' => $response->status(),
+            'message' => $response->body(),
+        ];
+    }
+
     public function verify($paymentToken)
     {
         $data = [

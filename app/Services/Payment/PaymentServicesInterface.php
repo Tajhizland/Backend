@@ -15,4 +15,6 @@ interface PaymentServicesInterface
 
     public function verifyOrderByWallet($userId);
 
+    public function snappPayEligible($amount);
+
 }

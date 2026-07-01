@@ -294,6 +294,12 @@ class PaymentService implements PaymentServicesInterface
         return 1;
     }
 
+    public function snappPayEligible($amount)
+    {
+        // مبلغ از فرانت به تومان می‌آید و اسنپ‌پی مبلغ را به ریال می‌خواهد (× ۱۰)
+        return $this->snappPayService->eligible($amount * 10);
+    }
+
     public function verifyPaymentSnapppay($request)
     {
         try {

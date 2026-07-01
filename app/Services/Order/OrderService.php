@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Exceptions\BreakException;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
+use App\Services\SnappPay\SnappPayService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +14,8 @@ class OrderService implements OrderServiceInterface
 {
     public function __construct(
         private OrderRepositoryInterface     $orderRepository,
-        private OrderItemRepositoryInterface $orderItemRepository
+        private OrderItemRepositoryInterface $orderItemRepository,
+        private SnappPayService              $snappPayService
     )
     {
     }
@@ -64,7 +66,7 @@ class OrderService implements OrderServiceInterface
 
     public function updateOrderItem($itemId, $count)
     {
-        return DB::transaction(function () use ($itemId, $count) {
+        $orderId = DB::transaction(function () use ($itemId, $count) {
             $item = $this->orderItemRepository->findOrFail($itemId);
 
             if ($count > $item->count) {
@@ -72,21 +74,31 @@ class OrderService implements OrderServiceInterface
             }
 
             $this->orderItemRepository->update($item, ["count" => $count]);
+            $this->recalculateOrderPrices($item->order_id);
 
-            return $this->recalculateOrderPrices($item->order_id);
+            return $item->order_id;
         });
+
+        $this->syncSnappPayPayment($orderId);
+
+        return $this->orderRepository->findWithDetails($orderId);
     }
 
     public function deleteOrderItem($itemId)
     {
-        return DB::transaction(function () use ($itemId) {
+        $orderId = DB::transaction(function () use ($itemId) {
             $item = $this->orderItemRepository->findOrFail($itemId);
             $orderId = $item->order_id;
 
             $this->orderItemRepository->delete($item);
+            $this->recalculateOrderPrices($orderId);
 
-            return $this->recalculateOrderPrices($orderId);
+            return $orderId;
         });
+
+        $this->syncSnappPayPayment($orderId);
+
+        return $this->orderRepository->findWithDetails($orderId);
     }
 
     /**
@@ -109,7 +121,21 @@ class OrderService implements OrderServiceInterface
             "total_price" => $totalPrice,
             "final_price" => $finalPrice,
         ]);
+    }
 
-        return $this->orderRepository->findWithDetails($orderId);
+    /**
+     * اگر درگاه پرداخت سفارش اسنپ‌پی (۴) باشد، مبالغ به‌روزشده را به اسنپ‌پی هم اعلام می‌کنیم.
+     * این فراخوانی بعد از کامیت تراکنش انجام می‌شود تا تماس شبکه‌ای داخل تراکنش نباشد.
+     */
+    private function syncSnappPayPayment($orderId)
+    {
+        $order = $this->orderRepository->findOrFail($orderId);
+
+        if ((int)$order->payment_method !== 4) {
+            return;
+        }
+
+        $orderItems = $this->orderItemRepository->getByOrderId($orderId);
+        $this->snappPayService->update($orderId, $orderItems, $order->final_price * 10);
     }
 }

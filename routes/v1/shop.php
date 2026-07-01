@@ -108,6 +108,7 @@ Route::group(["prefix" => "payment"], function () {
     Route::post('digipay', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyDigipay"]);
     Route::get('digipay', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyDigipay"]);
     Route::post('snappay', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifySnappay"]);
+    Route::post('snappay/eligible', [\App\Http\Controllers\V1\Shop\PaymentController::class, "snappPayEligible"]);
     Route::post('wallet', [\App\Http\Controllers\V1\Shop\WalletController::class, "paymentOrderByWallet"])->middleware("auth:sanctum");
 });
 
