@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Shop\Cart\AddToCartRequest;
+use App\Http\Requests\V1\Shop\Cart\MergeCartRequest;
 use App\Http\Requests\V1\Shop\Cart\UpdateCartItemRequest;
 use App\Http\Resources\V1\CartItem\CartItemCollection;
 use App\Services\Cart\CartServiceInterface;
@@ -26,6 +27,12 @@ class CartController extends Controller
     {
         $this->cartService->addProductToCart(Auth::user()->id, $request->get("productColorId"), $request->get("count"), $request->get("guaranty_id"));
         return $this->successResponse(Lang::get("action.add_to",["attr"=>Lang::get("attr.product") , "to"=>Lang::get("attr.cart")]));
+    }
+
+    public function merge(MergeCartRequest $request)
+    {
+        $cart = $this->cartService->mergeCart(Auth::user()->id, $request->get("items"));
+        return $this->dataResponseCollection(new CartItemCollection($cart), Lang::get("action.update", ["attr" => Lang::get("attr.cart")]));
     }
 
     public function removeItem(UpdateCartItemRequest $request)

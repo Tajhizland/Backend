@@ -6,6 +6,7 @@ use App\Exceptions\BreakException;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
 class CartService implements CartServiceInterface
@@ -47,6 +48,53 @@ class CartService implements CartServiceInterface
             : $this->cartItemRepository->addItem($cart->id, $productColorId, $quantity,$guarantyId);
 
         return $cartItem;
+    }
+
+    /**
+     * ادغام سبد خرید مهمان (localStorage فرانت) با سبد خرید فعال کاربر بعد از لاگین.
+     *
+     * هر آیتم: ["productColorId" => int, "count" => int, "guaranty_id" => int|null]
+     * آیتم‌های نامعتبر یا ناموجود بی‌سروصدا رد می‌شوند تا کل ادغام به خاطر یک آیتم خراب متوقف نشود.
+     * تعداد نهایی هر آیتم از موجودی انبار بیشتر نمی‌شود.
+     */
+    public function mergeCart($userId, array $items)
+    {
+        $cart = $this->cartRepository->getCartByUserId($userId) ?: $this->cartRepository->createCart($userId);
+
+        DB::transaction(function () use ($cart, $items) {
+            foreach ($items as $item) {
+                $productColorId = $item["productColorId"] ?? null;
+                $count = (int)($item["count"] ?? 0);
+                $guarantyId = $item["guaranty_id"] ?? null;
+
+                if (!$productColorId || $count < 1) {
+                    continue;
+                }
+
+                $productColor = $this->productColorRepository->get(["id" => $productColorId]);
+                if (!$productColor) {
+                    continue;
+                }
+
+                $stock = $productColor->stock->stock ?? 0;
+                if ($stock < 1) {
+                    continue;
+                }
+
+                $cartItem = $this->cartItemRepository->findItem($cart->id, $productColorId, $guarantyId);
+                $totalQuantity = $cartItem ? $cartItem->count + $count : $count;
+
+                if ($totalQuantity > $stock) {
+                    $totalQuantity = $stock;
+                }
+
+                $cartItem
+                    ? $this->cartItemRepository->updateItem($cart->id, $productColorId, $totalQuantity, $guarantyId)
+                    : $this->cartItemRepository->addItem($cart->id, $productColorId, $totalQuantity, $guarantyId);
+            }
+        });
+
+        return $this->cartItemRepository->getItemsByCartId($cart->id);
     }
 
     public function increaseProductInCart($userId, $productColorId,$guarantyId)

@@ -30,6 +30,7 @@ Route::post('torob/product', [\App\Http\Controllers\V1\Shop\TorobController::cla
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
+    Route::post('merge', [CartController::class, "merge"]);
     Route::post('remove-item', [CartController::class, "removeItem"]);
     Route::post('clear-all', [CartController::class, "clearAll"]);
     Route::post('increase', [CartController::class, "increase"]);
