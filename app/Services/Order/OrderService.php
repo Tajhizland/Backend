@@ -64,6 +64,21 @@ class OrderService implements OrderServiceInterface
         return $this->orderRepository->digipaySumOrder($startDate, $endDate);
     }
 
+    public function cancelOrder($id)
+    {
+        DB::transaction(function () use ($id) {
+            $order = $this->orderRepository->findOrFail($id);
+            $this->orderRepository->setStatus($order, OrderStatus::Cancelled->value);
+        });
+
+        $order = $this->orderRepository->findOrFail($id);
+        if ((int)$order->payment_method === 4) {
+            $this->snappPayService->cancel($id);
+        }
+
+        return $this->orderRepository->findWithDetails($id);
+    }
+
     public function updateOrderItem($itemId, $count)
     {
         $orderId = DB::transaction(function () use ($itemId, $count) {

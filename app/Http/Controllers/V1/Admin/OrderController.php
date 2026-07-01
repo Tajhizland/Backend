@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Order\CancelOrderRequest;
 use App\Http\Requests\V1\Admin\Order\DeleteOrderItemRequest;
 use App\Http\Requests\V1\Admin\Order\DigipayCalcRequest;
 use App\Http\Requests\V1\Admin\Order\UpdateOrderItemRequest;
@@ -41,6 +42,12 @@ class OrderController extends Controller
     {
         $value = $this->orderService->digipayCalc($request->get("start_date"), $request->get("end_date"));
         return $this->dataResponse(["value" => $value]);
+    }
+
+    public function cancel(CancelOrderRequest $request)
+    {
+        $order = $this->orderService->cancelOrder($request->get("id"));
+        return $this->dataResponse(new OrderResource($order), Lang::get("action.cancel", ["attr" => Lang::get("attr.order")]));
     }
 
     public function updateItem(UpdateOrderItemRequest $request)

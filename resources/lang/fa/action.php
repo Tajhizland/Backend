@@ -18,4 +18,5 @@ return [
     "queued" =>  ':attr با موفقیت در صف اجرا قرار گرفت',
     "remove_from" => ':attr با موفقیت از :from حذف شد',
     "order_item_only_decrease" => 'تعداد آیتم سفارش را فقط می‌توان کاهش داد',
+    "cancel" => ':attr با موفقیت کنسل شد',
 ];
