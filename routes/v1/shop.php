@@ -177,6 +177,11 @@ Route::group(["prefix" => 'cast'], function () {
 });
 Route::get('cast-category', [\App\Http\Controllers\V1\Shop\CastCategoryController::class, "index"]);
 
+
+Route::group(["prefix" => "order"], function () {
+    Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OrderController::class, "findById"]);
+});
+
 Route::get('info', function () {
     phpinfo();
 });
