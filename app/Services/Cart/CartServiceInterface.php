@@ -7,6 +7,7 @@ use App\Models\Cart;
 interface CartServiceInterface
 {
     public function getCartItems($userId);
+    public function mergeCart($userId, array $items);
     public function addProductToCart($userId, $productColorId, $quantity,$guarantyId);
     public function removeProductFromCart($userId, $productColorId,$guarantyId);
     public function clearCart($userId);

@@ -30,6 +30,7 @@ Route::post('torob/product', [\App\Http\Controllers\V1\Shop\TorobController::cla
 
 Route::group(["prefix" => "cart", "middleware" => "auth:sanctum"], function () {
     Route::post('add-to-cart', [CartController::class, "addToCart"]);
+    Route::post('merge', [CartController::class, "merge"]);
     Route::post('remove-item', [CartController::class, "removeItem"]);
     Route::post('clear-all', [CartController::class, "clearAll"]);
     Route::post('increase', [CartController::class, "increase"]);
@@ -108,6 +109,7 @@ Route::group(["prefix" => "payment"], function () {
     Route::post('digipay', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyDigipay"]);
     Route::get('digipay', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifyDigipay"]);
     Route::post('snappay', [\App\Http\Controllers\V1\Shop\PaymentController::class, "verifySnappay"]);
+    Route::post('snappay/eligible', [\App\Http\Controllers\V1\Shop\PaymentController::class, "snappPayEligible"]);
     Route::post('wallet', [\App\Http\Controllers\V1\Shop\WalletController::class, "paymentOrderByWallet"])->middleware("auth:sanctum");
 });
 
@@ -174,6 +176,11 @@ Route::group(["prefix" => 'cast'], function () {
     Route::post('find', [\App\Http\Controllers\V1\Shop\CastController::class, "find"]);
 });
 Route::get('cast-category', [\App\Http\Controllers\V1\Shop\CastCategoryController::class, "index"]);
+
+
+Route::group(["prefix" => "order"], function () {
+    Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OrderController::class, "findById"]);
+});
 
 Route::get('info', function () {
     phpinfo();

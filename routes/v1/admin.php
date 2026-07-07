@@ -149,6 +149,9 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OrderController::class, "findById"]);
         Route::post("update/status", [\App\Http\Controllers\V1\Admin\OrderController::class, "updateStatus"]);
         Route::post('digipay_calc', [\App\Http\Controllers\V1\Admin\OrderController::class, "digipayCalc"]);
+        Route::post('item/update', [\App\Http\Controllers\V1\Admin\OrderController::class, "updateItem"]);
+        Route::post('item/delete', [\App\Http\Controllers\V1\Admin\OrderController::class, "deleteItem"]);
+        Route::post('cancel', [\App\Http\Controllers\V1\Admin\OrderController::class, "cancel"]);
 
         Route::post('tapin/{id}', [\App\Http\Controllers\V1\Admin\TapinController::class, "register"]);
 

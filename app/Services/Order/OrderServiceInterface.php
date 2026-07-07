@@ -19,4 +19,10 @@ interface OrderServiceInterface
     public function updateOrderStatus($id, $status);
 
     public function digipayCalc($startDate, $endDate);
+
+    public function cancelOrder($id);
+
+    public function updateOrderItem($itemId, $count);
+
+    public function deleteOrderItem($itemId);
 }

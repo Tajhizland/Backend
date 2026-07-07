@@ -13,6 +13,7 @@ return
         "price" => 'قیمت',
         "profile" => 'پروفایل',
         "order" => 'سفارش',
+        "order_item" => 'آیتم سفارش',
         "order_status" => 'وضعیت سفارش',
         "order_request" => 'درخواست ثبت سفارش',
         "cart" => 'سبد خرید',

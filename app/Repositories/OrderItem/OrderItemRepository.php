@@ -4,6 +4,7 @@ namespace App\Repositories\OrderItem;
 
 use App\Models\OrderItem;
 use App\Repositories\Base\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 class OrderItemRepository extends BaseRepository implements OrderItemRepositoryInterface
 {
@@ -30,5 +31,10 @@ class OrderItemRepository extends BaseRepository implements OrderItemRepositoryI
     public function getByOrderId($orderId)
     {
         return $this->model::where("order_id", $orderId)->get();
+    }
+
+    public function sumFinalPrice($orderId)
+    {
+        return (int)$this->model::where("order_id", $orderId)->sum(DB::raw("final_price * count"));
     }
 }
