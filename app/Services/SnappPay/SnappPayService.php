@@ -68,7 +68,7 @@ class SnappPayService
             $object->amount = $item->final_price * 10;
             $object->name = $item->product->name;
             $object->count = $item->count;
-            $object->commissionType = 10500;
+            $object->commissionType = 100;
             $object->category = $item->product->categories[0]->name;
             $cartItems[] = $object;
             $sumCartPrice += ($item->final_price) * $item->count * 10;
