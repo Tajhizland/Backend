@@ -193,6 +193,8 @@ use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
 use App\Services\Auth\Login\LoginServiceInterface;
+use App\Services\Auth\Otp\OtpAuthService;
+use App\Services\Auth\Otp\OtpAuthServiceInterface;
 use App\Services\Auth\Register\RegisterService;
 use App\Services\Auth\Register\RegisterServiceInterface;
 use App\Services\Auth\ResetPassword\ResetPasswordService;
@@ -551,6 +553,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(RegisterServiceInterface::class, RegisterService::class);
 
         $this->app->bind(LoginServiceInterface::class, LoginService::class);
+
+        $this->app->bind(OtpAuthServiceInterface::class, OtpAuthService::class);
 
         $this->app->bind(ResetPasswordServiceInterface::class, ResetPasswordService::class);
 
