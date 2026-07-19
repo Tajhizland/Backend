@@ -8,8 +8,6 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
 {
     public function register($username, $password, $name, $last_name, $national_code);
 
-    public function registerWithMobile($username);
-
     public function resetPassword($username, $password);
 
     public function findByUsername($username);

@@ -19,10 +19,10 @@ Route::post('/login', [\App\Http\Controllers\V1\Auth\LoginController::class,"log
 Route::post('/check', [\App\Http\Controllers\V1\Auth\OtpAuthController::class,"check"]);
 // ارسال کد یکبار مصرف (هم برای ورود کاربر موجود، هم ثبت‌نام کاربر جدید)
 Route::post('/otp/send', [\App\Http\Controllers\V1\Auth\OtpAuthController::class,"sendCode"]);
-// تایید کد و ورود/ثبت‌نام و دریافت توکن
+// تایید کد یکبار مصرف (کاربر موجود => توکن ورود | کاربر جدید => ادامه در مرحله ثبت‌نام)
 Route::post('/otp/verify', [\App\Http\Controllers\V1\Auth\OtpAuthController::class,"verifyCode"]);
-// تعیین/تغییر رمز عبور توسط کاربر لاگین‌شده (مخصوص کاربری که با کد ثبت‌نام کرده و می‌خواهد رمز بگذارد)
-Route::post('/set_password', [\App\Http\Controllers\V1\Auth\OtpAuthController::class,"setPassword"])->middleware("auth:sanctum");
+// مرحله اصلی ثبت‌نام کاربر جدید (بعد از تایید کد) از همان endpoint موجود انجام می‌شود:
+// POST /auth/register  با فیلدهای: mobile, name, last_name, national_code, password, password_confirmation
 
 Route::post('/register/send_code', [\App\Http\Controllers\V1\Auth\RegisterController::class,"sendVerificationCode"]);
 Route::post('/register/verify_code', [\App\Http\Controllers\V1\Auth\RegisterController::class,"verifyCode"]);

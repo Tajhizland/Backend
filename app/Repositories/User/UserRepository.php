@@ -31,16 +31,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->get([["username", $username]], 1);
     }
 
-    public function registerWithMobile($username)
-    {
-        // ثبت‌نام کاربر با ورود کد یکبار مصرف (بدون رمز عبور)
-        return $this->create([
-            "username" => $username,
-            "password" => null,
-            "role" => "user"
-        ]);
-    }
-
     public function dataTable()
     {
         return QueryBuilder::for(User::class)

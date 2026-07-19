@@ -17,15 +17,9 @@ interface OtpAuthServiceInterface
     public function sendVerificationCode($mobile);
 
     /**
-     * تایید کد و ورود/ثبت‌نام کاربر و صدور توکن
-     * @return array{token: string, is_new_user: bool}
+     * تایید کد یکبار مصرف
+     * کاربر موجود => ورود و صدور توکن | کاربر جدید => ورود به مرحله اصلی ثبت‌نام (بدون توکن)
+     * @return array{is_new_user: bool, token: string|null}
      */
     public function verifyCode($mobile, $code);
-
-    /**
-     * تعیین/تغییر رمز عبور برای کاربر لاگین‌شده
-     * کاربری که با کد یکبار مصرف ثبت‌نام کرده (بدون رمز) می‌تواند رمز تعیین کند
-     * کاربری که رمز دارد باید رمز فعلی را وارد کند
-     */
-    public function setPassword($newPassword, $currentPassword = null);
 }

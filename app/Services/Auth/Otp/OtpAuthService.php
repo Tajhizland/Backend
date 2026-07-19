@@ -6,8 +6,6 @@ use App\Exceptions\BreakException;
 use App\Repositories\MobileVerification\MobileVerificationRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Sms\SmsServiceInterface;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 
 class OtpAuthService implements OtpAuthServiceInterface
@@ -57,36 +55,25 @@ class OtpAuthService implements OtpAuthServiceInterface
             throw new BreakException(Lang::get("exceptions.code_is_not_valid"));
 
         $user = $this->userRepository->findByUsername($mobile);
-        $isNewUser = !$user;
 
-        // کاربر جدید: ثبت‌نام خودکار بدون رمز عبور (کاربر بعدا می‌تواند از پروفایل رمز تعیین کند)
-        if ($isNewUser) {
-            $user = $this->userRepository->registerWithMobile($mobile);
-            if (!$user)
-                throw new BreakException(Lang::get("exceptions.register_error"));
+        // کاربر جدید: کد تایید می‌شود و درخواست به حالت InProgress می‌رود
+        // اما کاربر ساخته نمی‌شود و توکنی صادر نمی‌شود؛ فرانت وارد مرحله اصلی ثبت‌نام می‌شود
+        // و اطلاعات (نام، نام خانوادگی، کد ملی، رمز) را به POST /auth/register ارسال می‌کند
+        if (!$user) {
+            $this->mobileVerificationRepository->setInProgress($pendingRequest->id);
+            return [
+                "is_new_user" => true,
+                "token" => null,
+            ];
         }
 
+        // کاربر موجود (ورود با کد یکبار مصرف): ورود مستقیم و صدور توکن
         $this->mobileVerificationRepository->setCompleted($pendingRequest->id);
-
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return [
+            "is_new_user" => false,
             "token" => $token,
-            "is_new_user" => $isNewUser,
         ];
-    }
-
-    public function setPassword($newPassword, $currentPassword = null)
-    {
-        $user = Auth::user();
-
-        // اگر کاربر از قبل رمز دارد، تعیین رمز جدید نیازمند تایید رمز فعلی است
-        if (!empty($user->password)) {
-            if (empty($currentPassword) || !Hash::check($currentPassword, $user->password))
-                throw new BreakException(Lang::get("exceptions.wrong_password"));
-        }
-
-        $this->userRepository->resetPassword($user->username, $newPassword);
-        return true;
     }
 }
