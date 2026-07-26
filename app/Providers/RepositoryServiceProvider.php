@@ -321,6 +321,10 @@ use App\Services\RunConceptAnswer\RunConceptAnswerService;
 use App\Services\RunConceptAnswer\RunConceptAnswerServiceInterface;
 use App\Services\RunConceptQuestion\RunConceptQuestionService;
 use App\Services\RunConceptQuestion\RunConceptQuestionServiceInterface;
+use App\Repositories\DirectUpload\DirectUploadRepository;
+use App\Repositories\DirectUpload\DirectUploadRepositoryInterface;
+use App\Services\DirectUpload\DirectUploadService;
+use App\Services\DirectUpload\DirectUploadServiceInterface;
 use App\Services\S3\S3Service;
 use App\Services\S3\S3ServiceInterface;
 use App\Services\Sample\SampleService;
@@ -607,6 +611,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GatewayStrategyServicesInterface::class, GatewayStrategyServices::class);
 
         $this->app->bind(S3ServiceInterface::class, S3Service::class);
+
+        $this->app->bind(DirectUploadRepositoryInterface::class, DirectUploadRepository::class);
+
+        $this->app->bind(DirectUploadServiceInterface::class, DirectUploadService::class);
 
         $this->app->bind(ProductColorServiceInterface::class, ProductColorService::class);
 

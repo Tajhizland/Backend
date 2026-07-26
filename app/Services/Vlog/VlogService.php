@@ -2,11 +2,13 @@
 
 namespace App\Services\Vlog;
 
+use App\Enums\VideoStatus;
 use App\Jobs\ConvertVideoToHlsJob;
 use App\Models\Vlog;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Services\ConvertToHLS\HlsServiceInterface;
+use App\Services\DirectUpload\DirectUploadServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -18,6 +20,7 @@ class VlogService implements VlogServiceInterface
         private VlogCategoryRepositoryInterface $vlogCategoryRepository,
         private S3ServiceInterface              $s3Service,
         private HlsServiceInterface             $hlsService,
+        private DirectUploadServiceInterface    $directUploadService,
     )
     {
     }
@@ -62,8 +65,39 @@ class VlogService implements VlogServiceInterface
             "url" => $url,
             "category_id" => $categoryId,
             "author" => $author,
+            "video_status" => VideoStatus::Queued->value,
         ]);
-        ConvertVideoToHlsJob::dispatch($vlog, $this->s3Service);
+        ConvertVideoToHlsJob::dispatch($vlog);
+        return $vlog;
+    }
+
+    /**
+     * ثبت ولاگ برای ویدیویی که کلاینت مستقیماً روی S3 آپلود کرده است.
+     * فقط کلیدِ فایل دریافت می‌شود؛ هیچ بایتی از این سرور عبور نمی‌کند.
+     */
+    public function storeDirect($title, $description, $videoKey, $poster, $url, $status, $categoryId, $author)
+    {
+        // پوستر اول آپلود می‌شود تا اگر شکست خورد، ویدیو هنوز در مسیر موقت
+        // باشد و توسط upload:prune جمع شود (نه اینکه در پوشه‌ی نهایی یتیم بماند)
+        $posterPath = $this->s3Service->upload($poster, "vlog");
+
+        // انتقال از مسیر موقت به پوشه‌ی نهایی و تأیید مالکیت کلید
+        $fileName = $this->directUploadService->consume($videoKey, $author);
+
+        $vlog = $this->vlogRepository->create([
+            "title" => $title,
+            "description" => $description,
+            "video" => $fileName,
+            "poster" => $posterPath,
+            "status" => $status,
+            "url" => $url,
+            "category_id" => $categoryId,
+            "author" => $author,
+            "video_status" => VideoStatus::Queued->value,
+        ]);
+
+        ConvertVideoToHlsJob::dispatch($vlog);
+
         return $vlog;
     }
 
@@ -90,7 +124,13 @@ class VlogService implements VlogServiceInterface
             "category_id" => $categoryId,
         ]);
 
-        ConvertVideoToHlsJob::dispatch($vlog, $this->s3Service);
+        // فقط وقتی ویدیوی جدیدی آمده ترنسکد دوباره انجام می‌شود؛
+        // ویرایش عنوان نباید کل ویدیو را دوباره پردازش کند
+        if (isset($video)) {
+            $this->vlogRepository->update($vlog, ["video_status" => VideoStatus::Queued->value]);
+            ConvertVideoToHlsJob::dispatch($vlog);
+        }
+
         return $vlog;
     }
 //   public function update($id, $title, $description, $video, $poster, $url, $status, $categoryId)

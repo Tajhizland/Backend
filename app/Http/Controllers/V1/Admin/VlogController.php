@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Admin\Vlog\StoreVlogDirectRequest;
 use App\Http\Requests\V1\Admin\Vlog\StoreVlogRequest;
 use App\Http\Requests\V1\Admin\Vlog\UpdateVlogRequest;
 use App\Http\Requests\V1\Admin\Vlog\VlogSearchRequest;
@@ -37,6 +38,41 @@ class VlogController extends Controller
         $userId = Auth::user()->id;
         $this->vlogService->store($request->get("title"), $request->get("description"), $request->file("video"), $request->file("poster"), $request->get("url"), $request->get("status"), $request->get("categoryId") ,$userId);
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.vlog")]));
+    }
+
+    /** ثبت ولاگ با ویدیویی که مستقیماً روی S3 آپلود شده است */
+    public function storeDirect(StoreVlogDirectRequest $request)
+    {
+        $userId = Auth::user()->id;
+
+        $vlog = $this->vlogService->storeDirect(
+            $request->get("title"),
+            $request->get("description"),
+            $request->get("videoKey"),
+            $request->file("poster"),
+            $request->get("url"),
+            $request->get("status"),
+            $request->get("categoryId"),
+            $userId
+        );
+
+        return $this->dataResponse(
+            new VlogResource($vlog),
+            Lang::get("action.store", ["attr" => Lang::get("attr.vlog")])
+        );
+    }
+
+    /** وضعیت پردازش ویدیو؛ فرانت بعد از پایان آپلود این را poll می‌کند */
+    public function videoStatus($id)
+    {
+        $vlog = $this->vlogService->findById($id);
+
+        return $this->dataResponse([
+            'id' => $vlog->id,
+            'videoStatus' => $vlog->video_status,
+            'videoError' => $vlog->video_error,
+            'hls' => $vlog->hls,
+        ]);
     }
 
     public function update(UpdateVlogRequest $request)
