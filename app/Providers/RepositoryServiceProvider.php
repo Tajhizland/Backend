@@ -193,6 +193,8 @@ use App\Services\Address\AddressService;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginService;
 use App\Services\Auth\Login\LoginServiceInterface;
+use App\Services\Auth\Otp\OtpAuthService;
+use App\Services\Auth\Otp\OtpAuthServiceInterface;
 use App\Services\Auth\Register\RegisterService;
 use App\Services\Auth\Register\RegisterServiceInterface;
 use App\Services\Auth\ResetPassword\ResetPasswordService;
@@ -319,6 +321,10 @@ use App\Services\RunConceptAnswer\RunConceptAnswerService;
 use App\Services\RunConceptAnswer\RunConceptAnswerServiceInterface;
 use App\Services\RunConceptQuestion\RunConceptQuestionService;
 use App\Services\RunConceptQuestion\RunConceptQuestionServiceInterface;
+use App\Repositories\DirectUpload\DirectUploadRepository;
+use App\Repositories\DirectUpload\DirectUploadRepositoryInterface;
+use App\Services\DirectUpload\DirectUploadService;
+use App\Services\DirectUpload\DirectUploadServiceInterface;
 use App\Services\S3\S3Service;
 use App\Services\S3\S3ServiceInterface;
 use App\Services\Sample\SampleService;
@@ -552,6 +558,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(LoginServiceInterface::class, LoginService::class);
 
+        $this->app->bind(OtpAuthServiceInterface::class, OtpAuthService::class);
+
         $this->app->bind(ResetPasswordServiceInterface::class, ResetPasswordService::class);
 
         $this->app->bind(CartServiceInterface::class, CartService::class);
@@ -603,6 +611,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GatewayStrategyServicesInterface::class, GatewayStrategyServices::class);
 
         $this->app->bind(S3ServiceInterface::class, S3Service::class);
+
+        $this->app->bind(DirectUploadRepositoryInterface::class, DirectUploadRepository::class);
+
+        $this->app->bind(DirectUploadServiceInterface::class, DirectUploadService::class);
 
         $this->app->bind(ProductColorServiceInterface::class, ProductColorService::class);
 

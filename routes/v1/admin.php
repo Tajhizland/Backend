@@ -244,10 +244,19 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\FaqController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\FaqController::class, "update"]);
     });
+    /** آپلود مستقیم مرورگر به S3 — فقط امضا و تأیید، بدون عبور فایل از سرور */
+    Route::group(["prefix" => "upload"], function () {
+        Route::post("initiate", [\App\Http\Controllers\V1\Admin\UploadController::class, "initiate"]);
+        Route::post("sign-parts", [\App\Http\Controllers\V1\Admin\UploadController::class, "signParts"]);
+        Route::post("complete", [\App\Http\Controllers\V1\Admin\UploadController::class, "complete"]);
+        Route::post("abort", [\App\Http\Controllers\V1\Admin\UploadController::class, "abort"]);
+    });
     Route::group(["prefix" => "vlog"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\VlogController::class, "dataTable"]);
         Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\VlogController::class, "findById"]);
+        Route::get("video-status/{id}", [\App\Http\Controllers\V1\Admin\VlogController::class, "videoStatus"]);
         Route::post("store", [\App\Http\Controllers\V1\Admin\VlogController::class, "store"]);
+        Route::post("store-direct", [\App\Http\Controllers\V1\Admin\VlogController::class, "storeDirect"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\VlogController::class, "update"]);
         Route::post("search", [\App\Http\Controllers\V1\Admin\VlogController::class, "search"]);
         Route::get("list", [\App\Http\Controllers\V1\Admin\VlogController::class, "list"]);
