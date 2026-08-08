@@ -9,4 +9,5 @@ interface ProductImageServiceInterface
     public function upload2($productId, $image);
     public function remove($id);
     public function sort($array);
+    public function setColor($array);
 }

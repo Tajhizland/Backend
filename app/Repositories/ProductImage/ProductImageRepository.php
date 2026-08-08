@@ -22,6 +22,11 @@ class ProductImageRepository extends BaseRepository implements ProductImageRepos
         return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
 
+    public function setColor($id, $productColorId)
+    {
+        return $this->model::where("id", $id)->update(["product_color_id" => $productColorId]);
+    }
+
     public function findLastSortByProductId($productId)
     {
         return $this->model::where("product_id", $productId)->latest("sort")->first();

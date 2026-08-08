@@ -17,6 +17,11 @@ class ProductColor extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class, 'product_color_id')->orderBy("sort")->orderBy("id");
+    }
+
     public function stock(): HasOne
     {
         return $this->hasOne(Stock::class, 'product_color_id');

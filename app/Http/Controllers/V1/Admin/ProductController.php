@@ -16,6 +16,7 @@ use App\Http\Requests\V1\Admin\Product\ProductColorRequest;
 use App\Http\Requests\V1\Admin\Product\ProductFilterRequest;
 use App\Http\Requests\V1\Admin\Product\ProductImageRequest;
 use App\Http\Requests\V1\Admin\Product\ProductOptionRequest;
+use App\Http\Requests\V1\Admin\Product\SetImageColorRequest;
 use App\Http\Requests\V1\Admin\Product\SearchListRequest;
 use App\Http\Requests\V1\Admin\Product\SetProductVideosRequest;
 use App\Http\Requests\V1\Admin\Product\SetVideoRequest;
@@ -179,6 +180,12 @@ class ProductController extends Controller
         $this->productImageService->sort($request->get("image"));
         return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.image")]));
 
+    }
+
+    public function setImageColor(SetImageColorRequest $request)
+    {
+        $this->productImageService->setColor($request->get("image"));
+        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.image")]));
     }
 
     public function updateProductOption(UpdateProductOptionRequest $request)

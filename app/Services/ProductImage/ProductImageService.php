@@ -72,4 +72,13 @@ class ProductImageService implements ProductImageServiceInterface
         }
         return true;
     }
+
+    public function setColor($array)
+    {
+        foreach ($array as $item) {
+            $productColorId = $item["product_color_id"] ?? null;
+            $this->productImageRepository->setColor($item["id"], $productColorId !== "" ? $productColorId : null);
+        }
+        return true;
+    }
 }

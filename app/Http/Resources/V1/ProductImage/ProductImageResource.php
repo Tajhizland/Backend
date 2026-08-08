@@ -19,6 +19,7 @@ class ProductImageResource extends JsonResource
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
 
             'product_id' => $this->product_id,
+            'product_color_id' => $this->product_color_id,
 
             'product' => new ProductResource($this->whenLoaded('product')),
         ];
