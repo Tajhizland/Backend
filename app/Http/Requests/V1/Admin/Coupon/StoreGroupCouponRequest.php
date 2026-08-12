@@ -17,6 +17,8 @@ class StoreGroupCouponRequest extends FormRequest
             'percent' => ['nullable', 'integer'],
             'min_order_value' => ['nullable', 'integer'],
             'max_order_value' => ['nullable', 'integer'],
+            'send_sms' => ['nullable', 'boolean'],
+            'message' => ['nullable', 'string'],
         ];
     }
 

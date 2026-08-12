@@ -27,6 +27,11 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
         return $this->model::where("code", $code)->first();
     }
 
+    public function getByIdsWithUser($ids)
+    {
+        return $this->model::with("user")->whereIn("id", $ids)->get();
+    }
+
     public function findActiveUserCode($code, $userId)
     {
         return $this->model::where("code", $code)

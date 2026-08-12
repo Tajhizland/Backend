@@ -2,10 +2,13 @@
 
 namespace App\Services\Coupon;
 
+use App\Enums\SmsLogStatus;
+use App\Jobs\GroupCouponSmsJob;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
 use App\Repositories\Coupon\CouponRepositoryInterface;
 use App\Services\CartItem\CartItemServiceInterface;
+use App\Services\SmsLog\SmsLogServiceInterface;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -17,6 +20,7 @@ class CouponService implements CouponServiceInterface
         private CartRepositoryInterface     $cartRepository,
         private CartItemRepositoryInterface $cartItemRepository,
         private CartItemServiceInterface    $cartItemService,
+        private SmsLogServiceInterface      $smsLogService,
     )
     {
     }
@@ -98,11 +102,12 @@ class CouponService implements CouponServiceInterface
 
     }
 
-    public function storeGroup($status, $price, $percent, $user_ids, $start_time, $end_time, $min_order_value, $max_order_value)
+    public function storeGroup($status, $price, $percent, $user_ids, $start_time, $end_time, $min_order_value, $max_order_value, $send_sms = false, $message = null)
     {
+        $couponIds = [];
         foreach ($user_ids as $user_id) {
             $code = $this->generate();
-            $this->couponRepository->create([
+            $coupon = $this->couponRepository->create([
                 "code" => $code,
                 "status" => $status,
                 "price" => $price,
@@ -113,7 +118,14 @@ class CouponService implements CouponServiceInterface
                 "min_order_value" => $min_order_value,
                 "max_order_value" => $max_order_value,
             ]);
-
+            $couponIds[] = $coupon->id;
         }
+
+        if ($send_sms && count($couponIds)) {
+            $smsLog = $this->smsLogService->store("coupon", SmsLogStatus::Pending->value);
+            GroupCouponSmsJob::dispatch($couponIds, $smsLog, $message);
+        }
+
+        return $couponIds;
     }
 }

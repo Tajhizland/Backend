@@ -64,6 +64,8 @@ class CouponController extends Controller
             $request->get("end_time"),
             $request->get("min_order_value"),
             $request->get("max_order_value"),
+            $request->boolean("send_sms"),
+            $request->get("message"),
         );
         return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.discount")]));
     }

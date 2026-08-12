@@ -19,7 +19,9 @@ interface CouponServiceInterface
         $start_time,
         $end_time,
         $min_order_value,
-        $max_order_value
+        $max_order_value,
+        $send_sms = false,
+        $message = null
     );  public function store(
         $code,
         $status,
