@@ -105,6 +105,11 @@ class OrderService implements OrderServiceInterface
             $item = $this->orderItemRepository->findOrFail($itemId);
             $orderId = $item->order_id;
 
+            // سفارش باید همیشه حداقل یک آیتم داشته باشد؛ آخرین محصول قابل حذف نیست
+            if ($this->orderItemRepository->getByOrderId($orderId)->count() <= 1) {
+                throw new BreakException(__("action.order_item_last_cannot_delete"));
+            }
+
             $this->orderItemRepository->delete($item);
             $this->recalculateOrderPrices($orderId);
 
