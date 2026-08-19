@@ -78,17 +78,23 @@ class CouponService implements CouponServiceInterface
         ]);
     }
 
-    public function check($code, $userId)
+    /**
+     * @param int|null $totalItemsPrice مبلغ اقلامی که کد روی آن اعمال می‌شود.
+     *                                  اگر ندهی از سبد خرید فعال کاربر حساب می‌شود.
+     */
+    public function check($code, $userId, $totalItemsPrice = null)
     {
         $coupon = $this->couponRepository->findActiveUserCode($code, $userId);
         if (!$coupon) {
             throw new  BadRequestHttpException("کد تخفیف یافت نشد");
         }
         if ($coupon->min_order_value || $coupon->max_order_value) {
-            $cart = $this->cartRepository->getCartByUserId($userId);
-            $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
-            $cartItemsCalculate = $this->cartItemService->calculatePrice($cartItems);
-            $totalItemsPrice = $cartItemsCalculate["totalItemPrice"];
+            if ($totalItemsPrice === null) {
+                $cart = $this->cartRepository->getCartByUserId($userId);
+                $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
+                $cartItemsCalculate = $this->cartItemService->calculatePrice($cartItems);
+                $totalItemsPrice = $cartItemsCalculate["totalItemPrice"];
+            }
 
             if ($coupon->min_order_value != null && $totalItemsPrice <= $coupon->min_order_value) {
                 throw new  BadRequestHttpException("برای استفاده از این کد تخفیف مجموع قیمت محصولات سبد خرید باید بالای " . $coupon->min_order_value . " تومان باشد .");

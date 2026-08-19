@@ -2,7 +2,9 @@
 
 namespace App\Services\OnHoldOrder;
 
+use App\Enums\OnHoldOrderStatus;
 use App\Enums\OrderStatus;
+use App\Exceptions\BreakException;
 use App\Repositories\OnHoldOrder\OnHoldOrderRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Services\Sms\SmsServiceInterface;
@@ -26,6 +28,60 @@ class OnHoldOrderService implements OnHoldOrderServiceInterface
     public function userHoldOnPaginate($userId)
     {
         return $this->onHoldOrderRepository->userOnHoldOrderPaginate($userId);
+    }
+
+    /**
+     * سفارش معلقِ آماده‌ی پرداخت، با همه‌ی رابطه‌های موردنیاز صفحه‌ی چک‌اوت.
+     * اگر سفارش مال کاربر نباشد، تایید نشده باشد یا مهلت پرداختش گذشته باشد خطا می‌دهد.
+     */
+    public function checkoutData($id, $userId)
+    {
+        $onHoldOrder = $this->onHoldOrderRepository->findWithCheckoutRelations($id);
+        $this->assertPayable($onHoldOrder, $userId);
+        return $onHoldOrder;
+    }
+
+    /**
+     * اقلام سفارش معلق — برای محاسبه‌ی روش‌های ارسال.
+     */
+    public function checkoutItems($id, $userId)
+    {
+        $onHoldOrder = $this->onHoldOrderRepository->findWithCheckoutRelations($id);
+        $this->assertPayable($onHoldOrder, $userId);
+        return $onHoldOrder->order->orderItems;
+    }
+
+    /**
+     * شرط‌های لازم برای اینکه یک سفارش معلق قابل پرداخت باشد.
+     */
+    public function assertPayable($onHoldOrder, $userId)
+    {
+        if (!$onHoldOrder->order || $onHoldOrder->order->user_id != $userId) {
+            throw new BreakException(\Lang::get("exceptions.not_your_order"));
+        }
+        if ($onHoldOrder->status != OnHoldOrderStatus::Accept->value) {
+            throw new BreakException(\Lang::get("exceptions.reject_order"));
+        }
+        if (!$onHoldOrder->expire_date || $this->expireTimestamp($onHoldOrder) < now()->getTimestamp()) {
+            throw new BreakException(\Lang::get("exceptions.expired_order"));
+        }
+        if (!in_array($onHoldOrder->order->status, [
+            OrderStatus::Unpaid->value,
+            OrderStatus::OnHold->value,
+            OrderStatus::Accepted->value,
+        ])) {
+            throw new BreakException("این سفارش قابل پرداخت نیست");
+        }
+        return true;
+    }
+
+    /**
+     * expire_date روی مدل به timestamp کست شده، ولی ممکن است رشته هم باشد.
+     */
+    private function expireTimestamp($onHoldOrder): int
+    {
+        $expire = $onHoldOrder->expire_date;
+        return is_numeric($expire) ? (int)$expire : strtotime($expire);
     }
 
     public function removeItem($id)

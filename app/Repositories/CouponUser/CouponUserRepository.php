@@ -11,4 +11,9 @@ class CouponUserRepository extends BaseRepository implements CouponUserRepositor
     {
         parent::__construct($model);
     }
+
+    public function deleteByOrderId($orderId)
+    {
+        return $this->model::where("order_id", $orderId)->delete();
+    }
 }

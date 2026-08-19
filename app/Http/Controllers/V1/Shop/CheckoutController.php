@@ -11,6 +11,7 @@ use App\Repositories\Address\AddressRepositoryInterface;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Checkout\CheckoutServiceInterface;
+use App\Services\Checkout\ShippingMethodResolver;
 use App\Services\Delivery\DeliveryServiceInterface;
 use App\Services\Tapin\CheckPrice;
 use App\Services\Tapin\TapinService;
@@ -28,100 +29,21 @@ class CheckoutController extends Controller
         private AddressRepositoryInterface $addressRepository,
         private CheckPrice                 $checkPrice,
         private TapinService               $tapinService,
+        private ShippingMethodResolver     $shippingMethodResolver,
     )
     {
     }
 
     public function getShippingMethods()
     {
-
-
         $userId = Auth::user()->id;
         $cartItems = $this->cartService->getCartItems($userId);
         $address = $this->addressRepository->findActiveByUserId($userId);
-
-        $size = 10;
-        $isPacket = false;
-        $isPacketAllow = true;
-        $weight = 0;
-        $width = 0;
-        $height = 0;
-        $length = 0;
-  $hasInvalidProduct = false;
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
-        $totalItemsPrice = $cartPrices["totalItemPrice"];
-if($totalItemsPrice <50000)
-{
-$totalItemsPrice=50000;
-}
-        foreach ($cartItems as $item) {
-            $product = $item->productColor->product;
-  if (empty($product->weight) || $product->weight <= 0 || 
-            empty($product->width) || empty($product->height) || empty($product->length) ||
-            $product->width <= 0 || $product->height <= 0 || $product->length <= 0) {
-            $hasInvalidProduct = true;
-        }
-            $weight += $product->weight;
-            $width += $product->width;
-            $height += $product->height;
-            $length += $product->length;
-            if ($product->is_packet) {
-                if ($isPacketAllow) {
-                    $isPacket = true;
-                    $isPacketAllow = false;
-                }
-            }
-        }
 
-        $boxs = $this->tapinService->getBox();
-        $boxs = json_decode(json_encode($boxs));
-        $boxs = $boxs->entries->list;
-        foreach ($boxs as $box) {
-            if ($isPacket) {
-                if ($box->pk < 10)
-                    continue;
-            } else {
-                if ($box->pk > 10)
-                    continue;
-            }
-            if ($box->length < $length && $box->width < $width && $box->height < $height) {
-                $size = $box->pk;
-            }
-        }
-        if ($size == 10 && $isPacket) {
-            foreach ($boxs as $box) {
-                if ($box->length < $length && $box->width < $width && $box->height < $height) {
-                    $size = $box->pk;
-                }
-            }
-        }
-        if ($weight < 50) {
-            $weight = 50;
-        }
-        if ($weight > 30000) {
- $hasInvalidProduct = true;
-            $weight = 30000;
-        }
-
-        $response = $this->deliveryService->getActives();
-$filterResponse=[];
-        foreach ($response as $delivery) {
-            if ($delivery->id == 1) {
-if( $hasInvalidProduct == true)
-{
- unset($delivery);
-                continue;
-}
-                $priceCheck = $this->checkPrice->check($address->province_id, $address->city_id, $weight, $totalItemsPrice, $size);
-                $priceCheck = json_decode(json_encode($priceCheck));
-                $delivery->price = ceil($priceCheck->entries->total_price / 1000) * 100;
-                $filterResponse[]=$delivery;
-            }
-else{
-$filterResponse[]=$delivery;
-}
-        }
-        return $this->dataResponseCollection(new DeliveryCollection($filterResponse));
+        return $this->dataResponseCollection(new DeliveryCollection(
+            $this->shippingMethodResolver->resolve($cartItems, $address, $cartPrices["totalItemPrice"])
+        ));
     }
 
     public function getShippingMethods2()

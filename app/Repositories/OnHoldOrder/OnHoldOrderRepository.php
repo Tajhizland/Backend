@@ -41,6 +41,19 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
         })->latest("id")->paginate();
     }
 
+    /**
+     * سفارش معلق به‌همراه هر چیزی که صفحه‌ی چک‌اوت لازم دارد.
+     */
+    public function findWithCheckoutRelations($id)
+    {
+        return $this->model::with([
+            "order",
+            "order.orderItems.product.images",
+            "order.orderItems.productColor.stock",
+            "order.orderItems.guaranty",
+        ])->findOrFail($id);
+    }
+
     public function setReject(OnHoldOrder $onHoldModel)
     {
         $onHoldModel->update(

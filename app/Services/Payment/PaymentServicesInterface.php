@@ -13,6 +13,8 @@ interface PaymentServicesInterface
 
     public function onHoldOrderVerifyByWallet($id, $userId);
 
+    public function onHoldOrderCheckoutPayment($id, $userId, $useWallet, $shippingMethod, $code = null, $gateway = 1);
+
     public function verifyOrderByWallet($userId);
 
     public function snappPayEligible($amount);

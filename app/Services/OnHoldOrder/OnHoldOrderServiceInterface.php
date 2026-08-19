@@ -5,6 +5,9 @@ namespace App\Services\OnHoldOrder;
 interface OnHoldOrderServiceInterface
 {
     public function userHoldOnPaginate($userId);
+    public function checkoutData($id, $userId);
+    public function checkoutItems($id, $userId);
+    public function assertPayable($onHoldOrder, $userId);
     public function getByUserId($userId);
     public function findById($id);
     public function findOrderById($id);

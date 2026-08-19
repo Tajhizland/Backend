@@ -117,6 +117,12 @@ Route::group(["prefix" => "on-hold-order", "middleware" => "auth:sanctum"], func
     Route::get('get', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "userHoldOnPaginate"]);
     Route::post('payment/{id}', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "payment"]);
     Route::post('wallet/{id}', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "paymentByWallet"]);
+
+    // صفحه‌ی چک‌اوت سفارش معلقِ تاییدشده
+    Route::get('checkout/{id}', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "checkout"]);
+    Route::get('checkout/{id}/delivery', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "shippingMethods"]);
+    Route::post('checkout/{id}/coupon', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "checkCoupon"]);
+    Route::post('checkout/{id}/payment', [\App\Http\Controllers\V1\Shop\OnHoldOrderController::class, "checkoutPayment"]);
 });
 
 Route::group(["prefix" => "comment"], function () {

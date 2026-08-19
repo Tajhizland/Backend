@@ -6,5 +6,5 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface CouponUserRepositoryInterface extends BaseRepositoryInterface
 {
-
+    public function deleteByOrderId($orderId);
 }

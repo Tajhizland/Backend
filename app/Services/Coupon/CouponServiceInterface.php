@@ -7,7 +7,7 @@ interface CouponServiceInterface
     public function dataTable();
 
     public function generate();
-    public function check($code , $userId);
+    public function check($code , $userId, $totalItemsPrice = null);
 
     public function find($id);
 
