@@ -79,7 +79,7 @@ class UserController extends Controller
 
     public function updateWallet(UpdateWalletRequest $request)
     {
-        $this->userService->updateWallet($request->get("id"), $request->get("wallet"));
+        $this->userService->updateWallet($request->get("user_id"), $request->get("wallet"));
         return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.user")]));
     }
 
