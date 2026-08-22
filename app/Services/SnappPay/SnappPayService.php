@@ -70,6 +70,7 @@ class SnappPayService
             $object->count = $item->count;
             $object->commissionType = 100;
             $object->category = $item->product->categories[0]->name;
+            $object->guarantee = (int)$item->guaranty_price * 10;
             $cartItems[] = $object;
             $sumCartPrice += ($item->final_price) * $item->count * 10;
         }
@@ -147,6 +148,7 @@ class SnappPayService
             $object->count = $item->count;
             $object->commissionType = 100;
             $object->category = $item->product->categories[0]->name;
+            $object->guarantee = (int)$item->guaranty_price * 10;
             $cartItems[] = $object;
             $sumCartPrice += ($item->final_price) * $item->count * 10;
         }
