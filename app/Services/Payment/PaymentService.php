@@ -2,12 +2,11 @@
 
 namespace App\Services\Payment;
 
-use App\Enums\CartStatus;
 use App\Enums\OnHoldOrderStatus;
 use App\Enums\OrderStatus;
+use App\Enums\PaymentGateway;
 use App\Events\OrderPaidEvent;
 use App\Events\OrderPaymentRequestEvent;
-use App\Events\OrderRequestEvent;
 use App\Exceptions\BreakException;
 use App\Models\Order;
 use App\Repositories\Address\AddressRepositoryInterface;
@@ -19,241 +18,293 @@ use App\Repositories\OnHoldOrder\OnHoldOrderRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\OrderInfo\OrderInfoRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
-use App\Repositories\Stock\StockRepositoryInterface;
-use App\Repositories\Transaction\TransactionRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\Checkout\CheckoutServiceInterface;
 use App\Services\Checkout\ShippingMethodResolver;
-use App\Services\Coupon\CouponServiceInterface;
 use App\Services\DigiPay\DigiPayService;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
-use App\Services\Payment\Gateways\Strategy\GatewayStrategyServicesInterface;
+use App\Services\Order\Data\OrderDraft;
+use App\Services\Order\OrderFactoryInterface;
+use App\Services\Order\OrderPaymentFinalizerInterface;
+use App\Services\Payment\Data\CheckoutContext;
 use App\Services\SnappPay\SnappPayService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use App\Models\Gateway;
 
+/**
+ * هماهنگ‌کننده‌ی جریان پرداخت.
+ *
+ * کارهای تکراری به همکارهای اختصاصی سپرده شده‌اند:
+ *  - OrderFactory            : ساخت سفارش از روی سبد
+ *  - OrderPaymentFinalizer   : نهایی‌سازی سفارشِ پرداخت‌شده
+ *  - PaymentGatewayRouter    : انتخاب درگاه
+ *  - CouponCalculator        : محاسبه‌ی تخفیف
+ */
 class PaymentService implements PaymentServicesInterface
 {
-    private $gatewayService;
+    private const THANK_YOU_PAGE = "/thank_you_page";
 
     public function __construct(
-        private GatewayStrategyServicesInterface $gatewayStrategyServices,
-        private CartRepositoryInterface          $cartRepository,
-        private CartItemRepositoryInterface      $cartItemRepository,
-        private UserRepositoryInterface          $userRepository,
-        private DeliveryRepositoryInterface      $deliveryRepository,
-        private OrderRepositoryInterface         $orderRepository,
-        private OrderItemRepositoryInterface     $orderItemRepository,
-        private OrderInfoRepositoryInterface     $orderInfoRepository,
-        private AddressRepositoryInterface       $addressRepository,
-        private StockRepositoryInterface         $stockRepository,
-        private TransactionRepositoryInterface   $transactionRepository,
-        private CartItemServiceInterface         $cartItemService,
-        private OnHoldOrderRepositoryInterface   $onHoldOrderRepository,
-        private CheckoutServiceInterface         $checkoutService,
-        private CouponServiceInterface           $couponService,
-        private CouponUserRepositoryInterface    $couponUserRepository,
-        private DigiPayService                   $digiPayService,
-        private SnappPayService                  $snappPayService,
-        private OnHoldOrderServiceInterface      $onHoldOrderService,
-        private ShippingMethodResolver           $shippingMethodResolver,
+        private CartRepositoryInterface         $cartRepository,
+        private CartItemRepositoryInterface     $cartItemRepository,
+        private UserRepositoryInterface         $userRepository,
+        private DeliveryRepositoryInterface     $deliveryRepository,
+        private OrderRepositoryInterface        $orderRepository,
+        private OrderItemRepositoryInterface    $orderItemRepository,
+        private OrderInfoRepositoryInterface    $orderInfoRepository,
+        private AddressRepositoryInterface      $addressRepository,
+        private CartItemServiceInterface        $cartItemService,
+        private OnHoldOrderRepositoryInterface  $onHoldOrderRepository,
+        private CheckoutServiceInterface        $checkoutService,
+        private CouponUserRepositoryInterface   $couponUserRepository,
+        private DigiPayService                  $digiPayService,
+        private SnappPayService                 $snappPayService,
+        private OnHoldOrderServiceInterface     $onHoldOrderService,
+        private ShippingMethodResolver          $shippingMethodResolver,
+        private OrderFactoryInterface           $orderFactory,
+        private OrderPaymentFinalizerInterface  $orderPaymentFinalizer,
+        private PaymentGatewayRouter            $gatewayRouter,
+        private CouponCalculator                $couponCalculator,
     )
     {
-        $this->gatewayService = $this->gatewayStrategyServices->strategy();
     }
+
+    // ---------------------------------------------------------------- سفارش جدید
 
     public function request($userId, $useWallet, $shippingMethod, $code = null, $shippingPrice = 0, $gateway = 1)
     {
-        $cart = $this->cartRepository->getCartByUserId($userId);
-        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
-        $this->checkoutService->finalCheckout($cart, $cartItems);
-        $limit = $this->cartItemService->checkLimit($cartItems);
-        $user = $this->userRepository->findOrFail($userId);
-        $address = $this->addressRepository->findActiveByUserId($userId);
-        $delivery = $this->deliveryRepository->findOrFail($shippingMethod);
-        $cartPrices = $this->cartItemService->calculatePrice($cartItems, $gateway == 3);
-        $extraPrice = $cartPrices["extraPrice"];
-        $totalItemsPrice = $cartPrices["totalItemPrice"];
-        $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
-        $finalPrice = $totalItemsPrice + $shippingPrice;
-        $finalExtraPrice = $extraPrice + $shippingPrice;
-        $coupon = null;
-        $off = 0;
-        $extraPriceOff = 0;
-        if ($code != null) {
-            $coupon = $this->couponService->check($code, $userId);
-            if ($coupon) {
-                if ($coupon->price) {
-                    $off = $coupon->price;
-                } elseif ($coupon->percent) {
-                    $off = $finalPrice * $coupon->percent / 100;
-                    $extraPriceOff = $finalExtraPrice * $coupon->percent / 100;
-                }
-            }
-        }
-        $finalPrice = $finalPrice - $off;
-        $finalExtraPrice = $finalExtraPrice - $extraPriceOff;
+        $context = $this->buildCheckoutContext($userId, $shippingMethod, $code, $shippingPrice, $gateway);
+
         if (!$useWallet) {
-
-            $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
-            $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $shippingPrice, $finalPrice, $orderStatus, $gateway, $shippingMethod, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, 0, $off);
-            if ($coupon) {
-                $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
-            }
-            $this->cartRepository->update($cart, ["order_id" => $order->id]);
-            $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id, $gateway == 3);
-            if ($limit) {
-                $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
-                event(new OrderRequestEvent($onHoldOrder));
-                return [
-                    "path" => "/thank_you_page",
-                    "type" => "limit"
-                ];
-            }
-            event(new OrderPaymentRequestEvent($order));
-            if ($gateway == 3) {
-                //    $gatewayObject=Gateway::find(3);
-                //    if ($gatewayObject->extra_price > 0) {
-                //        $percentage = $gatewayObject->extra_price;
-                //        $finalPrice = $finalPrice * (1 + ($percentage / 100));
-                //        $finalPrice = round($finalPrice);
-                //    }
-                $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-                $path = $this->digiPayService->request($finalExtraPrice * 10, $address->mobile, $order->id, $orderItems);
-            } else if ($gateway == 4) {
-
-                $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-                $path = $this->snappPayService->request($order->id, $orderItems, $finalPrice * 10);
-            } else {
-                $path = $this->gatewayService->request($finalPrice * 10, $order->id);
-            }
-            return [
-                "path" => $path,
-                "type" => "payment"
-            ];
-        }
-        if ($finalPrice <= $user->wallet) {
-            $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
-            $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, 0, $orderStatus, 2, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $finalPrice, $finalPrice, $off);
-            if ($coupon) {
-                $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
-            }
-            $this->cartRepository->update($cart, ["order_id" => $order->id]);
-            $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
-            if ($limit) {
-                $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
-                event(new OrderRequestEvent($onHoldOrder));
-                return [
-                    "path" => "/thank_you_page",
-                    "type" => "limit"
-                ];
-            }
-            $this->userRepository->update($user, ["wallet" => $user->wallet - $finalPrice]);
-
-            $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
-            $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-            foreach ($orderItems as $item) {
-                $this->stockRepository->decrement($item->product_color_id, $item->count);
-            }
-            $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
-            event(new OrderPaidEvent($order));
-            return [
-                "path" => "/thank_you_page",
-                "type" => "paid"
-            ];
-        } else {
-            $totalPrice = $finalPrice;
-            $finalPrice -= $user->wallet;
-            $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
-            $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-            $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "", $totalPrice, $user->wallet, $off);
-            if ($coupon) {
-                $this->couponUserRepository->create(["order_id" => $order->id, "user_id" => $userId, "coupon_id" => $coupon->id]);
-            }
-            $this->cartRepository->update($cart, ["order_id" => $order->id]);
-            $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
-            if ($limit) {
-                $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
-                event(new OrderRequestEvent($onHoldOrder));
-                return [
-                    "path" => "/thank_you_page",
-                    "type" => "limit"
-                ];
-            }
-            event(new OrderPaymentRequestEvent($order));
-
-            return [
-                "path" => $this->gatewayService->request($finalPrice * 10, $order->id),
-                "type" => "payment"
-            ];
+            return $this->placeGatewayOrder($context, $shippingMethod, $shippingPrice);
         }
 
+        if ($context->payableAmount <= $context->user->wallet) {
+            return $this->placeWalletOrder($context);
+        }
+
+        return $this->placePartialWalletOrder($context);
     }
 
-    public function request2($userId, $useWallet)
+    /**
+     * مقدمه‌ی مشترک هر سه سناریو: اعتبارسنجی سبد، قیمت‌ها و کوپن.
+     */
+    /**
+     * @param  mixed  $shippingMethod  null یعنی روش ارسالِ ثبت‌شده روی سبد ملاک است
+     * @param  mixed  $shippingPrice   null یعنی قیمتِ خودِ روش ارسال ملاک است
+     */
+    private function buildCheckoutContext($userId, $shippingMethod = null, $code = null, $shippingPrice = null, $gateway = null): CheckoutContext
     {
         $cart = $this->cartRepository->getCartByUserId($userId);
         $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
         $this->checkoutService->finalCheckout($cart, $cartItems);
-        $limit = $this->cartItemService->checkLimit($cartItems);
+
+        $hasLimitedItem = $this->cartItemService->checkLimit($cartItems);
         $user = $this->userRepository->findOrFail($userId);
         $address = $this->addressRepository->findActiveByUserId($userId);
-        $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
-        $cartPrices = $this->cartItemService->calculatePrice($cartItems);
-        $totalItemsPrice = $cartPrices["totalItemPrice"];
-        $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
-        $finalPrice = $totalItemsPrice + $delivery->price;
-        $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
-        $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-        $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, $cart->payment_method, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "");
-        $this->cartRepository->update($cart, ["order_id" => $order->id]);
-        $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
-        if ($limit) {
-            $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
-            event(new OrderRequestEvent($onHoldOrder));
-            return [
-                "path" => "/thank_you_page",
-                "type" => "limit"
-            ];
+        $delivery = $this->deliveryRepository->findOrFail($shippingMethod ?? $cart->delivery_method);
+        $shippingPrice ??= $delivery->price;
+
+        $isDigipay = PaymentGateway::normalize($gateway) === PaymentGateway::DigiPay;
+        $cartPrices = $this->cartItemService->calculatePrice($cartItems, $isDigipay);
+
+        $itemsPrice = $cartPrices["totalItemPrice"];
+        $amount = $itemsPrice + $shippingPrice;
+        $extraAmount = $cartPrices["extraPrice"] + $shippingPrice;
+
+        $coupon = $this->couponCalculator->apply($code, $userId, $amount, $extraAmount);
+
+        return new CheckoutContext(
+            user: $user,
+            cart: $cart,
+            cartItems: $cartItems,
+            address: $address,
+            delivery: $delivery,
+            hasLimitedItem: $hasLimitedItem,
+            gateway: $gateway,
+            itemsPrice: $itemsPrice,
+            payableAmount: $amount - $coupon->off,
+            payableExtra: $extraAmount - $coupon->extraOff,
+            maxDeliveryDelay: $cartPrices["maxDeliveryDelay"],
+            coupon: $coupon,
+        );
+    }
+
+    /**
+     * پرداخت کامل از درگاه، بدون دخالت کیف پول.
+     *
+     * نکته‌ی تاریخی: این سناریو هزینه‌ی ارسال و روش ارسالِ ارسالی از کلاینت را ملاک
+     * می‌گیرد، در حالی که دو سناریوی کیف‌پولی از cart->delivery_method و delivery->price
+     * استفاده می‌کنند.
+     */
+    private function placeGatewayOrder(CheckoutContext $context, $shippingMethod, $shippingPrice): array
+    {
+        $order = $this->orderFactory->createFromCart(new OrderDraft(
+            user: $context->user,
+            cart: $context->cart,
+            cartItems: $context->cartItems,
+            address: $context->address,
+            status: $this->initialStatus($context),
+            paymentMethod: $context->gateway,
+            deliveryMethod: $shippingMethod,
+            itemsPrice: $context->itemsPrice,
+            deliveryPrice: $shippingPrice,
+            totalPrice: $context->payableAmount,
+            useWalletPrice: 0,
+            finalPrice: $context->payableAmount,
+            off: $context->coupon->off,
+            deliveryDelayDays: $context->maxDeliveryDelay,
+            coupon: $context->coupon->coupon,
+            disableDiscount: $context->isDigipay(),
+        ));
+
+        if ($context->hasLimitedItem) {
+            return $this->holdForApproval($order);
         }
+
         event(new OrderPaymentRequestEvent($order));
 
-        return [
-            "path" => $this->gatewayService->request($finalPrice * 10, $order->id),
-            "type" => "payment"
-        ];
+        // دیجی‌پی مبلغِ بدون تخفیفِ محصول به‌علاوه‌ی کارمزد را می‌گیرد
+        $amount = $context->isDigipay() ? $context->payableExtra : $context->payableAmount;
+
+        return $this->paymentRedirect(
+            $this->gatewayRouter->request($context->gateway, $order, $amount, $context->address->mobile)
+        );
     }
+
+    /**
+     * کل مبلغ از کیف پول پوشش داده می‌شود؛ سفارش بلافاصله پرداخت‌شده ثبت می‌گردد.
+     */
+    private function placeWalletOrder(CheckoutContext $context): array
+    {
+        $order = $this->orderFactory->createFromCart(new OrderDraft(
+            user: $context->user,
+            cart: $context->cart,
+            cartItems: $context->cartItems,
+            address: $context->address,
+            status: $this->initialStatus($context),
+            paymentMethod: PaymentGateway::Wallet,
+            deliveryMethod: $context->cart->delivery_method,
+            itemsPrice: $context->itemsPrice,
+            deliveryPrice: $context->delivery->price,
+            totalPrice: $context->payableAmount,
+            useWalletPrice: $context->payableAmount,
+            finalPrice: 0,
+            off: $context->coupon->off,
+            deliveryDelayDays: $context->maxDeliveryDelay,
+            coupon: $context->coupon->coupon,
+        ));
+
+        if ($context->hasLimitedItem) {
+            return $this->holdForApproval($order);
+        }
+
+        $this->orderPaymentFinalizer->markPaid($order, $context->payableAmount, null, $context->user);
+
+        return $this->paidRedirect();
+    }
+
+    /**
+     * کیف پول کفاف نمی‌دهد؛ باقی‌مانده از درگاه بانکی گرفته می‌شود.
+     */
+    private function placePartialWalletOrder(CheckoutContext $context): array
+    {
+        $remaining = $context->payableAmount - $context->user->wallet;
+
+        $order = $this->orderFactory->createFromCart(new OrderDraft(
+            user: $context->user,
+            cart: $context->cart,
+            cartItems: $context->cartItems,
+            address: $context->address,
+            status: $this->initialStatus($context),
+            paymentMethod: $context->cart->payment_method,
+            deliveryMethod: $context->cart->delivery_method,
+            itemsPrice: $context->itemsPrice,
+            deliveryPrice: $context->delivery->price,
+            totalPrice: $context->payableAmount,
+            useWalletPrice: $context->user->wallet,
+            finalPrice: $remaining,
+            off: $context->coupon->off,
+            deliveryDelayDays: $context->maxDeliveryDelay,
+            coupon: $context->coupon->coupon,
+        ));
+
+        if ($context->hasLimitedItem) {
+            return $this->holdForApproval($order);
+        }
+
+        event(new OrderPaymentRequestEvent($order));
+
+        // این مسیر همیشه از درگاه بانکی پیش‌فرض استفاده می‌کند و $gateway را نادیده می‌گیرد
+        return $this->paymentRedirect(
+            $this->gatewayRouter->request(PaymentGateway::Online, $order, $remaining)
+        );
+    }
+
+    public function verifyOrderByWallet($userId)
+    {
+        $context = $this->buildCheckoutContext($userId, null, null, 0, PaymentGateway::Wallet);
+
+        if ($context->payableAmount > $context->user->wallet) {
+            throw new BadRequestHttpException("موجودی کیف پول شما برای ثبت این سفارش کافی نیست !");
+        }
+
+        $order = $this->orderFactory->createFromCart(new OrderDraft(
+            user: $context->user,
+            cart: $context->cart,
+            cartItems: $context->cartItems,
+            address: $context->address,
+            status: $this->initialStatus($context),
+            paymentMethod: PaymentGateway::Wallet,
+            deliveryMethod: $context->cart->delivery_method,
+            itemsPrice: $context->itemsPrice,
+            deliveryPrice: $context->delivery->price,
+            totalPrice: 0,
+            useWalletPrice: 0,
+            finalPrice: $context->payableAmount,
+            deliveryDelayDays: $context->maxDeliveryDelay,
+        ));
+
+        if ($context->hasLimitedItem) {
+            return $this->holdForApproval($order);
+        }
+
+        $this->orderPaymentFinalizer->markPaid($order, $context->payableAmount, null, $context->user);
+
+        return $this->paidRedirect();
+    }
+
+    // ------------------------------------------------------------ سفارش معلق
 
     public function onHoldOrderRequest($id, $userId)
     {
-        $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
-        if (Carbon::parse($onHoldOrder->expire_date) < Carbon::now()) {
-            throw new BreakException(\Lang::get("exceptions.expired_order"));
-        }
-        if ($onHoldOrder->status != OnHoldOrderStatus::Accept->value) {
-            throw new BreakException(\Lang::get("exceptions.reject_order"));
-        }
-        $orderId = $onHoldOrder->order_id;
-        $cart = $this->cartRepository->getCartByOrderId($orderId);
-        if ($cart->user_id != $userId) {
-            throw new BreakException(\Lang::get("exceptions.not_your_order"));
-        }
-        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
-        $this->checkoutService->finalCheckout($cart, $cartItems);
-        $order = $this->orderRepository->findOrFail($orderId);
-        if ($order->payment_method == 3) {
-            $request = $this->digiPayService->request($order->final_price * 10, $order->orderInfo->mobile, $orderId, $this->orderItemRepository->getByOrderId($orderId));
-        } else
-            $request = $this->gatewayService->request($order->final_price * 10, $orderId);
-        return $request;
+        $order = $this->legacyPayableOnHoldOrder($id, $userId);
+
+        // این مسیر فقط دیجی‌پی را جدا می‌کند؛ بقیه (از جمله اسنپ‌پی) به درگاه بانکی می‌روند
+        $gateway = PaymentGateway::normalize($order->payment_method) === PaymentGateway::DigiPay
+            ? PaymentGateway::DigiPay
+            : PaymentGateway::Online;
+
+        return $this->gatewayRouter->request($gateway, $order, $order->final_price, $order->orderInfo->mobile);
     }
 
+    public function onHoldOrderVerifyByWallet($id, $userId)
+    {
+        $order = $this->legacyPayableOnHoldOrder($id, $userId);
+
+        $finalPrice = $order->final_price;
+        $user = $this->userRepository->findOrFail($userId);
+        if ($finalPrice > $user->wallet) {
+            throw new BadRequestHttpException("موجودی کیف پول شما برای ثبت این سفارش کافی نیست !");
+        }
+
+        $this->orderPaymentFinalizer->markPaid($order, $finalPrice, null, $user);
+
+        return $this->paidRedirect();
+    }
 
     /**
      * پرداخت یک سفارش معلقِ تاییدشده از صفحه‌ی چک‌اوت اختصاصی‌اش.
@@ -280,50 +331,92 @@ class PaymentService implements PaymentServicesInterface
         if (!$address || !$address->city_id || !$address->province_id || !$address->mobile || !$address->address) {
             throw new BreakException(\Lang::get("exceptions.address_not_find"));
         }
+
+        $gatewayEnum = PaymentGateway::normalize($gateway);
         // دیجی‌پی و اسنپ‌پی با کیف پول ترکیب نمی‌شوند
-        if ($gateway == 3 || $gateway == 4) {
+        if ($gatewayEnum?->isCreditProvider()) {
             $useWallet = false;
         }
 
         $prices = $this->onHoldOrderItemsPrice($orderItems);
         $totalItemsPrice = $prices["totalItemPrice"];
 
-        // هزینه‌ی ارسال سمت سرور دوباره حساب می‌شود؛ مقدار ارسالی کلاینت ملاک نیست
-        $deliveries = $this->shippingMethodResolver->resolve($orderItems, $address, $totalItemsPrice);
-        $delivery = null;
-        foreach ($deliveries as $item) {
+        $shippingPrice = $this->resolveOnHoldShippingPrice($orderItems, $address, $totalItemsPrice, $shippingMethod);
+
+        $coupon = $this->couponCalculator->apply(
+            $code,
+            $userId,
+            $totalItemsPrice + $shippingPrice,
+            $prices["extraPrice"] + $shippingPrice,
+            $totalItemsPrice,
+        );
+
+        $finalPrice = max(0, (int)round($totalItemsPrice + $shippingPrice - $coupon->off));
+        $finalExtraPrice = max(0, (int)round($prices["extraPrice"] + $shippingPrice - $coupon->extraOff));
+        $off = (int)round($coupon->off);
+
+        $this->refreshOrderInfo($order, $user, $address);
+        $this->replaceOrderCoupon($order, $userId, $coupon->coupon);
+
+        // کل مبلغ با موجودی کیف پول پوشش داده می‌شود
+        if ($useWallet && $finalPrice <= $user->wallet) {
+            $this->orderRepository->update($order, [
+                "price" => $totalItemsPrice,
+                "delivery_price" => $shippingPrice,
+                "delivery_method" => $shippingMethod,
+                "payment_method" => PaymentGateway::Wallet->value,
+                "off" => $off,
+                "total_price" => $finalPrice,
+                "use_wallet_price" => $finalPrice,
+                "final_price" => 0,
+            ]);
+
+            $this->orderPaymentFinalizer->markPaid($order, $finalPrice, null, $user);
+
+            return $this->paidRedirect();
+        }
+
+        // مبلغی که در نهایت از درگاه گرفته می‌شود (دیجی‌پی مبلغ بدون تخفیف + کارمزد را می‌گیرد)
+        $chargeAmount = $gatewayEnum?->usesExtraPrice() ? $finalExtraPrice : $finalPrice;
+        $useWalletPrice = $useWallet ? min($user->wallet, $chargeAmount) : 0;
+        $payablePrice = $chargeAmount - $useWalletPrice;
+
+        $this->orderRepository->update($order, [
+            "price" => $totalItemsPrice,
+            "delivery_price" => $shippingPrice,
+            "delivery_method" => $shippingMethod,
+            "payment_method" => PaymentGateway::toValue($gateway),
+            "off" => $off,
+            "total_price" => $chargeAmount,
+            "use_wallet_price" => $useWalletPrice,
+            "final_price" => $payablePrice,
+        ]);
+        event(new OrderPaymentRequestEvent($order));
+
+        return $this->paymentRedirect(
+            $this->gatewayRouter->request($gateway, $order, $payablePrice, $address->mobile, $orderItems)
+        );
+    }
+
+    /**
+     * هزینه‌ی ارسال سمت سرور دوباره حساب می‌شود؛ مقدار ارسالی کلاینت ملاک نیست.
+     */
+    private function resolveOnHoldShippingPrice($orderItems, $address, $totalItemsPrice, $shippingMethod): int
+    {
+        foreach ($this->shippingMethodResolver->resolve($orderItems, $address, $totalItemsPrice) as $item) {
             if ($item->id == $shippingMethod) {
-                $delivery = $item;
-                break;
+                return max(0, (int)$item->price);
             }
         }
-        if (!$delivery) {
-            throw new BreakException(\Lang::get("exceptions.delivery_not_find"));
-        }
-        $shippingPrice = max(0, (int)$delivery->price);
 
-        $finalPrice = $totalItemsPrice + $shippingPrice;
-        $finalExtraPrice = $prices["extraPrice"] + $shippingPrice;
+        throw new BreakException(\Lang::get("exceptions.delivery_not_find"));
+    }
 
-        $coupon = null;
-        $off = 0;
-        $extraPriceOff = 0;
-        if ($code != null) {
-            $coupon = $this->couponService->check($code, $userId, $totalItemsPrice);
-            if ($coupon) {
-                if ($coupon->price) {
-                    $off = $coupon->price;
-                } elseif ($coupon->percent) {
-                    $off = $finalPrice * $coupon->percent / 100;
-                    $extraPriceOff = $finalExtraPrice * $coupon->percent / 100;
-                }
-            }
-        }
-        $finalPrice = max(0, (int)round($finalPrice - $off));
-        $finalExtraPrice = max(0, (int)round($finalExtraPrice - $extraPriceOff));
-        $off = (int)round($off);
-
-        // اطلاعات گیرنده با آدرس فعالِ فعلی به‌روز می‌شود
+    /**
+     * اطلاعات گیرنده با آدرس فعالِ فعلی به‌روز می‌شود.
+     */
+    private function refreshOrderInfo(Order $order, $user, $address): void
+    {
         $orderInfo = $this->orderInfoRepository->findOrFail($order->order_info_id);
         $this->orderInfoRepository->update($orderInfo, [
             "name" => $user->name,
@@ -336,8 +429,13 @@ class PaymentService implements PaymentServicesInterface
             "address" => $address->address,
             "zip_code" => $address->zip_code,
         ]);
+    }
 
-        // کد تخفیفِ تلاش قبلی (اگر بوده) جای خود را به انتخاب فعلی می‌دهد
+    /**
+     * کد تخفیفِ تلاش قبلی (اگر بوده) جای خود را به انتخاب فعلی می‌دهد.
+     */
+    private function replaceOrderCoupon(Order $order, $userId, $coupon): void
+    {
         $this->couponUserRepository->deleteByOrderId($order->id);
         if ($coupon) {
             $this->couponUserRepository->create([
@@ -346,64 +444,35 @@ class PaymentService implements PaymentServicesInterface
                 "coupon_id" => $coupon->id,
             ]);
         }
+    }
 
-        // کل مبلغ با موجودی کیف پول پوشش داده می‌شود
-        if ($useWallet && $finalPrice <= $user->wallet) {
-            $this->orderRepository->update($order, [
-                "price" => $totalItemsPrice,
-                "delivery_price" => $shippingPrice,
-                "delivery_method" => $shippingMethod,
-                "payment_method" => 2,
-                "off" => $off,
-                "total_price" => $finalPrice,
-                "use_wallet_price" => $finalPrice,
-                "final_price" => 0,
-            ]);
-            $this->userRepository->update($user, ["wallet" => $user->wallet - $finalPrice]);
-            $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
-            foreach ($orderItems as $item) {
-                $this->stockRepository->decrement($item->product_color_id, $item->count);
-            }
-            $cart = $this->cartRepository->getCartByOrderId($order->id);
-            if ($cart) {
-                $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
-            }
-            event(new OrderPaidEvent($order));
-            return [
-                "path" => "/thank_you_page",
-                "type" => "paid",
-            ];
+    /**
+     * شرط‌های قدیمیِ پرداخت سفارش معلق.
+     *
+     * عمداً از OnHoldOrderService::assertPayable استفاده نمی‌کند: آن نسخه وضعیت خودِ
+     * سفارش را هم بررسی می‌کند و سخت‌گیرتر است. یکسان‌سازی این دو رفتار این دو
+     * اندپوینت را عوض می‌کند و باید جداگانه تصمیم گرفته شود.
+     */
+    private function legacyPayableOnHoldOrder($id, $userId): Order
+    {
+        $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
+
+        if (Carbon::parse($onHoldOrder->expire_date) < Carbon::now()) {
+            throw new BreakException(\Lang::get("exceptions.expired_order"));
+        }
+        if ($onHoldOrder->status != OnHoldOrderStatus::Accept->value) {
+            throw new BreakException(\Lang::get("exceptions.reject_order"));
         }
 
-        // مبلغی که در نهایت از درگاه گرفته می‌شود (دیجی‌پی مبلغ بدون تخفیف + کارمزد را می‌گیرد)
-        $chargeAmount = $gateway == 3 ? $finalExtraPrice : $finalPrice;
-        $useWalletPrice = $useWallet ? min($user->wallet, $chargeAmount) : 0;
-        $payablePrice = $chargeAmount - $useWalletPrice;
-
-        $this->orderRepository->update($order, [
-            "price" => $totalItemsPrice,
-            "delivery_price" => $shippingPrice,
-            "delivery_method" => $shippingMethod,
-            "payment_method" => $gateway,
-            "off" => $off,
-            "total_price" => $chargeAmount,
-            "use_wallet_price" => $useWalletPrice,
-            "final_price" => $payablePrice,
-        ]);
-        event(new OrderPaymentRequestEvent($order));
-
-        if ($gateway == 3) {
-            $path = $this->digiPayService->request($payablePrice * 10, $address->mobile, $order->id, $orderItems);
-        } elseif ($gateway == 4) {
-            $path = $this->snappPayService->request($order->id, $orderItems, $payablePrice * 10);
-        } else {
-            $path = $this->gatewayService->request($payablePrice * 10, $order->id);
+        $cart = $this->cartRepository->getCartByOrderId($onHoldOrder->order_id);
+        if ($cart->user_id != $userId) {
+            throw new BreakException(\Lang::get("exceptions.not_your_order"));
         }
 
-        return [
-            "path" => $path,
-            "type" => "payment",
-        ];
+        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
+        $this->checkoutService->finalCheckout($cart, $cartItems);
+
+        return $this->orderRepository->findOrFail($onHoldOrder->order_id);
     }
 
     /**
@@ -429,44 +498,63 @@ class PaymentService implements PaymentServicesInterface
         ];
     }
 
+    // ------------------------------------------------------------- بازگشت از درگاه
+
     public function verifyPayment($request)
     {
-        $request = $this->gatewayService->callbackParams($request);
-        $this->gatewayService->verify($request->trackId);
-        $order = $this->orderRepository->findOrFail($request->orderId);
-        $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
-        $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-        foreach ($orderItems as $item) {
-            $this->stockRepository->decrement($item->product_color_id, $item->count);
-        }
-        $this->transactionRepository->createTransaction($order->user_id, $order->id, $request->trackId, $order->final_price);
-        $user = $this->userRepository->findOrFail($order->user_id);
-        $this->userRepository->update($user, ["wallet" => $user->wallet - $order->use_wallet_price]);
+        $callback = $this->gatewayRouter->onlineGateway()->callbackParams($request);
+        $this->gatewayRouter->onlineGateway()->verify($callback->trackId);
 
-        $cart = $this->cartRepository->getCartByOrderId($order->orderId);
-        $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
-
-        event(new OrderPaidEvent($order));
-
-        return 1;
+        return $this->completeVerifiedPayment($callback->orderId, $callback->trackId);
     }
 
     public function verifyPayment2($request)
     {
-        $request = $this->digiPayService->callbackParams($request);
-        $this->digiPayService->verify($request->trackId, $request->orderId);
-        $order = $this->orderRepository->findOrFail($request->orderId);
-        $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
-        $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-        foreach ($orderItems as $item) {
-            $this->stockRepository->decrement($item->product_color_id, $item->count);
-        }
-        $this->transactionRepository->createTransaction($order->user_id, $order->id, $request->trackId, $order->final_price);
-        $user = $this->userRepository->findOrFail($order->user_id);
-        $this->userRepository->update($user, ["wallet" => $user->wallet - $order->use_wallet_price]);
+        $callback = $this->digiPayService->callbackParams($request);
+        $this->digiPayService->verify($callback->trackId, $callback->orderId);
 
-        $cart = $this->cartRepository->getCartByOrderId($order->orderId);
-        $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
+        return $this->completeVerifiedPayment($callback->orderId, $callback->trackId);
+    }
+
+    public function verifyPaymentSnapppay($request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $callback = $this->snappPayService->callbackParams($request);
+            $order = $this->orderRepository->findOrFail($callback->orderId);
+
+            $verify = $this->snappPayService->verify($order->payment_token);
+            if ($verify["successful"] != true) {
+                throw new BreakException("پرداخت ناموفق بود");
+            }
+
+            $this->snappPayService->settle($order->payment_token);
+
+            // اسنپ‌پی کل مبلغ را خودش تسویه می‌کند، پس چیزی از کیف پول کم نمی‌شود
+            $this->orderPaymentFinalizer->applyPayment($order, 0, $verify["response"]["transactionId"]);
+
+            DB::commit();
+            event(new OrderPaidEvent($order));
+
+            return $callback->orderId;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * مشترکِ بازگشت موفق از زیبال و دیجی‌پی.
+     */
+    private function completeVerifiedPayment($orderId, $trackId)
+    {
+        $order = $this->orderRepository->findOrFail($orderId);
+
+        DB::transaction(function () use ($order, $trackId) {
+            $this->orderPaymentFinalizer->applyPayment($order, $order->use_wallet_price, $trackId);
+        });
 
         event(new OrderPaidEvent($order));
 
@@ -479,128 +567,27 @@ class PaymentService implements PaymentServicesInterface
         return $this->snappPayService->eligible($amount * 10);
     }
 
-    public function verifyPaymentSnapppay($request)
+    // ----------------------------------------------------------------- کمکی‌ها
+
+    private function initialStatus(CheckoutContext $context): OrderStatus
     {
-        try {
-            DB::beginTransaction();
-
-            $request = $this->snappPayService->callbackParams($request);
-
-            $order = $this->orderRepository->findOrFail($request->orderId);
-
-            $verify = $this->snappPayService->verify($order->payment_token);
-            if ($verify["successful"] != true) {
-                throw new BreakException("پرداخت ناموفق بود");
-            }
-
-            $TransactionReferenceID = $verify["response"]["transactionId"];
-            $this->snappPayService->settle($order->payment_token);
-
-            $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
-
-            $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-            foreach ($orderItems as $item) {
-                $this->stockRepository->decrement($item->product_color_id, $item->count);
-            }
-            $this->transactionRepository->createTransaction($order->user_id, $order->id, $TransactionReferenceID, $order->final_price);
-
-            $cart = $this->cartRepository->getCartByOrderId($order->orderId);
-            $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
-
-            DB::commit();
-            event(new OrderPaidEvent($order));
-
-            return $request->orderId;
-
-        } catch (\Throwable $e) {
-
-            DB::rollBack();
-            Log::error($e->getMessage());
-            throw $e;
-        }
+        return $context->hasLimitedItem ? OrderStatus::OnHold : OrderStatus::Unpaid;
     }
 
-    public function verifyOrderByWallet($userId)
+    private function holdForApproval(Order $order): array
     {
-        $cart = $this->cartRepository->getCartByUserId($userId);
-        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
-        $this->checkoutService->finalCheckout($cart, $cartItems);
-        $limit = $this->cartItemService->checkLimit($cartItems);
-        $user = $this->userRepository->findOrFail($userId);
-        $address = $this->addressRepository->findActiveByUserId($userId);
-        $delivery = $this->deliveryRepository->findOrFail($cart->delivery_method);
-        $cartPrices = $this->cartItemService->calculatePrice($cartItems);
-        $totalItemsPrice = $cartPrices["totalItemPrice"];
-        $maxDeliveryDelay = $cartPrices["maxDeliveryDelay"];
-        $finalPrice = $totalItemsPrice + $delivery->price;
-        if ($finalPrice > $user->wallet) {
-            throw  new BadRequestHttpException("موجودی کیف پول شما برای ثبت این سفارش کافی نیست !");
-        }
-        $orderStatus = $limit ? OrderStatus::OnHold->value : OrderStatus::Unpaid->value;
-        $orderInfo = $this->orderInfoRepository->createOrderInfo($user->name, $address->mobile, $address->tell, $address->province_id, $address->city_id, $address->address, $address->zip_code, $user->last_name, $user->national_code);
-        $order = $this->orderRepository->createOrder($userId, $orderInfo->id, $totalItemsPrice, $delivery->price, $finalPrice, $orderStatus, 2, $cart->delivery_method, Carbon::now(), Carbon::now()->addDays($maxDeliveryDelay), "");
-        $this->cartRepository->update($cart, ["order_id" => $order->id]);
-        $this->cartItemService->convertCartItemToOrderItem($cartItems, $order->id);
-        if ($limit) {
-            $onHoldOrder = $this->onHoldOrderRepository->createOnHoldOrder($order->id);
-            event(new OrderRequestEvent($onHoldOrder));
-            return [
-                "path" => "/thank_you_page",
-                "type" => "limit"
-            ];
-        }
-        $this->userRepository->update($user, ["wallet" => $user->wallet - $finalPrice]);
+        $this->orderFactory->holdForApproval($order);
 
-        $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
-        $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-        foreach ($orderItems as $item) {
-            $this->stockRepository->decrement($item->product_color_id, $item->count);
-        }
-        $cart = $this->cartRepository->getCartByOrderId($order->orderId);
-        $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
-        event(new OrderPaidEvent($order));
-        return [
-            "path" => "/thank_you_page",
-            "type" => "paid"
-        ];
+        return ["path" => self::THANK_YOU_PAGE, "type" => "limit"];
     }
 
-    public function onHoldOrderVerifyByWallet($id, $userId)
+    private function paidRedirect(): array
     {
-        $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
-        if (Carbon::parse($onHoldOrder->expire_date) < Carbon::now()) {
-            throw new BreakException(\Lang::get("exceptions.expired_order"));
-        }
-        if ($onHoldOrder->status != OnHoldOrderStatus::Accept->value) {
-            throw new BreakException(\Lang::get("exceptions.reject_order"));
-        }
-        $orderId = $onHoldOrder->order_id;
-        $cart = $this->cartRepository->getCartByOrderId($orderId);
-        if ($cart->user_id != $userId) {
-            throw new BreakException(\Lang::get("exceptions.not_your_order"));
-        }
-        $cartItems = $this->cartItemRepository->getItemsByCartId($cart->id);
-        $this->checkoutService->finalCheckout($cart, $cartItems);
-        $order = $this->orderRepository->findOrFail($orderId);
-        $finalPrice = $order->final_price;
-        $user = $this->userRepository->findOrFail($userId);
-        if ($finalPrice > $user->wallet) {
-            throw  new BadRequestHttpException("موجودی کیف پول شما برای ثبت این سفارش کافی نیست !");
-        }
+        return ["path" => self::THANK_YOU_PAGE, "type" => "paid"];
+    }
 
-        $this->userRepository->update($user, ["wallet" => $user->wallet - $finalPrice]);
-
-        $this->orderRepository->setStatus($order, OrderStatus::Paid->value);
-        $orderItems = $this->orderItemRepository->getByOrderId($order->id);
-        foreach ($orderItems as $item) {
-            $this->stockRepository->decrement($item->product_color_id, $item->count);
-        }
-        $cart = $this->cartRepository->getCartByOrderId($order->orderId);
-        $this->cartRepository->changeStatus($cart, CartStatus::Completed->value);
-        event(new OrderPaidEvent($order));
-        return [
-            "path" => "/thank_you_page",
-            "type" => "paid"
-        ];
+    private function paymentRedirect($path): array
+    {
+        return ["path" => $path, "type" => "payment"];
     }
 }

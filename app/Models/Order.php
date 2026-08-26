@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\OnHoldOrderStatus;
 use App\Enums\OrderStatus;
+use App\Enums\PaymentGateway;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -80,6 +81,6 @@ class Order extends Model
 
     public function scopePaymentDigipay(Builder $query): Builder
     {
-        return $query->where("payment_method",3);
+        return $query->where("payment_method", PaymentGateway::DigiPay->value);
     }
 }

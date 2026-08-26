@@ -2,13 +2,10 @@
 
 namespace App\Repositories\Order;
 
-use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Repositories\Base\BaseRepository;
-use App\Services\Sort\Transaction\SortTransactionByUserMobile;
-use App\Services\Sort\Transaction\SortTransactionByUserName;
-use App\Services\Sort\TransactionByUserMobileSort;
-use App\Services\Sort\TransactionByUserSort;
+use App\Services\Sort\Order\SortOrderByUserMobile;
+use App\Services\Sort\Order\SortOrderByUserName;
 use Carbon\Carbon;
 use Morilog\Jalali\Jalalian;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -53,34 +50,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 })
             ])
             ->allowedSorts(['user_id', 'order_id', 'track_id', 'final_price', 'use_wallet_price', 'total_price'
-                , AllowedSort::custom("user", new SortTransactionByUserName())
-                , AllowedSort::custom("mobile", new SortTransactionByUserMobile())
+                , AllowedSort::custom("user", new SortOrderByUserName())
+                , AllowedSort::custom("mobile", new SortOrderByUserMobile())
             ])
             ->latest("id")
             ->paginate($this->pageSize);
-    }
-
-    public function createOrder($user_id, $order_info_id, $price, $delivery_price, $final_price, $status, $payment_method, $delivery_method, $order_date, $delivery_date, $tracking_number, $total_price = 0, $use_wallet_price = 0, $off = 0)
-    {
-        $payment_method = $payment_method ?? config("settings.default_gateway");
-        return $this->create(
-            [
-                "user_id" => $user_id,
-                "total_price" => $total_price,
-                "use_wallet_price" => $use_wallet_price,
-                "order_info_id" => $order_info_id,
-                "price" => $price,
-                "delivery_price" => $delivery_price,
-                "final_price" => $final_price,
-                "status" => $status,
-                "off" => $off,
-                "payment_method" => $payment_method,
-                "delivery_method" => $delivery_method,
-                "order_date" => $order_date,
-                "delivery_date" => $delivery_date,
-                "tracking_number" => $tracking_number,
-            ]
-        );
     }
 
     public function updateOrderStatus(Order $order, $status)

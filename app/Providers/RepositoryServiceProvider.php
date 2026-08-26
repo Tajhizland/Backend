@@ -283,6 +283,10 @@ use App\Services\OnHoldOrder\OnHoldOrderService;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use App\Services\Option\OptionService;
 use App\Services\Option\OptionServiceInterface;
+use App\Services\Order\OrderFactory;
+use App\Services\Order\OrderFactoryInterface;
+use App\Services\Order\OrderPaymentFinalizer;
+use App\Services\Order\OrderPaymentFinalizerInterface;
 use App\Services\Order\OrderService;
 use App\Services\Order\OrderServiceInterface;
 use App\Services\Page\PageService;
@@ -599,6 +603,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CommentServiceInterface::class, CommentService::class);
 
         $this->app->bind(OrderServiceInterface::class, OrderService::class);
+
+        $this->app->bind(OrderFactoryInterface::class, OrderFactory::class);
+
+        $this->app->bind(OrderPaymentFinalizerInterface::class, OrderPaymentFinalizer::class);
 
         $this->app->bind(OnHoldOrderServiceInterface::class, OnHoldOrderService::class);
 
