@@ -2,12 +2,17 @@
 
 namespace App\Services\Landing;
 
+use App\DTOs\Landing\LandingSetBannerDto;
+use App\DTOs\Landing\LandingSetCategoryDto;
+use App\DTOs\Landing\LandingSetProductDto;
+use App\DTOs\Landing\LandingStoreDto;
+use App\DTOs\Landing\LandingUpdateDto;
 use App\Repositories\Landing\LandingRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repositories\LandingBanner\LandingBannerRepositoryInterface;
 use App\Repositories\LandingCategory\LandingCategoryRepositoryInterface;
 use App\Repositories\LandingProduct\LandingProductRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class LandingService implements LandingServiceInterface
 {
@@ -22,30 +27,34 @@ readonly class LandingService implements LandingServiceInterface
     {
     }
 
-    public function store($title, $description, $status, $url)
+    public function store(LandingStoreDto $dto): mixed
     {
         return $this->landingRepository->create([
-            "title" => $title,
-            "description" => $description,
-            "status" => $status,
-            "url" => $url,
+            "title" => $dto->title,
+            "description" => $dto->description,
+            "status" => $dto->status,
+            "url" => $dto->url,
         ]);
     }
 
-    public function update($id, $title, $description, $status, $url)
+    public function update(LandingUpdateDto $dto): bool
     {
-        $landing = $this->landingRepository->findOrFail($id);
+        $landing = $this->find($dto->landingId);
         return $this->landingRepository->update($landing, [
-            "title" => $title,
-            "description" => $description,
-            "status" => $status,
-            "url" => $url,
+            "title" => $dto->title,
+            "description" => $dto->description,
+            "status" => $dto->status,
+            "url" => $dto->url,
         ]);
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->landingRepository->findOrFail($id);
+        $landing = $this->landingRepository->find($id);
+        if (!$landing) {
+            throw new NotFoundHttpException();
+        }
+        return $landing;
     }
 
     public function dataTable()
@@ -53,14 +62,14 @@ readonly class LandingService implements LandingServiceInterface
         return $this->landingRepository->dataTable();
     }
 
-    public function setProduct($landingId, $productId)
+    public function setProduct(LandingSetProductDto $dto): mixed
     {
-        return $this->landingProductRepository->create(["landing_id" => $landingId, "product_id" => $productId]);
+        return $this->landingProductRepository->create(["landing_id" => $dto->landing_id, "product_id" => $dto->product_id]);
     }
 
-    public function setCategory($landingId, $categoryId)
+    public function setCategory(LandingSetCategoryDto $dto): mixed
     {
-        return $this->landingCategoryRepository->create(["landing_id" => $landingId, "category_id" => $categoryId]);
+        return $this->landingCategoryRepository->create(["landing_id" => $dto->landing_id, "category_id" => $dto->category_id]);
     }
 
     public function deleteProduct($id)
@@ -109,14 +118,13 @@ readonly class LandingService implements LandingServiceInterface
         return $this->landingBannerRepository->delete($banner);
     }
 
-    public function setBanner($image, $url, $landingId, $slider)
+    public function setBanner(LandingSetBannerDto $dto): mixed
     {
-        $imagePath = $this->s3Service->upload($image, "landing-banner");
         return $this->landingBannerRepository->create([
-            "url" => $url,
-            "landing_id" => $landingId,
-            "slider" => $slider,
-            "image" => $imagePath
+            "url" => $dto->url,
+            "landing_id" => $dto->landing_id,
+            "slider" => $dto->slider,
+            "image" => $this->s3Service->upload($dto->image, "landing-banner"),
         ]);
     }
 

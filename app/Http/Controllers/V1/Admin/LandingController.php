@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Landing\LandingSetBannerDto;
+use App\DTOs\Landing\LandingSetCategoryDto;
+use App\DTOs\Landing\LandingSetProductDto;
+use App\DTOs\Landing\LandingStoreDto;
+use App\DTOs\Landing\LandingUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Landing\SetBannerRequest;
 use App\Http\Requests\Admin\Landing\SetCategoryLandingRequest;
@@ -28,20 +33,20 @@ class LandingController extends Controller
         return $this->dataResponseCollection(LandingResource::collection($this->landingService->dataTable()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new LandingResource($this->landingService->findById($id)));
+        return $this->dataResponse(new LandingResource($this->landingService->find($id)));
     }
 
     public function store(StoreLandingRequest $request)
     {
-        $this->landingService->store($request->get("title"),$request->get("description"),$request->get("status"),$request->get("url"));
+        $this->landingService->store(new LandingStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.landing")]));
     }
 
-    public function update(UpdateLandingRequest $request)
+    public function update($id, UpdateLandingRequest $request)
     {
-        $this->landingService->update($request->get("id"),$request->get("title"),$request->get("description"),$request->get("status"),$request->get("url"));
+        $this->landingService->update(new LandingUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.landing")]));
     }
 
@@ -60,19 +65,19 @@ class LandingController extends Controller
     }
     public function setProduct(SetLandingProductRequest $request)
     {
-        $this->landingService->setProduct($request->get("landing_id") ,$request->get("product_id"));
+        $this->landingService->setProduct(new LandingSetProductDto(...$request->validated()));
         return $this->successResponse(__("action.add_to", ["attr" => __("attr.product") , "to" => __("attr.landing")]));
     }
 
     public function setCategory(SetCategoryLandingRequest $request)
     {
-        $this->landingService->setCategory($request->get("landing_id") ,$request->get("category_id"));
+        $this->landingService->setCategory(new LandingSetCategoryDto(...$request->validated()));
         return $this->successResponse(__("action.add_to", ["attr" => __("attr.category") , "to" => __("attr.landing")]));
     }
 
     public function setBanner(SetBannerRequest $request)
     {
-        $this->landingService->setBanner($request->file("image"),$request->get("url") ,$request->get("landing_id"),$request->get("slider"));
+        $this->landingService->setBanner(new LandingSetBannerDto(...$request->validated()));
         return $this->successResponse(__("action.add_to", ["attr" => __("attr.banner") , "to" => __("attr.landing")]));
     }
 

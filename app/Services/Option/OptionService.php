@@ -2,7 +2,10 @@
 
 namespace App\Services\Option;
 
+use App\DTOs\Option\OptionStoreDto;
+use App\DTOs\Option\OptionUpdateDto;
 use App\Repositories\Option\OptionRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repositories\OptionItem\OptionItemRepositoryInterface;
 use App\Repositories\ProductOption\ProductOptionRepositoryInterface;
 
@@ -18,9 +21,13 @@ readonly class OptionService implements OptionServiceInterface
     {
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->optionRepository->findOrFail($id);
+        $option = $this->optionRepository->find($id);
+        if (!$option) {
+            throw new NotFoundHttpException();
+        }
+        return $option;
     }
 
     public function getByProductIdAndCategoryId($productId, $categoryId)
@@ -33,19 +40,18 @@ readonly class OptionService implements OptionServiceInterface
         return $this->optionRepository->dataTable();
     }
 
-    public function createOption($title, $categoryId, $status, $items)
+    public function store(OptionStoreDto $dto): bool
     {
-        $lastSort = $this->optionRepository->findLastSortOfCategory($categoryId);
-        $sort = $lastSort->sort + 1;
-        $option = $this->optionRepository->createOption($title, $categoryId, $status, $sort);
+        $lastSort = $this->optionRepository->findLastSortOfCategory($dto->category_id);
+        $this->optionRepository->createOption($dto->title, $dto->category_id, $dto->status, $lastSort->sort + 1);
 
         return true;
     }
 
-    public function updateOption($id, $title, $categoryId, $status, $items)
+    public function update(OptionUpdateDto $dto): bool
     {
-        $this->optionRepository->updateOption($id, $title, $categoryId, $status);
-        foreach ($items as $item) {
+        $this->optionRepository->updateOption($dto->optionId, $dto->title, $dto->category_id, $dto->status);
+        foreach ($dto->items as $item) {
             if (isset($item["id"]))
                 $this->optionItemRepository->updateFilterItem($item["id"], $item["title"], $item["status"]);
 

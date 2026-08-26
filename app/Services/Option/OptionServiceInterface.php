@@ -2,16 +2,19 @@
 
 namespace App\Services\Option;
 
+use App\DTOs\Option\OptionStoreDto;
+use App\DTOs\Option\OptionUpdateDto;
+
 interface OptionServiceInterface
 {
-    public function findById($id);
+    public function find(int $id): mixed;
     public function getByProductIdAndCategoryId($productId, $categoryId);
 
     public function dataTable();
 
-    public function createOption($title, $categoryId, $status, $items);
+    public function store(OptionStoreDto $dto): bool;
 
-    public function updateOption($id, $title, $categoryId, $status, $items);
+    public function update(OptionUpdateDto $dto): bool;
 
     public function getByProductId($productId);
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Option\OptionStoreDto;
+use App\DTOs\Option\OptionUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Option\StoreOptionRequest;
 use App\Http\Requests\Admin\Option\UpdateOptionRequest;
@@ -20,20 +22,20 @@ class OptionController extends Controller
         return $this->dataResponseCollection(OptionResource::collection($this->optionService->dataTable()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new OptionResource($this->optionService->findById($id)));
+        return $this->dataResponse(new OptionResource($this->optionService->find($id)));
     }
 
     public function store(StoreOptionRequest $request)
     {
-        $this->optionService->createOption($request->get("title"),$request->get("category_id"),$request->get("status") ,$request->get("items"));
+        $this->optionService->store(new OptionStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store",["attr"=>__("attr.option")]));
      }
 
-    public function update(UpdateOptionRequest $request)
+    public function update($id, UpdateOptionRequest $request)
     {
-        $this->optionService->updateOption($request->get("id"),$request->get("title"),$request->get("category_id"),$request->get("status") ,$request->get("items"));
+        $this->optionService->update(new OptionUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update",["attr"=>__("attr.option")]));
     }
 }

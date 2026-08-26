@@ -95,11 +95,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
     });
 
-    Route::group(["prefix" => "option"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OptionController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OptionController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\OptionController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\OptionController::class, "update"]);
+    Route::prefix("option")->controller(\App\Http\Controllers\V1\Admin\OptionController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
     Route::prefix("user")->controller(\App\Http\Controllers\V1\Admin\UserController::class)->group(function () {
         Route::get("dataTable", "dataTable");
@@ -276,20 +276,22 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
         Route::delete("{id}", "destroy");
     });
-    Route::group(["prefix" => "landing"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\LandingController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\LandingController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\LandingController::class, "update"]);
-        Route::post("product/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setProduct"]);
-        Route::get("product/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getProduct"]);
-        Route::delete("product/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteProduct"]);
-        Route::post("category/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setCategory"]);
-        Route::get("category/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getCategory"]);
-        Route::delete("category/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteCategory"]);
-        Route::post("banner/set", [\App\Http\Controllers\V1\Admin\LandingController::class, "setBanner"]);
-        Route::get("banner/get/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "getBanner"]);
-        Route::delete("banner/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteBanner"]);
+    Route::prefix("landing")->controller(\App\Http\Controllers\V1\Admin\LandingController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+
+        Route::post("product", "setProduct");
+        Route::delete("product/{id}", "deleteProduct");
+        Route::post("category", "setCategory");
+        Route::delete("category/{id}", "deleteCategory");
+        Route::post("banner", "setBanner");
+        Route::delete("banner/{id}", "deleteBanner");
+
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::get("{id}/product", "getProduct");
+        Route::get("{id}/category", "getCategory");
+        Route::get("{id}/banner", "getBanner");
     });
 
     Route::prefix("poster")->controller(\App\Http\Controllers\V1\Admin\PosterController::class)->group(function () {

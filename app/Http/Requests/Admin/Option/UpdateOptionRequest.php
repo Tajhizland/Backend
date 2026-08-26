@@ -9,7 +9,6 @@ class UpdateOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer','exists:App\Models\Option'],
             'category_id' => ['required', 'integer','exists:App\Models\Category'],
             'title' => ['required','string'],
             'status' => ['required', 'integer' ,'in:0,1'],
