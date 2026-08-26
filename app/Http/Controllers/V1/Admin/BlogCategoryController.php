@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\BlogCategory\BlogCategoryStoreDto;
+use App\DTOs\BlogCategory\BlogCategoryUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BlogCategory\StoreBlogCategoryRequest;
 use App\Http\Requests\Admin\BlogCategory\UpdateBlogCategoryRequest;
@@ -10,9 +12,8 @@ use App\Services\BlogCategory\BlogCategoryServiceInterface;
 
 class BlogCategoryController extends Controller
 {
-    public function __construct
-    (
-        private readonly BlogCategoryServiceInterface $blogCategoryService
+    public function __construct(
+        private readonly BlogCategoryServiceInterface $blogCategoryService,
     )
     {
     }
@@ -27,21 +28,20 @@ class BlogCategoryController extends Controller
         return $this->dataResponseCollection(BlogCategoryResource::collection($this->blogCategoryService->list()));
     }
 
-
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new BlogCategoryResource($this->blogCategoryService->findById($id)));
+        return $this->dataResponse(new BlogCategoryResource($this->blogCategoryService->find($id)));
     }
 
     public function store(StoreBlogCategoryRequest $request)
     {
-        $this->blogCategoryService->create($request->get("name"), $request->get("status"), $request->get("url"));
+        $this->blogCategoryService->store(new BlogCategoryStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.category")]));
     }
 
-    public function update(UpdateBlogCategoryRequest $request)
+    public function update($id, UpdateBlogCategoryRequest $request)
     {
-        $this->blogCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"));
+        $this->blogCategoryService->update(new BlogCategoryUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
 }

@@ -2,15 +2,20 @@
 
 namespace App\Services\Dictionary;
 
+use App\DTOs\Dictionary\DictionaryStoreDto;
+use App\DTOs\Dictionary\DictionaryUpdateDto;
+
 interface DictionaryServiceInterface
 {
-    public function dataTable();
-    public function find($id);
-    public function store($original_word, $mean);
+    public function dataTable(): mixed;
 
-    public function delete($id);
+    public function find(int $id): mixed;
 
-    public function update($id, $original_word, $mean);
+    public function store(DictionaryStoreDto $dto): mixed;
 
-    public function check($original_word);
+    public function update(DictionaryUpdateDto $dto): bool;
+
+    public function delete(int $id): bool|null;
+
+    public function check($original_word): mixed;
 }

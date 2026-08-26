@@ -9,7 +9,6 @@ class UpdateFaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer','exists:App\Models\Faq'],
             'question' => ['required'],
             'answer' => ['required'],
             'status' => ['required', 'integer'],

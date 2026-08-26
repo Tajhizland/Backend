@@ -2,15 +2,18 @@
 
 namespace App\Services\BlogCategory;
 
+use App\DTOs\BlogCategory\BlogCategoryStoreDto;
+use App\DTOs\BlogCategory\BlogCategoryUpdateDto;
+
 interface BlogCategoryServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function list();
+    public function list(): mixed;
 
-    public function findById($id);
+    public function find(int $id): mixed;
 
-    public function create($name, $status, $url);
+    public function store(BlogCategoryStoreDto $dto): mixed;
 
-    public function update($id, $name, $status, $url);
+    public function update(BlogCategoryUpdateDto $dto): bool;
 }

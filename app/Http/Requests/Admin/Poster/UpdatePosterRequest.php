@@ -9,7 +9,6 @@ class UpdatePosterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id'=>['required'],
             'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg,webp'],
         ];
     }

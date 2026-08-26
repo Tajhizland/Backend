@@ -87,13 +87,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("update", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "update"]);
     });
 
-    Route::group(["prefix" => "blogCategory"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "dataTable"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "list"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "update"]);
-        Route::post("list", [\App\Http\Controllers\V1\Admin\BlogCategoryController::class, "list"]);
+    Route::prefix("blog-category")->controller(\App\Http\Controllers\V1\Admin\BlogCategoryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
     Route::group(["prefix" => "option"], function () {
@@ -240,11 +239,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\PageController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\PageController::class, "update"]);
     });
-    Route::group(["prefix" => "faq"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\FaqController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\FaqController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\FaqController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\FaqController::class, "update"]);
+    Route::prefix("faq")->controller(\App\Http\Controllers\V1\Admin\FaqController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
     /** آپلود مستقیم مرورگر به S3 — فقط امضا و تأیید، بدون عبور فایل از سرور */
     Route::group(["prefix" => "upload"], function () {
@@ -298,11 +297,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("banner/delete/{id}", [\App\Http\Controllers\V1\Admin\LandingController::class, "deleteBanner"]);
     });
 
-    Route::group(["prefix" => "poster"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PosterController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PosterController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\PosterController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\PosterController::class, "update"]);
+    Route::prefix("poster")->controller(\App\Http\Controllers\V1\Admin\PosterController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
     Route::group(["prefix" => "sample"], function () {
@@ -363,12 +362,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("list", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "list"]);
     });
 
-    Route::group(["prefix" => "dictionary"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "update"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\DictionaryController::class, "remove"]);
+    Route::prefix("dictionary")->controller(\App\Http\Controllers\V1\Admin\DictionaryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}", "destroy");
     });
     Route::group(["prefix" => "sms"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SmsController::class, "dataTable"]);

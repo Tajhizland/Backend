@@ -2,52 +2,57 @@
 
 namespace App\Services\Dictionary;
 
+use App\DTOs\Dictionary\DictionaryStoreDto;
+use App\DTOs\Dictionary\DictionaryUpdateDto;
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class DictionaryService implements DictionaryServiceInterface
 {
-    public function __construct
-    (
-        private DictionaryRepositoryInterface $dictionaryRepository
+    public function __construct(
+        private DictionaryRepositoryInterface $dictionaryRepository,
     )
     {
     }
 
-    public function store($original_word, $mean)
-    {
-        return $this->dictionaryRepository->create([
-            "original_word" => $original_word,
-            "mean" => $mean
-        ]);
-    }
-
-    public function delete($id)
-    {
-        $model = $this->dictionaryRepository->findOrFail($id);
-        return $this->dictionaryRepository->delete($model);
-    }
-
-    public function update($id, $original_word, $mean)
-    {
-        $model = $this->dictionaryRepository->findOrFail($id);
-        $this->dictionaryRepository->update($model, [
-            "original_word" => $original_word,
-            "mean" => $mean
-        ]);
-    }
-
-    public function check($original_word)
-    {
-        return $this->dictionaryRepository->findByOriginalWord($original_word);
-    }
-
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->dictionaryRepository->dataTable();
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->dictionaryRepository->findOrFail($id);
+        $dictionary = $this->dictionaryRepository->find($id);
+        if (!$dictionary) {
+            throw new NotFoundHttpException();
+        }
+        return $dictionary;
+    }
+
+    public function store(DictionaryStoreDto $dto): mixed
+    {
+        return $this->dictionaryRepository->create([
+            "original_word" => $dto->original_word,
+            "mean" => $dto->mean,
+        ]);
+    }
+
+    public function update(DictionaryUpdateDto $dto): bool
+    {
+        $dictionary = $this->find($dto->dictionaryId);
+        return $this->dictionaryRepository->update($dictionary, [
+            "original_word" => $dto->original_word,
+            "mean" => $dto->mean,
+        ]);
+    }
+
+    public function delete(int $id): bool|null
+    {
+        return $this->dictionaryRepository->delete($this->find($id));
+    }
+
+    public function check($original_word): mixed
+    {
+        return $this->dictionaryRepository->findByOriginalWord($original_word);
     }
 }

@@ -2,43 +2,48 @@
 
 namespace App\Services\Poster;
 
+use App\DTOs\Poster\PosterStoreDto;
+use App\DTOs\Poster\PosterUpdateDto;
 use App\Repositories\Poster\PosterRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class PosterService implements PosterServiceInterface
 {
-    public function __construct
-    (
+    public function __construct(
         private PosterRepositoryInterface $posterRepository,
-        private S3ServiceInterface        $s3Service
+        private S3ServiceInterface        $s3Service,
     )
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->posterRepository->dataTable();
     }
 
-    public function store($image)
+    public function find(int $id): mixed
     {
-        $imagePath=$this->s3Service->upload($image,"poster");
+        $poster = $this->posterRepository->find($id);
+        if (!$poster) {
+            throw new NotFoundHttpException();
+        }
+        return $poster;
+    }
+
+    public function store(PosterStoreDto $dto): mixed
+    {
         return $this->posterRepository->create([
-            "image"=>$imagePath
+            "image" => $this->s3Service->upload($dto->image, "poster"),
         ]);
     }
 
-    public function findById($id)
+    public function update(PosterUpdateDto $dto): bool
     {
-        return $this->posterRepository->findOrFail($id);
-    }
-
-    public function update($id, $image)
-    {
-        $poster=$this->posterRepository->findOrFail($id);
-        $imagePath=$poster->image;
-        $this->s3Service->remove("poster/$imagePath");
-        $imagePath=$this->s3Service->upload($image,"poster");
-        return $this->posterRepository->update($poster,["image"=>$imagePath]);
+        $poster = $this->find($dto->posterId);
+        $this->s3Service->remove("poster/" . $poster->image);
+        return $this->posterRepository->update($poster, [
+            "image" => $this->s3Service->upload($dto->image, "poster"),
+        ]);
     }
 }

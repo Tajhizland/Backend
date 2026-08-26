@@ -9,7 +9,6 @@ class UpdateDictionaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'original_word' => ['required'],
             'mean' => ['required'],
         ];

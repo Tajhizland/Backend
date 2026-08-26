@@ -9,7 +9,6 @@ class UpdateBlogCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'name' => ['required'],
             'url' => ['required'],
             'status' => ['required', 'integer'],
