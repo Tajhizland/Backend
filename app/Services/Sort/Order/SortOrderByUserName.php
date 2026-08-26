@@ -11,6 +11,6 @@ class SortOrderByUserName implements Sort
     {
         return $query
             ->leftJoin('users', 'orders.user_id', '=', 'users.id')
-            ->orderBy('users.username', $descending ? 'desc' : 'asc');
+            ->orderBy('users.name', $descending ? 'desc' : 'asc');
     }
 }
