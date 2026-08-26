@@ -2,6 +2,9 @@
 
 namespace App\Services\ProductColor;
 
+use App\DTOs\ProductColor\ProductColorFastUpdateDto;
+use App\DTOs\ProductColor\ProductColorSetDto;
+
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use App\Repositories\Stock\StockRepositoryInterface;
@@ -23,8 +26,10 @@ readonly class ProductColorService implements ProductColorServiceInterface
         return $this->productColorRepository->getByProductId($productId);
     }
 
-    public function setProductColor($productId, $colors)
+    public function setProductColor(ProductColorSetDto $dto): mixed
     {
+        $productId = $dto->product_id;
+        $colors = $dto->color;
         foreach ($colors as $item) {
             if (isset($item["id"])) {
                 $this->productColorRepository->updateProductColor($item["id"], $item["name"], $item["code"], $item["status"], $item["delivery_delay"]);
@@ -38,8 +43,9 @@ readonly class ProductColorService implements ProductColorServiceInterface
         }
     }
 
-    public function colorFastUpdate($colors)
+    public function colorFastUpdate(ProductColorFastUpdateDto $dto): mixed
     {
+        $colors = $dto->color;
         foreach ($colors as $item) {
             if (isset($item["id"])) {
                 $productColor = $this->productColorRepository->findOrFail($item["id"]);

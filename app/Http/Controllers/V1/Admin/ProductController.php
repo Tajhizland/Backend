@@ -2,6 +2,24 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Product\ProductGroupDigipayDto;
+use App\DTOs\Product\ProductGroupPercentDto;
+use App\DTOs\Product\ProductGroupPriceDto;
+use App\DTOs\Product\ProductGroupSnappayDto;
+use App\DTOs\Product\ProductGroupStatusDto;
+use App\DTOs\Product\ProductGroupStockDto;
+use App\DTOs\Product\ProductSearchListDto;
+use App\DTOs\Product\ProductSetFilterDto;
+use App\DTOs\Product\ProductSetOptionDto;
+use App\DTOs\Product\ProductSetVideo2Dto;
+use App\DTOs\Product\ProductSetVideoDto;
+use App\DTOs\Product\ProductStoreDto;
+use App\DTOs\Product\ProductUpdateDto;
+use App\DTOs\ProductColor\ProductColorFastUpdateDto;
+use App\DTOs\ProductColor\ProductColorSetDto;
+use App\DTOs\ProductImage\ProductImageSetColorDto;
+use App\DTOs\ProductImage\ProductImageSortDto;
+use App\DTOs\ProductImage\ProductImageUploadDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GroupChangeDigipayRequest;
 use App\Http\Requests\Admin\GroupChangeSnappayRequest;
@@ -68,20 +86,20 @@ class ProductController extends Controller
         return $this->dataResponseCollection(ProductResource::collection($this->productService->hasLimitDataTable()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new ProductResource($this->productService->findById($id)));
+        return $this->dataResponse(new ProductResource($this->productService->find($id)));
     }
 
- public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request)
     {
-        $this->productService->storeProduct($request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"), $request->get("type"), $request->get("is_stock", 0), $request->get("testing_time"), $request->get("stock_of"), $request->get("length"), $request->get("width"), $request->get("height"), $request->get("weight"), $request->get("use_packet"));
+        $this->productService->storeProduct(new ProductStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.product")]));
     }
 
-    public function update(UpdateProductRequest $request)
+    public function update($id, UpdateProductRequest $request)
     {
-        $this->productService->updateProduct($request->get("id"), $request->get("name"), $request->get("url"), $request->get("description"), $request->get("study"), $request->get("status"), $request->get("categoryId"), $request->get("brand_id"), $request->get("meta_title"), $request->get("meta_description"), $request->get("guaranty_id"), $request->get("guaranty_time"), $request->get("review"), $request->get("type"), $request->get("is_stock", 0), $request->get("testing_time"), $request->get("stock_of"), $request->get("length"), $request->get("width"), $request->get("height"), $request->get("weight"), $request->get("use_packet"));
+        $this->productService->updateProduct(new ProductUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.product")]));
     }
 
@@ -108,25 +126,25 @@ class ProductController extends Controller
 
     public function setFilter(ProductFilterRequest $request)
     {
-        $this->filterService->setFilterToProduct($request->get("product_id"), $request->get("filter"));
+        $this->filterService->setFilterToProduct(new ProductSetFilterDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.filter")]));
     }
 
     public function setOption(ProductOptionRequest $request)
     {
-        $this->optionService->setOptionToProduct($request->get("product_id"), $request->get("option"));
+        $this->optionService->setOptionToProduct(new ProductSetOptionDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.option")]));
     }
 
     public function setColor(ProductColorRequest $request)
     {
-        $this->productColorService->setProductColor($request->get("product_id"), $request->get("color"));
+        $this->productColorService->setProductColor(new ProductColorSetDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.color")]));
     }
 
     public function setImage(ProductImageRequest $request)
     {
-        $this->productImageService->upload($request->get("product_id"), $request->file("image"));
+        $this->productImageService->upload(new ProductImageUploadDto(...$request->validated()));
         return $this->successResponse(__("action.upload", ["attr" => __("attr.file")]));
     }
 
@@ -138,13 +156,13 @@ class ProductController extends Controller
 
     public function setVideo(SetVideoRequest $request)
     {
-        $this->productService->setVideo($request->get("productId"), $request->get("vlogId"), $request->get("type"));
+        $this->productService->setVideo(new ProductSetVideoDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.file")]));
     }
 
     public function setVideo2(SetProductVideosRequest $request)
     {
-        $this->productService->setVideo2($request->get("product_id"), $request->get("vlogId"), $request->get("title"));
+        $this->productService->setVideo2(new ProductSetVideo2Dto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.file")]));
     }
 
@@ -156,7 +174,7 @@ class ProductController extends Controller
 
     public function searchList(SearchListRequest $request)
     {
-        $response = $this->productService->searchList($request->get("categoryId"), $request->get("brandId"), $request->get("searchQuery"), $request->get("discountId"));
+        $response = $this->productService->searchList(new ProductSearchListDto(...$request->validated()));
         return $this->dataResponseCollection(ProductResource::collection($response));
     }
 
@@ -168,20 +186,20 @@ class ProductController extends Controller
 
     public function colorFastUpdate(ColorFastUpdateRequest $request)
     {
-        $this->productColorService->colorFastUpdate($request->get("color"));
+        $this->productColorService->colorFastUpdate(new ProductColorFastUpdateDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.color")]));
     }
 
     public function sortImage(ImageSortRequest $request)
     {
-        $this->productImageService->sort($request->get("image"));
+        $this->productImageService->sort(new ProductImageSortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.image")]));
 
     }
 
     public function setImageColor(SetImageColorRequest $request)
     {
-        $this->productImageService->setColor($request->get("image"));
+        $this->productImageService->setColor(new ProductImageSetColorDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.image")]));
     }
 
@@ -202,35 +220,35 @@ class ProductController extends Controller
 
     public function groupChange(GroupChangePriceRequest $request)
     {
-        $this->productService->groupChangePrice($request->get('ids'), $request->get('action'), $request->get('percent'));
+        $this->productService->groupChangePrice(new ProductGroupPriceDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.price")]));
     }
 
     public function groupChangePercent(GroupChangePercentRequest $request)
     {
-        $this->productService->groupChangeDigipayPercent($request->get('ids'), $request->get('percent'));
+        $this->productService->groupChangeDigipayPercent(new ProductGroupPercentDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.product")]));
     }
 
     public function groupChangeStock(GroupChangeStockRequest $request)
     {
-        $this->productService->groupChangeStock($request->get('ids'), $request->get('stock'));
+        $this->productService->groupChangeStock(new ProductGroupStockDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.product")]));
     }
 
     public function groupChangeStatus(GroupChangeStatusRequest $request)
     {
-        $this->productService->groupChangeStatus($request->get('ids'), $request->get('status'));
+        $this->productService->groupChangeStatus(new ProductGroupStatusDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.product")]));
     }
     public function groupChangeDigipay(GroupChangeDigipayRequest $request)
     {
-        $this->productService->groupChangeDigipay($request->get('ids'), $request->get('digipay'));
+        $this->productService->groupChangeDigipay(new ProductGroupDigipayDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.product")]));
     }
     public function groupChangeSnappay(GroupChangeSnappayRequest $request)
     {
-        $this->productService->groupChangeSnappay($request->get('ids'), $request->get('snappay'));
+        $this->productService->groupChangeSnappay(new ProductGroupSnappayDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.product")]));
     }
 }

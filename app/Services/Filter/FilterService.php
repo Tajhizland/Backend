@@ -3,6 +3,7 @@
 namespace App\Services\Filter;
 
 use App\DTOs\Filter\FilterSetDto;
+use App\DTOs\Product\ProductSetFilterDto;
 
 use App\Exceptions\BreakException;
 use App\Repositories\Filter\FilterRepositoryInterface;
@@ -117,8 +118,10 @@ readonly class FilterService implements FilterServiceInterface
         return $this->filterRepository->getByProductId($productId);
     }
 
-    public function setFilterToProduct($productId, $filters): void
+    public function setFilterToProduct(ProductSetFilterDto $dto): void
     {
+        $productId = $dto->product_id;
+        $filters = $dto->filter;
         foreach ($filters as $filter) {
             $productFilter = $this->productFilterRepository->findProductFilter($productId, $filter["id"]);
             if ($productFilter) {

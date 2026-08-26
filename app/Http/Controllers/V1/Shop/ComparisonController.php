@@ -20,6 +20,6 @@ class ComparisonController extends Controller
 
     public function selectProduct($id)
     {
-        return $this->dataResponse(new ProductResource($this->productService->findById($id)));
+        return $this->dataResponse(new ProductResource($this->productService->find($id)));
     }
 }

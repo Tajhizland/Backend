@@ -3,6 +3,7 @@
 namespace App\Services\Option;
 
 use App\DTOs\Option\OptionItemSortDto;
+use App\DTOs\Product\ProductSetOptionDto;
 use App\DTOs\Option\OptionItemUpdateDto;
 use App\DTOs\Option\OptionSetDto;
 use App\DTOs\Option\OptionSortDto;
@@ -68,8 +69,10 @@ readonly class OptionService implements OptionServiceInterface
         return $this->optionItemRepository->getByProductId($productId);
     }
 
-    public function setOptionToProduct($productId, $options): void
+    public function setOptionToProduct(ProductSetOptionDto $dto): void
     {
+        $productId = $dto->product_id;
+        $options = $dto->option;
         foreach ($options as $option) {
             $productOption = $this->productOptionRepository->findProductOption($productId, $option["item_id"]);
             if ($productOption) {

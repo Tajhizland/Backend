@@ -3,6 +3,7 @@
 namespace App\Services\Option;
 
 use App\DTOs\Option\OptionItemSortDto;
+use App\DTOs\Product\ProductSetOptionDto;
 use App\DTOs\Option\OptionItemUpdateDto;
 use App\DTOs\Option\OptionSetDto;
 use App\DTOs\Option\OptionSortDto;
@@ -22,7 +23,7 @@ interface OptionServiceInterface
 
     public function getByProductId($productId);
 
-    public function setOptionToProduct($productId, $options): void;
+    public function setOptionToProduct(ProductSetOptionDto $dto): void;
 
     public function getCategoryOptions($categoryId);
 

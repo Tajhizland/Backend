@@ -2,6 +2,18 @@
 
 namespace App\Services\Product;
 
+use App\DTOs\Product\ProductGroupDigipayDto;
+use App\DTOs\Product\ProductGroupPercentDto;
+use App\DTOs\Product\ProductGroupPriceDto;
+use App\DTOs\Product\ProductGroupSnappayDto;
+use App\DTOs\Product\ProductGroupStatusDto;
+use App\DTOs\Product\ProductGroupStockDto;
+use App\DTOs\Product\ProductSearchListDto;
+use App\DTOs\Product\ProductSetVideo2Dto;
+use App\DTOs\Product\ProductSetVideoDto;
+use App\DTOs\Product\ProductStoreDto;
+use App\DTOs\Product\ProductUpdateDto;
+
 interface ProductServiceInterface
 {
     public function findProductByUrl(string $url): mixed;
@@ -18,19 +30,19 @@ interface ProductServiceInterface
 
     public function searchProduct($query): mixed;
 
-    public function findById($id): mixed;
+    public function find(int $id): mixed;
 
     public function special(): mixed;
 
     public function getRelatedProducts($id): mixed;
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $length, $width, $height, $weight,$use_packet): mixed;
+    public function storeProduct(ProductStoreDto $dto): mixed;
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $length, $width, $height, $weight,$use_packet): mixed;
+    public function updateProduct(ProductUpdateDto $dto): mixed;
 
-    public function setVideo($productId, $vlogId, $type): mixed;
+    public function setVideo(ProductSetVideoDto $dto): mixed;
 
-    public function setVideo2($productId, $vlogId, $title);
+    public function setVideo2(ProductSetVideo2Dto $dto): mixed;
 
     public function deleteVideo($id);
 
@@ -46,13 +58,13 @@ interface ProductServiceInterface
 
     public function torobProduct($page_urls,$page_uniques,$page,$sort);
 
-    public function searchList($categoryId, $brandId, $searchQuery, $discountId = 0): mixed;
+    public function searchList(ProductSearchListDto $dto): mixed;
 
-    public function groupChangePrice($ids, $action, $percent);
-    public function groupChangeStock($ids, $stock);
-    public function groupChangeStatus($ids, $status);
-    public function groupChangeDigipay($ids, $digipay);
-    public function groupChangeSnappay($ids, $snappay);
-    public function groupChangeDigipayPercent($ids, $percent);
+    public function groupChangePrice(ProductGroupPriceDto $dto): mixed;
+    public function groupChangeStock(ProductGroupStockDto $dto): mixed;
+    public function groupChangeStatus(ProductGroupStatusDto $dto): mixed;
+    public function groupChangeDigipay(ProductGroupDigipayDto $dto): mixed;
+    public function groupChangeSnappay(ProductGroupSnappayDto $dto): mixed;
+    public function groupChangeDigipayPercent(ProductGroupPercentDto $dto): mixed;
 
 }

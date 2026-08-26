@@ -2,6 +2,10 @@
 
 namespace App\Services\ProductImage;
 
+use App\DTOs\ProductImage\ProductImageSetColorDto;
+use App\DTOs\ProductImage\ProductImageSortDto;
+use App\DTOs\ProductImage\ProductImageUploadDto;
+
 use App\Repositories\ProductImage\ProductImageRepositoryInterface;
 use App\Services\ImageResize\ImageResizeServiceInterface;
 use App\Services\S3\S3ServiceInterface;
@@ -65,16 +69,18 @@ readonly class ProductImageService implements ProductImageServiceInterface
         $this->productImageRepository->delete($image);
     }
 
-    public function sort($array)
+    public function sort(ProductImageSortDto $dto): mixed
     {
+        $array = $dto->image;
         foreach ($array as $item) {
             $this->productImageRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
 
-    public function setColor($array)
+    public function setColor(ProductImageSetColorDto $dto): mixed
     {
+        $array = $dto->image;
         foreach ($array as $item) {
             $productColorId = $item["product_color_id"] ?? null;
             $this->productImageRepository->setColor($item["id"], $productColorId !== "" ? $productColorId : null);

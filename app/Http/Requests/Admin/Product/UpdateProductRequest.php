@@ -10,10 +10,9 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:App\Models\Product'],
             'name' => ['required'],
             'type' => ['required'],
-            'url' => ['required', Rule::unique('products')->ignore($this->id)],
+            'url' => ['required', Rule::unique('products')->ignore($this->route('id'))],
             'description' => ['nullable'],
             'study' => ['nullable'],
             'meta_description' => ['nullable'],

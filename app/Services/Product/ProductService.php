@@ -2,6 +2,18 @@
 
 namespace App\Services\Product;
 
+use App\DTOs\Product\ProductGroupDigipayDto;
+use App\DTOs\Product\ProductGroupPercentDto;
+use App\DTOs\Product\ProductGroupPriceDto;
+use App\DTOs\Product\ProductGroupSnappayDto;
+use App\DTOs\Product\ProductGroupStatusDto;
+use App\DTOs\Product\ProductGroupStockDto;
+use App\DTOs\Product\ProductSearchListDto;
+use App\DTOs\Product\ProductSetVideo2Dto;
+use App\DTOs\Product\ProductSetVideoDto;
+use App\DTOs\Product\ProductStoreDto;
+use App\DTOs\Product\ProductUpdateDto;
+
 use App\Exceptions\BreakException;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
@@ -65,13 +77,20 @@ readonly class ProductService implements ProductServiceInterface
         return $this->productRepository->search($query);
     }
 
-    public function findById($id): mixed
+    public function find(int $id): mixed
     {
         return $this->productRepository->findById($id);
     }
 
-    public function storeProduct($name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $length, $width, $height, $weight , $use_packet): mixed
+    public function storeProduct(ProductStoreDto $dto): mixed
     {
+        $name = $dto->name; $url = $dto->url; $description = $dto->description; $study = $dto->study;
+        $status = $dto->status; $categoryId = $dto->categoryId; $brandId = $dto->brand_id;
+        $metaTitle = $dto->meta_title; $metaDescription = $dto->meta_description;
+        $guaranty_id = $dto->guaranty_id; $guaranty_time = $dto->guaranty_time; $review = $dto->review;
+        $type = $dto->type; $is_stock = $dto->is_stock; $testing_time = $dto->testing_time;
+        $stock_of = $dto->stock_of; $length = $dto->length; $width = $dto->width;
+        $height = $dto->height; $weight = $dto->weight; $use_packet = $dto->use_packet;
         $product = $this->productRepository->create([
             "name" => $name,
             "type" => $type,
@@ -101,8 +120,15 @@ readonly class ProductService implements ProductServiceInterface
         return $product;
     }
 
-    public function updateProduct($id, $name, $url, $description, $study, $status, $categoryId, $brandId, $metaTitle, $metaDescription, $guaranty_id, $guaranty_time, $review, $type, $is_stock, $testing_time, $stock_of, $length, $width, $height, $weight,$use_packet): mixed
+    public function updateProduct(ProductUpdateDto $dto): mixed
     {
+        $id = $dto->productId; $name = $dto->name; $url = $dto->url; $description = $dto->description;
+        $study = $dto->study; $status = $dto->status; $categoryId = $dto->categoryId; $brandId = $dto->brand_id;
+        $metaTitle = $dto->meta_title; $metaDescription = $dto->meta_description;
+        $guaranty_id = $dto->guaranty_id; $guaranty_time = $dto->guaranty_time; $review = $dto->review;
+        $type = $dto->type; $is_stock = $dto->is_stock; $testing_time = $dto->testing_time;
+        $stock_of = $dto->stock_of; $length = $dto->length; $width = $dto->width;
+        $height = $dto->height; $weight = $dto->weight; $use_packet = $dto->use_packet;
         $product = $this->productRepository->findOrFail($id);
         $this->productRepository->update($product,
             [
@@ -148,8 +174,9 @@ readonly class ProductService implements ProductServiceInterface
         return $this->productRepository->getByCategoryId($productCategory->category_id, $id);
     }
 
-    public function setVideo($productId, $vlogId, $type): mixed
+    public function setVideo(ProductSetVideoDto $dto): mixed
     {
+        $productId = $dto->productId; $vlogId = $dto->vlogId; $type = $dto->type;
         $product = $this->productRepository->findOrFail($productId);
         switch ($type) {
             case "intro":
@@ -194,8 +221,9 @@ readonly class ProductService implements ProductServiceInterface
         }
         return $response;
     }
-    public function setVideo2($productId, $vlogId, $title)
+    public function setVideo2(ProductSetVideo2Dto $dto): mixed
     {
+        $productId = $dto->product_id; $vlogId = $dto->vlogId; $title = $dto->title;
         return $this->productVideoRepository->create(
             [
                 "title" => $title,
@@ -225,13 +253,15 @@ readonly class ProductService implements ProductServiceInterface
         return $this->productRepository->hasDiscountDataTable();
     }
 
-    public function searchList($categoryId, $brandId, $searchQuery, $discountId = 0): mixed
+    public function searchList(ProductSearchListDto $dto): mixed
     {
+        $categoryId = $dto->categoryId; $brandId = $dto->brandId; $searchQuery = $dto->searchQuery; $discountId = $dto->discountId ?? 0;
         return $this->productRepository->searchList($categoryId, $brandId, $searchQuery, $discountId);
     }
 
-    public function groupChangePrice($ids, $action, $percent)
+    public function groupChangePrice(ProductGroupPriceDto $dto): mixed
     {
+        $ids = $dto->ids; $action = $dto->action; $percent = $dto->percent;
         foreach ($ids as $id) {
             $product = $this->productRepository->findOrFail($id);
             $colors = $product->productColors;
@@ -253,8 +283,9 @@ readonly class ProductService implements ProductServiceInterface
         return true;
     }
 
-    public function groupChangeStock($ids, $stock)
+    public function groupChangeStock(ProductGroupStockDto $dto): mixed
     {
+        $ids = $dto->ids; $stock = $dto->stock;
         foreach ($ids as $id) {
             $product = $this->productRepository->findOrFail($id);
             $colors = $product->productColors;
@@ -269,8 +300,9 @@ readonly class ProductService implements ProductServiceInterface
         return true;
     }
 
-    public function groupChangeStatus($ids, $status)
+    public function groupChangeStatus(ProductGroupStatusDto $dto): mixed
     {
+        $ids = $dto->ids; $status = $dto->status;
         foreach ($ids as $id) {
             $product = $this->productRepository->findOrFail($id);
             $colors = $product->productColors;
@@ -284,8 +316,9 @@ readonly class ProductService implements ProductServiceInterface
         return true;
     }
 
-    public function groupChangeDigipay($ids, $digipay)
+    public function groupChangeDigipay(ProductGroupDigipayDto $dto): mixed
     {
+        $ids = $dto->ids; $digipay = $dto->digipay;
         foreach ($ids as $id) {
             $product = $this->productRepository->findOrFail($id);
             $product->allow_digipay = $digipay;
@@ -294,8 +327,9 @@ readonly class ProductService implements ProductServiceInterface
         return true;
     }
 
-    public function groupChangeSnappay($ids, $snappay)
+    public function groupChangeSnappay(ProductGroupSnappayDto $dto): mixed
     {
+        $ids = $dto->ids; $snappay = $dto->snappay;
         foreach ($ids as $id) {
             $product = $this->productRepository->findOrFail($id);
             $product->allow_snappay = $snappay;
@@ -303,8 +337,9 @@ readonly class ProductService implements ProductServiceInterface
         }
         return true;
     }
-   public function groupChangeDigipayPercent($ids, $percent)
+   public function groupChangeDigipayPercent(ProductGroupPercentDto $dto): mixed
     {
+        $ids = $dto->ids; $percent = $dto->percent;
         foreach ($ids as $id) {
             $product = $this->productRepository->findOrFail($id);
             $product->digipay_extra_price = $percent;

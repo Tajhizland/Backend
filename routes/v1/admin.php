@@ -11,39 +11,41 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("unseen", "unSeen");
         Route::patch("seen", "seen");
     });
-    Route::group(["prefix" => "product"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "dataTable"]);
-        Route::get("stock/dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "stockProductDataTable"]);
-        Route::get("has-discount-dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "hasDiscountDataTable"]);
-        Route::get("has-limit-dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "hasLimitDataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\ProductController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\ProductController::class, "update"]);
-        Route::get("filter/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getFilter"]);
-        Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getOption"]);
-        Route::get("color/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getColor"]);
-        Route::get("image/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getImage"]);
-        Route::post("filter/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setFilter"]);
-        Route::post("option/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setOption"]);
-        Route::post("color/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setColor"]);
-        Route::post("color/fast-update", [\App\Http\Controllers\V1\Admin\ProductController::class, "colorFastUpdate"]);
-        Route::post("image/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImage"]);
-        Route::post("image/sort", [\App\Http\Controllers\V1\Admin\ProductController::class, "sortImage"]);
-        Route::post("image/set-color", [\App\Http\Controllers\V1\Admin\ProductController::class, "setImageColor"]);
-        Route::post("video/set", [\App\Http\Controllers\V1\Admin\ProductController::class, "setVideo"]);
-        Route::post("video/set2", [\App\Http\Controllers\V1\Admin\ProductController::class, "setVideo2"]);
-        Route::get("video/get/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "getVideo"]);
-        Route::delete("video/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "deleteVideo"]);
-        Route::delete("image/delete/{id}", [\App\Http\Controllers\V1\Admin\ProductController::class, "removeImage"]);
-        Route::post("option/update-product-option", [\App\Http\Controllers\V1\Admin\ProductController::class, "updateProductOption"]);
-        Route::post("search-list", [\App\Http\Controllers\V1\Admin\ProductController::class, "searchList"]);
-        Route::post("group-change", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChange"]);
-        Route::post("group-change-stock", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeStock"]);
-        Route::post("group-change-status", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeStatus"]);
-        Route::post("group-change-digipay", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeDigipay"]);
-        Route::post("group-change-snappay", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangeSnappay"]);
-        Route::post("group-change-percent", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangePercent"]);
+    Route::prefix("product")->controller(\App\Http\Controllers\V1\Admin\ProductController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("stock/dataTable", "stockProductDataTable");
+        Route::get("has-discount-dataTable", "hasDiscountDataTable");
+        Route::get("has-limit-dataTable", "hasLimitDataTable");
+        Route::post("search-list", "searchList");
 
+        Route::post("filter", "setFilter");
+        Route::post("option", "setOption");
+        Route::put("option", "updateProductOption");
+        Route::post("color", "setColor");
+        Route::put("color", "colorFastUpdate");
+        Route::post("image", "setImage");
+        Route::post("image/sort", "sortImage");
+        Route::put("image/color", "setImageColor");
+        Route::delete("image/{id}", "removeImage");
+        Route::post("video", "setVideo");
+        Route::post("video/multi", "setVideo2");
+        Route::delete("video/{id}", "deleteVideo");
+
+        Route::patch("group-change", "groupChange");
+        Route::patch("group-change-stock", "groupChangeStock");
+        Route::patch("group-change-status", "groupChangeStatus");
+        Route::patch("group-change-digipay", "groupChangeDigipay");
+        Route::patch("group-change-snappay", "groupChangeSnappay");
+        Route::patch("group-change-percent", "groupChangePercent");
+
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::get("{id}/filter", "getFilter");
+        Route::get("{id}/option", "getOption");
+        Route::get("{id}/color", "getColor");
+        Route::get("{id}/image", "getImage");
+        Route::get("{id}/video", "getVideo");
     });
     Route::prefix("category")->controller(\App\Http\Controllers\V1\Admin\CategoryController::class)->group(function () {
         Route::get("dataTable", "dataTable");
