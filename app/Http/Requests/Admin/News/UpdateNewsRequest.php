@@ -10,11 +10,10 @@ class UpdateNewsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "id" => ["required","integer","exists:App\Models\News"],
             "title" => ["required","string"],
-            "url" => ["required","string" , Rule::unique('news')->ignore($this->id)],
+            "url" => ["required","string" , Rule::unique('news')->ignore($this->route('id'))],
             "content" => ["required","string"],
-            "img" => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            "image" => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
             "categoryId" => ["nullable","exists:App\Models\BlogCategory,id"],
             "published" => ["required","integer","in:1,0"],
             "static" => ["nullable"],

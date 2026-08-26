@@ -2,7 +2,10 @@
 
 namespace App\Services\New;
 
+use App\DTOs\News\NewsStoreDto;
+use App\DTOs\News\NewsUpdateDto;
 use App\Repositories\New\NewRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 
 readonly class NewService implements NewServiceInterface
@@ -15,12 +18,12 @@ readonly class NewService implements NewServiceInterface
     {
     }
 
-    public function findByUrl($url)
+    public function findByUrl($url): mixed
     {
         return $this->newRepository->findByUrl($url);
     }
 
-    public function activePaginate($filters)
+    public function activePaginate($filters): mixed
     {
         $blogQuery= $this->newRepository->activePaginateQuery();
         $blogQuery=$this->renderFilter($blogQuery,$filters);
@@ -39,57 +42,61 @@ readonly class NewService implements NewServiceInterface
         return $blogQuery;
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->newRepository->findOrFail($id);
+        $news = $this->newRepository->find($id);
+        if (!$news) {
+            throw new NotFoundHttpException();
+        }
+        return $news;
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->newRepository->dataTable();
     }
 
-    public function storeNews($title, $url, $content, $image, $published, $categoryId, $author)
+    public function store(NewsStoreDto $dto): mixed
     {
         $imagePath = null;
-        if ($image) {
-            $imagePath = $this->s3Service->upload($image, "blog");
+        if ($dto->image) {
+            $imagePath = $this->s3Service->upload($dto->image, "blog");
         }
-        $this->newRepository->create([
-            "title" => $title,
-            "url" => $url,
-            "content" => $content,
+        return $this->newRepository->create([
+            "title" => $dto->title,
+            "url" => $dto->url,
+            "content" => $dto->content,
             "img" => $imagePath,
-            "published" => $published,
-            "category_id" => $categoryId,
-            "author" => $author,
+            "published" => $dto->published,
+            "category_id" => $dto->categoryId,
+            "author" => $dto->author,
         ]);
     }
 
-    public function updateNews($id, $title, $url, $content, $image, $published, $categoryId)
+    public function update(NewsUpdateDto $dto): bool
     {
-        $news = $this->newRepository->findOrFail($id);
+        $news = $this->find($dto->newsId);
         $imagePath = $news->img;
-        if ($image) {
+        if ($dto->image) {
             $this->s3Service->remove("blog/" . $imagePath);
-            $imagePath = $this->s3Service->upload($image, "blog");
+            $imagePath = $this->s3Service->upload($dto->image, "blog");
         }
-        $this->newRepository->update($news, [
-            "title" => $title,
-            "url" => $url,
-            "content" => $content,
+        return $this->newRepository->update($news, [
+            "title" => $dto->title,
+            "url" => $dto->url,
+            "content" => $dto->content,
             "img" => $imagePath,
-            "category_id" => $categoryId,
-            "published" => $published,
+            "category_id" => $dto->categoryId,
+            "published" => $dto->published,
         ]);
     }
 
-    public function getSitemapData()
+    public function getSitemapData(): mixed
     {
         return $this->newRepository->getSitemapData();
     }
 
-    public function getLastPost()
+    public function getLastPost(): mixed
     {
         return $this->newRepository->getLastPost();
     }

@@ -73,11 +73,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("{id}", "show");
         Route::put("{id}", "update");
     });
-    Route::group(["prefix" => "news"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NewsController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\NewsController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\NewsController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\NewsController::class, "update"]);
+    Route::prefix("news")->controller(\App\Http\Controllers\V1\Admin\NewsController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
     Route::prefix("guaranty")->controller(\App\Http\Controllers\V1\Admin\GuarantyController::class)->group(function () {
         Route::get("dataTable", "dataTable");
@@ -192,11 +192,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\PopularProductController::class, "delete"]);
         Route::post("add", [\App\Http\Controllers\V1\Admin\PopularProductController::class, "add"]);
     });
-    Route::group(["prefix" => "homepage_category"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "dataTable"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "delete"]);
-        Route::post("add", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "add"]);
-        Route::post("setIcon", [\App\Http\Controllers\V1\Admin\HomepageCategoryController::class, "setIcon"]);
+    Route::prefix("homepage-category")->controller(\App\Http\Controllers\V1\Admin\HomepageCategoryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::post("{id}/icon", "setIcon");
+        Route::delete("{id}", "destroy");
     });
     Route::group(["prefix" => "menu"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\MenuController::class, "dataTable"]);
@@ -228,10 +228,10 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("get", [\App\Http\Controllers\V1\Admin\FileManagerController::class, "get"]);
         Route::delete("remove/{id}", [\App\Http\Controllers\V1\Admin\FileManagerController::class, "remove"]);
     });
-    Route::group(["prefix" => "contact"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ContactController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\ContactController::class, "find"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\ContactController::class, "remove"]);
+    Route::prefix("contact")->controller(\App\Http\Controllers\V1\Admin\ContactController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("{id}", "show");
+        Route::delete("{id}", "destroy");
     });
     Route::group(["prefix" => "page"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PageController::class, "dataTable"]);
@@ -436,12 +436,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "delete"]);
     });
 
-    Route::group(["prefix" => "cast-category"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "dataTable"]);
-        Route::get("get", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "get"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\CastCategoryController::class, "update"]);
+    Route::prefix("cast-category")->controller(\App\Http\Controllers\V1\Admin\CastCategoryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("get", "get");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
     Route::group(["prefix" => "coupon"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CouponController::class, "dataTable"]);

@@ -9,7 +9,6 @@ class UpdateCastCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'exists:App\Models\CastCategory'],
             'icon' => ['nullable'],
             'name' => ['required'],
             'status' => ['required', 'integer'],

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\News\NewsStoreDto;
+use App\DTOs\News\NewsUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\News\StoreNewsRequest;
 use App\Http\Requests\Admin\News\UpdateNewsRequest;
@@ -11,9 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
-
-    public function __construct
-    (
+    public function __construct(
         private readonly NewServiceInterface $newService,
     )
     {
@@ -24,21 +24,20 @@ class NewsController extends Controller
         return $this->dataResponseCollection(NewsResource::collection($this->newService->dataTable()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new NewsResource($this->newService->findById($id)));
+        return $this->dataResponse(new NewsResource($this->newService->find($id)));
     }
 
     public function store(StoreNewsRequest $request)
     {
-        $userId = Auth::user()->id;
-        $this->newService->storeNews($request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"), $request->get("categoryId"),$userId);
+        $this->newService->store(new NewsStoreDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.news")]));
     }
 
-    public function update(UpdateNewsRequest $request)
+    public function update($id, UpdateNewsRequest $request)
     {
-        $this->newService->updateNews($request->get("id"), $request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"), $request->get("categoryId"));
+        $this->newService->update(new NewsUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.news")]));
     }
 }

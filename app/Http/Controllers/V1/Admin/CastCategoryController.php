@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\CastCategory\CastCategoryStoreDto;
+use App\DTOs\CastCategory\CastCategoryUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CastCategory\StoreCastCategoryRequest;
 use App\Http\Requests\Admin\CastCategory\UpdateCastCategoryRequest;
@@ -10,40 +12,36 @@ use App\Services\CastCategory\CastCategoryServiceInterface;
 
 class CastCategoryController extends Controller
 {
-    public function __construct
-    (
-        private readonly CastCategoryServiceInterface $castCategoryService
+    public function __construct(
+        private readonly CastCategoryServiceInterface $castCategoryService,
     )
     {
     }
 
     public function dataTable()
     {
-        $response = $this->castCategoryService->dataTable();
-        return $this->dataResponseCollection(CastCategoryResource::collection($response));
+        return $this->dataResponseCollection(CastCategoryResource::collection($this->castCategoryService->dataTable()));
     }
 
     public function get()
     {
-        $response = $this->castCategoryService->get();
-        return $this->dataResponseCollection(CastCategoryResource::collection($response));
+        return $this->dataResponseCollection(CastCategoryResource::collection($this->castCategoryService->get()));
     }
 
-    public function find($id)
+    public function show($id)
     {
-        $response = $this->castCategoryService->find($id);
-        return $this->dataResponse(new CastCategoryResource($response));
+        return $this->dataResponse(new CastCategoryResource($this->castCategoryService->find($id)));
     }
 
     public function store(StoreCastCategoryRequest $request)
     {
-        $this->castCategoryService->store($request->get("name"), $request->get("status"), $request->file("icon"));
+        $this->castCategoryService->store(new CastCategoryStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.category")]));
     }
 
-    public function update(UpdateCastCategoryRequest $request)
+    public function update($id, UpdateCastCategoryRequest $request)
     {
-        $this->castCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->file("icon"));
+        $this->castCategoryService->update(new CastCategoryUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
 }

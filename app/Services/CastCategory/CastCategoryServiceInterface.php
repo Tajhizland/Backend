@@ -2,17 +2,18 @@
 
 namespace App\Services\CastCategory;
 
+use App\DTOs\CastCategory\CastCategoryStoreDto;
+use App\DTOs\CastCategory\CastCategoryUpdateDto;
+
 interface CastCategoryServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function find($id);
+    public function get(): mixed;
 
-    public function store($name, $status,$icon);
+    public function find(int $id): mixed;
 
-    public function get();
+    public function store(CastCategoryStoreDto $dto): mixed;
 
-    public function update($id, $name, $status,$icon);
-
-
+    public function update(CastCategoryUpdateDto $dto): bool;
 }

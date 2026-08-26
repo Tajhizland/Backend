@@ -8,7 +8,9 @@ use App\Services\Contact\ContactServiceInterface;
 
 class ContactController extends Controller
 {
-    public function __construct(private readonly ContactServiceInterface $contactService)
+    public function __construct(
+        private readonly ContactServiceInterface $contactService,
+    )
     {
     }
 
@@ -17,12 +19,12 @@ class ContactController extends Controller
         return $this->dataResponseCollection(ContactResource::collection($this->contactService->dataTable()));
     }
 
-    public function find($id)
+    public function show($id)
     {
         return $this->dataResponse(new ContactResource($this->contactService->find($id)));
     }
 
-    public function remove($id)
+    public function destroy($id)
     {
         $this->contactService->remove($id);
         return $this->successResponse(__("action.remove", ["attr" => __("attr.message")]));

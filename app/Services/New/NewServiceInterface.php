@@ -2,21 +2,24 @@
 
 namespace App\Services\New;
 
+use App\DTOs\News\NewsStoreDto;
+use App\DTOs\News\NewsUpdateDto;
+
 interface NewServiceInterface
 {
-    public function findByUrl($url);
+    public function dataTable(): mixed;
 
-    public function findById($id);
+    public function find(int $id): mixed;
 
-    public function activePaginate($filters);
+    public function findByUrl($url): mixed;
 
-    public function dataTable();
+    public function activePaginate($filters): mixed;
 
-    public function storeNews($title, $url, $content, $image, $published, $categoryId, $author);
+    public function store(NewsStoreDto $dto): mixed;
 
-    public function updateNews($id, $title, $url, $content, $image, $published, $categoryId);
+    public function update(NewsUpdateDto $dto): bool;
 
-    public function getSitemapData();
+    public function getSitemapData(): mixed;
 
-    public function getLastPost();
+    public function getLastPost(): mixed;
 }

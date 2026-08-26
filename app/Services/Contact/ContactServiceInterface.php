@@ -4,8 +4,11 @@ namespace App\Services\Contact;
 
 interface ContactServiceInterface
 {
-    public function dataTable();
-    public function remove($id);
-    public function find($id);
-    public function store($name ,$concept, $mobile , $message ,$cityId,$provinceId);
+    public function dataTable(): mixed;
+
+    public function find(int $id): mixed;
+
+    public function remove(int $id): bool|null;
+
+    public function store($name, $concept, $mobile, $message, $cityId, $provinceId): mixed;
 }

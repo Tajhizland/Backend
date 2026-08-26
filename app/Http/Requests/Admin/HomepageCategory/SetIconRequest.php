@@ -9,7 +9,6 @@ class SetIconRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "id"=>"required",
             "icon"=>["required","image" , 'mimes:jpeg,png,jpg,gif,svg,webp'],
         ];
     }
