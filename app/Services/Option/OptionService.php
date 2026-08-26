@@ -2,6 +2,10 @@
 
 namespace App\Services\Option;
 
+use App\DTOs\Option\OptionItemSortDto;
+use App\DTOs\Option\OptionItemUpdateDto;
+use App\DTOs\Option\OptionSetDto;
+use App\DTOs\Option\OptionSortDto;
 use App\DTOs\Option\OptionStoreDto;
 use App\DTOs\Option\OptionUpdateDto;
 use App\Repositories\Option\OptionRepositoryInterface;
@@ -87,8 +91,10 @@ readonly class OptionService implements OptionServiceInterface
         return $this->optionItemRepository->getCategoryOptions($categoryId);
     }
 
-    public function setOption($categoryId, $options): void
+    public function setOption(OptionSetDto $dto): void
     {
+        $categoryId = $dto->category_id;
+        $options = $dto->option;
         foreach ($options as $option) {
             if (@$option["id"]) {
                 $existOptionItem = $this->optionItemRepository->find($option["id"]);
@@ -114,16 +120,18 @@ readonly class OptionService implements OptionServiceInterface
         }
     }
 
-    public function sortOption($array)
+    public function sortOption(OptionSortDto $dto): mixed
     {
+        $array = $dto->option;
         foreach ($array as $item) {
             $this->optionItemRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
 
-    public function sortOptionItem($options)
+    public function sortOptionItem(OptionItemSortDto $dto): mixed
     {
+        $options = $dto->optionItem;
         foreach ($options as $item) {
             $this->optionItemRepository->sort($item["id"], $item["sort"]);
         }
@@ -135,19 +143,20 @@ readonly class OptionService implements OptionServiceInterface
         return $this->optionItemRepository->getByOptionId($optionId);
     }
 
-    public function updateOptionItem($id, $categoryId, $title, $status)
+    public function updateOptionItem(OptionItemUpdateDto $dto): mixed
     {
-        if ($id) {
-            $option = $this->optionItemRepository->find($id);
-            return $this->optionItemRepository->update($option,
-                [
-                    "title" => $title,
-                    "status" => $status
-                ]
-            );
+        if ($dto->id) {
+            $option = $this->optionItemRepository->find($dto->id);
+            return $this->optionItemRepository->update($option, [
+                "title" => $dto->title,
+                "status" => $dto->status,
+            ]);
         }
-        return $this->optionItemRepository->create(["title" => $title, "status" => $status, "category_id" => $categoryId]);
-
+        return $this->optionItemRepository->create([
+            "title" => $dto->title,
+            "status" => $dto->status,
+            "category_id" => $dto->categoryId,
+        ]);
     }
 
     public function updateProductOption($id, $productId, $value, $optionItemId)

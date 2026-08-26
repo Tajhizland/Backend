@@ -2,13 +2,16 @@
 
 namespace App\Services\Category;
 
+use App\DTOs\Category\CategoryProductSortDto;
+use App\DTOs\Category\CategoryStoreDto;
+use App\DTOs\Category\CategoryUpdateDto;
 use App\Repositories\Category\CategoryRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Services\Breadcrumb\BreadcrumbServiceInterface;
 use App\Services\CategoryTree\CategoryTreeServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\S3\S3ServiceInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class CategoryService implements CategoryServiceInterface
 {
@@ -77,48 +80,49 @@ readonly class CategoryService implements CategoryServiceInterface
         return $this->categoryRepository->dataTable();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->categoryRepository->findOrFail($id);
+        $category = $this->categoryRepository->find($id);
+        if (!$category) {
+            throw new NotFoundHttpException();
+        }
+        return $category;
     }
 
-    public function storeCategory($name, $status, $url, $image, $description, $parentId, $type)
+    public function store(CategoryStoreDto $dto): mixed
     {
         $imagePath = null;
-        if ($image) {
-            $imagePath = $this->s3Service->upload($image, "category");
+        if ($dto->image) {
+            $imagePath = $this->s3Service->upload($dto->image, "category");
         }
-        return $this->categoryRepository->create(
-            [
-                "name" => $name,
-                "status" => $status,
-                "url" => $url,
-                "image" => $imagePath,
-                "description" => $description,
-                "type" => $type,
-                "parent_id" => $parentId
-            ]
-        );
+        return $this->categoryRepository->create([
+            "name" => $dto->name,
+            "status" => $dto->status,
+            "url" => $dto->url,
+            "image" => $imagePath,
+            "description" => $dto->description,
+            "type" => $dto->type,
+            "parent_id" => $dto->parent_id,
+        ]);
     }
 
-    public function updateCategory($id, $name, $status, $url, $image, $description, $parentId, $type)
+    public function update(CategoryUpdateDto $dto): bool
     {
-        $category = $this->categoryRepository->findOrFail($id);
+        $category = $this->find($dto->categoryId);
         $imagePath = $category->image;
-        if ($image) {
+        if ($dto->image) {
             $this->s3Service->remove("category/" . $category->image);
-            $imagePath = $this->s3Service->upload($image, "category");
+            $imagePath = $this->s3Service->upload($dto->image, "category");
         }
-        return $this->categoryRepository->update($category,
-            [
-                "name" => $name,
-                "status" => $status,
-                "url" => $url,
-                "image" => $imagePath,
-                "description" => $description,
-                "type" => $type,
-                "parent_id" => $parentId
-            ]);
+        return $this->categoryRepository->update($category, [
+            "name" => $dto->name,
+            "status" => $dto->status,
+            "url" => $dto->url,
+            "image" => $imagePath,
+            "description" => $dto->description,
+            "type" => $dto->type,
+            "parent_id" => $dto->parent_id,
+        ]);
     }
 
     public function productList($id)
@@ -126,9 +130,9 @@ readonly class CategoryService implements CategoryServiceInterface
         return $this->productRepository->getAllByCategoryId($id);
     }
 
-    public function productSort($array)
+    public function productSort(CategoryProductSortDto $dto): bool
     {
-        foreach ($array as $item) {
+        foreach ($dto->product as $item) {
             $this->productRepository->sort($item["id"], $item["sort"]);
         }
         return true;

@@ -10,12 +10,12 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required' ,'integer'],
             'name' => ['required'],
             'type' => ['required','string','in:landing,listing'],
-            'url' => ['required', Rule::unique('categories')->ignore($this->id)],
+            'url' => ['required', Rule::unique('categories')->ignore($this->route('id'))],
             'image' => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
             'parent_id' => ['required', 'integer'],
+            'status' => ['required', 'integer'],
             'description' => ['nullable'],
         ];
     }

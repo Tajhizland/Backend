@@ -2,6 +2,8 @@
 
 namespace App\Services\Filter;
 
+use App\DTOs\Filter\FilterSetDto;
+
 
 interface FilterServiceInterface
 {
@@ -13,5 +15,5 @@ interface FilterServiceInterface
     public function getByProductId($productId);
     public function setFilterToProduct($productId , $filters):void;
     public function getCategoryFilters($categoryId);
-    public function setFilter($categoryId , $filters):void;
+    public function setFilter(FilterSetDto $dto): void;
 }

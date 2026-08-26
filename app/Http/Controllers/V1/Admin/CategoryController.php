@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Category\CategoryProductSortDto;
+use App\DTOs\Category\CategoryStoreDto;
+use App\DTOs\Category\CategoryUpdateDto;
+use App\DTOs\Filter\FilterSetDto;
+use App\DTOs\Option\OptionItemSortDto;
+use App\DTOs\Option\OptionItemUpdateDto;
+use App\DTOs\Option\OptionSetDto;
+use App\DTOs\Option\OptionSortDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\ProductSortRequest;
 use App\Http\Requests\Admin\Category\StoreCategoryRequest;
@@ -44,7 +52,7 @@ class CategoryController extends Controller
 
     public function productSort(ProductSortRequest $request)
     {
-        $this->categoryService->productSort($request->get("product"));
+        $this->categoryService->productSort(new CategoryProductSortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.category")]));
     }
 
@@ -53,20 +61,20 @@ class CategoryController extends Controller
         return $this->dataResponseCollection(SimpleCategoryResource::collection($this->categoryService->dataTable()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new CategoryResource($this->categoryService->findById($id)));
+        return $this->dataResponse(new CategoryResource($this->categoryService->find($id)));
     }
 
     public function store(StoreCategoryRequest $request)
     {
-        $this->categoryService->storeCategory($request->get("name"), $request->get("status"), $request->get("url"), $request->file("image"), $request->get("description"), $request->get("parent_id"), $request->get("type"));
+        $this->categoryService->store(new CategoryStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.category")]));
     }
 
-    public function update(UpdateCategoryRequest $request)
+    public function update($id, UpdateCategoryRequest $request)
     {
-        $this->categoryService->updateCategory($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"), $request->file("image"), $request->get("description"), $request->get("parent_id"), $request->get("type"));
+        $this->categoryService->update(new CategoryUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
 
@@ -87,30 +95,30 @@ class CategoryController extends Controller
 
     public function setFilter(SetFilterRequest $request)
     {
-        $this->filterService->setFilter($request->get("category_id"), $request->get("filter"));
+        $this->filterService->setFilter(new FilterSetDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.filter")]));
     }
 
     public function setOption(SetOptionRequest $request)
     {
-        $this->optionService->setOption($request->get("category_id"), $request->get("option"));
+        $this->optionService->setOption(new OptionSetDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.option")]));
     }
 
     public function updateOption(UpdateOptionItemRequest $request)
     {
-        $this->optionService->updateOptionItem($request->get("id"), $request->get("categoryId"), $request->get("title"), $request->get("status"));
+        $this->optionService->updateOptionItem(new OptionItemUpdateDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.option")]));
     }
     public function sortOption(SortOptionRequest $request)
     {
-        $this->optionService->sortOption($request->get("option"));
+        $this->optionService->sortOption(new OptionSortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.option")]));
     }
 
     public function sortOptionItem(SortOptionItemRequest $request)
     {
-        $this->optionService->sortOptionItem($request->get("optionItem"));
+        $this->optionService->sortOptionItem(new OptionItemSortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.option")]));
     }
 

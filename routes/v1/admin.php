@@ -45,25 +45,25 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("group-change-percent", [\App\Http\Controllers\V1\Admin\ProductController::class, "groupChangePercent"]);
 
     });
-    Route::group(["prefix" => "category"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CategoryController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\CategoryController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\CategoryController::class, "update"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\CategoryController::class, "list"]);
-        Route::get("option-item/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getOptionItem"]);
-        Route::get("product/list/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "productList"]);
-        Route::get("filter/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getFilter"]);
-        Route::get("option/get/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "getOption"]);
-        Route::post("filter/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setFilter"]);
-        Route::post("option/set", [\App\Http\Controllers\V1\Admin\CategoryController::class, "setOption"]);
-        Route::post("option/sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "sortOption"]);
-        Route::post("option-item/sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "sortOptionItem"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\CategoryController::class, "productSort"]);
-        Route::post("image/delete/{id}", [\App\Http\Controllers\V1\Admin\CategoryController::class, "deleteImage"]);
+    Route::prefix("category")->controller(\App\Http\Controllers\V1\Admin\CategoryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("sort", "productSort");
 
-        Route::post("option/update", [\App\Http\Controllers\V1\Admin\CategoryController::class, "updateOption"]);
+        Route::post("filter", "setFilter");
+        Route::post("option", "setOption");
+        Route::put("option", "updateOption");
+        Route::post("option/sort", "sortOption");
+        Route::post("option-item/sort", "sortOptionItem");
+        Route::get("option-item/{id}", "getOptionItem");
 
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}/image", "deleteImage");
+        Route::get("{id}/product", "productList");
+        Route::get("{id}/filter", "getFilter");
+        Route::get("{id}/option", "getOption");
     });
     Route::prefix("brand")->controller(\App\Http\Controllers\V1\Admin\BrandController::class)->group(function () {
         Route::get("dataTable", "dataTable");

@@ -2,6 +2,8 @@
 
 namespace App\Services\Filter;
 
+use App\DTOs\Filter\FilterSetDto;
+
 use App\Exceptions\BreakException;
 use App\Repositories\Filter\FilterRepositoryInterface;
 use App\Repositories\FilterItem\FilterItemRepositoryInterface;
@@ -138,8 +140,10 @@ readonly class FilterService implements FilterServiceInterface
         return $this->filterRepository->getCategoryFilters($categoryId);
     }
 
-    public function setFilter($categoryId, $filters): void
+    public function setFilter(FilterSetDto $dto): void
     {
+        $categoryId = $dto->category_id;
+        $filters = $dto->filter;
         foreach ($filters as $filter) {
             $filterId = 0;
             if (@$filter["id"]) {
