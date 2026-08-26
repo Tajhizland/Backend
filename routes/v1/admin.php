@@ -65,13 +65,13 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("option/update", [\App\Http\Controllers\V1\Admin\CategoryController::class, "updateOption"]);
 
     });
-    Route::group(["prefix" => "brand"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BrandController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\BrandController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\BrandController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\BrandController::class, "update"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\BrandController::class, "sort"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\BrandController::class, "list"]);
+    Route::prefix("brand")->controller(\App\Http\Controllers\V1\Admin\BrandController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("sort", "sort");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
     Route::group(["prefix" => "news"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NewsController::class, "dataTable"]);

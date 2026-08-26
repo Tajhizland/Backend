@@ -2,6 +2,9 @@
 
 namespace App\Services\Brand;
 
+use App\DTOs\Brand\BrandSortDto;
+use App\DTOs\Brand\BrandStoreDto;
+use App\DTOs\Brand\BrandUpdateDto;
 use App\Repositories\Brand\BrandRepositoryInterface;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
@@ -22,12 +25,12 @@ readonly class BrandService implements BrandServiceInterface
     {
     }
 
-    public function list()
+    public function list(): mixed
     {
         return $this->brandRepository->list();
     }
 
-    public function listing($url, $filters)
+    public function listing($url, $filters): mixed
     {
         $brand = $this->brandRepository->findByUrl($url);
         if (!$brand) {
@@ -41,78 +44,77 @@ readonly class BrandService implements BrandServiceInterface
         return ["products" => $products, "brand" => $brand, "categories" => $categories];
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->brandRepository->dataTable();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->brandRepository->findOrFail($id);
+        $brand = $this->brandRepository->find($id);
+        if (!$brand) {
+            throw new NotFoundHttpException();
+        }
+        return $brand;
     }
 
-    public function storeBrand($name, $url, $status, $image, $banner, $description)
+    public function store(BrandStoreDto $dto): mixed
     {
         $imagePath = null;
-        if ($image) {
-            $imagePath = $this->s3Service->upload($image, "brand");
+        if ($dto->image) {
+            $imagePath = $this->s3Service->upload($dto->image, "brand");
         }
         $bannerPath = null;
-        if ($banner) {
-            $bannerPath = $this->s3Service->upload($banner, "brand-banner");
+        if ($dto->banner) {
+            $bannerPath = $this->s3Service->upload($dto->banner, "brand-banner");
         }
-        return $this->brandRepository->create(
-            [
-                "name" => $name,
-                "url" => $url,
-                "status" => $status,
-                "description" => $description,
-                "image" => $imagePath,
-                "banner" => $bannerPath,
-            ]
-        );
+        return $this->brandRepository->create([
+            "name" => $dto->name,
+            "url" => $dto->url,
+            "status" => $dto->status,
+            "description" => $dto->description,
+            "image" => $imagePath,
+            "banner" => $bannerPath,
+        ]);
     }
 
-    public function updateBrand($id, $name, $url, $status, $image, $banner, $description)
+    public function update(BrandUpdateDto $dto): bool
     {
-        $brand = $this->brandRepository->findOrFail($id);
+        $brand = $this->find($dto->brandId);
         $imagePath = $brand->image;
-        if ($image) {
+        if ($dto->image) {
             $this->s3Service->remove("brand/" . $brand->image);
-            $imagePath = $this->s3Service->upload($image, "brand");
+            $imagePath = $this->s3Service->upload($dto->image, "brand");
         }
         $bannerPath = null;
-        if ($banner) {
+        if ($dto->banner) {
             $this->s3Service->remove("brand-banner/" . $brand->banner);
-            $bannerPath = $this->s3Service->upload($banner, "brand-banner");
+            $bannerPath = $this->s3Service->upload($dto->banner, "brand-banner");
         }
-        return $this->brandRepository
-            ->update($brand,
-                [
-                    "name" => $name,
-                    "url" => $url,
-                    "status" => $status,
-                    "description" => $description,
-                    "image" => $imagePath,
-                    "banner" => $bannerPath,
-                ]
-            );
+        return $this->brandRepository->update($brand, [
+            "name" => $dto->name,
+            "url" => $dto->url,
+            "status" => $dto->status,
+            "description" => $dto->description,
+            "image" => $imagePath,
+            "banner" => $bannerPath,
+        ]);
     }
 
-    public function getAllActive()
+    public function getAllActive(): mixed
     {
         return $this->brandRepository->getAllActive();
     }
 
-    public function sort($brands)
+    public function sort(BrandSortDto $dto): bool
     {
-        foreach ($brands as $item) {
+        foreach ($dto->brand as $item) {
             $this->brandRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
 
-    public function getSitemapData()
+    public function getSitemapData(): mixed
     {
         return $this->brandRepository->getSitemapData();
     }

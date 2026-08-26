@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Brand\BrandSortDto;
+use App\DTOs\Brand\BrandStoreDto;
+use App\DTOs\Brand\BrandUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Brand\BrandSortRequest;
 use App\Http\Requests\Admin\Brand\StoreBrandRequest;
@@ -11,10 +14,8 @@ use App\Services\Brand\BrandServiceInterface;
 
 class BrandController extends Controller
 {
-    public function __construct
-    (
+    public function __construct(
         private readonly BrandServiceInterface $brandService,
-
     )
     {
     }
@@ -31,25 +32,27 @@ class BrandController extends Controller
 
     public function sort(BrandSortRequest $request)
     {
-        $this->brandService->sort($request->get("brand"));
+        $dto = new BrandSortDto(...$request->validated());
+        $this->brandService->sort($dto);
         return $this->successResponse(__("action.sort", ["attr" => __("attr.brand")]));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new BrandResource($this->brandService->findById($id)));
+        return $this->dataResponse(new BrandResource($this->brandService->find($id)));
     }
 
     public function store(StoreBrandRequest $request)
     {
-        $this->brandService->storeBrand($request->get("name"), $request->get("url"), $request->get("status"), $request->get("image"), $request->get("banner"), $request->get("description"));
+        $dto = new BrandStoreDto(...$request->validated());
+        $this->brandService->store($dto);
         return $this->successResponse(__("action.store", ["attr" => __("attr.brand")]));
     }
 
-    public function update(UpdateBrandRequest $request)
+    public function update($id, UpdateBrandRequest $request)
     {
-        $this->brandService->updateBrand($request->get("id"), $request->get("name"), $request->get("url"), $request->get("status"), $request->get("image"), $request->get("banner"), $request->get("description"));
+        $dto = new BrandUpdateDto($id, ...$request->validated());
+        $this->brandService->update($dto);
         return $this->successResponse(__("action.update", ["attr" => __("attr.brand")]));
     }
-
 }

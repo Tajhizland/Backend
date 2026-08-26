@@ -29,33 +29,6 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     {
         return $this->model::where('url', $url)->first();
     }
-
-    public function storeBrand($name, $url, $status, $image, $description)
-    {
-        $this->create(
-            [
-                "name" => $name,
-                "url" => $url,
-                "status" => $status,
-                "description" => $description,
-                "image" => $image,
-            ]
-        );
-    }
-
-    public function updateBrand(Brand $brand, $name, $url, $status, $image, $description)
-    {
-        return $brand
-            ->update(
-                [
-                    "name" => $name,
-                    "url" => $url,
-                    "status" => $status,
-                    "description" => $description,
-                    "image" => $image,
-                ]
-            );
-    }
     public function getAllActive()
     {
         return $this->model::active()->orderBy("sort")->get();
