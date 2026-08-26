@@ -2,6 +2,8 @@
 
 namespace App\Services\ChatInfo;
 
+use App\DTOs\ChatInfo\ChatInfoSyncDto;
+
 use App\Repositories\ChatInfo\ChatInfoRepositoryInterface;
 
 readonly class ChatInfoService implements ChatInfoServiceInterface
@@ -13,8 +15,10 @@ readonly class ChatInfoService implements ChatInfoServiceInterface
     {
     }
 
-    public function sync($userId, $token)
+    public function sync(ChatInfoSyncDto $dto): mixed
     {
+        $userId = $dto->userId;
+        $token = $dto->token;
         $chatInfo = $this->chatInfoRepository->findByUserId($userId);
 
         if (!$chatInfo) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Landing\LandingFindDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Landing\FindByUrlRequest;
 use App\Http\Resources\Landing\LandingResource;
@@ -18,6 +19,6 @@ class LandingController extends Controller
 
     public function findByUrl(FindByUrlRequest $request)
     {
-        return $this->dataResponse(new LandingResource($this->landingService->findByUrl($request->get("url"))));
+        return $this->dataResponse(new LandingResource($this->landingService->findByUrl((new LandingFindDto(...$request->validated()))->url)));
     }
 }

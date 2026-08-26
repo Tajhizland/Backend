@@ -2,6 +2,7 @@
 
 namespace App\Services\Payment;
 
+use App\DTOs\Payment\PaymentRequestDto;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentGateway;
 use App\Events\OrderPaymentRequestEvent;
@@ -49,9 +50,14 @@ readonly class CheckoutPaymentService
     {
     }
 
-    public function request($userId, $useWallet, $shippingMethod, $code = null, $shippingPrice = 0, $gateway = 1)
+    public function request(PaymentRequestDto $dto)
     {
-        $context = $this->buildContext($userId, $shippingMethod, $code, $shippingPrice, $gateway);
+        $userId = $dto->userId;
+        $useWallet = $dto->wallet;
+        $shippingMethod = $dto->shippingMethod;
+        $shippingPrice = $dto->shippingPrice;
+
+        $context = $this->buildContext($userId, $shippingMethod, $dto->code, $shippingPrice, $dto->gateway);
 
         if (!$useWallet) {
             return $this->placeGatewayOrder($context, $shippingMethod, $shippingPrice);

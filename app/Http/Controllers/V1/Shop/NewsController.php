@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\News\NewsListingDto;
+use App\Http\Requests\Shop\News\FindNewsRequest;
+use App\Http\Requests\Shop\News\NewsListingRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\News\NewsResource;
 use App\Services\Banner\BannerServiceInterface;
@@ -20,10 +23,11 @@ class NewsController extends Controller
         private readonly BlogCategoryServiceInterface $blogCategoryService
     ) { }
 
-    public function paginate(Request $request)
+    public function paginate(NewsListingRequest $request)
     {
         $banners = BannerResource::collection($this->bannerService->getBlogBanner())->response()->getData();
-        $listing = NewsResource::collection($this->newService->activePaginate($request->get("filter")))->response()->getData();
+        $dto = new NewsListingDto(...$request->validated());
+        $listing = NewsResource::collection($this->newService->activePaginate($dto->filter))->response()->getData();
         $lastPost = NewsResource::collection($this->newService->getLastPost())->response()->getData();
         $category = BlogCategoryResource::collection($this->blogCategoryService->list())->response()->getData();
         return $this->dataResponse([
@@ -34,8 +38,8 @@ class NewsController extends Controller
         ]);
     }
 
-    public function findByUrl(Request $request)
+    public function findByUrl(FindNewsRequest $request)
     {
-        return $this->dataResponse(new NewsResource($this->newService->findByUrl($request->url)));
+        return $this->dataResponse(new NewsResource($this->newService->findByUrl($request->validated()["url"])));
     }
 }

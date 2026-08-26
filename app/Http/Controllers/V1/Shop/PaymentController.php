@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Payment\PaymentRequestDto;
+use App\DTOs\Payment\SnappPayEligibleDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Payment\PaymentRequest;
 use App\Http\Requests\Shop\Payment\SnappPayEligibleRequest;
@@ -22,7 +24,7 @@ class PaymentController extends Controller
 
     public function requestPayment(PaymentRequest $request)
     {
-        $paymentPath = $this->paymentServices->request(Auth::user()->id, $request->get("wallet"), $request->get("shippingMethod", 1), $request->get("code"), $request->get("shippingPrice", 0), $request->get("gateway", 1));
+        $paymentPath = $this->paymentServices->request(new PaymentRequestDto(Auth::user()->id, ...$request->validated()));
         return $this->dataResponse($paymentPath);
     }
 
@@ -48,7 +50,7 @@ class PaymentController extends Controller
 
     public function snappPayEligible(SnappPayEligibleRequest $request)
     {
-        $result = $this->paymentServices->snappPayEligible($request->get("amount"));
+        $result = $this->paymentServices->snappPayEligible(new SnappPayEligibleDto(...$request->validated()));
         return $this->dataResponse($result);
     }
 

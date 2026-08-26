@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Auth;
 
+use App\DTOs\Auth\MobileDto;
+use App\DTOs\Auth\VerifyCodeDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Otp\CheckMobileRequest;
 use App\Http\Requests\Auth\Otp\SendOtpRequest;
@@ -20,7 +22,7 @@ class OtpAuthController extends Controller
      */
     public function check(CheckMobileRequest $request)
     {
-        $result = $this->otpAuthService->checkMobile($request->get("mobile"));
+        $result = $this->otpAuthService->checkMobile((new MobileDto(...$request->validated()))->mobile);
         return $this->dataResponse(
             $result,
             __("action.success", ["attr" => __("attr.mobile")])
@@ -32,10 +34,11 @@ class OtpAuthController extends Controller
      */
     public function sendCode(SendOtpRequest $request)
     {
-        $result = $this->otpAuthService->sendVerificationCode($request->get("mobile"));
+        $dto = new MobileDto(...$request->validated());
+        $result = $this->otpAuthService->sendVerificationCode($dto->mobile);
         return $this->dataResponse(
             $result,
-            __("action.send", ["attr" => __("attr.verify_code"), "to" => $request->get("mobile")])
+            __("action.send", ["attr" => __("attr.verify_code"), "to" => $dto->mobile])
         );
     }
 
@@ -45,7 +48,8 @@ class OtpAuthController extends Controller
      */
     public function verifyCode(VerifyOtpRequest $request)
     {
-        $result = $this->otpAuthService->verifyCode($request->get("mobile"), $request->get("code"));
+        $dto = new VerifyCodeDto(...$request->validated());
+        $result = $this->otpAuthService->verifyCode($dto->mobile, $dto->code);
         return $this->dataResponse(
             $result,
             __("action.verify", ["attr" => __("attr.verify_code")])

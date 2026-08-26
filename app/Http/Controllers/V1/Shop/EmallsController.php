@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\Http\Requests\Shop\Emalls\EmallsListRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Services\Product\ProductServiceInterface;
@@ -16,9 +17,9 @@ class EmallsController extends Controller
     {
     }
 
-    public function list(Request $request)
+    public function list(EmallsListRequest $request)
     {
-        $data = $this->productService->customPaginate($request->item_per_page);
+        $data = $this->productService->customPaginate($request->validated()["item_per_page"] ?? null);
 
         if ($data instanceof LengthAwarePaginator) {
             return [

@@ -2,6 +2,8 @@
 
 namespace App\Services\CategoryViewHistory;
 
+use App\DTOs\CategoryViewHistory\CategoryViewHistoryStoreDto;
+
 use App\Repositories\CategoryViewHistory\CategoryViewHistoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
@@ -16,8 +18,11 @@ readonly class CategoryViewHistoryService implements CategoryViewHistoryServiceI
     {
     }
 
-    public function store($userId, $ip, $categoryId)
+    public function store(CategoryViewHistoryStoreDto $dto): mixed
     {
+        $userId = $dto->userId;
+        $ip = $dto->ip;
+        $categoryId = $dto->category_id;
         return $this->categoryViewHistoryRepository->create(
             [
                 "ip" => $ip,

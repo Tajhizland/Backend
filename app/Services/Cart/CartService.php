@@ -2,6 +2,10 @@
 
 namespace App\Services\Cart;
 
+use App\DTOs\Cart\CartAddItemDto;
+use App\DTOs\Cart\CartItemDto;
+use App\DTOs\Cart\CartMergeDto;
+
 use App\Exceptions\BreakException;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
@@ -30,8 +34,12 @@ readonly class CartService implements CartServiceInterface
         return $this->cartItemRepository->getItemsByCartId($cart->id);
     }
 
-    public function addProductToCart($userId, $productColorId, $quantity,$guarantyId)
+    public function addProductToCart(CartAddItemDto $dto): mixed
     {
+        $userId = $dto->userId;
+        $productColorId = $dto->productColorId;
+        $quantity = $dto->count;
+        $guarantyId = $dto->guaranty_id;
         $productColor = $this->productColorRepository->findOrFail($productColorId);
 
         $cart = $this->cartRepository->getCartByUserId($userId) ?: $this->cartRepository->createCart($userId);
@@ -57,8 +65,10 @@ readonly class CartService implements CartServiceInterface
      * آیتم‌های نامعتبر یا ناموجود بی‌سروصدا رد می‌شوند تا کل ادغام به خاطر یک آیتم خراب متوقف نشود.
      * تعداد نهایی هر آیتم از موجودی انبار بیشتر نمی‌شود.
      */
-    public function mergeCart($userId, array $items)
+    public function mergeCart(CartMergeDto $dto): mixed
     {
+        $userId = $dto->userId;
+        $items = $dto->items;
         $cart = $this->cartRepository->getCartByUserId($userId) ?: $this->cartRepository->createCart($userId);
 
         DB::transaction(function () use ($cart, $items) {
@@ -97,8 +107,11 @@ readonly class CartService implements CartServiceInterface
         return $this->cartItemRepository->getItemsByCartId($cart->id);
     }
 
-    public function increaseProductInCart($userId, $productColorId,$guarantyId)
+    public function increaseProductInCart(CartItemDto $dto): mixed
     {
+        $userId = $dto->userId;
+        $productColorId = $dto->productColorId;
+        $guarantyId = $dto->guaranty_id;
         $productColor = $this->productColorRepository->findOrFail($productColorId);
         $cart = $this->cartRepository->getCartByUserId($userId);
         if (!$cart) {
@@ -115,8 +128,11 @@ readonly class CartService implements CartServiceInterface
 
     }
 
-    public function decreaseProductInCart($userId, $productColorId,$guarantyId)
+    public function decreaseProductInCart(CartItemDto $dto): mixed
     {
+        $userId = $dto->userId;
+        $productColorId = $dto->productColorId;
+        $guarantyId = $dto->guaranty_id;
         $cart = $this->cartRepository->getCartByUserId($userId);
         if (!$cart) {
             throw new BreakException(Lang::get("exceptions.cart_not_find"));
@@ -131,8 +147,11 @@ readonly class CartService implements CartServiceInterface
         return $this->cartItemRepository->decrement($cartItem);
     }
 
-    public function removeProductFromCart($userId, $productColorId,$guarantyId)
+    public function removeProductFromCart(CartItemDto $dto): mixed
     {
+        $userId = $dto->userId;
+        $productColorId = $dto->productColorId;
+        $guarantyId = $dto->guaranty_id;
         $cart = $this->cartRepository->getCartByUserId($userId);
         if (!$cart) {
             return false;

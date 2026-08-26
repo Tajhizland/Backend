@@ -19,7 +19,7 @@ class CouponController extends Controller
 
     public function check(CheckCouponRequest $request)
     {
-        $response = $this->couponService->check($request->get("code"), Auth::id());
+        $response = $this->couponService->check($request->validated()["code"], Auth::id());
         return $this->dataResponse(new CouponResource($response));
     }
 }

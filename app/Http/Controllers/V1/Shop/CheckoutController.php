@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Checkout\CheckoutSetDeliveryDto;
+use App\DTOs\Checkout\CheckoutSetGatewayDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Checkout\SetDeliveryMethodRequest;
 use App\Http\Requests\Shop\Checkout\SetPaymentMethodRequest;
@@ -72,14 +74,16 @@ class CheckoutController extends Controller
 
     public function setDeliveryMethod(SetDeliveryMethodRequest $request)
     {
-        $this->cartService->setDeliveryMethod(Auth::user()->id, $request->get("delivery_id"));
+        $dto = new CheckoutSetDeliveryDto(Auth::user()->id, ...$request->validated());
+        $this->cartService->setDeliveryMethod($dto->userId, $dto->delivery_id);
         return __('action.select', ['attr' => __("attr.delivery_method")]);
 
     }
 
     public function setPaymentMethod(SetPaymentMethodRequest $request)
     {
-        $this->cartService->setPaymentMethod(Auth::user()->id, $request->get("gateway_id"));
+        $dto = new CheckoutSetGatewayDto(Auth::user()->id, ...$request->validated());
+        $this->cartService->setPaymentMethod($dto->userId, $dto->gateway_id);
         return __('action.select', ['attr' => __("attr.payment_method")]);
 
     }

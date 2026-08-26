@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Auth;
 
+use App\DTOs\User\UserProfileUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Profile\UpdateProfileRequest;
 use App\Http\Resources\User\UserResource;
@@ -39,7 +40,8 @@ class MeController extends Controller
     public function update(UpdateProfileRequest $request)
     {
 
-        $this->userService->updateProfile(Auth::user()->id, $request->get("name"), $request->get("email"), $request->get("gender"), $request->file("avatar"), $request->get("last_name"), $request->get("national_code"));
+        $dto = new UserProfileUpdateDto(Auth::user()->id, ...$request->validated());
+        $this->userService->updateProfile($dto->userId, $dto->name, $dto->email, $dto->gender, $dto->avatar, $dto->last_name, $dto->national_code);
         return $this->successResponse(__("action.update", ["attr" => __("attr.profile")]));
     }
 }

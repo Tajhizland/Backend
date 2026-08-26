@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Cast\CastListingDto;
+use App\Http\Requests\Shop\Cast\CastListingRequest;
+use App\Http\Requests\Shop\Cast\FindCastRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Cast\CastResource;
 use App\Repositories\Banner\BannerRepositoryInterface;
@@ -22,10 +25,11 @@ class CastController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index(CastListingRequest $request)
     {
         $banner = BannerResource::collection($this->bannerRepository->getBannerByType("cast"))->response()->getData();
-        $listing = CastResource::collection($this->castService->listing($request->get("filter")))->response()->getData();
+        $dto = new CastListingDto(...$request->validated());
+        $listing = CastResource::collection($this->castService->listing($dto->filter))->response()->getData();
         $mostViewed = CastResource::collection($this->castService->getMostViewed())->response()->getData();
         $category = CastCategoryResource::collection($this->castCategoryService->get())->response()->getData();
         return $this->dataResponse([
@@ -36,7 +40,7 @@ class CastController extends Controller
         ]);
     }
 
-    public function find(Request $request)
+    public function find(FindCastRequest $request)
     {
         $response = $this->castService->findByUrl($request->url);
         return $this->dataResponse(new CastResource($response));

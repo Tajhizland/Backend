@@ -2,6 +2,8 @@
 
 namespace App\Services\Contact;
 
+use App\DTOs\Contact\ContactStoreDto;
+
 interface ContactServiceInterface
 {
     public function dataTable(): mixed;
@@ -10,5 +12,5 @@ interface ContactServiceInterface
 
     public function remove(int $id): bool|null;
 
-    public function store($name, $concept, $mobile, $message, $cityId, $provinceId): mixed;
+    public function store(ContactStoreDto $dto): mixed;
 }

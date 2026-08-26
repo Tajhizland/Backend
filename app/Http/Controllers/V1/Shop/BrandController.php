@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Brand\BrandListingDto;
+use App\Http\Requests\Shop\Brand\BrandListingRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Brand\BrandResource;
 use App\Services\Banner\BannerServiceInterface;
@@ -21,9 +23,10 @@ class BrandController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index(BrandListingRequest $request)
     {
-        $listing = $this->brandService->listing($request->get("url"), $request->get("filter"));
+        $dto = new BrandListingDto(...$request->validated());
+        $listing = $this->brandService->listing($dto->url, $dto->filter);
 
         $brandResource = new BrandResource($listing["brand"]);
         $productCollection = ProductResource::collection($listing["products"])->response()->getData();

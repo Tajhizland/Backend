@@ -2,6 +2,10 @@
 
 namespace App\Services\Payment;
 
+use App\DTOs\OnHoldOrder\OnHoldOrderCheckoutPaymentDto;
+use App\DTOs\Payment\PaymentRequestDto;
+use App\DTOs\Payment\SnappPayEligibleDto;
+
 /**
  * نمای بیرونیِ جریان پرداخت.
  *
@@ -26,9 +30,9 @@ readonly class PaymentService implements PaymentServicesInterface
     {
     }
 
-    public function request($userId, $useWallet, $shippingMethod, $code = null, $shippingPrice = 0, $gateway = 1)
+    public function request(PaymentRequestDto $dto)
     {
-        return $this->checkoutPayment->request($userId, $useWallet, $shippingMethod, $code, $shippingPrice, $gateway);
+        return $this->checkoutPayment->request($dto);
     }
 
     public function verifyOrderByWallet($userId)
@@ -46,9 +50,9 @@ readonly class PaymentService implements PaymentServicesInterface
         return $this->onHoldPayment->payByWallet($id, $userId);
     }
 
-    public function onHoldOrderCheckoutPayment($id, $userId, $useWallet, $shippingMethod, $code = null, $gateway = 1)
+    public function onHoldOrderCheckoutPayment(OnHoldOrderCheckoutPaymentDto $dto)
     {
-        return $this->onHoldPayment->checkoutPayment($id, $userId, $useWallet, $shippingMethod, $code, $gateway);
+        return $this->onHoldPayment->checkoutPayment($dto);
     }
 
     /** بازگشت از درگاه بانکی (زیبال). */
@@ -68,8 +72,8 @@ readonly class PaymentService implements PaymentServicesInterface
         return $this->verification->verifySnappPay($request);
     }
 
-    public function snappPayEligible($amount)
+    public function snappPayEligible(SnappPayEligibleDto $dto)
     {
-        return $this->verification->snappPayEligible($amount);
+        return $this->verification->snappPayEligible($dto->amount);
     }
 }

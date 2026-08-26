@@ -3,6 +3,8 @@
 namespace App\Services\Filter;
 
 use App\DTOs\Filter\FilterSetDto;
+use App\DTOs\Filter\FilterStoreDto;
+use App\DTOs\Filter\FilterUpdateDto;
 use App\DTOs\Product\ProductSetFilterDto;
 
 use App\Exceptions\BreakException;
@@ -89,19 +91,20 @@ readonly class FilterService implements FilterServiceInterface
         return $this->filterRepository->dataTable();
     }
 
-    public function createFilter($name, $categoryId, $status, $type, $items)
+    public function createFilter(FilterStoreDto $dto): bool
     {
-        $filter = $this->filterRepository->createFilter($name, $categoryId, $status, $type);
-        foreach ($items as $item) {
+        $filter = $this->filterRepository->createFilter($dto->name, $dto->category_id, $dto->status, $dto->type);
+        foreach ($dto->items as $item) {
             $this->filterItemRepository->createFilterItem($filter->id, $item['value'], $item['status']);
         }
         return true;
     }
 
-    public function updateFilter($id, $name, $categoryId, $status, $type, $items)
+    public function updateFilter(FilterUpdateDto $dto): bool
     {
-        $this->filterRepository->updateFilter($id, $name, $categoryId, $status, $type);
-        foreach ($items as $item) {
+        $id = $dto->filterId;
+        $this->filterRepository->updateFilter($id, $dto->name, $dto->category_id, $dto->status, $dto->type);
+        foreach ($dto->items as $item) {
             if (isset($item["id"])) {
                 $filterItem = $this->filterItemRepository->findOrFail($item["id"]);
                 if ($filterItem->filter_id != $id)

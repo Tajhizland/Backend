@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Cart\CartAddItemDto;
+use App\DTOs\Cart\CartItemDto;
+use App\DTOs\Cart\CartMergeDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Cart\AddToCartRequest;
 use App\Http\Requests\Shop\Cart\MergeCartRequest;
@@ -24,31 +27,31 @@ class CartController extends Controller
 
     public function addToCart(AddToCartRequest $request)
     {
-        $this->cartService->addProductToCart(Auth::user()->id, $request->get("productColorId"), $request->get("count"), $request->get("guaranty_id"));
+        $this->cartService->addProductToCart(new CartAddItemDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__("action.add_to",["attr"=>__("attr.product") , "to"=>__("attr.cart")]));
     }
 
     public function merge(MergeCartRequest $request)
     {
-        $cart = $this->cartService->mergeCart(Auth::user()->id, $request->get("items"));
+        $cart = $this->cartService->mergeCart(new CartMergeDto(Auth::user()->id, ...$request->validated()));
         return $this->dataResponseCollection(CartItemResource::collection($cart), __("action.update", ["attr" => __("attr.cart")]));
     }
 
     public function removeItem(UpdateCartItemRequest $request)
     {
-        $this->cartService->removeProductFromCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
+        $this->cartService->removeProductFromCart(new CartItemDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__("action.remove_from",["attr"=>__("attr.product") , "from"=>__("attr.cart")]));
      }
 
     public function increase(UpdateCartItemRequest $request)
     {
-        $this->cartService->increaseProductInCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
+        $this->cartService->increaseProductInCart(new CartItemDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__("action.update",["attr"=>__("attr.cart")]));
     }
 
     public function decrease(UpdateCartItemRequest $request)
     {
-        $this->cartService->decreaseProductInCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
+        $this->cartService->decreaseProductInCart(new CartItemDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__("action.update",["attr"=>__("attr.cart")]));
     }
 

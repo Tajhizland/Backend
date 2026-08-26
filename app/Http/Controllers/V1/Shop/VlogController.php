@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Vlog\VlogCategoryListingDto;
+use App\DTOs\Vlog\VlogFindDto;
+use App\DTOs\Vlog\VlogListingDto;
+use App\Http\Requests\Shop\Vlog\VlogListingRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Vlog\FindVlogByUrlRequest;
 use App\Http\Requests\Shop\Vlog\GetBlogByCategoryRequest;
@@ -10,7 +14,6 @@ use App\Http\Resources\VlogCategory\VlogCategoryResource;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Vlog\VlogServiceInterface;
-use Illuminate\Http\Request;
 use App\Http\Resources\Banner\BannerResource;
 
 class VlogController extends Controller
@@ -26,7 +29,7 @@ class VlogController extends Controller
 
     public function find(FindVlogByUrlRequest $request)
     {
-        $vlogResponse = $this->vlogService->findByUrl($request->get("url"));
+        $vlogResponse = $this->vlogService->findByUrl((new VlogFindDto(...$request->validated()))->url);
         $relatedVlogs = $this->vlogService->getRelatedVlogs($vlogResponse->category_id, $vlogResponse->id);
         $this->vlogService->view($vlogResponse);
         return $this->dataResponse([
@@ -37,10 +40,11 @@ class VlogController extends Controller
 
     public function get(GetBlogByCategoryRequest $request)
     {
-        $listing = VlogResource::collection($this->vlogService->getByCategoryUrl($request->get("url"), $request->get("filter")))->response()->getData();
+        $dto = new VlogCategoryListingDto(...$request->validated());
+        $listing = VlogResource::collection($this->vlogService->getByCategoryUrl($dto->url, $dto->filter))->response()->getData();
         $mostViewed = VlogResource::collection($this->vlogService->getMostViewed())->response()->getData();
         $banners = BannerResource::collection($this->bannerService->getVlogBanner())->response()->getData();
-        $category = new VlogCategoryResource($this->vlogCategoryRepository->findByUrl($request->get("url")));
+        $category = new VlogCategoryResource($this->vlogCategoryRepository->findByUrl($dto->url));
         $categorys = VlogCategoryResource::collection($this->vlogCategoryRepository->getActiveList())->response()->getData();
         return $this->dataResponse([
             "categorys" => $categorys,
@@ -51,9 +55,9 @@ class VlogController extends Controller
         ]);
     }
 
-    public function listing(Request $request)
+    public function listing(VlogListingRequest $request)
     {
-        $listing = VlogResource::collection($this->vlogService->listing($request->get("filter")))->response()->getData();
+        $listing = VlogResource::collection($this->vlogService->listing((new VlogListingDto(...$request->validated()))->filter))->response()->getData();
         $mostViewed = VlogResource::collection($this->vlogService->getMostViewed())->response()->getData();
         $banners = BannerResource::collection($this->bannerService->getVlogBanner())->response()->getData();
         $category = VlogCategoryResource::collection($this->vlogCategoryRepository->getActiveList())->response()->getData();

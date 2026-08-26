@@ -2,6 +2,8 @@
 
 namespace App\Services\Returned;
 
+use App\DTOs\Returned\ReturnedStoreDto;
+
 use App\Exceptions\BreakException;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
@@ -21,8 +23,14 @@ readonly class ReturnedService implements ReturnedServiceInterface
     {
     }
 
-    public function store($orderId, $orderItemId, $userId, $count, $description, $file)
+    public function store(ReturnedStoreDto $dto): mixed
     {
+        $orderId = $dto->order_id;
+        $orderItemId = $dto->order_item_id;
+        $userId = $dto->userId;
+        $count = $dto->count;
+        $description = $dto->description;
+        $file = $dto->file;
         $order = $this->orderRepository->findOrFail($orderId);
         $orderItem = $this->orderItemRepository->findOrFail($orderItemId);
         $returned = $this->returnedRepository->findByOrderItemId($orderItemId);

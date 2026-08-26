@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\Http\Requests\Shop\Group\FindGroupRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Product\ProductResource;
 use App\Services\Product\ProductServiceInterface;
@@ -18,9 +19,9 @@ class GroupController extends Controller
     {
     }
 
-    public function find(Request $request)
+    public function find(FindGroupRequest $request)
     {
-        $response = $this->productGroupService->findByUrl($request->url);
+        $response = $this->productGroupService->findByUrl($request->validated()["url"]);
         $relatedProductResponse = $this->productService->getRelatedProducts($response->id);
         return $this->dataResponse([
             "product" => new ProductResource($response),

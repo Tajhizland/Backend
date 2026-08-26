@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Product\ProductFilterListDto;
+use App\Http\Requests\Shop\Product\FindProductRequest;
+use App\Http\Requests\Shop\Product\ProductListingRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Campaign\CampaignResource;
 use App\Http\Resources\DiscountItem\DiscountItemResource;
@@ -17,7 +20,6 @@ use App\Services\DiscountItem\DiscountItemServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use App\Services\Product\ProductServiceInterface;
-use Illuminate\Http\Request;
 use App\Http\Resources\Category\SimpleCategoryResource;
 use App\Http\Resources\Breadcrumb\BreadcrumbResource;
 use App\Http\Resources\PopularProduct\PopularProductResource;
@@ -43,9 +45,9 @@ class ProductController extends Controller
     {
     }
 
-    public function find(Request $request)
+    public function find(FindProductRequest $request)
     {
-        $productResponse = $this->productService->findProductByUrl($request->url);
+        $productResponse = $this->productService->findProductByUrl($request->validated()["url"]);
         $relatedProductResponse = $this->productService->getRelatedProducts($productResponse->id);
         $breadcrumbCollection = [];
         $options = [];
@@ -70,10 +72,10 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getDiscountedProducts(Request $request)
+    public function getDiscountedProducts(ProductListingRequest $request)
     {
         $banners = BannerResource::collection($this->bannerService->getDiscountedBanner())->response()->getData();
-        $data = ProductResource::collection($this->productService->getDiscountedProducts($request->get("filter")))->response()->getData();
+        $data = ProductResource::collection($this->productService->getDiscountedProducts((new ProductFilterListDto(...$request->validated()))->filter))->response()->getData();
         $discounts = PopularProductResource::collection($this->popularProductService->get())->response()->getData();
 
         $category = SimpleCategoryResource::collection($this->categoryService->getDiscountedCategory())->response()->getData();
@@ -103,9 +105,9 @@ class ProductController extends Controller
         );
     }
 
-    public function getStockProducts(Request $request)
+    public function getStockProducts(ProductListingRequest $request)
     {
-        $response = $this->productService->getStockProducts($request->get("filter"));
+        $response = $this->productService->getStockProducts((new ProductFilterListDto(...$request->validated()))->filter);
         $data = ProductResource::collection($response)->response()->getData();
         $category = SimpleCategoryResource::collection($this->categoryService->getStockProductCategory())->response()->getData();
 

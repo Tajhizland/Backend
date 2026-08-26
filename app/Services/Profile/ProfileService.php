@@ -2,6 +2,8 @@
 
 namespace App\Services\Profile;
 
+use App\DTOs\Profile\ProfileChangePasswordDto;
+
 use App\Exceptions\BreakException;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +18,10 @@ readonly class ProfileService implements ProfileServiceInterface
     {
     }
 
-    public function changePassword($currentPassword, $newPassword)
+    public function changePassword(ProfileChangePasswordDto $dto): mixed
     {
+        $currentPassword = $dto->current_password;
+        $newPassword = $dto->new_password;
         $user = Auth::user();
         if (!bcrypt($user->password) == $currentPassword)
             throw new BreakException(Lang::get("wrong_password"));

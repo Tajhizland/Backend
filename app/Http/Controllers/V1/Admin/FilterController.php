@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Filter\FilterStoreDto;
+use App\DTOs\Filter\FilterUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Filter\StoreFilterRequest;
 use App\Http\Requests\Admin\Filter\UpdateFilterRequest;
@@ -29,13 +31,13 @@ class FilterController extends Controller
 
     public function store(StoreFilterRequest $request)
     {
-        $this->filterService->createFilter($request->get("name"),$request->get("category_id"),$request->get("status"),$request->get("type"),$request->get("items"));
+        $this->filterService->createFilter(new FilterStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store",["attr"=>__("attr.filter")]));
      }
 
-    public function update(UpdateFilterRequest $request)
+    public function update($id, UpdateFilterRequest $request)
     {
-        $this->filterService->updateFilter($request->get("id"),$request->get("name"),$request->get("category_id"),$request->get("status"),$request->get("type"),$request->get("items"));
+        $this->filterService->updateFilter(new FilterUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update",["attr"=>__("attr.filter")]));
     }
 }

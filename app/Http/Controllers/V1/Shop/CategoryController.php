@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Category\CategoryGroupListingDto;
+use App\DTOs\Category\CategoryListingDto;
+use App\Http\Requests\Shop\Category\CategoryListingRequest;
+use App\Http\Requests\Shop\Category\CategoryRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Category\CategoryResource;
 use App\Services\Category\CategoryServiceInterface;
@@ -19,9 +23,10 @@ class CategoryController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index(CategoryListingRequest $request)
     {
-        $listing = $this->categoryService->listing($request->get("url"), $request->get("filter"));
+        $dto = new CategoryListingDto(...$request->validated());
+        $listing = $this->categoryService->listing($dto->url, $dto->filter);
 
         $categoryResource = new CategoryResource($listing["category"]);
         $children = SimpleCategoryResource::collection($listing["children"])->response()->getData();
@@ -38,9 +43,10 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function groupListing(Request $request)
+    public function groupListing(CategoryRequest $request)
     {
-        $listing = $this->categoryService->groupListing($request->get("url"));
+        $dto = new CategoryGroupListingDto(...$request->validated());
+        $listing = $this->categoryService->groupListing($dto->url);
         $categoryResource = new CategoryResource($listing["category"]);
         $groups = ProductResource::collection($listing["groups"])->response()->getData();
         $breadcrumbCollection = BreadcrumbResource::collection($listing["breadcrumb"])->response()->getData();

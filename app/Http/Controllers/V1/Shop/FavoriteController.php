@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Favorite\FavoriteProductDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Product\Favorite\ChangeFavoriteRequest;
 use App\Services\Favorite\FavoriteServiceInterface;
@@ -24,13 +25,13 @@ class FavoriteController extends Controller
 
     public function addProduct(ChangeFavoriteRequest $request)
     {
-        $this->favoriteService->addProduct($request->get("productId"), Auth::user()->id);
+        $this->favoriteService->addProduct(new FavoriteProductDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__("action.add_to",["attr"=>__("attr.product") ,"to"=>__("attr.favorite")]));
     }
 
     public function removeProduct(ChangeFavoriteRequest $request)
     {
-        $this->favoriteService->removeProduct($request->get("productId"), Auth::user()->id);
+        $this->favoriteService->removeProduct(new FavoriteProductDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__("action.remove_from",["attr"=>__("attr.product") ,"from"=>__("attr.favorite")]));
      }
 }

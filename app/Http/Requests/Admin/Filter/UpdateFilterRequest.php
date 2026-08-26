@@ -9,7 +9,6 @@ class UpdateFilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required','exists:App\Models\Filter'],
             'name' => ['required'],
             'category_id' => ['required', 'integer','exists:App\Models\Category'],
             'type' => [  'integer' , 'in:2,1'],

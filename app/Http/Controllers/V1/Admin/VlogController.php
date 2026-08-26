@@ -6,6 +6,7 @@ use App\DTOs\Vlog\VlogSortDto;
 use App\DTOs\Vlog\VlogStoreDirectDto;
 use App\DTOs\Vlog\VlogStoreDto;
 use App\DTOs\Vlog\VlogUpdateDto;
+use App\DTOs\Vlog\VlogSearchDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Vlog\StoreVlogDirectRequest;
 use App\Http\Requests\Admin\Vlog\StoreVlogRequest;
@@ -74,7 +75,7 @@ class VlogController extends Controller
     }
     public function search(VlogSearchRequest $request)
     {
-        return $this->dataResponseCollection(VlogResource::collection($this->vlogService->search($request->get("query"))));
+        return $this->dataResponseCollection(VlogResource::collection($this->vlogService->search((new VlogSearchDto(...$request->validated()))->query)));
     }
 
     public function list()

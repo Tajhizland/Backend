@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Torob\TorobListDto;
+use App\Http\Requests\Shop\Torob\TorobListRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Torob\NewTorobResource; 
 use App\Services\Product\ProductServiceInterface;
-use Illuminate\Http\Request;
 
 class TorobController extends Controller
 {
@@ -17,12 +18,13 @@ class TorobController extends Controller
     }
 
 
-    public function list(Request $request)
+    public function list(TorobListRequest $request)
     {
-        $page_urls = $request->get("page_urls");
-        $page_uniques = $request->get("page_uniques");
-        $page = $request->get("page");
-        $sort = $request->get("sort");
+        $dto = new TorobListDto(...$request->validated());
+        $page_urls = $dto->page_urls;
+        $page_uniques = $dto->page_uniques;
+        $page = $dto->page;
+        $sort = $dto->sort;
         $response = $this->productService->torobProduct($page_urls, $page_uniques, $page, $sort);
 
         $total = $response->total();

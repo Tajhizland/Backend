@@ -2,6 +2,8 @@
 
 namespace App\Services\Contact;
 
+use App\DTOs\Contact\ContactStoreDto;
+
 use App\Repositories\Contact\ContactRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,8 +18,14 @@ readonly class ContactService implements ContactServiceInterface
         return $this->contactRepository->dataTable();
     }
 
-    public function store($name,$concept, $mobile, $message ,$cityId,$provinceId): mixed
+    public function store(ContactStoreDto $dto): mixed
     {
+        $name = $dto->name;
+        $concept = $dto->concept;
+        $mobile = $dto->mobile;
+        $message = $dto->message;
+        $cityId = $dto->city_id;
+        $provinceId = $dto->province_id;
         return $this->contactRepository->create(
             [
                 "name" => $name,

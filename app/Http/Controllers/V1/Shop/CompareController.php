@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Compare\CompareProductsDto;
+use App\DTOs\Compare\CompareSearchDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Compare\GetProductRequest;
 use App\Http\Requests\Shop\Compare\SearchProductRequest;
@@ -25,13 +27,14 @@ class CompareController extends Controller
 
     public function searchProduct(SearchProductRequest $request)
     {
-        $response = $this->compareService->searchProductCompare($request->get("query"), $request->get("categoryIds"));
+        $dto = new CompareSearchDto(...$request->validated());
+        $response = $this->compareService->searchProductCompare($dto->query, $dto->categoryIds);
         return $this->dataResponseCollection(SimpleProductResource::collection($response));
     }
 
     public function getProducts(GetProductRequest $request)
     {
-        $response = $this->compareService->getProducts($request->get("categoryIds"));
+        $response = $this->compareService->getProducts((new CompareProductsDto(...$request->validated()))->categoryIds);
         return $this->dataResponseCollection(SimpleProductResource::collection($response));
     }
 }

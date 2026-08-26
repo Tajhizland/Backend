@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Page\PageFindDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Page\FindPageRequest;
 use App\Http\Resources\Page\PageResource;
@@ -17,6 +18,6 @@ class PageController extends Controller
     }
     public function findByUrl(FindPageRequest $request)
     {
-        return $this->dataResponse(new PageResource($this->pageService->findByUrl($request->get("url"))));
+        return $this->dataResponse(new PageResource($this->pageService->findByUrl((new PageFindDto(...$request->validated()))->url)));
     }
 }

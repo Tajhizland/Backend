@@ -20,6 +20,7 @@ use App\DTOs\ProductColor\ProductColorSetDto;
 use App\DTOs\ProductImage\ProductImageSetColorDto;
 use App\DTOs\ProductImage\ProductImageSortDto;
 use App\DTOs\ProductImage\ProductImageUploadDto;
+use App\DTOs\Option\ProductOptionUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GroupChangeDigipayRequest;
 use App\Http\Requests\Admin\GroupChangeSnappayRequest;
@@ -205,7 +206,7 @@ class ProductController extends Controller
 
     public function updateProductOption(UpdateProductOptionRequest $request)
     {
-        $options = $request->get('options');
+        $options = (new ProductOptionUpdateDto(...$request->validated()))->options;
 
         foreach ($options as $optionData) {
             $this->optionService->updateProductOption(

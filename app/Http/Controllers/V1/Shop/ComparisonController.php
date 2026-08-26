@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Product\ProductComparisonSearchDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Product\ComparisonRequest;
 use App\Http\Resources\Product\ProductResource;
@@ -15,7 +16,8 @@ class ComparisonController extends Controller
 
     public function searchProduct(ComparisonRequest $request)
     {
-        return $this->dataResponse(ProductResource::collection($this->productService->searchProductWithCategory($request->get("query"),$request->get("category_id")))->response()->getData());
+        $dto = new ProductComparisonSearchDto(...$request->validated());
+        return $this->dataResponse(ProductResource::collection($this->productService->searchProductWithCategory($dto->query, $dto->category_id))->response()->getData());
     }
 
     public function selectProduct($id)

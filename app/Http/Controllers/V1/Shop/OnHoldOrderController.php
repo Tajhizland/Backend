@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\OnHoldOrder\OnHoldOrderCheckoutPaymentDto;
+use App\DTOs\OnHoldOrder\OnHoldOrderCouponDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Coupon\CheckCouponRequest;
 use App\Http\Requests\Shop\OnHoldOrder\OnHoldOrderCheckoutPaymentRequest;
@@ -93,7 +95,7 @@ class OnHoldOrderController extends Controller
         }
 
         return $this->dataResponse(
-            new CouponResource($this->couponService->check($request->get("code"), $userId, $totalItemsPrice))
+            new CouponResource($this->couponService->check((new OnHoldOrderCouponDto($id, $userId, ...$request->validated()))->code, $userId, $totalItemsPrice))
         );
     }
 
@@ -103,12 +105,7 @@ class OnHoldOrderController extends Controller
     public function checkoutPayment(OnHoldOrderCheckoutPaymentRequest $request, $id)
     {
         $result = $this->paymentServices->onHoldOrderCheckoutPayment(
-            $id,
-            Auth::user()->id,
-            $request->boolean("wallet"),
-            $request->get("shippingMethod"),
-            $request->get("code"),
-            $request->get("gateway", 1),
+            new OnHoldOrderCheckoutPaymentDto($id, Auth::user()->id, ...$request->validated())
         );
         return $this->dataResponse($result);
     }

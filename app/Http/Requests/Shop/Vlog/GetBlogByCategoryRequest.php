@@ -9,7 +9,8 @@ class GetBlogByCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "url"=>["required"]
+            "url" => ["required"],
+            "filter" => ["nullable", "array"],
         ];
     }
 

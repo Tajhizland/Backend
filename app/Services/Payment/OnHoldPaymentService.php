@@ -2,6 +2,7 @@
 
 namespace App\Services\Payment;
 
+use App\DTOs\OnHoldOrder\OnHoldOrderCheckoutPaymentDto;
 use App\Enums\OnHoldOrderStatus;
 use App\Enums\PaymentGateway;
 use App\Events\OrderPaymentRequestEvent;
@@ -93,8 +94,15 @@ readonly class OnHoldPaymentService
      * ذخیره می‌شوند. قیمت اقلام از مقادیر فریزشده‌ی order_item خوانده می‌شود تا
      * مبلغِ تاییدشده تغییر نکند.
      */
-    public function checkoutPayment($id, $userId, $useWallet, $shippingMethod, $code = null, $gateway = 1)
+    public function checkoutPayment(OnHoldOrderCheckoutPaymentDto $dto)
     {
+        $id = $dto->onHoldOrderId;
+        $userId = $dto->userId;
+        $useWallet = $dto->wallet;
+        $shippingMethod = $dto->shippingMethod;
+        $code = $dto->code;
+        $gateway = $dto->gateway;
+
         $onHoldOrder = $this->onHoldOrderRepository->findOrFail($id);
         $this->onHoldOrderService->assertPayable($onHoldOrder, $userId);
 

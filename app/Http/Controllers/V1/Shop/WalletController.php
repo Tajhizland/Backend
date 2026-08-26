@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Wallet\WalletChargeDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Wallet\ChargeWalletRequest;
 use App\Services\Payment\PaymentServicesInterface;
@@ -22,7 +23,8 @@ class WalletController extends Controller
 
     public function chargeWallet(ChargeWalletRequest $request)
     {
-        $path = $this->walletTransactionService->chargeRequest(Auth::user()->id, $request->get("amount"));
+        $dto = new WalletChargeDto(Auth::user()->id, ...$request->validated());
+        $path = $this->walletTransactionService->chargeRequest($dto->userId, $dto->amount);
         return $this->dataResponse(["path" => $path]);
     }
 

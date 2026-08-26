@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\CategoryViewHistory\CategoryViewHistoryStoreDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\CategoryViewHistory\StoreCategoryViewHistoryRequest;
 use App\Services\CategoryViewHistory\CategoryViewHistoryService;
@@ -20,9 +21,7 @@ class CategoryViewHistoryController extends Controller
 
     public function store(StoreCategoryViewHistoryRequest $request)
     {
-        $userId = Auth::id();
-        $ip = request()->ip();
-        $this->categoryViewHistoryService->store($userId, $ip, $request->get("category_id"));
+        $this->categoryViewHistoryService->store(new CategoryViewHistoryStoreDto(Auth::id(), $request->ip(), ...$request->validated()));
     }
 
     public function suggest()
