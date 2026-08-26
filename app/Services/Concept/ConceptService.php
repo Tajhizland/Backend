@@ -4,7 +4,12 @@ namespace App\Services\Concept;
 
 use App\Exceptions\BreakException;
 use App\Repositories\CategoryConcept\CategoryConceptRepositoryInterface;
+use App\DTOs\Concept\ConceptSetDisplayDto;
+use App\DTOs\Concept\ConceptSetItemDto;
+use App\DTOs\Concept\ConceptStoreDto;
+use App\DTOs\Concept\ConceptUpdateDto;
 use App\Repositories\Concept\ConceptRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 
 readonly class ConceptService implements ConceptServiceInterface
@@ -17,56 +22,59 @@ readonly class ConceptService implements ConceptServiceInterface
     {
     }
 
-    public function store($title, $description, $status, $icon)
+    public function store(ConceptStoreDto $dto): mixed
     {
         $imagePath = "";
-        if ($icon) {
-            $imagePath = $this->s3Service->upload($icon, "concept");
+        if ($dto->icon) {
+            $imagePath = $this->s3Service->upload($dto->icon, "concept");
         }
-        return $this->conceptRepository->create(
-            [
-                "icon" => $imagePath,
-                "description" => $description,
-                "title" => $title,
-                "status" => $status
-            ]
-        );
+        return $this->conceptRepository->create([
+            "icon" => $imagePath,
+            "description" => $dto->description,
+            "title" => $dto->title,
+            "status" => $dto->status,
+        ]);
     }
 
-    public function update($id, $title, $description, $status, $icon)
+    public function update(ConceptUpdateDto $dto): bool
     {
-        $concept = $this->conceptRepository->findOrFail($id);
+        $concept = $this->find($dto->conceptId);
         $imagePath = $concept->icon;
-        if ($icon) {
+        if ($dto->icon) {
             $this->s3Service->remove("concept/" . $imagePath);
-            $imagePath = $this->s3Service->upload($icon, "concept");
+            $imagePath = $this->s3Service->upload($dto->icon, "concept");
         }
-        $this->conceptRepository->update($concept,
-            [
-                "icon" => $imagePath,
-                "description" => $description,
-                "title" => $title,
-                "status" => $status
-            ]);
+        return $this->conceptRepository->update($concept, [
+            "icon" => $imagePath,
+            "description" => $dto->description,
+            "title" => $dto->title,
+            "status" => $dto->status,
+        ]);
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->conceptRepository->dataTable();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->conceptRepository->findOrFail($id);
+        $concept = $this->conceptRepository->find($id);
+        if (!$concept) {
+            throw new NotFoundHttpException();
+        }
+        return $concept;
     }
 
-    public function getItemsById($id)
+    public function getItemsById($id): mixed
     {
         return $this->categoryConceptRepository->getByConceptId($id);
     }
 
-    public function setItem($categoryId, $conceptId)
+    public function setItem(ConceptSetItemDto $dto): mixed
     {
+        $categoryId = $dto->category_id;
+        $conceptId = $dto->concept_id;
         $item = $this->categoryConceptRepository->findByCategoryId($conceptId, $categoryId);
         if ($item) {
             throw new BreakException(\Lang::get("exceptions.category_already_exist"));
@@ -74,15 +82,15 @@ readonly class ConceptService implements ConceptServiceInterface
         return $this->categoryConceptRepository->store($conceptId, $categoryId);
     }
 
-    public function deleteItem($id)
+    public function deleteItem(int $id): bool|null
     {
         $item = $this->categoryConceptRepository->findOrFail($id);
         return $this->categoryConceptRepository->delete($item);
     }
 
-    public function setDisplay($id, $display)
+    public function setDisplay(ConceptSetDisplayDto $dto): bool
     {
-        $categoryConcept = $this->categoryConceptRepository->findOrFail($id);
-        return $this->categoryConceptRepository->update($categoryConcept, ["display" => $display]);
+        $categoryConcept = $this->categoryConceptRepository->findOrFail($dto->categoryConceptId);
+        return $this->categoryConceptRepository->update($categoryConcept, ["display" => $dto->display]);
     }
 }

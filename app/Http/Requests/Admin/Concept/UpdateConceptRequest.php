@@ -9,7 +9,6 @@ class UpdateConceptRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'title' => ['required'],
             'description' => ['nullable'],
             'status' => ['required', 'integer'],

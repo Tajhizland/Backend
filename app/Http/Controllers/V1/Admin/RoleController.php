@@ -2,48 +2,46 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Role\RoleStoreDto;
+use App\DTOs\Role\RoleUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\StoreRoleRequest;
 use App\Http\Requests\Admin\Role\UpdateRoleRequest;
-use App\Services\Role\RoleServiceInterface;
 use App\Http\Resources\Role\RoleResource;
+use App\Services\Role\RoleServiceInterface;
 
 class RoleController extends Controller
 {
-    public function __construct
-    (
-        private readonly RoleServiceInterface $roleService
+    public function __construct(
+        private readonly RoleServiceInterface $roleService,
     )
     {
     }
 
     public function dataTable()
     {
-        $response = $this->roleService->dataTable();
-        return $this->dataResponseCollection(RoleResource::collection($response));
+        return $this->dataResponseCollection(RoleResource::collection($this->roleService->dataTable()));
     }
 
-    public function find($id)
-    {
-        $response = $this->roleService->find($id);
-        return $this->dataResponse(RoleResource::make($response));
-    }
     public function getAll()
     {
-        $response = $this->roleService->getAll();
-        return $this->dataResponseCollection(RoleResource::collection($response));
+        return $this->dataResponseCollection(RoleResource::collection($this->roleService->getAll()));
+    }
+
+    public function show($id)
+    {
+        return $this->dataResponse(RoleResource::make($this->roleService->find($id)));
     }
 
     public function store(StoreRoleRequest $request)
     {
-        $this->roleService->store($request->get("name"),$request->get("permissions"));
+        $this->roleService->store(new RoleStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.role")]));
     }
 
-    public function update(UpdateRoleRequest $request)
+    public function update($id, UpdateRoleRequest $request)
     {
-        $this->roleService->update($request->get("id"), $request->get("name"),$request->get("permissions"));
+        $this->roleService->update(new RoleUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.role")]));
-
     }
 }

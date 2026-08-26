@@ -2,7 +2,10 @@
 
 namespace App\Services\Permission;
 
+use App\DTOs\Permission\PermissionStoreDto;
+use App\DTOs\Permission\PermissionUpdateDto;
 use App\Repositories\Permission\PermissionRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class PermissionService implements PermissionServiceInterface
 {
@@ -13,29 +16,33 @@ readonly class PermissionService implements PermissionServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->permissionRepository->dataTable();
     }
 
-    public function getAll()
+    public function getAll(): mixed
     {
         return $this->permissionRepository->all();
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->permissionRepository->findOrFail($id);
+        $permission = $this->permissionRepository->find($id);
+        if (!$permission) {
+            throw new NotFoundHttpException();
+        }
+        return $permission;
     }
 
-    public function store($name, $value)
+    public function store(PermissionStoreDto $dto): mixed
     {
-        return $this->permissionRepository->create(["name" => $name, "value" => $value]);
+        return $this->permissionRepository->create(["name" => $dto->name, "value" => $dto->value]);
     }
 
-    public function update($id, $name, $value)
+    public function update(PermissionUpdateDto $dto): bool
     {
-        $model = $this->permissionRepository->findOrFail($id);
-        return $this->permissionRepository->update($model, ["name" => $name, "value" => $value]);
+        $permission = $this->find($dto->permissionId);
+        return $this->permissionRepository->update($permission, ["name" => $dto->name, "value" => $dto->value]);
     }
 }

@@ -9,7 +9,6 @@ class SetDisplayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id'=>['required','exists:App\Models\CategoryConcept,id'],
             'display'=>['required','string']
         ];
     }

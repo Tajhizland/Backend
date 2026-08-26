@@ -2,7 +2,10 @@
 
 namespace App\Services\Role;
 
+use App\DTOs\Role\RoleStoreDto;
+use App\DTOs\Role\RoleUpdateDto;
 use App\Repositories\Role\RoleRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repositories\RolePermission\RolePermissionRepositoryInterface;
 
 readonly class RoleService implements RoleServiceInterface
@@ -15,25 +18,29 @@ readonly class RoleService implements RoleServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->roleRepository->dataTable();
     }
 
-    public function getAll()
+    public function getAll(): mixed
     {
         return $this->roleRepository->all();
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->roleRepository->findWithPermission($id);
+        $role = $this->roleRepository->findWithPermission($id);
+        if (!$role) {
+            throw new NotFoundHttpException();
+        }
+        return $role;
     }
 
-    public function store($name, $permission)
+    public function store(RoleStoreDto $dto): mixed
     {
-        $role = $this->roleRepository->create(["name" => $name]);
-        foreach ($permission as $item) {
+        $role = $this->roleRepository->create(["name" => $dto->name]);
+        foreach ($dto->permissions as $item) {
             $this->rolePermissionRepository->create([
                 "role_id" => $role->id,
                 "permission_id" => $item
@@ -42,16 +49,16 @@ readonly class RoleService implements RoleServiceInterface
         return $role;
     }
 
-    public function update($id, $name, $permission)
+    public function update(RoleUpdateDto $dto): bool
     {
-        $model = $this->roleRepository->findOrFail($id);
-        $this->rolePermissionRepository->deleteByRole($id);
-        foreach ($permission as $item) {
+        $role = $this->roleRepository->findOrFail($dto->roleId);
+        $this->rolePermissionRepository->deleteByRole($dto->roleId);
+        foreach ($dto->permissions as $item) {
             $this->rolePermissionRepository->create([
-                "role_id" => $id,
+                "role_id" => $dto->roleId,
                 "permission_id" => $item
             ]);
         }
-        return $this->roleRepository->update($model, ["name" => $name]);
+        return $this->roleRepository->update($role, ["name" => $dto->name]);
     }
 }

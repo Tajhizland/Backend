@@ -2,15 +2,18 @@
 
 namespace App\Services\Role;
 
+use App\DTOs\Role\RoleStoreDto;
+use App\DTOs\Role\RoleUpdateDto;
+
 interface RoleServiceInterface
 {
-    public function dataTable();
-    public function getAll();
+    public function dataTable(): mixed;
 
-    public function find($id);
+    public function getAll(): mixed;
 
-    public function store($name, $permission);
+    public function find(int $id): mixed;
 
-    public function update($id, $name, $permission);
+    public function store(RoleStoreDto $dto): mixed;
 
+    public function update(RoleUpdateDto $dto): bool;
 }

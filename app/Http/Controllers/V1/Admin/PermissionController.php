@@ -2,48 +2,46 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Permission\PermissionStoreDto;
+use App\DTOs\Permission\PermissionUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Permission\StorePermissionRequest;
 use App\Http\Requests\Admin\Permission\UpdatePermissionRequest;
-use App\Services\Permission\PermissionServiceInterface;
 use App\Http\Resources\Permission\PermissionResource;
+use App\Services\Permission\PermissionServiceInterface;
 
 class PermissionController extends Controller
 {
-    public function __construct
-    (
-        private readonly PermissionServiceInterface $permissionService
+    public function __construct(
+        private readonly PermissionServiceInterface $permissionService,
     )
     {
     }
 
     public function dataTable()
     {
-        $response = $this->permissionService->dataTable();
-        return $this->dataResponseCollection(PermissionResource::collection($response));
+        return $this->dataResponseCollection(PermissionResource::collection($this->permissionService->dataTable()));
     }
 
-    public function find($id)
-    {
-        $response = $this->permissionService->find($id);
-        return $this->dataResponse(PermissionResource::make($response));
-    }
     public function getAll()
     {
-        $response = $this->permissionService->getAll();
-        return $this->dataResponseCollection(PermissionResource::collection($response));
+        return $this->dataResponseCollection(PermissionResource::collection($this->permissionService->getAll()));
+    }
+
+    public function show($id)
+    {
+        return $this->dataResponse(PermissionResource::make($this->permissionService->find($id)));
     }
 
     public function store(StorePermissionRequest $request)
     {
-        $this->permissionService->store($request->get("name"), $request->get("value"));
+        $this->permissionService->store(new PermissionStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.permission")]));
     }
 
-    public function update(UpdatePermissionRequest $request)
+    public function update($id, UpdatePermissionRequest $request)
     {
-        $this->permissionService->update($request->get("id"), $request->get("name"), $request->get("value"));
+        $this->permissionService->update(new PermissionUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.permission")]));
-
     }
 }

@@ -9,7 +9,6 @@ class UpdatePermissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'exists:App\Models\Permission'],
             'name' => ['required'],
             'value' => ['required'],
         ];

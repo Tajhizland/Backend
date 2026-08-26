@@ -207,17 +207,15 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("{id}", "destroy");
         Route::delete("{id}/banner", "destroyBanner");
     });
-    Route::group(["prefix" => "concept"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ConceptController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "findById"]);
-        Route::get("items/get/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "getItems"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\ConceptController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\ConceptController::class, "update"]);
-        Route::post("items/set", [\App\Http\Controllers\V1\Admin\ConceptController::class, "setItem"]);
-        Route::delete("items/delete/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "deleteItem"]);
-        Route::get("items/{id}", [\App\Http\Controllers\V1\Admin\ConceptController::class, "getItems"]);
-        Route::post("display", [\App\Http\Controllers\V1\Admin\ConceptController::class, "display"]);
-
+    Route::prefix("concept")->controller(\App\Http\Controllers\V1\Admin\ConceptController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("item", "setItem");
+        Route::delete("item/{id}", "deleteItem");
+        Route::patch("item/{id}/display", "setDisplay");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::get("{id}/item", "getItems");
     });
     Route::group(["prefix" => "search"], function () {
         Route::post("category", [\App\Http\Controllers\V1\Admin\SearchController::class, "searchCategory"]);
@@ -375,19 +373,19 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("item/{id}", "showItem");
         Route::get("{id}/item", "itemDataTable");
     });
-    Route::group(["prefix" => "permission"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PermissionController::class, "dataTable"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\PermissionController::class, "getAll"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PermissionController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\PermissionController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\PermissionController::class, "update"]);
+    Route::prefix("permission")->controller(\App\Http\Controllers\V1\Admin\PermissionController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "getAll");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
-    Route::group(["prefix" => "role"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\RoleController::class, "dataTable"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\RoleController::class, "getAll"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\RoleController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\RoleController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\RoleController::class, "update"]);
+    Route::prefix("role")->controller(\App\Http\Controllers\V1\Admin\RoleController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "getAll");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
     Route::prefix("phone-bock")->controller(\App\Http\Controllers\V1\Admin\PhoneBockController::class)->group(function () {
         Route::get("dataTable", "dataTable");
