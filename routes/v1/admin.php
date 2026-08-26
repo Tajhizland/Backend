@@ -198,14 +198,14 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("{id}/icon", "setIcon");
         Route::delete("{id}", "destroy");
     });
-    Route::group(["prefix" => "menu"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\MenuController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\MenuController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\MenuController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\MenuController::class, "update"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\MenuController::class, "list"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\MenuController::class, "delete"]);
-        Route::delete("banner/delete/{id}", [\App\Http\Controllers\V1\Admin\MenuController::class, "deleteBanner"]);
+    Route::prefix("menu")->controller(\App\Http\Controllers\V1\Admin\MenuController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}", "destroy");
+        Route::delete("{id}/banner", "destroyBanner");
     });
     Route::group(["prefix" => "concept"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ConceptController::class, "dataTable"]);
@@ -233,11 +233,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("{id}", "show");
         Route::delete("{id}", "destroy");
     });
-    Route::group(["prefix" => "page"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PageController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PageController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\PageController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\PageController::class, "update"]);
+    Route::prefix("page")->controller(\App\Http\Controllers\V1\Admin\PageController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
     Route::prefix("faq")->controller(\App\Http\Controllers\V1\Admin\FaqController::class)->group(function () {
         Route::get("dataTable", "dataTable");
@@ -368,12 +368,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
         Route::delete("{id}", "destroy");
     });
-    Route::group(["prefix" => "sms"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SmsController::class, "dataTable"]);
-        Route::get("item/{id}", [\App\Http\Controllers\V1\Admin\SmsController::class, "itemDataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\SmsController::class, "viewItem"]);
-        Route::post("send", [\App\Http\Controllers\V1\Admin\SmsController::class, "send"]);
-        Route::post("send-to-contact", [\App\Http\Controllers\V1\Admin\SmsController::class, "sendToContact"]);
+    Route::prefix("sms")->controller(\App\Http\Controllers\V1\Admin\SmsController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("send", "send");
+        Route::post("send-to-contact", "sendToContact");
+        Route::get("item/{id}", "showItem");
+        Route::get("{id}/item", "itemDataTable");
     });
     Route::group(["prefix" => "permission"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PermissionController::class, "dataTable"]);
@@ -443,13 +443,13 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("{id}", "show");
         Route::put("{id}", "update");
     });
-    Route::group(["prefix" => "coupon"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CouponController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CouponController::class, "find"]);
-        Route::get("generate", [\App\Http\Controllers\V1\Admin\CouponController::class, "generate"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\CouponController::class, "store"]);
-        Route::post("store-group", [\App\Http\Controllers\V1\Admin\CouponController::class, "storeGroup"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\CouponController::class, "update"]);
+    Route::prefix("coupon")->controller(\App\Http\Controllers\V1\Admin\CouponController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("generate", "generate");
+        Route::post("group", "storeGroup");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
     Route::group(["prefix" => "campaign-banner"], function () {

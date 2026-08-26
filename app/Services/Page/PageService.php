@@ -13,7 +13,7 @@ readonly class PageService implements PageServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->pageRepository->dataTable();
     }
@@ -23,7 +23,7 @@ readonly class PageService implements PageServiceInterface
         return $this->pageRepository->findOrFail($id);
     }
 
-    public function findByUrl($url)
+    public function findByUrl($url): mixed
     {
         return $this->pageRepository->findByUrl($url);
     }

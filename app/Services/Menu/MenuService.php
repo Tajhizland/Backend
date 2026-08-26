@@ -15,7 +15,7 @@ readonly class MenuService implements MenuServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->menuRepository->dataTable();
     }
@@ -62,12 +62,12 @@ readonly class MenuService implements MenuServiceInterface
             ]);
     }
 
-    public function buildMenu()
+    public function buildMenu(): mixed
     {
         return $this->menuRepository->getWithChildren();
     }
 
-    public function list()
+    public function list(): mixed
     {
         return $this->menuRepository->allActiveList();
     }
@@ -78,12 +78,10 @@ readonly class MenuService implements MenuServiceInterface
         return $this->menuRepository->delete($menu);
     }
 
-    public function deleteBanner($id)
+    public function deleteBanner(int $id): bool
     {
-        $menu=$this->menuRepository->findOrFail($id);
-        $logoPath = $menu->banner_logo;
-        $this->s3Service->remove("menu/" . $logoPath);
-        return $this->menuRepository->update($menu,["banner_logo"=>null]);
-
+        $menu = $this->find($id);
+        $this->s3Service->remove("menu/" . $menu->banner_logo);
+        return $this->menuRepository->update($menu, ["banner_logo" => null]);
     }
 }

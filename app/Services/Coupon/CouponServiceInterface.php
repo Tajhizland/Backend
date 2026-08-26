@@ -2,48 +2,23 @@
 
 namespace App\Services\Coupon;
 
+use App\DTOs\Coupon\CouponStoreDto;
+use App\DTOs\Coupon\CouponStoreGroupDto;
+use App\DTOs\Coupon\CouponUpdateDto;
+
 interface CouponServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function generate();
-    public function check($code , $userId, $totalItemsPrice = null);
+    public function generate(): string;
 
-    public function find($id);
+    public function find(int $id): mixed;
 
-    public function storeGroup(
-        $status,
-        $price,
-        $percent,
-        $user_ids,
-        $start_time,
-        $end_time,
-        $min_order_value,
-        $max_order_value,
-        $send_sms = false,
-        $message = null
-    );  public function store(
-        $code,
-        $status,
-        $price,
-        $percent,
-        $user_id,
-        $start_time,
-        $end_time,
-        $min_order_value,
-        $max_order_value
-    );
+    public function check($code, $userId, $totalItemsPrice = null): mixed;
 
-    public function update(
-        $id,
-        $code,
-        $status,
-        $price,
-        $percent,
-        $user_id,
-        $start_time,
-        $end_time,
-        $min_order_value,
-        $max_order_value
-    );
+    public function store(CouponStoreDto $dto): mixed;
+
+    public function storeGroup(CouponStoreGroupDto $dto): array;
+
+    public function update(CouponUpdateDto $dto): bool;
 }

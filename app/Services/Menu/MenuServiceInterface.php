@@ -2,21 +2,24 @@
 
 namespace App\Services\Menu;
 
+use App\DTOs\Menu\MenuStoreDto;
+use App\DTOs\Menu\MenuUpdateDto;
+
 interface MenuServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function delete($id);
+    public function list(): mixed;
 
-    public function list();
+    public function find(int $id): mixed;
 
-    public function findById($id);
+    public function store(MenuStoreDto $dto): mixed;
 
-    public function store($title, $parentId, $url,  $status, $categoryId, $bannerUrl, $bannerLogo);
+    public function update(MenuUpdateDto $dto): bool;
 
-    public function update($id, $title, $parentId, $url,  $status, $categoryId, $bannerUrl, $bannerLogo);
+    public function delete(int $id): bool|null;
 
-    public function buildMenu();
+    public function deleteBanner(int $id): bool;
 
-    public function deleteBanner($id);
+    public function buildMenu(): mixed;
 }

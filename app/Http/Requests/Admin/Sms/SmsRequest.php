@@ -9,7 +9,6 @@ class SmsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "type" => ["required", "string"],
             "message" => ["required", "string"],
             "userIds" => ["nullable"]
         ];

@@ -9,7 +9,6 @@ class UpdateMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required' , 'exists:App\Models\Menu'],
             'title' => ['required'],
             'parent_id' => ['nullable','integer'],
             'url' => ['required'],

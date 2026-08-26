@@ -9,7 +9,6 @@ class UpdatePageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required' , 'numeric','exists:App\Models\Page'],
             'title' => ['required'],
             'url' => ['required'],
             'image' => ['nullable' , 'image' ,'mimes:jpeg,png,jpg,gif,svg,webp'],

@@ -10,8 +10,7 @@ class UpdateCouponRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required','exists:App\Models\Coupon'],
-            'code' => ['required', Rule::unique('coupons')->ignore($this->id)],
+            'code' => ['required', Rule::unique('coupons')->ignore($this->route('id'))],
             'user_id' => ['nullable' ],
             'start_time' => ['nullable', 'date'],
             'end_time' => ['nullable', 'date'],

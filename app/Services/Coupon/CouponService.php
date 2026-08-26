@@ -6,7 +6,11 @@ use App\Enums\SmsLogStatus;
 use App\Jobs\GroupCouponSmsJob;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
+use App\DTOs\Coupon\CouponStoreDto;
+use App\DTOs\Coupon\CouponStoreGroupDto;
+use App\DTOs\Coupon\CouponUpdateDto;
 use App\Repositories\Coupon\CouponRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\CartItem\CartItemServiceInterface;
 use App\Services\SmsLog\SmsLogServiceInterface;
 use Illuminate\Support\Str;
@@ -25,12 +29,12 @@ readonly class CouponService implements CouponServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->couponRepository->dataTable();
     }
 
-    public function generate()
+    public function generate(): string
     {
         $allow = false;
         while ($allow == false) {
@@ -42,39 +46,43 @@ readonly class CouponService implements CouponServiceInterface
         return $code;
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->couponRepository->findOrFail($id);
+        $coupon = $this->couponRepository->find($id);
+        if (!$coupon) {
+            throw new NotFoundHttpException();
+        }
+        return $coupon;
     }
 
-    public function store($code, $status, $price, $percent, $user_id, $start_time, $end_time, $min_order_value, $max_order_value)
+    public function store(CouponStoreDto $dto): mixed
     {
         return $this->couponRepository->create([
-            "code" => $code,
-            "status" => $status,
-            "price" => $price,
-            "percent" => $percent,
-            "user_id" => $user_id,
-            "start_time" => $start_time,
-            "end_time" => $end_time,
-            "min_order_value" => $min_order_value,
-            "max_order_value" => $max_order_value,
+            "code" => $dto->code,
+            "status" => $dto->status,
+            "price" => $dto->price,
+            "percent" => $dto->percent,
+            "user_id" => $dto->user_id,
+            "start_time" => $dto->start_time,
+            "end_time" => $dto->end_time,
+            "min_order_value" => $dto->min_order_value,
+            "max_order_value" => $dto->max_order_value,
         ]);
     }
 
-    public function update($id, $code, $status, $price, $percent, $user_id, $start_time, $end_time, $min_order_value, $max_order_value)
+    public function update(CouponUpdateDto $dto): bool
     {
-        $coupon = $this->couponRepository->findOrFail($id);
+        $coupon = $this->find($dto->couponId);
         return $this->couponRepository->update($coupon, [
-            "code" => $code,
-            "status" => $status,
-            "price" => $price,
-            "percent" => $percent,
-            "user_id" => $user_id,
-            "start_time" => $start_time,
-            "end_time" => $end_time,
-            "min_order_value" => $min_order_value,
-            "max_order_value" => $max_order_value,
+            "code" => $dto->code,
+            "status" => $dto->status,
+            "price" => $dto->price,
+            "percent" => $dto->percent,
+            "user_id" => $dto->user_id,
+            "start_time" => $dto->start_time,
+            "end_time" => $dto->end_time,
+            "min_order_value" => $dto->min_order_value,
+            "max_order_value" => $dto->max_order_value,
         ]);
     }
 
@@ -82,7 +90,7 @@ readonly class CouponService implements CouponServiceInterface
      * @param int|null $totalItemsPrice مبلغ اقلامی که کد روی آن اعمال می‌شود.
      *                                  اگر ندهی از سبد خرید فعال کاربر حساب می‌شود.
      */
-    public function check($code, $userId, $totalItemsPrice = null)
+    public function check($code, $userId, $totalItemsPrice = null): mixed
     {
         $coupon = $this->couponRepository->findActiveUserCode($code, $userId);
         if (!$coupon) {
@@ -108,28 +116,28 @@ readonly class CouponService implements CouponServiceInterface
 
     }
 
-    public function storeGroup($status, $price, $percent, $user_ids, $start_time, $end_time, $min_order_value, $max_order_value, $send_sms = false, $message = null)
+    public function storeGroup(CouponStoreGroupDto $dto): array
     {
         $couponIds = [];
-        foreach ($user_ids as $user_id) {
+        foreach ($dto->userIds as $user_id) {
             $code = $this->generate();
             $coupon = $this->couponRepository->create([
                 "code" => $code,
-                "status" => $status,
-                "price" => $price,
-                "percent" => $percent,
+                "status" => $dto->status,
+                "price" => $dto->price,
+                "percent" => $dto->percent,
                 "user_id" => $user_id,
-                "start_time" => $start_time,
-                "end_time" => $end_time,
-                "min_order_value" => $min_order_value,
-                "max_order_value" => $max_order_value,
+                "start_time" => $dto->start_time,
+                "end_time" => $dto->end_time,
+                "min_order_value" => $dto->min_order_value,
+                "max_order_value" => $dto->max_order_value,
             ]);
             $couponIds[] = $coupon->id;
         }
 
-        if ($send_sms && count($couponIds)) {
+        if ($dto->send_sms && count($couponIds)) {
             $smsLog = $this->smsLogService->store("coupon", SmsLogStatus::Pending->value);
-            GroupCouponSmsJob::dispatch($couponIds, $smsLog, $message);
+            GroupCouponSmsJob::dispatch($couponIds, $smsLog, $dto->message);
         }
 
         return $couponIds;
