@@ -2,7 +2,13 @@
 
 namespace App\Services\Discount;
 
+use App\DTOs\Discount\DiscountSetItemDto;
+use App\DTOs\Discount\DiscountSortDto;
+use App\DTOs\Discount\DiscountStoreDto;
+use App\DTOs\Discount\DiscountUpdateDto;
+use App\DTOs\Discount\DiscountUpdateItemDto;
 use App\Repositories\Discount\DiscountRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repositories\DiscountItem\DiscountItemRepositoryInterface;
 
 readonly class DiscountService implements DiscountServiceInterface
@@ -16,27 +22,25 @@ readonly class DiscountService implements DiscountServiceInterface
 
     }
 
-    public function store($title, $status, $start_date, $end_date)
+    public function store(DiscountStoreDto $dto): mixed
     {
         return $this->discountRepository->create([
-            "title" => $title,
-            "status" => $status,
-            "start_date" => $start_date,
-            "end_date" => $end_date,
+            "title" => $dto->title,
+            "status" => $dto->status,
+            "start_date" => $dto->start_date,
+            "end_date" => $dto->end_date,
         ]);
     }
 
-    public function update($id, $title, $status, $start_date, $end_date)
+    public function update(DiscountUpdateDto $dto): bool
     {
-        $discountModel = $this->discountRepository->findOrFail($id);
-        return $this->discountRepository->update($discountModel,
-            [
-                "title" => $title,
-                "status" => $status,
-                "start_date" => $start_date,
-                "end_date" => $end_date,
-            ]
-        );
+        $discount = $this->find($dto->discountId);
+        return $this->discountRepository->update($discount, [
+            "title" => $dto->title,
+            "status" => $dto->status,
+            "start_date" => $dto->start_date,
+            "end_date" => $dto->end_date,
+        ]);
     }
 
     public function delete($id)
@@ -45,28 +49,33 @@ readonly class DiscountService implements DiscountServiceInterface
         return $this->discountRepository->delete($discount);
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->discountRepository->dataTable();
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->discountRepository->findOrFail($id);
+        $discount = $this->discountRepository->find($id);
+        if (!$discount) {
+            throw new NotFoundHttpException();
+        }
+        return $discount;
     }
 
-    public function getItem($id)
+    public function getItem($id): mixed
     {
         return $this->discountItemRepository->getByDiscountId($id);
     }
-    public function getTopItem($id)
+    public function getTopItem($id): mixed
     {
         return $this->discountItemRepository->getTopByDiscountId($id);
     }
 
-    public function setItem($discountId, $discount)
+    public function setItem(DiscountSetItemDto $dto): void
     {
-        foreach ($discount as $item) {
+        $discountId = $dto->discount_id;
+        foreach ($dto->discount as $item) {
 
             $discountItem = $this->discountItemRepository->findByProductColorId($discountId, $item["product_color_id"]);
             if ($item["discount_price"] != null && $item["discount_price"] != 0) {
@@ -92,15 +101,15 @@ readonly class DiscountService implements DiscountServiceInterface
         }
     }
 
-    public function deleteItem($id)
+    public function deleteItem($id): bool|null
     {
         $discountItem = $this->discountItemRepository->findOrFail($id);
         return $this->discountItemRepository->delete($discountItem);
     }
 
-    public function updateItem($discount)
+    public function updateItem(DiscountUpdateItemDto $dto): void
     {
-        foreach ($discount as $item) {
+        foreach ($dto->discount as $item) {
             if ($item["discount_price"] == null || $item["discount_price"] == 0)
                 continue;
             $discountItem = $this->discountItemRepository->findOrFail($item["id"]);
@@ -110,9 +119,9 @@ readonly class DiscountService implements DiscountServiceInterface
         }
     }
 
-    public function sort($discounts)
+    public function sort(DiscountSortDto $dto): bool
     {
-        foreach ($discounts as $item) {
+        foreach ($dto->discounts as $item) {
             $this->discountItemRepository->sort($item["id"], $item["sort"]);
         }
         return true;

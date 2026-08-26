@@ -9,7 +9,6 @@ class ShowHomepageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'homepage' => ['required','in:0,1'],
         ];
     }

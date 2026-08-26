@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Discount\DiscountSetItemDto;
+use App\DTOs\Discount\DiscountSortDto;
+use App\DTOs\Discount\DiscountStoreDto;
+use App\DTOs\Discount\DiscountUpdateDto;
+use App\DTOs\Discount\DiscountUpdateItemDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Discount\SetDiscountRequest;
 use App\Http\Requests\Admin\Discount\SortTopRequest;
@@ -15,50 +20,52 @@ use App\Services\Discount\DiscountServiceInterface;
 class DiscountController extends Controller
 {
     public function __construct(
-        private readonly DiscountServiceInterface $discountService
+        private readonly DiscountServiceInterface $discountService,
     )
     {
     }
 
     public function dataTable()
     {
-        $response = $this->discountService->dataTable();
-        return $this->dataResponseCollection(DiscountResource::collection($response));
+        return $this->dataResponseCollection(DiscountResource::collection($this->discountService->dataTable()));
+    }
+
+    public function show($id)
+    {
+        return $this->dataResponse(new DiscountResource($this->discountService->find($id)));
     }
 
     public function store(StoreDiscountRequest $request)
     {
-        $this->discountService->store($request->get("title"), $request->get("status"), $request->get("start_date"), $request->get("end_date"));
+        $this->discountService->store(new DiscountStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.discount")]));
     }
 
-    public function update(UpdateDiscountRequest $request)
+    public function update($id, UpdateDiscountRequest $request)
     {
-        $this->discountService->update($request->get("id"), $request->get("title"), $request->get("status"), $request->get("start_date"), $request->get("end_date"));
+        $this->discountService->update(new DiscountUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.discount")]));
-    }
-
-    public function find($id)
-    {
-        $response = $this->discountService->find($id);
-        return $this->dataResponse(new DiscountResource($response));
     }
 
     public function getItem($id)
     {
-        $response = $this->discountService->getItem($id);
-        return $this->dataResponseCollection(DiscountItemResource::collection($response));
+        return $this->dataResponseCollection(DiscountItemResource::collection($this->discountService->getItem($id)));
+    }
+
+    public function getTopDiscountItem($id)
+    {
+        return $this->dataResponseCollection(DiscountItemResource::collection($this->discountService->getTopItem($id)));
     }
 
     public function setItem(SetDiscountRequest $request)
     {
-        $this->discountService->setItem($request->get("discount_id"), $request->get("discount"));
+        $this->discountService->setItem(new DiscountSetItemDto(...$request->validated()));
         return $this->successResponse(__("action.change", ["attr" => __("attr.discount")]));
     }
 
     public function updateItem(UpdateItemRequest $request)
     {
-        $this->discountService->updateItem($request->get("discount"));
+        $this->discountService->updateItem(new DiscountUpdateItemDto(...$request->validated()));
         return $this->successResponse(__("action.change", ["attr" => __("attr.discount")]));
     }
 
@@ -68,15 +75,9 @@ class DiscountController extends Controller
         return $this->successResponse(__("action.remove", ["attr" => __("attr.discount")]));
     }
 
-    public function getTopDiscountItem($id)
-    {
-        $response = $this->discountService->getTopItem($id);
-        return $this->dataResponseCollection(DiscountItemResource::collection($response));
-    }
-
     public function sort(SortTopRequest $request)
     {
-        $this->discountService->sort($request->get("discounts"));
+        $this->discountService->sort(new DiscountSortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.discount")]));
     }
 }

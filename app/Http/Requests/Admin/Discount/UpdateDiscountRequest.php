@@ -9,7 +9,6 @@ class UpdateDiscountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'exists:App\Models\Discount,id'],
             'title' => ['required'],
             'status' => ['required', 'integer'],
             'start_date' => ['nullable', 'date'],

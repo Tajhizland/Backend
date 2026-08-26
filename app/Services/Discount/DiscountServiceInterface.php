@@ -2,26 +2,31 @@
 
 namespace App\Services\Discount;
 
+use App\DTOs\Discount\DiscountSetItemDto;
+use App\DTOs\Discount\DiscountSortDto;
+use App\DTOs\Discount\DiscountStoreDto;
+use App\DTOs\Discount\DiscountUpdateDto;
+use App\DTOs\Discount\DiscountUpdateItemDto;
+
 interface DiscountServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function store($title, $status, $start_date, $end_date);
+    public function find(int $id): mixed;
 
-    public function update($id, $title, $status, $start_date, $end_date);
+    public function store(DiscountStoreDto $dto): mixed;
 
-    public function find($id);
+    public function update(DiscountUpdateDto $dto): bool;
 
-    public function getItem($id);
-    public function getTopItem($id);
+    public function getItem($id): mixed;
 
-    public function deleteItem($id);
+    public function getTopItem($id): mixed;
 
-    public function setItem($discountId, $discount);
+    public function deleteItem($id): bool|null;
 
-    public function updateItem($discount);
+    public function setItem(DiscountSetItemDto $dto): void;
 
-    public function sort($discounts);
+    public function updateItem(DiscountUpdateItemDto $dto): void;
 
-
+    public function sort(DiscountSortDto $dto): bool;
 }

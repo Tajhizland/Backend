@@ -56,7 +56,7 @@ readonly class ReturnedService implements ReturnedServiceInterface
         Gate::allows("isPending", $returned);
         return $this->returnedRepository->setAccept($returned);
     }
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->returnedRepository->dataTable();
     }

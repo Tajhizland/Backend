@@ -2,7 +2,11 @@
 
 namespace App\Services\SpecialProduct;
 
+use App\DTOs\SpecialProduct\SpecialProductAddDto;
+use App\DTOs\SpecialProduct\SpecialProductHomepageDto;
+use App\DTOs\SpecialProduct\SpecialProductSortDto;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class SpecialProductService implements SpecialProductServiceInterface
 {
@@ -10,31 +14,39 @@ readonly class SpecialProductService implements SpecialProductServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->specialProductRepository->dataTable();
     }
 
-    public function add($productId)
+    public function add(SpecialProductAddDto $dto): mixed
     {
-        return $this->specialProductRepository->add($productId);
+        return $this->specialProductRepository->add($dto->product_id);
     }
 
-    public function delete($id)
+    public function find(int $id): mixed
     {
-        $item = $this->specialProductRepository->findOrFail($id);
-        return $this->specialProductRepository->delete($item);
+        $item = $this->specialProductRepository->find($id);
+        if (!$item) {
+            throw new NotFoundHttpException();
+        }
+        return $item;
     }
 
-    public function showHomepage($id, $value)
+    public function delete(int $id): bool|null
     {
-        $item = $this->specialProductRepository->findOrFail($id);
-        return $this->specialProductRepository->update($item, ["homepage" => $value]);
+        return $this->specialProductRepository->delete($this->find($id));
     }
 
-    public function sort($product)
+    public function showHomepage(SpecialProductHomepageDto $dto): bool
     {
-        foreach ($product as $item) {
+        $item = $this->find($dto->specialProductId);
+        return $this->specialProductRepository->update($item, ["homepage" => $dto->homepage]);
+    }
+
+    public function sort(SpecialProductSortDto $dto): bool
+    {
+        foreach ($dto->special as $item) {
             $this->specialProductRepository->sort($item["id"], $item["sort"]);
         }
         return true;

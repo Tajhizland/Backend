@@ -6,10 +6,10 @@ Route::group(["middleware" => "auth:sanctum"], function () {
 
     Route::get('/dashboard', [\App\Http\Controllers\V1\Admin\DashboardController::class, "index"]);
 
-    Route::group(["prefix" => "notification"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\NotificationController::class, "dataTable"]);
-        Route::get("unseen", [\App\Http\Controllers\V1\Admin\NotificationController::class, "unSeen"]);
-        Route::post("seen", [\App\Http\Controllers\V1\Admin\NotificationController::class, "seen"]);
+    Route::prefix("notification")->controller(\App\Http\Controllers\V1\Admin\NotificationController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("unseen", "unSeen");
+        Route::patch("seen", "seen");
     });
     Route::group(["prefix" => "product"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ProductController::class, "dataTable"]);
@@ -130,10 +130,10 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("{id}", "show");
         Route::put("{id}", "update");
     });
-    Route::group(["prefix" => "returned"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ReturnedController::class, "dataTable"]);
-        Route::post("accept", [\App\Http\Controllers\V1\Admin\ReturnedController::class, "accept"]);
-        Route::post("reject", [\App\Http\Controllers\V1\Admin\ReturnedController::class, "reject"]);
+    Route::prefix("returned")->controller(\App\Http\Controllers\V1\Admin\ReturnedController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::patch("{id}/accept", "accept");
+        Route::patch("{id}/reject", "reject");
     });
     Route::group(["prefix" => "comment"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CommentController::class, "dataTable"]);
@@ -173,14 +173,13 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
         Route::delete("{id}", "destroy");
     });
-    Route::group(["prefix" => "special_product"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "dataTable"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "delete"]);
-        Route::post("add", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "add"]);
-        Route::post("homepage", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "homepage"]);
-        Route::get('list', [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "list"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "sort"]);
-
+    Route::prefix("special-product")->controller(\App\Http\Controllers\V1\Admin\SpecialProductController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("sort", "sort");
+        Route::post("/", "store");
+        Route::patch("{id}/homepage", "homepage");
+        Route::delete("{id}", "destroy");
     });
     Route::group(["prefix" => "popular_category"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PopularCategoryController::class, "dataTable"]);
@@ -410,17 +409,17 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignController::class, "update"]);
     });
 
-    Route::group(["prefix" => "discount"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\DiscountController::class, "dataTable"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\DiscountController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "update"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "find"]);
-        Route::get("item/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "getItem"]);
-        Route::get("top-item/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "getTopDiscountItem"]);
-        Route::post("top-item/sort", [\App\Http\Controllers\V1\Admin\DiscountController::class, "sort"]);
-        Route::post("item/set", [\App\Http\Controllers\V1\Admin\DiscountController::class, "setItem"]);
-        Route::post("item/update", [\App\Http\Controllers\V1\Admin\DiscountController::class, "updateItem"]);
-        Route::delete("item/{id}", [\App\Http\Controllers\V1\Admin\DiscountController::class, "deleteItem"]);
+    Route::prefix("discount")->controller(\App\Http\Controllers\V1\Admin\DiscountController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("item", "setItem");
+        Route::put("item", "updateItem");
+        Route::post("top-item/sort", "sort");
+        Route::get("top-item/{id}", "getTopDiscountItem");
+        Route::delete("item/{id}", "deleteItem");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::get("{id}/item", "getItem");
     });
 
     Route::group(["prefix" => "campaign-slider"], function () {
