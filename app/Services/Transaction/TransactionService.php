@@ -14,7 +14,7 @@ readonly class TransactionService implements TransactionServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->transactionRepository->dataTable();
     }

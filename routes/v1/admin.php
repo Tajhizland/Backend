@@ -141,8 +141,8 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("accept", [\App\Http\Controllers\V1\Admin\CommentController::class, "accept"]);
         Route::post("reject", [\App\Http\Controllers\V1\Admin\CommentController::class, "reject"]);
     });
-    Route::group(["prefix" => "transaction"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\TransactionController::class, "dataTable"]);
+    Route::prefix("transaction")->controller(\App\Http\Controllers\V1\Admin\TransactionController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
     });
     Route::prefix("order")->group(function () {
         Route::controller(\App\Http\Controllers\V1\Admin\OrderController::class)->group(function () {
@@ -181,15 +181,15 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::patch("{id}/homepage", "homepage");
         Route::delete("{id}", "destroy");
     });
-    Route::group(["prefix" => "popular_category"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PopularCategoryController::class, "dataTable"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\PopularCategoryController::class, "delete"]);
-        Route::post("add", [\App\Http\Controllers\V1\Admin\PopularCategoryController::class, "add"]);
+    Route::prefix("popular-category")->controller(\App\Http\Controllers\V1\Admin\PopularCategoryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::delete("{id}", "destroy");
     });
-    Route::group(["prefix" => "popular_product"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PopularProductController::class, "dataTable"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\PopularProductController::class, "delete"]);
-        Route::post("add", [\App\Http\Controllers\V1\Admin\PopularProductController::class, "add"]);
+    Route::prefix("popular-product")->controller(\App\Http\Controllers\V1\Admin\PopularProductController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::delete("{id}", "destroy");
     });
     Route::prefix("homepage-category")->controller(\App\Http\Controllers\V1\Admin\HomepageCategoryController::class)->group(function () {
         Route::get("dataTable", "dataTable");
@@ -315,20 +315,20 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::delete("video/delete/{id}", [\App\Http\Controllers\V1\Admin\SampleController::class, "deleteVideo"]);
     });
 
-    Route::group(["prefix" => "homepage_vlog"], function () {
-        Route::get("get", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "get"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\HomepageVlogController::class, "update"]);
+    Route::prefix("homepage-vlog")->controller(\App\Http\Controllers\V1\Admin\HomepageVlogController::class)->group(function () {
+        Route::get("/", "get");
+        Route::put("{id}", "update");
     });
-    Route::group(["prefix" => "wallet-transaction"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\WalletTransactionController::class, "dataTable"]);
+    Route::prefix("wallet-transaction")->controller(\App\Http\Controllers\V1\Admin\WalletTransactionController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
     });
 
-    Route::group(["prefix" => "trusted-brand"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "find"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "delete"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\TrustedBrandController::class, "update"]);
+    Route::prefix("trusted-brand")->controller(\App\Http\Controllers\V1\Admin\TrustedBrandController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}", "destroy");
     });
     Route::group(["prefix" => "group"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "dataTable"]);

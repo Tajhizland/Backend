@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\PopularProduct\PopularProductAddDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PopularProduct\PopularProductRequest;
 use App\Services\PopularProduct\PopularProductServiceInterface;
@@ -17,12 +18,12 @@ class PopularProductController extends Controller
     {
         return $this->dataResponseCollection(PopularProductResource::collection($this->popularProductService->dataTable()));
     }
-    public function add(PopularProductRequest $request)
+    public function store(PopularProductRequest $request)
     {
-        $this->popularProductService->add($request->get("product_id"));
+        $this->popularProductService->add(new PopularProductAddDto(...$request->validated()));
         return $this->successResponse(__("action.add_to",["attr"=>__("attr.category") , "to"=>__("attr.list")]));
     }
-    public function delete($id)
+    public function destroy($id)
     {
         $this->popularProductService->delete($id);
         return $this->successResponse(__("action.remove_from",["attr"=>__("attr.category") , "from"=>__("attr.list")]));

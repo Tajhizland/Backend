@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\PopularCategory\PopularCategoryAddDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PopularCategory\PopularCategoryRequest;
 use App\Services\PopularCategory\PopularCategoryServiceInterface;
@@ -17,12 +18,12 @@ class PopularCategoryController extends Controller
     {
         return $this->dataResponseCollection(PopularCategoryResource::collection($this->popularCategoryService->dataTable()));
     }
-    public function add(PopularCategoryRequest $request)
+    public function store(PopularCategoryRequest $request)
     {
-        $this->popularCategoryService->add($request->get("category_id"));
+        $this->popularCategoryService->add(new PopularCategoryAddDto(...$request->validated()));
         return $this->successResponse(__("action.add_to",["attr"=>__("attr.category") , "to"=>__("attr.list")]));
     }
-    public function delete($id)
+    public function destroy($id)
     {
         $this->popularCategoryService->delete($id);
         return $this->successResponse(__("action.remove_from",["attr"=>__("attr.category") , "from"=>__("attr.list")]));

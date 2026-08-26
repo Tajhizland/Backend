@@ -2,7 +2,9 @@
 
 namespace App\Services\PopularProduct;
 
+use App\DTOs\PopularProduct\PopularProductAddDto;
 use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class PopularProductService implements  PopularProductServiceInterface
 {
@@ -10,23 +12,31 @@ readonly class PopularProductService implements  PopularProductServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
        return $this->popularProductRepository->dataTable();
     }
 
-    public function add($productId)
+    public function add(PopularProductAddDto $dto): mixed
     {
-        return $this->popularProductRepository->add($productId);
+        return $this->popularProductRepository->add($dto->product_id);
     }
-    public function get()
+
+    public function find(int $id): mixed
+    {
+        $item = $this->popularProductRepository->find($id);
+        if (!$item) {
+            throw new NotFoundHttpException();
+        }
+        return $item;
+    }
+    public function get(): mixed
     {
         return  $this->popularProductRepository->getWithProduct();
     }
 
-    public function delete($id)
+    public function delete(int $id): bool|null
     {
-        $item= $this->popularProductRepository->findOrFail($id);
-        return $this->popularProductRepository->delete($item);
+        return $this->popularProductRepository->delete($this->find($id));
     }
 }

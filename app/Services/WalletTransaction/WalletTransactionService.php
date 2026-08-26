@@ -42,7 +42,7 @@ class WalletTransactionService implements WalletTransactionServiceInterface
         return $this->userRepositoryInterface->update($user, ["wallet" => $wallet->amount + $user->wallet]);
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->walletTransactionRepositoryInterface->dataTable();
     }

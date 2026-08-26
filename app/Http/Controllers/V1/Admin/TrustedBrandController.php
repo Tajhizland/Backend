@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\TrustedBrand\TrustedBrandStoreDto;
+use App\DTOs\TrustedBrand\TrustedBrandUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TrustedBrand\StoreTrustedBrandRequest;
 use App\Http\Requests\TrustedBrand\UpdateTrustedBrandRequest;
@@ -25,25 +27,25 @@ class TrustedBrandController extends Controller
 
     public function store(StoreTrustedBrandRequest $request)
     {
-        $this->trustedBrandService->store($request->get("logo"));
+        $this->trustedBrandService->store(new TrustedBrandStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.image")]));
 
     }
 
-    public function update(UpdateTrustedBrandRequest $request)
+    public function update($id, UpdateTrustedBrandRequest $request)
     {
-        $this->trustedBrandService->update($request->get("id"), $request->get("logo"));
+        $this->trustedBrandService->update(new TrustedBrandUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.image")]));
 
     }
 
-    public function find($id)
+    public function show($id)
     {
         $response = $this->trustedBrandService->find($id);
         return $this->dataResponse(new TrustedBrandResource($response));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $this->trustedBrandService->delete($id);
         return $this->successResponse(__("action.remove", ["attr" => __("attr.image")]));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\HomepageVlog\HomepageVlogUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\HomepageVlog\UpdateHomePageVlogRequest;
 use App\Services\HomepageVlog\HomepageVlogServiceInterface;
@@ -22,9 +23,9 @@ class HomepageVlogController extends Controller
         return $this->dataResponseCollection(HomepageVlogResource::collection($response));
     }
 
-    public function update(UpdateHomePageVlogRequest $request)
+    public function update($id, UpdateHomePageVlogRequest $request)
     {
-        $this->homepageVlogService->update($request->get("id"), $request->get("vlogId"));
+        $this->homepageVlogService->update(new HomepageVlogUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update",["attr"=>__("attr.vlog")]));
     }
 }

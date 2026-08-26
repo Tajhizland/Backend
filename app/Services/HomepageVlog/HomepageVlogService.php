@@ -2,7 +2,9 @@
 
 namespace App\Services\HomepageVlog;
 
+use App\DTOs\HomepageVlog\HomepageVlogUpdateDto;
 use App\Repositories\HomepageVlog\HomepageVlogRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class HomepageVlogService implements HomepageVlogServiceInterface
 {
@@ -13,16 +15,25 @@ readonly class HomepageVlogService implements HomepageVlogServiceInterface
     {
     }
 
-    public function get()
+    public function get(): mixed
     {
         return $this->homepageVlogRepository->getWithVlog();
     }
 
-    public function update($id, $vlogId)
+    public function find(int $id): mixed
     {
-        $homepageVlog = $this->homepageVlogRepository->findOrFail($id);
+        $homepageVlog = $this->homepageVlogRepository->find($id);
+        if (!$homepageVlog) {
+            throw new NotFoundHttpException();
+        }
+        return $homepageVlog;
+    }
+
+    public function update(HomepageVlogUpdateDto $dto): bool
+    {
+        $homepageVlog = $this->find($dto->homepageVlogId);
         return $this->homepageVlogRepository->update($homepageVlog, [
-            "vlog_id" => $vlogId
+            "vlog_id" => $dto->vlogId,
         ]);
     }
 }
