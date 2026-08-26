@@ -10,11 +10,12 @@ return new class extends Migration {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->integer('status');
             $table->integer('parent_id');
             $table->string('url')->nullable();
-            $table->string('banner_title')->nullable();
             $table->string('banner_link')->nullable();
             $table->string('banner_logo')->nullable();
+            $table->integer('category_id')->nullable();
             $table->timestamps();
         });
     }

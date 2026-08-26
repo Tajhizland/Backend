@@ -13,15 +13,14 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('profile', 64);
-            $table->string('key');                       // مسیر موقت داخل باکت
-            $table->string('upload_id')->nullable();     // فقط برای multipart
+            $table->string('key');
+            $table->string('upload_id')->nullable();
             $table->string('original_name')->nullable();
             $table->string('mime', 128)->nullable();
             $table->unsignedBigInteger('size')->default(0);
             $table->unsignedBigInteger('confirmed_size')->nullable();
             $table->string('status', 32)->default('pending');
             $table->timestamps();
-
             $table->index('status');
             $table->index('user_id');
             $table->unique('key');

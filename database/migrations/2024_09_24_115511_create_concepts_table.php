@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('title');
             $table->string('description')->nullable();
             $table->integer('status');
-            $table->string('image')->nullable();
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->foreignId('user_id');
             $table->integer('amount');
             $table->integer('status');
-            $table->string('track_id');
+            $table->string('track_id')->nullable();
             $table->timestamps();
         });
     }

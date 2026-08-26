@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->foreignId('cart_id');
             $table->foreignId('product_color_id');
             $table->integer('count');
+            $table->integer('guaranty_id')->nullable();
             $table->timestamps();
         });
     }

@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('vlog_id');
             $table->timestamps();
+            $table->index('vlog_id', 'vlog');
         });
     }
 

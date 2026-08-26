@@ -9,7 +9,8 @@ return new class extends Migration {
     {
         Schema::create('category_view_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->string('ip', 256)->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreignId('category_id');
             $table->timestamps();
         });

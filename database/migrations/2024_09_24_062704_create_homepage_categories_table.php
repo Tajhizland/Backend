@@ -10,7 +10,9 @@ return new class extends Migration {
         Schema::create('homepage_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id');
+            $table->string('icon', 256)->nullable();
             $table->timestamps();
+            $table->index('category_id', 'category');
         });
     }
 

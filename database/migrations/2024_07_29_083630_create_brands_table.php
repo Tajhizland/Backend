@@ -13,8 +13,11 @@ return new class extends Migration {
             $table->string('url');
             $table->integer('status');
             $table->string('image')->nullable();
+            $table->string('banner', 256)->nullable();
             $table->text('description')->nullable();
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index('status', 'status');
         });
     }
 

@@ -12,8 +12,8 @@ return new class extends Migration {
             $table->string('name');
             $table->integer('category_id');
             $table->integer('status');
-            $table->string('type');
             $table->timestamps();
+            $table->index('category_id', 'category');
         });
     }
 

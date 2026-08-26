@@ -11,7 +11,6 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('group_id');
             $table->string('title');
-            $table->integer('status');
             $table->timestamps();
         });
     }

@@ -9,13 +9,15 @@ return new class extends Migration {
     {
         Schema::create('casts', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
             $table->string('audio');
+            $table->string('image', 256);
             $table->foreignId('vlog_id');
+            $table->integer('category_id');
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('url');
             $table->integer('status');
+            $table->integer('view')->default(0);
             $table->timestamps();
         });
     }

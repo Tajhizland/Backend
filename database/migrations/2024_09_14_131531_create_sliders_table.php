@@ -13,7 +13,10 @@ return new class extends Migration {
             $table->string('url');
             $table->string('image');
             $table->integer('status');
+            $table->string('type', 256);
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index(['type', 'status'], 'type');
         });
     }
 

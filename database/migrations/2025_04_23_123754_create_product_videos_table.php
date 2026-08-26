@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->foreignId('vlog_id');
             $table->string('title');
             $table->timestamps();
+            $table->index(['product_id', 'vlog_id'], 'productVlog');
         });
     }
 

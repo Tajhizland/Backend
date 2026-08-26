@@ -11,11 +11,13 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('product_id');
             $table->foreignId('product_color_id');
-            $table->integer('count');
+            $table->foreignId('order_id');
             $table->integer('price');
             $table->integer('discount');
+            $table->integer('count');
+            $table->integer('guaranty_id')->nullable();
+            $table->integer('guaranty_price')->default(0);
             $table->integer('final_price');
-            $table->foreignId('order_id');
             $table->timestamps();
         });
     }

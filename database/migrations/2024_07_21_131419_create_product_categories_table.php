@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->foreignId('product_id');
             $table->foreignId('category_id');
             $table->timestamps();
+            $table->index(['product_id', 'category_id'], 'productCategory');
         });
     }
 

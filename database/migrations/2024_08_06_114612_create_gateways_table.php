@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->integer('status');
+            $table->integer('extra_price')->default(0);
             $table->string('description')->nullable();
             $table->timestamps();
         });

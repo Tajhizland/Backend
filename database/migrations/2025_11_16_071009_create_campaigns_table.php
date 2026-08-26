@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->string('banner')->nullable();
+            $table->string('background_color', 256);
+            $table->string('discount_logo', 256);
             $table->timestamps();
         });
     }

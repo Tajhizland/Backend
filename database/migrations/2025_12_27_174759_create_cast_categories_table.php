@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('cast_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('icon', 256)->nullable();
             $table->integer('status');
             $table->timestamps();
         });

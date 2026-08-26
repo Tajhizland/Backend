@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->integer('sort')->nullable();
             $table->string('title');
             $table->timestamps();
+            $table->index(['status', 'type'], 'type');
         });
     }
 

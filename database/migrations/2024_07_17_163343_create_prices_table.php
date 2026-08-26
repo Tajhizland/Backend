@@ -11,8 +11,10 @@ return new class extends Migration {
             $table->id();
             $table->integer('price');
             $table->integer('discount');
+            $table->timestamp('discount_expire_time')->nullable();
             $table->foreignId('product_color_id');
             $table->timestamps();
+            $table->index('product_color_id', 'color');
         });
     }
 

@@ -9,10 +9,14 @@ return new class extends Migration {
     {
         Schema::create('option_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('option_id');
+            $table->unsignedBigInteger('option_id')->nullable();
+            $table->integer('category_id')->nullable();
             $table->string('title');
             $table->integer('status');
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index('option_id', 'option');
+            $table->index('category_id', 'category');
         });
     }
 

@@ -13,8 +13,10 @@ return new class extends Migration {
             $table->string('image');
             $table->string('url');
             $table->string('type');
-            $table->integer('sort');
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index('campaign_id', 'campaign');
+            $table->index('type', 'type');
         });
     }
 

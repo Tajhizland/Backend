@@ -11,7 +11,10 @@ return new class extends Migration {
             $table->id();
             $table->string('url');
             $table->foreignId('product_id');
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index('product_id', 'productId');
+            $table->index('product_color_id', 'product_images_product_color_id_index');
         });
     }
 

@@ -11,7 +11,10 @@ return new class extends Migration {
             $table->id();
             $table->string('image');
             $table->string('url');
+            $table->string('type', 256)->nullable();
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index('type', 'type');
         });
     }
 

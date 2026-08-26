@@ -15,7 +15,10 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->integer('parent_id');
             $table->text('description')->nullable();
+            $table->string('type', 256);
             $table->timestamps();
+            $table->index('status', 'status');
+            $table->index('parent_id', 'parent');
         });
     }
 

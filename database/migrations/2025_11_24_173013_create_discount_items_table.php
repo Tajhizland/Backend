@@ -12,7 +12,14 @@ return new class extends Migration {
             $table->foreignId('discount_id');
             $table->foreignId('product_color_id');
             $table->integer('discount_price')->nullable();
+            $table->timestamp('discount_expire_time')->nullable();
+            $table->integer('top')->default(0);
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index('discount_id', 'discountId');
+            $table->index('product_color_id', 'color');
+            $table->index('top', 'top');
+            $table->index('sort', 'sort');
         });
     }
 

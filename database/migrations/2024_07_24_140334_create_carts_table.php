@@ -12,8 +12,9 @@ return new class extends Migration {
             $table->foreignId('user_id');
             $table->integer('status');
             $table->integer('payment_method')->nullable();
-            $table->integer('delivery_method')->nullable();
+            $table->integer('delivery_method')->nullable()->default(1);
             $table->integer('address_id')->nullable();
+            $table->integer('order_id')->nullable();
             $table->timestamps();
         });
     }

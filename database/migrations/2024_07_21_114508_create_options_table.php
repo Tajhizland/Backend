@@ -12,7 +12,9 @@ return new class extends Migration {
             $table->integer('category_id');
             $table->string('title');
             $table->integer('status');
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index('category_id', 'categoryId');
         });
     }
 

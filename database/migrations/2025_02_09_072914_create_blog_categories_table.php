@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->string('url');
             $table->integer('status');
             $table->timestamps();
+            $table->index(['url', 'status'], 'url');
         });
     }
 

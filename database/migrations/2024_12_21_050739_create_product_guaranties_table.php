@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->foreignId('product_id');
             $table->foreignId('guaranty_id');
             $table->timestamps();
+            $table->unique(['product_id', 'guaranty_id'], 'productGuaranty');
         });
     }
 

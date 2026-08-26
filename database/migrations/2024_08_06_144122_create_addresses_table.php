@@ -9,15 +9,15 @@ return new class extends Migration {
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 256);
             $table->foreignId('city_id');
             $table->foreignId('province_id');
             $table->foreignId('user_id');
-            $table->string('tell_code');
-            $table->string('tell');
-            $table->string('mobile');
-            $table->string('zip_code');
-            $table->text('address');
-            $table->integer('active');
+            $table->string('tell')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->text('address')->nullable();
+            $table->integer('active')->default(0);
             $table->timestamps();
         });
     }

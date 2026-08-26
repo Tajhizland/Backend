@@ -10,8 +10,11 @@ return new class extends Migration {
         Schema::create('category_concepts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('concept_id');
+            $table->string('display', 256)->nullable();
             $table->foreignId('category_id');
             $table->timestamps();
+            $table->index(['category_id', 'concept_id'], 'category');
+            $table->index('concept_id', 'concept');
         });
     }
 

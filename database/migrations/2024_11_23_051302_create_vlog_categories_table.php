@@ -10,8 +10,12 @@ return new class extends Migration {
         Schema::create('vlog_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('icon', 256)->nullable();
+            $table->string('url', 256);
             $table->string('status');
+            $table->integer('sort')->nullable();
             $table->timestamps();
+            $table->index('status', 'status');
         });
     }
 

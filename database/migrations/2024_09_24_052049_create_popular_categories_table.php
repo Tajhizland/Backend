@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('category_id');
             $table->timestamps();
+            $table->index('category_id', 'category');
         });
     }
 

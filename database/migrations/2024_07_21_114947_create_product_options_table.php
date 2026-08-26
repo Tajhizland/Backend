@@ -11,8 +11,10 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('product_id');
             $table->foreignId('option_item_id');
-            $table->string('value');
+            $table->string('value', 512)->nullable();
             $table->timestamps();
+            $table->index('product_id', 'product');
+            $table->index('option_item_id', 'optionItem');
         });
     }
 

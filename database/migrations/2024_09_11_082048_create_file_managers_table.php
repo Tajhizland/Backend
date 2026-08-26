@@ -10,7 +10,6 @@ return new class extends Migration {
         Schema::create('file_managers', function (Blueprint $table) {
             $table->id();
             $table->string('path');
-            $table->string('type');
             $table->string('model_type');
             $table->integer('model_id');
             $table->timestamps();

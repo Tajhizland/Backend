@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->integer('stock');
             $table->foreignId('product_color_id');
             $table->timestamps();
+            $table->index('product_color_id', 'color');
         });
     }
 

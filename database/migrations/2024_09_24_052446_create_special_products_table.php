@@ -10,6 +10,8 @@ return new class extends Migration {
         Schema::create('special_products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
+            $table->integer('homepage')->default(0);
+            $table->integer('sort')->nullable();
             $table->timestamps();
         });
     }

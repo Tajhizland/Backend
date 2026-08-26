@@ -12,9 +12,11 @@ return new class extends Migration {
             $table->string('color_name');
             $table->string('color_code');
             $table->integer('status');
-            $table->integer('delivery_delay');
+            $table->integer('delivery_delay')->nullable();
             $table->foreignId('product_id');
             $table->timestamps();
+            $table->index('product_id', 'productId');
+            $table->index('status', 'status');
         });
     }
 

@@ -10,9 +10,10 @@ return new class extends Migration {
         Schema::create('guaranties', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
+            $table->integer('free')->default(0);
+            $table->text('description')->nullable();
+            $table->string('url', 256);
             $table->string('icon');
-            $table->string('url');
             $table->integer('status');
             $table->timestamps();
         });
