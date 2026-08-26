@@ -2,7 +2,11 @@
 
 namespace App\Services\Slider;
 
+use App\DTOs\Slider\SliderSortDto;
+use App\DTOs\Slider\SliderStoreDto;
+use App\DTOs\Slider\SliderUpdateDto;
 use App\Repositories\Slider\SliderRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 
 readonly class SliderService implements SliderServiceInterface
@@ -15,54 +19,68 @@ readonly class SliderService implements SliderServiceInterface
     {
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->sliderRepository->findOrFail($id);
+        $model = $this->sliderRepository->find($id);
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
+        return $model;
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->sliderRepository->dataTable();
     }
 
-    public function store($title, $url, $status, $type, $image)
+    public function store(SliderStoreDto $dto): mixed
     {
-        $imagePath = $this->s3Service->upload($image, "slider");
-        return $this->sliderRepository->create(["title" => $title, "url" => $url, "image" => $imagePath, "type" => $type, "status" => $status]);
+        return $this->sliderRepository->create([
+            "title" => $dto->title,
+            "url" => $dto->url,
+            "image" => $this->s3Service->upload($dto->image, "slider"),
+            "type" => $dto->type,
+            "status" => $dto->status,
+        ]);
     }
 
-    public function update($id, $title, $url, $status, $type, $image)
+    public function update(SliderUpdateDto $dto): bool
     {
-        $slider = $this->sliderRepository->findOrFail($id);
+        $slider = $this->find($dto->sliderId);
         $imagePath = $slider->image;
-        if ($image) {
+        if ($dto->image) {
             $this->s3Service->remove("slider/" . $slider->image);
-            $imagePath = $this->s3Service->upload($image, "slider");
+            $imagePath = $this->s3Service->upload($dto->image, "slider");
         }
-        return $this->sliderRepository->update($slider, ["title" => $title, "url" => $url, "image" => $imagePath, "status" => $status, "type" => $type]);
+        return $this->sliderRepository->update($slider, [
+            "title" => $dto->title,
+            "url" => $dto->url,
+            "image" => $imagePath,
+            "status" => $dto->status,
+            "type" => $dto->type,
+        ]);
     }
 
-    public function getAllDesktop()
+    public function getAllDesktop(): mixed
     {
         return $this->sliderRepository->getAllDesktop();
     }
 
-    public function getAllMobile()
+    public function getAllMobile(): mixed
     {
         return $this->sliderRepository->getAllMobile();
     }
 
-    public function sort($sliders)
+    public function sort(SliderSortDto $dto): bool
     {
-        foreach ($sliders as $item) {
+        foreach ($dto->slider as $item) {
             $this->sliderRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
 
-    public function delete($id)
+    public function delete(int $id): bool|null
     {
-        $slider = $this->sliderRepository->findOrFail($id);
-        return $this->sliderRepository->delete($slider);
+        return $this->sliderRepository->delete($this->find($id));
     }
 }

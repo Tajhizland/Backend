@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\VlogCategory\VlogCategorySortDto;
+use App\DTOs\VlogCategory\VlogCategoryStoreDto;
+use App\DTOs\VlogCategory\VlogCategoryUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\VlogCategory\StoreVlogCategoryRequest;
 use App\Http\Requests\Admin\VlogCategory\UpdateVlogCategoryRequest;
-use App\Http\Resources\VlogCategory\VlogCategoryResource;
 use App\Http\Requests\Admin\VlogCategory\VlogCategorySortRequest;
+use App\Http\Resources\VlogCategory\VlogCategoryResource;
 use App\Services\VlogCategory\VlogCategoryServiceInterface;
 
 class VlogCategoryController extends Controller
 {
-    public function __construct
-    (
-        private readonly VlogCategoryServiceInterface $vlogCategoryService
+    public function __construct(
+        private readonly VlogCategoryServiceInterface $vlogCategoryService,
     )
     {
     }
@@ -28,25 +30,26 @@ class VlogCategoryController extends Controller
         return $this->dataResponseCollection(VlogCategoryResource::collection($this->vlogCategoryService->getActiveList()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new VlogCategoryResource($this->vlogCategoryService->findById($id)));
+        return $this->dataResponse(new VlogCategoryResource($this->vlogCategoryService->find($id)));
     }
 
     public function store(StoreVlogCategoryRequest $request)
     {
-        $this->vlogCategoryService->store($request->get("name"), $request->get("status"), $request->get("url"), $request->file("icon"));
+        $this->vlogCategoryService->store(new VlogCategoryStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.category")]));
     }
 
-    public function update(UpdateVlogCategoryRequest $request)
+    public function update($id, UpdateVlogCategoryRequest $request)
     {
-        $this->vlogCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"), $request->file("icon"));
+        $this->vlogCategoryService->update(new VlogCategoryUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
+
     public function sort(VlogCategorySortRequest $request)
     {
-        $this->vlogCategoryService->sort($request->get("vlogs"));
+        $this->vlogCategoryService->sort(new VlogCategorySortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.category")]));
     }
 }

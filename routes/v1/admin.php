@@ -79,12 +79,12 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\NewsController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\NewsController::class, "update"]);
     });
-    Route::group(["prefix" => "guaranty"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "dataTable"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "list"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\GuarantyController::class, "update"]);
+    Route::prefix("guaranty")->controller(\App\Http\Controllers\V1\Admin\GuarantyController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
     Route::prefix("blog-category")->controller(\App\Http\Controllers\V1\Admin\BlogCategoryController::class)->group(function () {
@@ -163,15 +163,15 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("accept", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "accept"]);
         Route::post("reject", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "reject"]);
     });
-    Route::group(["prefix" => "slider"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SliderController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\SliderController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\SliderController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\SliderController::class, "update"]);
-        Route::get("all_desktop", [\App\Http\Controllers\V1\Admin\SliderController::class, "getAllDesktop"]);
-        Route::get("all_mobile", [\App\Http\Controllers\V1\Admin\SliderController::class, "getAllMobile"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\SliderController::class, "sort"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\SliderController::class, "delete"]);
+    Route::prefix("slider")->controller(\App\Http\Controllers\V1\Admin\SliderController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("all-desktop", "getAllDesktop");
+        Route::get("all-mobile", "getAllMobile");
+        Route::post("sort", "sort");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}", "destroy");
     });
     Route::group(["prefix" => "special_product"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\SpecialProductController::class, "dataTable"]);
@@ -263,23 +263,22 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("list", [\App\Http\Controllers\V1\Admin\VlogController::class, "list"]);
         Route::post("sort", [\App\Http\Controllers\V1\Admin\VlogController::class, "sort"]);
     });
-    Route::group(["prefix" => "vlog_category"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "dataTable"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "list"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "findById"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "update"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "sort"]);
-
-  });
-    Route::group(["prefix" => "banner"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\BannerController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\BannerController::class, "find"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\BannerController::class, "delete"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\BannerController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\BannerController::class, "update"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\BannerController::class, "list"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\BannerController::class, "sort"]);
+    Route::prefix("vlog-category")->controller(\App\Http\Controllers\V1\Admin\VlogCategoryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("sort", "sort");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+    });
+    Route::prefix("banner")->controller(\App\Http\Controllers\V1\Admin\BannerController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("sort", "sort");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}", "destroy");
     });
     Route::group(["prefix" => "landing"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\LandingController::class, "dataTable"]);

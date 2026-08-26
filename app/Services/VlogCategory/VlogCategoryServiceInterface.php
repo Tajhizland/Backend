@@ -2,17 +2,21 @@
 
 namespace App\Services\VlogCategory;
 
+use App\DTOs\VlogCategory\VlogCategorySortDto;
+use App\DTOs\VlogCategory\VlogCategoryStoreDto;
+use App\DTOs\VlogCategory\VlogCategoryUpdateDto;
+
 interface VlogCategoryServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function getActiveList();
+    public function getActiveList(): mixed;
 
-    public function findById($id);
+    public function find(int $id): mixed;
 
-    public function store($name, $status, $url,$icon);
+    public function store(VlogCategoryStoreDto $dto): mixed;
 
-    public function update($id, $name, $status, $url,$icon);
-    public function sort($vlogs);
+    public function update(VlogCategoryUpdateDto $dto): bool;
 
+    public function sort(VlogCategorySortDto $dto): bool;
 }

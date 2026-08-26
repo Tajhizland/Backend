@@ -2,20 +2,33 @@
 
 namespace App\Services\Banner;
 
+use App\DTOs\Banner\BannerSortDto;
+use App\DTOs\Banner\BannerStoreDto;
+use App\DTOs\Banner\BannerUpdateDto;
+
 interface BannerServiceInterface
 {
-    public function dataTable();
-    public function getAll();
-    public function sort($array);
-    public function delete($id);
-    public function findById($id);
-    public function create($image,$url,$type);
-    public function update($id,$image,$url,$type);
+    public function dataTable(): mixed;
 
-    public function getBlogBanner();
-    public function getVlogBanner();
-    public function getBrandBanner();
-    public function getSpecialBanner();
-    public function getDiscountedBanner();
+    public function getAll(): mixed;
 
+    public function find(int $id): mixed;
+
+    public function store(BannerStoreDto $dto): mixed;
+
+    public function update(BannerUpdateDto $dto): bool;
+
+    public function sort(BannerSortDto $dto): bool;
+
+    public function delete(int $id): bool|null;
+
+    public function getBlogBanner(): mixed;
+
+    public function getVlogBanner(): mixed;
+
+    public function getBrandBanner(): mixed;
+
+    public function getSpecialBanner(): mixed;
+
+    public function getDiscountedBanner(): mixed;
 }

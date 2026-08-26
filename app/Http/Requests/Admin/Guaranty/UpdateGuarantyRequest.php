@@ -9,7 +9,6 @@ class UpdateGuarantyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'exists:App\Models\Guaranty'],
             'name' => ['required'],
             'url' => ['required','string'],
             'free' => ['required' ,'in:0,1' ,'numeric'],

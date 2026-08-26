@@ -2,9 +2,11 @@
 
 namespace App\Services\Guaranty;
 
+use App\DTOs\Guaranty\GuarantyStoreDto;
+use App\DTOs\Guaranty\GuarantyUpdateDto;
 use App\Repositories\Guaranty\GuarantyRepositoryInterface;
-use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Services\S3\S3ServiceInterface;
 
 readonly class GuarantyService implements GuarantyServiceInterface
 {
@@ -16,12 +18,12 @@ readonly class GuarantyService implements GuarantyServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->guarantyRepository->dataTable();
     }
 
-    public function findByUrl($url)
+    public function findByUrl($url): mixed
     {
         $data = $this->guarantyRepository->findByUrl($url);
         if (!$data) {
@@ -30,51 +32,55 @@ readonly class GuarantyService implements GuarantyServiceInterface
         return $data;
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->guarantyRepository->findOrFail($id);
+        $model = $this->guarantyRepository->find($id);
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
+        return $model;
     }
 
-    public function store($name, $free, $description, $icon, $status, $url)
+    public function store(GuarantyStoreDto $dto): mixed
     {
         $iconPath = "";
-        if ($icon) {
-            $iconPath = $this->s3Service->upload($icon, "guaranty");
+        if ($dto->icon) {
+            $iconPath = $this->s3Service->upload($dto->icon, "guaranty");
         }
         return $this->guarantyRepository->create([
-            "name" => $name,
-            "free" => $free,
-            "url" => $url,
-            "description" => $description,
+            "name" => $dto->name,
+            "free" => $dto->free,
+            "url" => $dto->url,
+            "description" => $dto->description,
             "icon" => $iconPath,
-            "status" => $status
+            "status" => $dto->status,
         ]);
     }
 
-    public function update($id, $name, $free, $description, $icon, $status, $url)
+    public function update(GuarantyUpdateDto $dto): bool
     {
-        $guaranty = $this->guarantyRepository->findOrFail($id);
+        $guaranty = $this->find($dto->guarantyId);
         $iconPath = $guaranty->icon;
-        if ($icon) {
+        if ($dto->icon) {
             $this->s3Service->remove("guaranty/" . $iconPath);
-            $iconPath = $this->s3Service->upload($icon, "guaranty");
+            $iconPath = $this->s3Service->upload($dto->icon, "guaranty");
         }
         return $this->guarantyRepository->update($guaranty, [
-            "name" => $name,
-            "free" => $free,
-            "url" => $url,
-            "description" => $description,
+            "name" => $dto->name,
+            "free" => $dto->free,
+            "url" => $dto->url,
+            "description" => $dto->description,
             "icon" => $iconPath,
-            "status" => $status
+            "status" => $dto->status,
         ]);
     }
 
-    public function getActives()
+    public function getActives(): mixed
     {
         return $this->guarantyRepository->getActives();
     }
 
-    public function getSitemapData()
+    public function getSitemapData(): mixed
     {
         return $this->guarantyRepository->getSitemapData();
     }

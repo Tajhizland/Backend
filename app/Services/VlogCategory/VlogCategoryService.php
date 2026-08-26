@@ -2,7 +2,11 @@
 
 namespace App\Services\VlogCategory;
 
+use App\DTOs\VlogCategory\VlogCategorySortDto;
+use App\DTOs\VlogCategory\VlogCategoryStoreDto;
+use App\DTOs\VlogCategory\VlogCategoryUpdateDto;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 
 readonly class VlogCategoryService implements VlogCategoryServiceInterface
@@ -15,56 +19,59 @@ readonly class VlogCategoryService implements VlogCategoryServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->vlogCategoryRepository->dataTable();
     }
 
-    public function getActiveList()
+    public function getActiveList(): mixed
     {
         return $this->vlogCategoryRepository->getActiveList();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->vlogCategoryRepository->findOrFail($id);
+        $model = $this->vlogCategoryRepository->find($id);
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
+        return $model;
     }
 
 
-    public function store($name, $status, $url, $icon)
+    public function store(VlogCategoryStoreDto $dto): mixed
     {
         $iconPath = null;
-        if ($icon) {
-            $iconPath = $this->s3Service->upload($icon, "vlog-category");
+        if ($dto->icon) {
+            $iconPath = $this->s3Service->upload($dto->icon, "vlog-category");
         }
         return $this->vlogCategoryRepository->create([
-            "name" => $name,
-            "url" => $url,
+            "name" => $dto->name,
+            "url" => $dto->url,
             "icon" => $iconPath,
-            "status" => $status
+            "status" => $dto->status,
         ]);
     }
 
-    public function update($id, $name, $status, $url, $icon)
+    public function update(VlogCategoryUpdateDto $dto): bool
     {
-        $vlogCategory = $this->vlogCategoryRepository->findOrFail($id);
+        $vlogCategory = $this->find($dto->vlogCategoryId);
         $iconPath = $vlogCategory->icon;
-        if ($icon) {
+        if ($dto->icon) {
             $this->s3Service->remove("banner/" . $iconPath);
-            $iconPath = $this->s3Service->upload($icon, "vlog-category");
+            $iconPath = $this->s3Service->upload($dto->icon, "vlog-category");
         }
-        return $this->vlogCategoryRepository->update($vlogCategory,
-            [
-                "url" => $url,
-                "name" => $name,
-                "icon" => $iconPath,
-                "status" => $status
-            ]);
+        return $this->vlogCategoryRepository->update($vlogCategory, [
+            "url" => $dto->url,
+            "name" => $dto->name,
+            "icon" => $iconPath,
+            "status" => $dto->status,
+        ]);
     }
 
-    public function sort($vlogs)
+    public function sort(VlogCategorySortDto $dto): bool
     {
-        foreach ($vlogs as $item) {
+        foreach ($dto->vlogs as $item) {
             $this->vlogCategoryRepository->sort($item["id"], $item["sort"]);
         }
         return true;

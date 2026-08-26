@@ -2,7 +2,11 @@
 
 namespace App\Services\Banner;
 
+use App\DTOs\Banner\BannerSortDto;
+use App\DTOs\Banner\BannerStoreDto;
+use App\DTOs\Banner\BannerUpdateDto;
 use App\Repositories\Banner\BannerRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 
 readonly class BannerService implements BannerServiceInterface
@@ -15,79 +19,81 @@ readonly class BannerService implements BannerServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->bannerRepository->dataTable();
     }
 
-    public function delete($id)
+    public function delete(int $id): bool|null
     {
-        $banner = $this->bannerRepository->findOrFail($id);
-        return $this->bannerRepository->delete($banner);
+        return $this->bannerRepository->delete($this->find($id));
     }
 
-    public function create($image, $url,$type)
+    public function store(BannerStoreDto $dto): mixed
     {
-        $imagePath = $this->s3Service->upload($image, "banner");
         return $this->bannerRepository->create([
-            "image" => $imagePath,
-            "type" => $type,
-            "url" => $url
+            "image" => $this->s3Service->upload($dto->image, "banner"),
+            "type" => $dto->type,
+            "url" => $dto->url,
         ]);
     }
 
-    public function update($id, $image, $url,$type)
+    public function update(BannerUpdateDto $dto): bool
     {
-        $banner = $this->bannerRepository->findOrFail($id);
+        $banner = $this->find($dto->bannerId);
         $imagePath = $banner->image;
-        if ($image) {
+        if ($dto->image) {
             $this->s3Service->remove("banner/" . $imagePath);
-            $imagePath = $this->s3Service->upload($image, "banner");
+            $imagePath = $this->s3Service->upload($dto->image, "banner");
         }
         return $this->bannerRepository->update($banner, [
             "image" => $imagePath,
-            "type" => $type,
-            "url" => $url
+            "type" => $dto->type,
+            "url" => $dto->url,
         ]);
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->bannerRepository->findOrFail($id);
+        $model = $this->bannerRepository->find($id);
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
+        return $model;
     }
-    public function getAll()
+    public function getAll(): mixed
     {
         return $this->bannerRepository->all();
     }
-    public function sort($array)
+    public function sort(BannerSortDto $dto): bool
     {
-        foreach ($array as $item) {
+        foreach ($dto->banner as $item) {
             $this->bannerRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
 
-    public function getBlogBanner()
+    public function getBlogBanner(): mixed
     {
         return $this->bannerRepository->getBannerByType("blog");
     }
 
-    public function getVlogBanner()
+    public function getVlogBanner(): mixed
     {
         return $this->bannerRepository->getBannerByType("vlog");
     }
 
-    public function getBrandBanner()
+    public function getBrandBanner(): mixed
     {
         return $this->bannerRepository->getBannerByType("brand");
     }
 
-    public function getSpecialBanner()
+    public function getSpecialBanner(): mixed
     {
         return $this->bannerRepository->getBannerByType("special");
     }
 
-    public function getDiscountedBanner()
+    public function getDiscountedBanner(): mixed
     {
         return $this->bannerRepository->getBannerByType("discount");
     }
