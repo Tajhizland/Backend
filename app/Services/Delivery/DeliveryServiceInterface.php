@@ -2,15 +2,18 @@
 
 namespace App\Services\Delivery;
 
+use App\DTOs\Delivery\DeliveryStoreDto;
+use App\DTOs\Delivery\DeliveryUpdateDto;
+
 interface DeliveryServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function findById($id);
+    public function find(int $id): mixed;
 
-    public function getActives();
+    public function getActives(): mixed;
 
-    public function store($name, $status,$description ,$price ,$logo);
+    public function store(DeliveryStoreDto $dto): mixed;
 
-    public function update($id, $name, $status, $description,$price ,$logo);
+    public function update(DeliveryUpdateDto $dto): bool;
 }

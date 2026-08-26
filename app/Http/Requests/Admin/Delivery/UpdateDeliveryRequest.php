@@ -9,7 +9,6 @@ class UpdateDeliveryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'name' => ['required'],
             'description' => ['nullable'],
             'status' => ['required', 'integer'],

@@ -118,17 +118,17 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get('login/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "loginUser"]);
 
     });
-    Route::group(["prefix" => "gateway"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\GatewayController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\GatewayController::class, "findById"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\GatewayController::class, "update"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\GatewayController::class, "store"]);
+    Route::prefix("gateway")->controller(\App\Http\Controllers\V1\Admin\GatewayController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
-    Route::group(["prefix" => "delivery"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\DeliveryController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\DeliveryController::class, "findById"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\DeliveryController::class, "update"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\DeliveryController::class, "store"]);
+    Route::prefix("delivery")->controller(\App\Http\Controllers\V1\Admin\DeliveryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
     Route::group(["prefix" => "returned"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ReturnedController::class, "dataTable"]);
@@ -389,13 +389,13 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\RoleController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\RoleController::class, "update"]);
     });
-    Route::group(["prefix" => "phone-bock"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "dataTable"]);
-        Route::get("all", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "all"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "update"]);
-        Route::post("excel", [\App\Http\Controllers\V1\Admin\PhoneBockController::class, "uploadExcel"]);
+    Route::prefix("phone-bock")->controller(\App\Http\Controllers\V1\Admin\PhoneBockController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("all", "all");
+        Route::post("excel", "uploadExcel");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
     Route::group(["prefix" => "cast"], function () {

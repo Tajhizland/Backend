@@ -2,15 +2,18 @@
 
 namespace App\Services\PhoneBock;
 
+use App\DTOs\PhoneBock\PhoneBockStoreDto;
+use App\DTOs\PhoneBock\PhoneBockUpdateDto;
+
 interface PhoneBockServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function getAll();
+    public function getAll(): mixed;
 
-    public function store($name, $mobile);
+    public function find(int $id): mixed;
 
-    public function update($id, $name, $mobile);
+    public function store(PhoneBockStoreDto $dto): mixed;
 
-    public function find($id);
+    public function update(PhoneBockUpdateDto $dto): bool;
 }

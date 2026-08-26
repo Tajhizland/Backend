@@ -2,15 +2,18 @@
 
 namespace App\Services\Gateway;
 
+use App\DTOs\Gateway\GatewayStoreDto;
+use App\DTOs\Gateway\GatewayUpdateDto;
+
 interface GatewayServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function findById($id);
+    public function find(int $id): mixed;
 
-    public function findActiveGateway();
+    public function findActiveGateway(): mixed;
 
-    public function store($name, $status,$description);
+    public function store(GatewayStoreDto $dto): mixed;
 
-    public function update($id, $name, $status, $description);
+    public function update(GatewayUpdateDto $dto): bool;
 }

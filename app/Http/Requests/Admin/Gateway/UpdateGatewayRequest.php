@@ -9,7 +9,6 @@ class UpdateGatewayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'name' => ['required'],
             'status' => ['required', 'integer'],
             'description' => ['nullable'],

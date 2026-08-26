@@ -3,8 +3,11 @@
 namespace App\Services\Gateway;
 
 use App\Enums\GatewayStatus;
-use App\Exceptions\BreakException;
+use App\DTOs\Gateway\GatewayStoreDto;
+use App\DTOs\Gateway\GatewayUpdateDto;
 use App\Repositories\Gateway\GatewayRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class GatewayService implements GatewayServiceInterface
 {
@@ -16,43 +19,47 @@ readonly class GatewayService implements GatewayServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->gatewayRepository->dataTable();
     }
 
-    public function findActiveGateway()
+    public function findActiveGateway(): mixed
     {
         return $this->gatewayRepository->findActiveGateway();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->gatewayRepository->findOrFail($id);
+        $gateway = $this->gatewayRepository->find($id);
+        if (!$gateway) {
+            throw new NotFoundHttpException();
+        }
+        return $gateway;
     }
 
-    public function store($name, $status, $description)
+    public function store(GatewayStoreDto $dto): mixed
     {
         return $this->gatewayRepository->create([
-            "name" => $name,
-            "status" => $status,
-            "description" => $description,
+            "name" => $dto->name,
+            "status" => $dto->status,
+            "description" => $dto->description,
         ]);
     }
 
-    public function update($id, $name, $status, $description)
+    public function update(GatewayUpdateDto $dto): bool
     {
-        $gateway = $this->gatewayRepository->findOrFail($id);
-        if ($status == GatewayStatus::DeActive->value) {
-            $count = $this->gatewayRepository->activeCountExceptThis($id);
+        $gateway = $this->find($dto->gatewayId);
+        if ($dto->status == GatewayStatus::DeActive->value) {
+            $count = $this->gatewayRepository->activeCountExceptThis($dto->gatewayId);
             if ($count == 0) {
-                throw new BreakException("یه درگاه فعال باید موجود باشد");
+                throw new BadRequestHttpException("یه درگاه فعال باید موجود باشد");
             }
         }
-        $this->gatewayRepository->update($gateway, [
-            "name" => $name,
-            "status" => $status,
-            "description" => $description,
+        return $this->gatewayRepository->update($gateway, [
+            "name" => $dto->name,
+            "status" => $dto->status,
+            "description" => $dto->description,
         ]);
     }
 }

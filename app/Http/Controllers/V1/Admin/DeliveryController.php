@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Delivery\DeliveryStoreDto;
+use App\DTOs\Delivery\DeliveryUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Delivery\StoreDeliveryRequest;
 use App\Http\Requests\Admin\Delivery\UpdateDeliveryRequest;
@@ -10,9 +12,8 @@ use App\Services\Delivery\DeliveryServiceInterface;
 
 class DeliveryController extends Controller
 {
-    public function __construct
-    (
-        private readonly DeliveryServiceInterface $deliveryService
+    public function __construct(
+        private readonly DeliveryServiceInterface $deliveryService,
     )
     {
     }
@@ -22,20 +23,20 @@ class DeliveryController extends Controller
         return $this->dataResponseCollection(DeliveryResource::collection($this->deliveryService->dataTable()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new DeliveryResource($this->deliveryService->findById($id)));
+        return $this->dataResponse(new DeliveryResource($this->deliveryService->find($id)));
     }
 
     public function store(StoreDeliveryRequest $request)
     {
-        $this->deliveryService->store($request->get("name"), $request->get("status"), $request->get("description"), $request->get("price"), $request->get("logo"));
+        $this->deliveryService->store(new DeliveryStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.delivery")]));
     }
 
-    public function update(UpdateDeliveryRequest $request)
+    public function update($id, UpdateDeliveryRequest $request)
     {
-        $this->deliveryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->get("description"), $request->get("price"), $request->get("logo"));
+        $this->deliveryService->update(new DeliveryUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.delivery")]));
     }
 }

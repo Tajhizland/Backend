@@ -9,7 +9,6 @@ class UpdatePhoneBockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required' , 'exists:phone_bocks,id'],
             'mobile' => ['required'],
             'name' => ['nullable'],
         ];

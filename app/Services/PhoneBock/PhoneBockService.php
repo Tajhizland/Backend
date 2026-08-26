@@ -2,7 +2,10 @@
 
 namespace App\Services\PhoneBock;
 
+use App\DTOs\PhoneBock\PhoneBockStoreDto;
+use App\DTOs\PhoneBock\PhoneBockUpdateDto;
 use App\Repositories\PhoneBock\PhoneBockRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class PhoneBockService implements PhoneBockServiceInterface
 {
@@ -13,34 +16,38 @@ readonly class PhoneBockService implements PhoneBockServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->phoneBockRepository->dataTable();
     }
 
-    public function store($name, $mobile)
+    public function store(PhoneBockStoreDto $dto): mixed
     {
         return $this->phoneBockRepository->create([
-            'name' => $name,
-            'mobile' => $mobile
+            'name' => $dto->name,
+            'mobile' => $dto->mobile,
         ]);
     }
 
-    public function update($id, $name, $mobile)
+    public function update(PhoneBockUpdateDto $dto): bool
     {
-        $phoneBock = $this->phoneBockRepository->findOrFail($id);
-        $this->phoneBockRepository->update($phoneBock, [
-            'name' => $name,
-            'mobile' => $mobile
+        $phoneBock = $this->find($dto->phoneBockId);
+        return $this->phoneBockRepository->update($phoneBock, [
+            'name' => $dto->name,
+            'mobile' => $dto->mobile,
         ]);
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->phoneBockRepository->findOrFail($id);
+        $phoneBock = $this->phoneBockRepository->find($id);
+        if (!$phoneBock) {
+            throw new NotFoundHttpException();
+        }
+        return $phoneBock;
     }
 
-    public function getAll()
+    public function getAll(): mixed
     {
         return $this->phoneBockRepository->all();
     }

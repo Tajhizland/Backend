@@ -2,7 +2,10 @@
 
 namespace App\Services\Delivery;
 
+use App\DTOs\Delivery\DeliveryStoreDto;
+use App\DTOs\Delivery\DeliveryUpdateDto;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3Service;
 
 readonly class DeliveryService implements DeliveryServiceInterface
@@ -16,50 +19,53 @@ readonly class DeliveryService implements DeliveryServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->deliveryRepository->dataTable();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->deliveryRepository->findOrFail($id);
+        $delivery = $this->deliveryRepository->find($id);
+        if (!$delivery) {
+            throw new NotFoundHttpException();
+        }
+        return $delivery;
     }
 
-    public function store($name, $status, $description, $price, $logo)
+    public function store(DeliveryStoreDto $dto): mixed
     {
         $logoPath = "";
-        if ($logo) {
-            $logoPath = $this->s3Service->upload($logo, "delivery");
+        if ($dto->logo) {
+            $logoPath = $this->s3Service->upload($dto->logo, "delivery");
         }
         return $this->deliveryRepository->create([
-            "name" => $name,
-            "status" => $status,
-            "description" => $description,
-            "price" => $price,
+            "name" => $dto->name,
+            "status" => $dto->status,
+            "description" => $dto->description,
+            "price" => $dto->price,
             "logo" => $logoPath,
         ]);
     }
 
-    public function update($id, $name, $status, $description, $price, $logo)
+    public function update(DeliveryUpdateDto $dto): bool
     {
-        $delivery = $this->deliveryRepository->findOrFail($id);
+        $delivery = $this->find($dto->deliveryId);
         $logoPath = $delivery->logo;
-        if ($logo) {
+        if ($dto->logo) {
             $this->s3Service->remove("delivery/" . $logoPath);
-            $logoPath = $this->s3Service->upload($logo, "delivery");
+            $logoPath = $this->s3Service->upload($dto->logo, "delivery");
         }
-        return $this->deliveryRepository->update($delivery,
-            [
-                "name" => $name,
-                "status" => $status,
-                "description" => $description,
-                "price" => $price,
-                "logo" => $logoPath,
-            ]);
+        return $this->deliveryRepository->update($delivery, [
+            "name" => $dto->name,
+            "status" => $dto->status,
+            "description" => $dto->description,
+            "price" => $dto->price,
+            "logo" => $logoPath,
+        ]);
     }
 
-    public function getActives()
+    public function getActives(): mixed
     {
         return $this->deliveryRepository->getActiveDelivery();
     }
