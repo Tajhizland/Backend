@@ -8,7 +8,7 @@ Route::get('/', function (Request $request) {
 });
 
 Route::get('/me', [\App\Http\Controllers\V1\Auth\MeController::class,"me"])->middleware("auth:sanctum");
-Route::post('/update', [\App\Http\Controllers\V1\Auth\MeController::class,"update"])->middleware("auth:sanctum");
+Route::put('/me', [\App\Http\Controllers\V1\Auth\MeController::class,"update"])->middleware("auth:sanctum");
 Route::post('/logout', [\App\Http\Controllers\V1\Auth\MeController::class,"logout"])->middleware("auth:sanctum");
 
 
@@ -24,12 +24,12 @@ Route::post('/otp/verify', [\App\Http\Controllers\V1\Auth\OtpAuthController::cla
 // مرحله اصلی ثبت‌نام کاربر جدید (بعد از تایید کد) از همان endpoint موجود انجام می‌شود:
 // POST /auth/register  با فیلدهای: mobile, name, last_name, national_code, password, password_confirmation
 
-Route::post('/register/send_code', [\App\Http\Controllers\V1\Auth\RegisterController::class,"sendVerificationCode"]);
-Route::post('/register/verify_code', [\App\Http\Controllers\V1\Auth\RegisterController::class,"verifyCode"]);
+Route::post('/register/send-code', [\App\Http\Controllers\V1\Auth\RegisterController::class,"sendVerificationCode"]);
+Route::post('/register/verify-code', [\App\Http\Controllers\V1\Auth\RegisterController::class,"verifyCode"]);
 Route::post('/register', [\App\Http\Controllers\V1\Auth\RegisterController::class,"register"]);
 
-Route::post('/reset_password/send_code', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"sendVerificationCode"]);
-Route::post('/reset_password/verify_code', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"verifyCode"]);
-Route::post('/reset_password', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"reset"]);
+Route::post('/reset-password/send-code', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"sendVerificationCode"]);
+Route::post('/reset-password/verify-code', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"verifyCode"]);
+Route::post('/reset-password', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"reset"]);
 
-Route::post('/change_password', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"reset"]);
+Route::post('/change-password', [\App\Http\Controllers\V1\Auth\ResetPasswordController::class,"reset"]);
