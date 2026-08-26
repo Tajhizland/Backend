@@ -23,10 +23,6 @@ class OptionItemRepository extends BaseRepository implements OptionItemRepositor
         );
     }
 
-    public function find($id)
-    {
-        return $this->model::find($id);
-    }
 
     public function findLastSortOfCategory($categoryId){
         return $this->model::where("category_id", $categoryId)->latest("sort")->first();

@@ -9,8 +9,6 @@ interface OptionItemRepositoryInterface extends BaseRepositoryInterface
 {
 
     public function updateFilterItem(OptionItem $optionItem, $title, $status);
-
-    public function find($id);
     public function getByOptionId($id);
 
     public function sort($id, $sort);

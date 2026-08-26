@@ -2,8 +2,11 @@
 
 namespace App\Services\Menu;
 
+use App\DTOs\Menu\MenuStoreDto;
+use App\DTOs\Menu\MenuUpdateDto;
 use App\Repositories\Menu\MenuRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class MenuService implements MenuServiceInterface
 {
@@ -20,46 +23,49 @@ readonly class MenuService implements MenuServiceInterface
         return $this->menuRepository->dataTable();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->menuRepository->findOrFail($id);
+        $menu = $this->menuRepository->find($id);
+        if (!$menu) {
+            throw new NotFoundHttpException();
+        }
+        return $menu;
     }
 
-    public function store($title, $parentId, $url,$status, $categoryId, $bannerUrl, $bannerLogo)
+    public function store(MenuStoreDto $dto): mixed
     {
         $logoPath = "";
-        if ($bannerLogo) {
-            $logoPath = $this->s3Service->upload($bannerLogo, "menu");
+        if ($dto->banner_logo) {
+            $logoPath = $this->s3Service->upload($dto->banner_logo, "menu");
         }
         return $this->menuRepository->create([
-            "title" => $title,
-            "parent_id" => $parentId,
-            "url" => $url,
-            "status" => $status,
-            "category_id" => $categoryId,
-            "banner_link" => $bannerUrl,
-            "banner_logo" => $logoPath
+            "title" => $dto->title,
+            "parent_id" => $dto->parent_id,
+            "url" => $dto->url,
+            "status" => $dto->status,
+            "category_id" => $dto->category_id,
+            "banner_link" => $dto->banner_link,
+            "banner_logo" => $logoPath,
         ]);
     }
 
-    public function update($id, $title, $parentId, $url,$status, $categoryId, $bannerUrl, $bannerLogo)
+    public function update(MenuUpdateDto $dto): bool
     {
-        $menu = $this->menuRepository->findOrFail($id);
+        $menu = $this->find($dto->menuId);
         $logoPath = $menu->banner_logo;
-        if ($bannerLogo) {
-            $this->s3Service->remove("menu/" . $bannerLogo);
-            $logoPath = $this->s3Service->upload($bannerLogo, "menu");
+        if ($dto->banner_logo) {
+            $this->s3Service->remove("menu/" . $logoPath);
+            $logoPath = $this->s3Service->upload($dto->banner_logo, "menu");
         }
-        return $this->menuRepository->update($menu,
-            [
-                "title" => $title,
-                "parent_id" => $parentId,
-                "url" => $url,
-                "status" => $status,
-                "category_id" => $categoryId,
-                "banner_link" => $bannerUrl,
-                "banner_logo" => $logoPath
-            ]);
+        return $this->menuRepository->update($menu, [
+            "title" => $dto->title,
+            "parent_id" => $dto->parent_id,
+            "url" => $dto->url,
+            "status" => $dto->status,
+            "category_id" => $dto->category_id,
+            "banner_link" => $dto->banner_link,
+            "banner_logo" => $logoPath,
+        ]);
     }
 
     public function buildMenu(): mixed
@@ -72,10 +78,9 @@ readonly class MenuService implements MenuServiceInterface
         return $this->menuRepository->allActiveList();
     }
 
-    public function delete($id)
+    public function delete(int $id): bool|null
     {
-        $menu=$this->menuRepository->findOrFail($id);
-        return $this->menuRepository->delete($menu);
+        return $this->menuRepository->delete($this->find($id));
     }
 
     public function deleteBanner(int $id): bool

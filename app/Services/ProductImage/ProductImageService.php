@@ -25,8 +25,10 @@ readonly class ProductImageService implements ProductImageServiceInterface
         return $this->productImageRepository->getByProductId($productId);
     }
 
-    public function upload($productId, $images)
+    public function upload(ProductImageUploadDto $dto): mixed
     {
+        $productId = $dto->product_id;
+        $images = $dto->image;
         foreach ($images as $image) {
             $imagePath = $this->s3Service->upload($image, "product");
             $_800X = $this->imageResizeService->resize($image, 800, 800);

@@ -2,7 +2,10 @@
 
 namespace App\Services\Page;
 
+use App\DTOs\Page\PageStoreDto;
+use App\DTOs\Page\PageUpdateDto;
 use App\Repositories\Page\PageRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 
 readonly class PageService implements PageServiceInterface
@@ -18,9 +21,13 @@ readonly class PageService implements PageServiceInterface
         return $this->pageRepository->dataTable();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->pageRepository->findOrFail($id);
+        $page = $this->pageRepository->find($id);
+        if (!$page) {
+            throw new NotFoundHttpException();
+        }
+        return $page;
     }
 
     public function findByUrl($url): mixed
@@ -28,36 +35,35 @@ readonly class PageService implements PageServiceInterface
         return $this->pageRepository->findByUrl($url);
     }
 
-    public function store($title, $url, $image, $content, $status)
+    public function store(PageStoreDto $dto): mixed
     {
         $imagePath = "";
-        if ($image)
-            $imagePath = $this->s3Service->upload($image, "page");
-        return $this->pageRepository->create(
-            [
-                "title"=>$title,
-                "url"=>$url,
-                "content"=>$content,
-                "image"=>$imagePath,
-                "status"=>$status,
-            ]
-        );
+        if ($dto->image) {
+            $imagePath = $this->s3Service->upload($dto->image, "page");
+        }
+        return $this->pageRepository->create([
+            "title" => $dto->title,
+            "url" => $dto->url,
+            "content" => $dto->content,
+            "image" => $imagePath,
+            "status" => $dto->status,
+        ]);
     }
 
-    public function update($id, $title, $url, $image, $content, $status)
+    public function update(PageUpdateDto $dto): bool
     {
-        $page = $this->pageRepository->findOrFail($id);
+        $page = $this->find($dto->pageId);
         $imagePath = $page->image;
-        if ($image) {
+        if ($dto->image) {
             $this->s3Service->remove("page/$imagePath");
-            $imagePath = $this->s3Service->upload($image, "page");
+            $imagePath = $this->s3Service->upload($dto->image, "page");
         }
-        return $this->pageRepository->update($page ,  [
-            "title"=>$title,
-            "url"=>$url,
-            "content"=>$content,
-            "image"=>$imagePath,
-            "status"=>$status,
+        return $this->pageRepository->update($page, [
+            "title" => $dto->title,
+            "url" => $dto->url,
+            "content" => $dto->content,
+            "image" => $imagePath,
+            "status" => $dto->status,
         ]);
     }
 }

@@ -60,8 +60,4 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
     {
         return $this->model::where("category_id", $categoryId)->with("items")->get();
     }
-    public function find($id)
-    {
-        return $this->model::find($id);
-    }
 }

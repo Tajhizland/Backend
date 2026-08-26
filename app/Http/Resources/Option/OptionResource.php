@@ -17,7 +17,7 @@ class OptionResource extends JsonResource
             'category_id' => $this->category_id,
             'title' => $this->title,
             'status' => $this->status,
-            'optionItems' => ["data" => OptionItemResource::collection($this->whenLoaded('optionItems'))],
+            'optionItems' => $this->whenLoaded('optionItems', fn () => ["data" => OptionItemResource::collection($this->optionItems)]),
              'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];

@@ -30,7 +30,7 @@ class OrderResource extends JsonResource
             'order_date' => Jalalian::fromDateTime($this->order_date)->format('Y/m/d  H:i:s'),
             'delivery_date' => Jalalian::fromDateTime($this->delivery_date)->format('Y/m/d'),
             'tracking_number' => $this->tracking_number,
-            'orderItems' => ["data" => OrderItemResource::collection($this->whenLoaded('orderItems'))],
+            'orderItems' => $this->whenLoaded('orderItems', fn () => ["data" => OrderItemResource::collection($this->orderItems)]),
             'orderInfo' => new OrderInfoResource($this->whenLoaded('orderInfo')),
             'delivery' => new DeliveryResource($this->whenLoaded('delivery')),
             'payment' => new GatewayResource($this->whenLoaded('payment')),

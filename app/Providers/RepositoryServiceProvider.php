@@ -305,6 +305,8 @@ use App\Services\PopularProduct\PopularProductService;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use App\Services\Poster\PosterService;
 use App\Services\Poster\PosterServiceInterface;
+use App\Services\Profile\ProfileService;
+use App\Services\Profile\ProfileServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\ProductCategory\ProductCategoryService;
@@ -567,6 +569,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ResetPasswordServiceInterface::class, ResetPasswordService::class);
 
         $this->app->bind(CartServiceInterface::class, CartService::class);
+
+        $this->app->bind(ProfileServiceInterface::class, ProfileService::class);
 
         $this->app->bind(SmsServiceInterface::class, SmsService::class);
 

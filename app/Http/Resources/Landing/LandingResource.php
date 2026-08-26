@@ -23,10 +23,10 @@ class LandingResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 
-            'product' =>["data" => ProductResource::collection($this->whenLoaded("products"))],
-            'category' => ["data" => SimpleCategoryResource::collection($this->whenLoaded("categories"))],
-            'landingBannerImage' => ["data" => LandingBannerResource::collection($this->whenLoaded("landingBannerImage"))],
-            'landingBannerSlider' => ["data" => LandingBannerResource::collection($this->whenLoaded("landingBannerSlider"))],
+            'product' =>$this->whenLoaded("products", fn () => ["data" => ProductResource::collection($this->products)]),
+            'category' => $this->whenLoaded("categories", fn () => ["data" => SimpleCategoryResource::collection($this->categories)]),
+            'landingBannerImage' => $this->whenLoaded("landingBannerImage", fn () => ["data" => LandingBannerResource::collection($this->landingBannerImage)]),
+            'landingBannerSlider' => $this->whenLoaded("landingBannerSlider", fn () => ["data" => LandingBannerResource::collection($this->landingBannerSlider)]),
 
 
         ];
