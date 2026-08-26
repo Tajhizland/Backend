@@ -20,7 +20,7 @@ class MenuResource extends JsonResource
             'parent_id' => $this->parent_id,
             'status' => $this->status,
             'parent' => new MenuResource($this->whenLoaded('parent')),
-            'children' => $this->whenLoaded('children', fn () => ["data" => MenuResource::collection($this->children)]),
+            'children' => MenuResource::collection($this->whenLoaded('children')),
             'url' => $this->url,
             'category_id' => $this->category_id,
             'banner_link' => $this->banner_link,

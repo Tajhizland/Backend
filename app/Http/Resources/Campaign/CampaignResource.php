@@ -27,11 +27,11 @@ class CampaignResource extends JsonResource
 
             'start_date_fa' => $this->start_date != null ? Jalalian::fromDateTime($this->start_date)->format('Y/m/d H:i') : "",
             'end_date_fa' => $this->end_date != null ? Jalalian::fromDateTime($this->end_date)->format('Y/m/d H:i') : "",
-            'mobileSliders' => $this->whenLoaded('mobileSliders', fn () => ["data" => CampaignSliderResource::collection($this->mobileSliders)]),
-            'desktopSliders' => $this->whenLoaded('desktopSliders', fn () => ["data" => CampaignSliderResource::collection($this->desktopSliders)]),
+            'mobileSliders' => CampaignSliderResource::collection($this->whenLoaded('mobileSliders')),
+            'desktopSliders' => CampaignSliderResource::collection($this->whenLoaded('desktopSliders')),
 
-            'homepageBanner' => $this->whenLoaded('homepageBanner', fn () => ["data" => CampaignBannerResource::collection($this->homepageBanner)]),
-            'homepage2Banner' => $this->whenLoaded('homepage2Banner', fn () => ["data" => CampaignBannerResource::collection($this->homepage2Banner)]),
+            'homepageBanner' => CampaignBannerResource::collection($this->whenLoaded('homepageBanner')),
+            'homepage2Banner' => CampaignBannerResource::collection($this->whenLoaded('homepage2Banner')),
 
             'banner' => $this->banner,
             'created_at' => $this->created_at,

@@ -17,7 +17,7 @@ class ConceptResource extends JsonResource
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
             'id' => $this->id,
             'title' => $this->title,
-            'categories' => $this->whenLoaded('categories', fn () => ["data" => SimpleCategoryResource::collection($this->categories)]),
+            'categories' => SimpleCategoryResource::collection($this->whenLoaded('categories')),
             'description' => $this->description,
             'status' => $this->status,
             'icon' => $this->icon,

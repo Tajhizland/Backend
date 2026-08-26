@@ -40,10 +40,10 @@ class SimpleProductResource extends JsonResource
             'weight' => $this->weight,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
-            'colors' => ["data" => ProductColorResource::collection($this->activeProductColors)],
-            'productOptions' => ["data" => ProductOptionResource::collection($this->productOptions)],
+            'colors' => ProductColorResource::collection($this->activeProductColors),
+            'productOptions' => ProductOptionResource::collection($this->productOptions),
             'stockOf' => new ProductResource($this->whenLoaded("stockOf")),
-            'images' => ["data" => ProductImageResource::collection($this->images)],
+            'images' => ProductImageResource::collection($this->images),
         ];
     }
 }

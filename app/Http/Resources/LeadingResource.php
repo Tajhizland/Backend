@@ -14,8 +14,8 @@ class LeadingResource extends JsonResource
     {
         return [
             "poster" => new PosterResource($this["poster"]),
-            "blog" => ["data" => NewsResource::collection($this["blog"])],
-            "vlog" => ["data" => VlogResource::collection($this["vlog"])],
+            "blog" => NewsResource::collection($this["blog"]),
+            "vlog" => VlogResource::collection($this["vlog"]),
         ];
     }
 }

@@ -24,7 +24,7 @@ GroupProductResource extends JsonResource
 
             'group' => new ProductResource($this->whenLoaded('group')),
             'product' => new ProductResource($this->whenLoaded('product')),
-            'value' => $this->whenLoaded('value', fn () => ["data" => GroupFieldValueResource::collection($this->value)]),
+            'value' => GroupFieldValueResource::collection($this->whenLoaded('value')),
         ];
     }
 }

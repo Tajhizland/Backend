@@ -43,7 +43,7 @@ class ProductColorResource extends JsonResource
 //             'discount' => round(($this->price?->price - $this->price?->discount) / ($this->price?->price != 0 ? $this->price?->price : 1) * 100),
 //            'discountedPrice' => $discountedPrice,
             'product' => new SimpleProductResource($this->whenLoaded('product')),
-            'discountItem' => $this->whenLoaded('discountItem', fn () => ["data" => DiscountItemResource::collection($this->discountItem)]),
+            'discountItem' => DiscountItemResource::collection($this->whenLoaded('discountItem')),
 
 //            'discountedPrice' => $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price,
             'stock' => $this->stock?->stock ?? 0,

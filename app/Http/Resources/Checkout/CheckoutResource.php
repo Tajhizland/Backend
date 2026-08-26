@@ -14,8 +14,8 @@ class CheckoutResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "cartItem" => ["data" => CartItemResource::collection($this->cartItem)],
-            "deliveries" => ["data" => DeliveryResource::collection($this->deliveries)],
+            "cartItem" => CartItemResource::collection($this->cartItem),
+            "deliveries" => DeliveryResource::collection($this->deliveries),
             "address" => new AddressResource($this->address),
             "gateway" => new GatewayResource($this->gateway),
         ];
