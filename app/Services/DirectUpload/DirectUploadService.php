@@ -2,6 +2,11 @@
 
 namespace App\Services\DirectUpload;
 
+use App\DTOs\Upload\UploadAbortDto;
+use App\DTOs\Upload\UploadCompleteDto;
+use App\DTOs\Upload\UploadInitiateDto;
+use App\DTOs\Upload\UploadSignPartsDto;
+
 use App\Enums\DirectUploadStatus;
 use App\Exceptions\BreakException;
 use App\Models\DirectUpload;
@@ -31,8 +36,13 @@ readonly class DirectUploadService implements DirectUploadServiceInterface
     {
     }
 
-    public function initiate(string $profile, string $fileName, int $size, string $mime, $userId): array
+    public function initiate(UploadInitiateDto $dto): array
     {
+        $profile = $dto->profile;
+        $fileName = $dto->fileName;
+        $size = $dto->size;
+        $mime = (string)$dto->mime;
+        $userId = $dto->userId;
         $config = $this->profile($profile);
 
         $extension = strtolower((string)pathinfo($fileName, PATHINFO_EXTENSION));
@@ -97,8 +107,11 @@ readonly class DirectUploadService implements DirectUploadServiceInterface
         ];
     }
 
-    public function signParts(string $key, array $partNumbers, $userId): array
+    public function signParts(UploadSignPartsDto $dto): array
     {
+        $key = $dto->key;
+        $partNumbers = $dto->partNumbers;
+        $userId = $dto->userId;
         $upload = $this->owned($key, $userId);
 
         if ($upload->status !== DirectUploadStatus::Pending)
@@ -117,8 +130,11 @@ readonly class DirectUploadService implements DirectUploadServiceInterface
         return $this->sign($key, $upload->upload_id, $partNumbers, (int)config('upload.url_ttl'));
     }
 
-    public function complete(string $key, array $parts, $userId): array
+    public function complete(UploadCompleteDto $dto): array
     {
+        $key = $dto->key;
+        $parts = $dto->parts;
+        $userId = $dto->userId;
         $upload = $this->owned($key, $userId);
 
         if ($upload->status === DirectUploadStatus::Completed)
@@ -158,8 +174,10 @@ readonly class DirectUploadService implements DirectUploadServiceInterface
         return ['key' => $key, 'size' => $meta['size']];
     }
 
-    public function abort(string $key, $userId): void
+    public function abort(UploadAbortDto $dto): void
     {
+        $key = $dto->key;
+        $userId = $dto->userId;
         $upload = $this->owned($key, $userId);
 
         $this->release($upload);

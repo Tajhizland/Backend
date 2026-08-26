@@ -157,11 +157,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
 
         Route::post('{id}/tapin', [\App\Http\Controllers\V1\Admin\TapinController::class, "register"]);
     });
-    Route::group(["prefix" => "onHoldOrder"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "findById"]);
-        Route::post("accept", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "accept"]);
-        Route::post("reject", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "reject"]);
+    Route::prefix("on-hold-order")->controller(\App\Http\Controllers\V1\Admin\OnHoldOrderController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("{id}", "show");
+        Route::patch("{id}/accept", "accept");
+        Route::patch("{id}/reject", "reject");
     });
     Route::prefix("slider")->controller(\App\Http\Controllers\V1\Admin\SliderController::class)->group(function () {
         Route::get("dataTable", "dataTable");
@@ -216,14 +216,14 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
         Route::get("{id}/item", "getItems");
     });
-    Route::group(["prefix" => "search"], function () {
-        Route::post("category", [\App\Http\Controllers\V1\Admin\SearchController::class, "searchCategory"]);
-        Route::post("product", [\App\Http\Controllers\V1\Admin\SearchController::class, "searchProduct"]);
+    Route::prefix("search")->controller(\App\Http\Controllers\V1\Admin\SearchController::class)->group(function () {
+        Route::post("category", "searchCategory");
+        Route::post("product", "searchProduct");
     });
-    Route::group(["prefix" => "file"], function () {
-        Route::post("upload", [\App\Http\Controllers\V1\Admin\FileManagerController::class, "upload"]);
-        Route::post("get", [\App\Http\Controllers\V1\Admin\FileManagerController::class, "get"]);
-        Route::delete("remove/{id}", [\App\Http\Controllers\V1\Admin\FileManagerController::class, "remove"]);
+    Route::prefix("file")->controller(\App\Http\Controllers\V1\Admin\FileManagerController::class)->group(function () {
+        Route::post("search", "index");
+        Route::post("/", "store");
+        Route::delete("{id}", "destroy");
     });
     Route::prefix("contact")->controller(\App\Http\Controllers\V1\Admin\ContactController::class)->group(function () {
         Route::get("dataTable", "dataTable");
@@ -243,11 +243,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
     });
     /** آپلود مستقیم مرورگر به S3 — فقط امضا و تأیید، بدون عبور فایل از سرور */
-    Route::group(["prefix" => "upload"], function () {
-        Route::post("initiate", [\App\Http\Controllers\V1\Admin\UploadController::class, "initiate"]);
-        Route::post("sign-parts", [\App\Http\Controllers\V1\Admin\UploadController::class, "signParts"]);
-        Route::post("complete", [\App\Http\Controllers\V1\Admin\UploadController::class, "complete"]);
-        Route::post("abort", [\App\Http\Controllers\V1\Admin\UploadController::class, "abort"]);
+    Route::prefix("upload")->controller(\App\Http\Controllers\V1\Admin\UploadController::class)->group(function () {
+        Route::post("initiate", "initiate");
+        Route::post("sign-parts", "signParts");
+        Route::post("complete", "complete");
+        Route::post("abort", "abort");
     });
     Route::prefix("vlog")->controller(\App\Http\Controllers\V1\Admin\VlogController::class)->group(function () {
         Route::get("dataTable", "dataTable");

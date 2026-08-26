@@ -2,26 +2,22 @@
 
 namespace App\Services\DirectUpload;
 
+use App\DTOs\Upload\UploadAbortDto;
+use App\DTOs\Upload\UploadCompleteDto;
+use App\DTOs\Upload\UploadInitiateDto;
+use App\DTOs\Upload\UploadSignPartsDto;
+
 interface DirectUploadServiceInterface
 {
-    /** اعتبارسنجی، ساخت کلید موقت و صدور اولین دسته URL امضاشده */
-    public function initiate(string $profile, string $fileName, int $size, string $mime, $userId): array;
+    public function initiate(UploadInitiateDto $dto): array;
 
-    /** امضای دسته‌ی بعدی پارت‌ها */
-    public function signParts(string $key, array $partNumbers, $userId): array;
+    public function signParts(UploadSignPartsDto $dto): array;
 
-    /** تکمیل multipart و تأیید آبجکت روی S3 */
-    public function complete(string $key, array $parts, $userId): array;
+    public function complete(UploadCompleteDto $dto): array;
 
-    /** لغو آپلود و آزادسازی پارت‌های نیمه‌کاره */
-    public function abort(string $key, $userId): void;
+    public function abort(UploadAbortDto $dto): void;
 
-    /**
-     * انتقال فایل از مسیر موقت به مسیر نهایی پروفایل و علامت‌زدن رکورد به‌عنوان
-     * مصرف‌شده. نام فایل نهایی (بدون پوشه) برمی‌گرداند.
-     */
     public function consume(string $key, $userId): string;
 
-    /** پاک‌سازی آپلودهای رهاشده */
     public function prune(int $hours): int;
 }

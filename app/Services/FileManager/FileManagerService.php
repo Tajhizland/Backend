@@ -2,6 +2,9 @@
 
 namespace App\Services\FileManager;
 
+use App\DTOs\FileManager\FileManagerGetDto;
+use App\DTOs\FileManager\FileManagerUploadDto;
+
 use App\Repositories\FileManager\FileManagerRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
@@ -15,8 +18,11 @@ readonly class FileManagerService implements FileManagerServiceInterface
     {
     }
 
-    public function upload($file, $modelType, $modelId)
+    public function upload(FileManagerUploadDto $dto): mixed
     {
+        $file = $dto->file;
+        $modelType = $dto->model_type;
+        $modelId = $dto->model_id;
         $path = [$modelType, "file"];
         $path = join("/", $path);
         $filePath = $this->s3Service->upload($file, $path);
@@ -27,7 +33,7 @@ readonly class FileManagerService implements FileManagerServiceInterface
         ]);
     }
 
-    public function remove($id)
+    public function remove(int $id): bool|null
     {
         $file = $this->fileManagerRepository->findOrFail($id);
         $filePath = [$file->model_type, "file", $file->path];
@@ -37,8 +43,10 @@ readonly class FileManagerService implements FileManagerServiceInterface
         return true;
     }
 
-    public function geyByModelId($modelId, $modelType)
+    public function getByModel(FileManagerGetDto $dto): mixed
     {
+        $modelId = $dto->model_id;
+        $modelType = $dto->model_type;
         return $this->fileManagerRepository->geyByModelId($modelId, $modelType);
     }
 

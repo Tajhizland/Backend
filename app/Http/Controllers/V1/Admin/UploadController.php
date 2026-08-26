@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Upload\UploadAbortDto;
+use App\DTOs\Upload\UploadCompleteDto;
+use App\DTOs\Upload\UploadInitiateDto;
+use App\DTOs\Upload\UploadSignPartsDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Upload\AbortUploadRequest;
 use App\Http\Requests\Admin\Upload\CompleteUploadRequest;
@@ -10,59 +14,36 @@ use App\Http\Requests\Admin\Upload\SignPartsRequest;
 use App\Services\DirectUpload\DirectUploadServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * آپلود مستقیم مرورگر به S3.
- *
- * هیچ‌کدام از این اکشن‌ها بدنه‌ی فایل را دریافت نمی‌کنند؛ فقط URL امضاشده
- * صادر و در پایان آبجکت را تأیید می‌کنند.
- */
 class UploadController extends Controller
 {
     public function __construct(
-        private readonly DirectUploadServiceInterface $directUploadService
+        private readonly DirectUploadServiceInterface $directUploadService,
     )
     {
     }
 
     public function initiate(InitiateUploadRequest $request)
     {
-        return $this->dataResponse(
-            $this->directUploadService->initiate(
-                $request->get("profile"),
-                $request->get("fileName"),
-                (int)$request->get("size"),
-                (string)$request->get("mime", ""),
-                Auth::user()->id
-            )
-        );
+        $dto = new UploadInitiateDto(Auth::user()->id, ...$request->validated());
+        return $this->dataResponse($this->directUploadService->initiate($dto));
     }
 
     public function signParts(SignPartsRequest $request)
     {
-        return $this->dataResponse([
-            'urls' => $this->directUploadService->signParts(
-                $request->get("key"),
-                $request->get("partNumbers"),
-                Auth::user()->id
-            ),
-        ]);
+        $dto = new UploadSignPartsDto(Auth::user()->id, ...$request->validated());
+        return $this->dataResponse(['urls' => $this->directUploadService->signParts($dto)]);
     }
 
     public function complete(CompleteUploadRequest $request)
     {
-        return $this->dataResponse(
-            $this->directUploadService->complete(
-                $request->get("key"),
-                $request->get("parts") ?? [],
-                Auth::user()->id
-            )
-        );
+        $dto = new UploadCompleteDto(Auth::user()->id, ...$request->validated());
+        return $this->dataResponse($this->directUploadService->complete($dto));
     }
 
     public function abort(AbortUploadRequest $request)
     {
-        $this->directUploadService->abort($request->get("key"), Auth::user()->id);
-
+        $dto = new UploadAbortDto(Auth::user()->id, ...$request->validated());
+        $this->directUploadService->abort($dto);
         return $this->successResponse("آپلود لغو شد.");
     }
 }
