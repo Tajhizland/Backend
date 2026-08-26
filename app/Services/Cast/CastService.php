@@ -2,7 +2,10 @@
 
 namespace App\Services\Cast;
 
+use App\DTOs\Cast\CastStoreDto;
+use App\DTOs\Cast\CastUpdateDto;
 use App\Repositories\Cast\CastRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 
 readonly class CastService implements CastServiceInterface
@@ -15,70 +18,72 @@ readonly class CastService implements CastServiceInterface
     {
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->castRepository->findWithVlog($id);
+        $cast = $this->castRepository->findWithVlog($id);
+        if (!$cast) {
+            throw new NotFoundHttpException();
+        }
+        return $cast;
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->castRepository->dataTable();
     }
 
-    public function store($title, $image, $description, $url, $status, $audio, $vlog_id, $category_id)
+    public function store(CastStoreDto $dto): mixed
     {
-        $audioPath = $this->s3Service->upload($audio, "cast/audio");
-        $imagePath = $this->s3Service->upload($image, "cast/image");
         return $this->castRepository->create([
-            'title' => $title,
-            'image' => $imagePath,
-            'category_id' => $category_id,
-            'description' => $description,
-            'url' => $url,
-            'status' => $status,
-            'audio' => $audioPath,
-            'vlog_id' => $vlog_id
+            'title' => $dto->title,
+            'image' => $this->s3Service->upload($dto->image, "cast/image"),
+            'category_id' => $dto->category_id,
+            'description' => $dto->description,
+            'url' => $dto->url,
+            'status' => $dto->status,
+            'audio' => $this->s3Service->upload($dto->audio, "cast/audio"),
+            'vlog_id' => $dto->vlog_id,
         ]);
     }
 
-    public function update($id, $title, $image, $description, $url, $status, $audio, $vlog_id, $category_id)
+    public function update(CastUpdateDto $dto): bool
     {
-        $cast = $this->castRepository->findOrFail($id);
+        $cast = $this->castRepository->findOrFail($dto->castId);
         $audioPath = $cast->audio;
         $imagePath = $cast->image;
-        if ($audio) {
+        if ($dto->audio) {
             $this->s3Service->remove("cast/audio/" . $audioPath);
-            $audioPath = $this->s3Service->upload($audio, "cast/audio");
+            $audioPath = $this->s3Service->upload($dto->audio, "cast/audio");
         }
-        if ($image) {
+        if ($dto->image) {
             $this->s3Service->remove("cast/image/" . $imagePath);
-            $imagePath = $this->s3Service->upload($image, "cast/image");
+            $imagePath = $this->s3Service->upload($dto->image, "cast/image");
         }
         return $this->castRepository->update($cast, [
-            'title' => $title,
-            'description' => $description,
-            'url' => $url,
-            'category_id' => $category_id,
-            'status' => $status,
+            'title' => $dto->title,
+            'description' => $dto->description,
+            'url' => $dto->url,
+            'category_id' => $dto->category_id,
+            'status' => $dto->status,
             'audio' => $audioPath,
             'image' => $imagePath,
-            'vlog_id' => $vlog_id
+            'vlog_id' => $dto->vlog_id,
         ]);
     }
 
-    public function paginated()
+    public function paginated(): mixed
     {
         return $this->castRepository->paginate();
     }
 
-    public function findByUrl($url)
+    public function findByUrl($url): mixed
     {
         $response = $this->castRepository->findByUrl($url);
         $this->castRepository->update($response, ["view" => $response->view + 1]);
         return $response;
     }
 
-    public function listing($filters)
+    public function listing($filters): mixed
     {
         $castQuery = $this->castRepository->activeQuery();
         $castQuery = $this->renderFilter($castQuery, $filters);
@@ -107,7 +112,7 @@ readonly class CastService implements CastServiceInterface
         return $vlogQuery;
     }
 
-    public function getMostViewed()
+    public function getMostViewed(): mixed
     {
         return $this->castRepository->getMostViewed();
     }

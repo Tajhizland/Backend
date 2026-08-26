@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Cast\CastStoreDto;
+use App\DTOs\Cast\CastUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Cast\StoreCastRequest;
 use App\Http\Requests\Admin\Cast\UpdateCastRequest;
@@ -23,7 +25,7 @@ class CastController extends Controller
         return $this->dataResponseCollection(CastResource::collection($response));
     }
 
-    public function find($id)
+    public function show($id)
     {
         $response = $this->castService->find($id);
         return $this->dataResponse(new CastResource($response));
@@ -31,13 +33,13 @@ class CastController extends Controller
 
     public function store(StoreCastRequest $request)
     {
-        $this->castService->store($request->get("title"), $request->file("image"), $request->get("description"), $request->get("url"), $request->get("status"), $request->file("audio"), $request->get("vlog_id"), $request->get("category_id"));
+        $this->castService->store(new CastStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.cast")]));
     }
 
-    public function update(UpdateCastRequest $request)
+    public function update($id, UpdateCastRequest $request)
     {
-        $this->castService->update($request->get("id"), $request->get("title"), $request->file("image"), $request->get("description"), $request->get("url"), $request->get("status"), $request->file("audio"), $request->get("vlog_id"), $request->get("category_id"));
+        $this->castService->update(new CastUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.cast")]));
     }
 

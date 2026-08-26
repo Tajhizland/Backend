@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Vlog\VlogSortDto;
+use App\DTOs\Vlog\VlogStoreDirectDto;
+use App\DTOs\Vlog\VlogStoreDto;
+use App\DTOs\Vlog\VlogUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Vlog\StoreVlogDirectRequest;
 use App\Http\Requests\Admin\Vlog\StoreVlogRequest;
@@ -26,15 +30,14 @@ class VlogController extends Controller
         return $this->dataResponseCollection(VlogResource::collection($this->vlogService->dataTable()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new VlogResource($this->vlogService->findById($id)));
+        return $this->dataResponse(new VlogResource($this->vlogService->find($id)));
     }
 
     public function store(StoreVlogRequest $request)
     {
-        $userId = Auth::user()->id;
-        $this->vlogService->store($request->get("title"), $request->get("description"), $request->file("video"), $request->file("poster"), $request->get("url"), $request->get("status"), $request->get("categoryId") ,$userId);
+        $this->vlogService->store(new VlogStoreDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.vlog")]));
     }
 
@@ -43,16 +46,7 @@ class VlogController extends Controller
     {
         $userId = Auth::user()->id;
 
-        $vlog = $this->vlogService->storeDirect(
-            $request->get("title"),
-            $request->get("description"),
-            $request->get("videoKey"),
-            $request->file("poster"),
-            $request->get("url"),
-            $request->get("status"),
-            $request->get("categoryId"),
-            $userId
-        );
+        $vlog = $this->vlogService->storeDirect(new VlogStoreDirectDto($userId, ...$request->validated()));
 
         return $this->dataResponse(
             new VlogResource($vlog),
@@ -63,7 +57,7 @@ class VlogController extends Controller
     /** وضعیت پردازش ویدیو؛ فرانت بعد از پایان آپلود این را poll می‌کند */
     public function videoStatus($id)
     {
-        $vlog = $this->vlogService->findById($id);
+        $vlog = $this->vlogService->find($id);
 
         return $this->dataResponse([
             'id' => $vlog->id,
@@ -73,9 +67,9 @@ class VlogController extends Controller
         ]);
     }
 
-    public function update(UpdateVlogRequest $request)
+    public function update($id, UpdateVlogRequest $request)
     {
-        $this->vlogService->update($request->get("id"), $request->get("title"), $request->get("description"), $request->file("video"), $request->file("poster"), $request->get("url"), $request->get("status"), $request->get("categoryId"));
+        $this->vlogService->update(new VlogUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.vlog")]));
     }
     public function search(VlogSearchRequest $request)
@@ -90,7 +84,7 @@ class VlogController extends Controller
 
     public function sort(VlogSortRequest $request)
     {
-        $this->vlogService->sort($request->get("vlog"));
+        $this->vlogService->sort(new VlogSortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.vlog")]));
     }
 

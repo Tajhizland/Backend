@@ -5,12 +5,16 @@ namespace App\Services\Vlog;
 use App\Enums\VideoStatus;
 use App\Jobs\ConvertVideoToHlsJob;
 use App\Models\Vlog;
+use App\DTOs\Vlog\VlogSortDto;
+use App\DTOs\Vlog\VlogStoreDirectDto;
+use App\DTOs\Vlog\VlogStoreDto;
+use App\DTOs\Vlog\VlogUpdateDto;
 use App\Repositories\Vlog\VlogRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Services\ConvertToHLS\HlsServiceInterface;
 use App\Services\DirectUpload\DirectUploadServiceInterface;
 use App\Services\S3\S3ServiceInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class VlogService implements VlogServiceInterface
 {
@@ -25,14 +29,18 @@ readonly class VlogService implements VlogServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->vlogRepository->dataTable();
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->vlogRepository->findOrFail($id);
+        $vlog = $this->vlogRepository->find($id);
+        if (!$vlog) {
+            throw new NotFoundHttpException();
+        }
+        return $vlog;
     }
 
 //    public function store($title, $description, $video, $poster, $url, $status, $categoryId, $author)
@@ -52,19 +60,19 @@ readonly class VlogService implements VlogServiceInterface
 //            "author" => $author,
 //        ]);
 //    }
-    public function store($title, $description, $video, $poster, $url, $status, $categoryId, $author)
+    public function store(VlogStoreDto $dto): mixed
     {
-        $filePath = $this->s3Service->upload($video, "vlog");
-        $posterPath = $this->s3Service->upload($poster, "vlog");
+        $filePath = $this->s3Service->upload($dto->video, "vlog");
+        $posterPath = $this->s3Service->upload($dto->poster, "vlog");
         $vlog = $this->vlogRepository->create([
-            "title" => $title,
-            "description" => $description,
+            "title" => $dto->title,
+            "description" => $dto->description,
             "video" => $filePath,
             "poster" => $posterPath,
-            "status" => $status,
-            "url" => $url,
-            "category_id" => $categoryId,
-            "author" => $author,
+            "status" => $dto->status,
+            "url" => $dto->url,
+            "category_id" => $dto->categoryId,
+            "author" => $dto->author,
             "video_status" => VideoStatus::Queued->value,
         ]);
         ConvertVideoToHlsJob::dispatch($vlog);
@@ -75,24 +83,24 @@ readonly class VlogService implements VlogServiceInterface
      * ثبت ولاگ برای ویدیویی که کلاینت مستقیماً روی S3 آپلود کرده است.
      * فقط کلیدِ فایل دریافت می‌شود؛ هیچ بایتی از این سرور عبور نمی‌کند.
      */
-    public function storeDirect($title, $description, $videoKey, $poster, $url, $status, $categoryId, $author)
+    public function storeDirect(VlogStoreDirectDto $dto): mixed
     {
         // پوستر اول آپلود می‌شود تا اگر شکست خورد، ویدیو هنوز در مسیر موقت
         // باشد و توسط upload:prune جمع شود (نه اینکه در پوشه‌ی نهایی یتیم بماند)
-        $posterPath = $this->s3Service->upload($poster, "vlog");
+        $posterPath = $this->s3Service->upload($dto->poster, "vlog");
 
         // انتقال از مسیر موقت به پوشه‌ی نهایی و تأیید مالکیت کلید
-        $fileName = $this->directUploadService->consume($videoKey, $author);
+        $fileName = $this->directUploadService->consume($dto->videoKey, $dto->author);
 
         $vlog = $this->vlogRepository->create([
-            "title" => $title,
-            "description" => $description,
+            "title" => $dto->title,
+            "description" => $dto->description,
             "video" => $fileName,
             "poster" => $posterPath,
-            "status" => $status,
-            "url" => $url,
-            "category_id" => $categoryId,
-            "author" => $author,
+            "status" => $dto->status,
+            "url" => $dto->url,
+            "category_id" => $dto->categoryId,
+            "author" => $dto->author,
             "video_status" => VideoStatus::Queued->value,
         ]);
 
@@ -101,32 +109,32 @@ readonly class VlogService implements VlogServiceInterface
         return $vlog;
     }
 
-    public function update($id, $title, $description, $video, $poster, $url, $status, $categoryId)
+    public function update(VlogUpdateDto $dto): mixed
     {
-        $vlog = $this->vlogRepository->findOrFail($id);
+        $vlog = $this->find($dto->vlogId);
         $filePath = $vlog->video;
         $posterPath = $vlog->poster;
-        if (isset($video)) {
+        if (isset($dto->video)) {
             $this->s3Service->remove("vlog/" . $filePath);
-            $filePath = $this->s3Service->upload($video, "vlog");
+            $filePath = $this->s3Service->upload($dto->video, "vlog");
         }
-        if (isset($poster)) {
+        if (isset($dto->poster)) {
             $this->s3Service->remove("vlog/" . $posterPath);
-            $posterPath = $this->s3Service->upload($poster, "vlog");
+            $posterPath = $this->s3Service->upload($dto->poster, "vlog");
         }
         $this->vlogRepository->update($vlog, [
-            "title" => $title,
-            "description" => $description,
+            "title" => $dto->title,
+            "description" => $dto->description,
             "video" => $filePath,
             "poster" => $posterPath,
-            "url" => $url,
-            "status" => $status,
-            "category_id" => $categoryId,
+            "url" => $dto->url,
+            "status" => $dto->status,
+            "category_id" => $dto->categoryId,
         ]);
 
         // فقط وقتی ویدیوی جدیدی آمده ترنسکد دوباره انجام می‌شود؛
         // ویرایش عنوان نباید کل ویدیو را دوباره پردازش کند
-        if (isset($video)) {
+        if (isset($dto->video)) {
             $this->vlogRepository->update($vlog, ["video_status" => VideoStatus::Queued->value]);
             ConvertVideoToHlsJob::dispatch($vlog);
         }
@@ -161,7 +169,7 @@ readonly class VlogService implements VlogServiceInterface
 //        ]);
 //    }
 
-    public function findByUrl($url)
+    public function findByUrl($url): mixed
     {
         $vlog = $this->vlogRepository->findByUrl($url);
         if (!$vlog)
@@ -169,7 +177,7 @@ readonly class VlogService implements VlogServiceInterface
         return $vlog;
     }
 
-    public function listing($filters)
+    public function listing($filters): mixed
     {
         $vlogQuery = $this->vlogRepository->activeVlogQuery();
         $vlogQuery = $this->renderFilter($vlogQuery, $filters);
@@ -202,45 +210,45 @@ readonly class VlogService implements VlogServiceInterface
         return $vlogQuery;
     }
 
-    public function getRelatedVlogs($category_id, $except)
+    public function getRelatedVlogs($category_id, $except): mixed
     {
         return $this->vlogRepository->getRelatedVlogs($category_id, $except);
     }
 
-    public function view(Vlog $vlog)
+    public function view(Vlog $vlog): mixed
     {
         return $this->vlogRepository->update($vlog, ["view" => $vlog->view + 1]);
     }
 
-    public function getSitemapData()
+    public function getSitemapData(): mixed
     {
         return $this->vlogRepository->getSitemapData();
     }
 
-    public function getMostViewed()
+    public function getMostViewed(): mixed
     {
         return $this->vlogRepository->getMostViewed();
     }
 
-    public function search($query)
+    public function search($query): mixed
     {
         return $this->vlogRepository->search($query);
     }
 
-    public function sort($vlogs)
+    public function sort(VlogSortDto $dto): bool
     {
-        foreach ($vlogs as $item) {
+        foreach ($dto->vlog as $item) {
             $this->vlogRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
 
-    public function list()
+    public function list(): mixed
     {
         return $this->vlogRepository->activeList();
     }
 
-    public function getByCategoryUrl($url , $filters)
+    public function getByCategoryUrl($url , $filters): mixed
     {
         $category = $this->vlogCategoryRepository->findByUrl($url);
         $vlogQuery=$this->vlogRepository->getByCategoryQuery($category->id);

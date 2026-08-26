@@ -2,20 +2,24 @@
 
 namespace App\Services\Cast;
 
+use App\DTOs\Cast\CastStoreDto;
+use App\DTOs\Cast\CastUpdateDto;
+
 interface CastServiceInterface
 {
-    public function paginated();
-    public function listing($filters);
+    public function paginated(): mixed;
 
-    public function dataTable();
-    public function getMostViewed();
+    public function listing($filters): mixed;
 
-    public function find($id);
+    public function dataTable(): mixed;
 
-    public function findByUrl($url);
+    public function getMostViewed(): mixed;
 
-    public function store($title, $image, $description, $url, $status, $audio, $vlog_id, $category_id);
+    public function find(int $id): mixed;
 
-    public function update($id, $title, $image, $description, $url, $status, $audio, $vlog_id, $category_id);
+    public function findByUrl($url): mixed;
 
+    public function store(CastStoreDto $dto): mixed;
+
+    public function update(CastUpdateDto $dto): bool;
 }

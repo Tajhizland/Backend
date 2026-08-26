@@ -9,7 +9,6 @@ class UpdateCastRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'audio' => ['nullable'],
             'image' => ['nullable'],
             'vlog_id' => ['required', 'exists:App\Models\Vlog,id'],

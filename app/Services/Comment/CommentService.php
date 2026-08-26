@@ -26,7 +26,7 @@ readonly class CommentService implements CommentServiceInterface
         );
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->commentRepository->dataTable();
     }
@@ -43,7 +43,7 @@ readonly class CommentService implements CommentServiceInterface
         return $this->commentRepository->reject($comment);
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
         return $this->commentRepository->findWithProduct($id);
     }

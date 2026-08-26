@@ -135,11 +135,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::patch("{id}/accept", "accept");
         Route::patch("{id}/reject", "reject");
     });
-    Route::group(["prefix" => "comment"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CommentController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CommentController::class, "findById"]);
-        Route::post("accept", [\App\Http\Controllers\V1\Admin\CommentController::class, "accept"]);
-        Route::post("reject", [\App\Http\Controllers\V1\Admin\CommentController::class, "reject"]);
+    Route::prefix("comment")->controller(\App\Http\Controllers\V1\Admin\CommentController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("{id}", "show");
+        Route::patch("{id}/accept", "accept");
+        Route::patch("{id}/reject", "reject");
     });
     Route::prefix("transaction")->controller(\App\Http\Controllers\V1\Admin\TransactionController::class)->group(function () {
         Route::get("dataTable", "dataTable");
@@ -249,16 +249,16 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("complete", [\App\Http\Controllers\V1\Admin\UploadController::class, "complete"]);
         Route::post("abort", [\App\Http\Controllers\V1\Admin\UploadController::class, "abort"]);
     });
-    Route::group(["prefix" => "vlog"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\VlogController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\VlogController::class, "findById"]);
-        Route::get("video-status/{id}", [\App\Http\Controllers\V1\Admin\VlogController::class, "videoStatus"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\VlogController::class, "store"]);
-        Route::post("store-direct", [\App\Http\Controllers\V1\Admin\VlogController::class, "storeDirect"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\VlogController::class, "update"]);
-        Route::post("search", [\App\Http\Controllers\V1\Admin\VlogController::class, "search"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\VlogController::class, "list"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\VlogController::class, "sort"]);
+    Route::prefix("vlog")->controller(\App\Http\Controllers\V1\Admin\VlogController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("search", "search");
+        Route::post("sort", "sort");
+        Route::post("direct", "storeDirect");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::get("{id}/video-status", "videoStatus");
     });
     Route::prefix("vlog-category")->controller(\App\Http\Controllers\V1\Admin\VlogCategoryController::class)->group(function () {
         Route::get("dataTable", "dataTable");
@@ -395,11 +395,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
     });
 
-    Route::group(["prefix" => "cast"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CastController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CastController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\CastController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\CastController::class, "update"]);
+    Route::prefix("cast")->controller(\App\Http\Controllers\V1\Admin\CastController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
     Route::group(["prefix" => "campaign"], function () {

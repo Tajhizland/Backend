@@ -9,7 +9,6 @@ class UpdateVlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'title' => ['required'],
             'description' => ['nullable'],
             'url' => ['required'],

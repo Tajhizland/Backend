@@ -2,38 +2,41 @@
 
 namespace App\Services\Vlog;
 
+use App\DTOs\Vlog\VlogSortDto;
+use App\DTOs\Vlog\VlogStoreDirectDto;
+use App\DTOs\Vlog\VlogStoreDto;
+use App\DTOs\Vlog\VlogUpdateDto;
 use App\Models\Vlog;
 
 interface VlogServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function listing($filters);
+    public function listing($filters): mixed;
 
-    public function search($query);
+    public function search($query): mixed;
 
-    public function getMostViewed();
+    public function getMostViewed(): mixed;
 
-    public function findById($id);
+    public function find(int $id): mixed;
 
-    public function getRelatedVlogs($category_id, $except);
+    public function getRelatedVlogs($category_id, $except): mixed;
 
-    public function findByUrl($url);
+    public function findByUrl($url): mixed;
 
-    public function getByCategoryUrl($url, $filters);
+    public function getByCategoryUrl($url, $filters): mixed;
 
-    public function view(Vlog $vlog);
+    public function view(Vlog $vlog): mixed;
 
-    public function store($title, $description, $video, $poster, $url, $status, $categoryId, $author);
+    public function store(VlogStoreDto $dto): mixed;
 
-    public function storeDirect($title, $description, $videoKey, $poster, $url, $status, $categoryId, $author);
+    public function storeDirect(VlogStoreDirectDto $dto): mixed;
 
-    public function update($id, $title, $description, $video, $poster, $url, $status, $categoryId);
+    public function update(VlogUpdateDto $dto): mixed;
 
-    public function getSitemapData();
+    public function getSitemapData(): mixed;
 
-    public function list();
+    public function list(): mixed;
 
-    public function sort($vlogs);
-
+    public function sort(VlogSortDto $dto): bool;
 }
