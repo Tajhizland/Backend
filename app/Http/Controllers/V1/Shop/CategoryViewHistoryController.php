@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\CategoryViewHistory\StoreCategoryViewHistoryRequest;
-use App\Http\Resources\V1\Product\ProductCollection;
+use App\Http\Requests\Shop\CategoryViewHistory\StoreCategoryViewHistoryRequest;
+use App\Http\Resources\Product\ProductCollection;
 use App\Services\CategoryViewHistory\CategoryViewHistoryService;
 use App\Services\CategoryViewHistory\CategoryViewHistoryServiceInterface;
 use Illuminate\Support\Facades\Auth;

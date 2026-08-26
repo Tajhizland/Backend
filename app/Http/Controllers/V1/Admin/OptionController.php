@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Option\StoreOptionRequest;
-use App\Http\Requests\V1\Admin\Option\UpdateOptionRequest;
-use App\Http\Resources\V1\Option\OptionCollection;
-use App\Http\Resources\V1\Option\OptionResource;
+use App\Http\Requests\Admin\Option\StoreOptionRequest;
+use App\Http\Requests\Admin\Option\UpdateOptionRequest;
+use App\Http\Resources\Option\OptionCollection;
+use App\Http\Resources\Option\OptionResource;
 use App\Services\Option\OptionServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

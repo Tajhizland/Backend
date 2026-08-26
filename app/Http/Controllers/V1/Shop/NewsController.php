@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Banner\BannerCollection;
-use App\Http\Resources\V1\BlogCategory\BlogCategoryCollection;
-use App\Http\Resources\V1\News\NewsCollection;
-use App\Http\Resources\V1\News\NewsResource;
+use App\Http\Resources\Banner\BannerCollection;
+use App\Http\Resources\BlogCategory\BlogCategoryCollection;
+use App\Http\Resources\News\NewsCollection;
+use App\Http\Resources\News\NewsResource;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\BlogCategory\BlogCategoryServiceInterface;
 use App\Services\New\NewServiceInterface;

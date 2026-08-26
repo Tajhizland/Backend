@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\BlogCategory\StoreBlogCategoryRequest;
-use App\Http\Requests\V1\Admin\BlogCategory\UpdateBlogCategoryRequest;
-use App\Http\Resources\V1\BlogCategory\BlogCategoryCollection;
-use App\Http\Resources\V1\BlogCategory\BlogCategoryResource;
+use App\Http\Requests\Admin\BlogCategory\StoreBlogCategoryRequest;
+use App\Http\Requests\Admin\BlogCategory\UpdateBlogCategoryRequest;
+use App\Http\Resources\BlogCategory\BlogCategoryCollection;
+use App\Http\Resources\BlogCategory\BlogCategoryResource;
 use App\Services\BlogCategory\BlogCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

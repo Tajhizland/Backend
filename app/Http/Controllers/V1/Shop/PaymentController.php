@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Payment\PaymentRequest;
-use App\Http\Requests\V1\Shop\Payment\SnappPayEligibleRequest;
+use App\Http\Requests\Shop\Payment\PaymentRequest;
+use App\Http\Requests\Shop\Payment\SnappPayEligibleRequest;
 use App\Models\Order;
 use App\Services\Payment\PaymentServicesInterface;
 use Illuminate\Http\Request;

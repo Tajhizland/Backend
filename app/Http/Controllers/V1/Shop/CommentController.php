@@ -4,7 +4,7 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Events\CommentSubmitEvent;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Comment\StoreCommentRequest;
+use App\Http\Requests\Shop\Comment\StoreCommentRequest;
 use App\Services\Comment\CommentServiceInterface;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Auth;

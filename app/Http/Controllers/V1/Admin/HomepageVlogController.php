@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\HomepageVlog\UpdateHomePageVlogRequest;
-use App\Http\Resources\V1\HomepageVlog\HomePageVlogCollection;
+use App\Http\Requests\Admin\HomepageVlog\UpdateHomePageVlogRequest;
+use App\Http\Resources\HomepageVlog\HomePageVlogCollection;
 use App\Services\HomepageVlog\HomepageVlogServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

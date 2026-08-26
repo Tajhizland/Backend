@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Sitemap\SitemapCollection;
+use App\Http\Resources\Sitemap\SitemapCollection;
 use App\Services\Brand\BrandServiceInterface;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Guaranty\GuarantyServiceInterface;

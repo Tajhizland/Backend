@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Address\ChangeActiveAddressRequest;
-use App\Http\Requests\V1\Admin\Address\UpdateAddressRequest;
-use App\Http\Requests\V1\Admin\User\GetUserByTypeRequest;
-use App\Http\Requests\V1\Admin\User\UpdateUserRequest;
-use App\Http\Requests\V1\Admin\User\UpdateWalletRequest;
-use App\Http\Resources\V1\Address\AddressCollection;
-use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderCollection;
-use App\Http\Resources\V1\Order\OrderCollection;
-use App\Http\Resources\V1\User\UserCollection;
-use App\Http\Resources\V1\User\UserResource;
+use App\Http\Requests\Admin\Address\ChangeActiveAddressRequest;
+use App\Http\Requests\Admin\Address\UpdateAddressRequest;
+use App\Http\Requests\Admin\User\GetUserByTypeRequest;
+use App\Http\Requests\Admin\User\UpdateUserRequest;
+use App\Http\Requests\Admin\User\UpdateWalletRequest;
+use App\Http\Resources\Address\AddressCollection;
+use App\Http\Resources\OnHoldOrder\OnHoldOrderCollection;
+use App\Http\Resources\Order\OrderCollection;
+use App\Http\Resources\User\UserCollection;
+use App\Http\Resources\User\UserResource;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginServiceInterface;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Checkout\SetDeliveryMethodRequest;
-use App\Http\Requests\V1\Shop\Checkout\SetPaymentMethodRequest;
-use App\Http\Resources\V1\Checkout\CheckoutResource;
-use App\Http\Resources\V1\Delivery\DeliveryCollection;
+use App\Http\Requests\Shop\Checkout\SetDeliveryMethodRequest;
+use App\Http\Requests\Shop\Checkout\SetPaymentMethodRequest;
+use App\Http\Resources\Checkout\CheckoutResource;
+use App\Http\Resources\Delivery\DeliveryCollection;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\CartItem\CartItemServiceInterface;

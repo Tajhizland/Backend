@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Banner\BannerCollection;
-use App\Http\Resources\V1\Breadcrumb\BreadcrumbCollection;
-use App\Http\Resources\V1\Campaign\CampaignResource;
-use App\Http\Resources\V1\Category\SimpleCategoryCollection;
-use App\Http\Resources\V1\DiscountItem\DiscountItemResource;
-use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
-use App\Http\Resources\V1\Price\PriceResource;
-use App\Http\Resources\V1\Product\ProductCollection;
-use App\Http\Resources\V1\Product\ProductResource;
-use App\Http\Resources\V1\ProductOption\ProductOptionCollection;
+use App\Http\Resources\Banner\BannerCollection;
+use App\Http\Resources\Breadcrumb\BreadcrumbCollection;
+use App\Http\Resources\Campaign\CampaignResource;
+use App\Http\Resources\Category\SimpleCategoryCollection;
+use App\Http\Resources\DiscountItem\DiscountItemResource;
+use App\Http\Resources\PopularProduct\PopularProductCollection;
+use App\Http\Resources\Price\PriceResource;
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\ProductOption\ProductOptionCollection;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Contact\ContactCollection;
-use App\Http\Resources\V1\Contact\ContactResource;
+use App\Http\Resources\Contact\ContactCollection;
+use App\Http\Resources\Contact\ContactResource;
 use App\Services\Contact\ContactServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

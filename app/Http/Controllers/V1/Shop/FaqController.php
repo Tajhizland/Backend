@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Faq\FaqCollection;
+use App\Http\Resources\Faq\FaqCollection;
 use App\Services\Faq\FaqServiceInterface;
 
 class FaqController extends Controller

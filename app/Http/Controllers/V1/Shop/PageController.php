@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Page\FindPageRequest;
-use App\Http\Resources\V1\Page\PageResource;
+use App\Http\Requests\Shop\Page\FindPageRequest;
+use App\Http\Resources\Page\PageResource;
 use App\Services\Page\PageServiceInterface;
 
 class PageController extends Controller

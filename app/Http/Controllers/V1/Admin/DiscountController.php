@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Discount\SetDiscountRequest;
-use App\Http\Requests\V1\Admin\Discount\SortTopRequest;
-use App\Http\Requests\V1\Admin\Discount\StoreDiscountRequest;
-use App\Http\Requests\V1\Admin\Discount\UpdateDiscountRequest;
-use App\Http\Requests\V1\Admin\Discount\UpdateItemRequest;
-use App\Http\Resources\V1\Discount\DiscountCollection;
-use App\Http\Resources\V1\Discount\DiscountResource;
-use App\Http\Resources\V1\DiscountItem\DiscountItemCollection;
-use App\Http\Resources\V1\DiscountItem\DiscountItemResource;
+use App\Http\Requests\Admin\Discount\SetDiscountRequest;
+use App\Http\Requests\Admin\Discount\SortTopRequest;
+use App\Http\Requests\Admin\Discount\StoreDiscountRequest;
+use App\Http\Requests\Admin\Discount\UpdateDiscountRequest;
+use App\Http\Requests\Admin\Discount\UpdateItemRequest;
+use App\Http\Resources\Discount\DiscountCollection;
+use App\Http\Resources\Discount\DiscountResource;
+use App\Http\Resources\DiscountItem\DiscountItemCollection;
+use App\Http\Resources\DiscountItem\DiscountItemResource;
 use App\Services\Discount\DiscountServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

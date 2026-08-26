@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\CampaignSlider\SortCampaignSliderRequest;
-use App\Http\Requests\V1\Admin\CampaignSlider\StoreCampaignSliderRequest;
-use App\Http\Requests\V1\Admin\CampaignSlider\UpdateCampaignSliderRequest;
-use App\Http\Resources\V1\CampaignSlider\CampaignSliderCollection;
-use App\Http\Resources\V1\CampaignSlider\CampaignSliderResource;
+use App\Http\Requests\Admin\CampaignSlider\SortCampaignSliderRequest;
+use App\Http\Requests\Admin\CampaignSlider\StoreCampaignSliderRequest;
+use App\Http\Requests\Admin\CampaignSlider\UpdateCampaignSliderRequest;
+use App\Http\Resources\CampaignSlider\CampaignSliderCollection;
+use App\Http\Resources\CampaignSlider\CampaignSliderResource;
 use App\Services\CampaignSlider\CampaignSliderServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

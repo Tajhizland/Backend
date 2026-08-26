@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Permission\StorePermissionRequest;
-use App\Http\Requests\V1\Admin\Permission\UpdatePermissionRequest;
+use App\Http\Requests\Admin\Permission\StorePermissionRequest;
+use App\Http\Requests\Admin\Permission\UpdatePermissionRequest;
 use App\Http\Resources\PermissionResource;
-use App\Http\Resources\V1\Permission\PermissionCollection;
+use App\Http\Resources\Permission\PermissionCollection;
 use App\Services\Permission\PermissionServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

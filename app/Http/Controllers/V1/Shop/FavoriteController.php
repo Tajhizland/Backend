@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Product\Favorite\ChangeFavoriteRequest;
-use App\Http\Resources\V1\Product\ProductCollection;
+use App\Http\Requests\Shop\Product\Favorite\ChangeFavoriteRequest;
+use App\Http\Resources\Product\ProductCollection;
 use App\Services\Favorite\FavoriteServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;

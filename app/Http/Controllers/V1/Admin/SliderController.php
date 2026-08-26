@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\slider\StoreSliderRequest;
-use App\Http\Requests\V1\Admin\slider\UpdateSliderRequest;
-use App\Http\Requests\V1\Admin\SliderSortRequest;
-use App\Http\Resources\V1\Slider\SliderCollection;
-use App\Http\Resources\V1\Slider\SliderResource;
+use App\Http\Requests\Admin\slider\StoreSliderRequest;
+use App\Http\Requests\Admin\slider\UpdateSliderRequest;
+use App\Http\Requests\Admin\SliderSortRequest;
+use App\Http\Resources\Slider\SliderCollection;
+use App\Http\Resources\Slider\SliderResource;
 use App\Services\Slider\SliderServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

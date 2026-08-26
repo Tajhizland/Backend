@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Campaign\StoreCampaignRequest;
-use App\Http\Requests\V1\Admin\Campaign\UpdateCampaignRequest;
-use App\Http\Resources\V1\Campaign\CampaignCollection;
-use App\Http\Resources\V1\Campaign\CampaignResource;
+use App\Http\Requests\Admin\Campaign\StoreCampaignRequest;
+use App\Http\Requests\Admin\Campaign\UpdateCampaignRequest;
+use App\Http\Resources\Campaign\CampaignCollection;
+use App\Http\Resources\Campaign\CampaignResource;
 use App\Services\Campaign\CampaignServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

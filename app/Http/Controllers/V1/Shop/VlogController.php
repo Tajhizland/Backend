@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Vlog\FindVlogByUrlRequest;
-use App\Http\Requests\V1\Shop\Vlog\GetBlogByCategoryRequest;
-use App\Http\Resources\V1\Banner\BannerCollection;
-use App\Http\Resources\V1\Vlog\VlogCollection;
-use App\Http\Resources\V1\Vlog\VlogResource;
-use App\Http\Resources\V1\VlogCategory\VlogCategoryCollection;
-use App\Http\Resources\V1\VlogCategory\VlogCategoryResource;
+use App\Http\Requests\Shop\Vlog\FindVlogByUrlRequest;
+use App\Http\Requests\Shop\Vlog\GetBlogByCategoryRequest;
+use App\Http\Resources\Banner\BannerCollection;
+use App\Http\Resources\Vlog\VlogCollection;
+use App\Http\Resources\Vlog\VlogResource;
+use App\Http\Resources\VlogCategory\VlogCategoryCollection;
+use App\Http\Resources\VlogCategory\VlogCategoryResource;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Vlog\VlogServiceInterface;

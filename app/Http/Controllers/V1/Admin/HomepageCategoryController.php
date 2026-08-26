@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\HomepageCategory\HomepageCategoryRequest;
-use App\Http\Requests\V1\Admin\HomepageCategory\SetIconRequest;
-use App\Http\Resources\V1\HomepageCategory\HomepageCategoryCollection;
+use App\Http\Requests\Admin\HomepageCategory\HomepageCategoryRequest;
+use App\Http\Requests\Admin\HomepageCategory\SetIconRequest;
+use App\Http\Resources\HomepageCategory\HomepageCategoryCollection;
 use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

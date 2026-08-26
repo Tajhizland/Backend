@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\VlogCategory\StoreVlogCategoryRequest;
-use App\Http\Requests\V1\Admin\VlogCategory\UpdateVlogCategoryRequest;
-use App\Http\Resources\V1\VlogCategory\VlogCategoryCollection;
-use App\Http\Resources\V1\VlogCategory\VlogCategoryResource;
-use App\Http\Requests\V1\Admin\VlogCategory\VlogCategorySortRequest;
+use App\Http\Requests\Admin\VlogCategory\StoreVlogCategoryRequest;
+use App\Http\Requests\Admin\VlogCategory\UpdateVlogCategoryRequest;
+use App\Http\Resources\VlogCategory\VlogCategoryCollection;
+use App\Http\Resources\VlogCategory\VlogCategoryResource;
+use App\Http\Requests\Admin\VlogCategory\VlogCategorySortRequest;
 use App\Services\VlogCategory\VlogCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

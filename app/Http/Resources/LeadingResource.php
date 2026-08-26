@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\V1\News\NewsCollection;
-use App\Http\Resources\V1\Poster\PosterResource;
-use App\Http\Resources\V1\Vlog\VlogCollection;
+use App\Http\Resources\News\NewsCollection;
+use App\Http\Resources\Poster\PosterResource;
+use App\Http\Resources\Vlog\VlogCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

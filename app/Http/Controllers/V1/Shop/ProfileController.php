@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Profile\ChangePasswordRequest;
+use App\Http\Requests\Shop\Profile\ChangePasswordRequest;
 use App\Services\Profile\ProfileServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

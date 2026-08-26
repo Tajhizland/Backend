@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Cart\AddToCartRequest;
-use App\Http\Requests\V1\Shop\Cart\MergeCartRequest;
-use App\Http\Requests\V1\Shop\Cart\UpdateCartItemRequest;
-use App\Http\Resources\V1\CartItem\CartItemCollection;
+use App\Http\Requests\Shop\Cart\AddToCartRequest;
+use App\Http\Requests\Shop\Cart\MergeCartRequest;
+use App\Http\Requests\Shop\Cart\UpdateCartItemRequest;
+use App\Http\Resources\CartItem\CartItemCollection;
 use App\Services\Cart\CartServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;

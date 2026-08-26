@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Product\ProductCollection;
-use App\Http\Resources\V1\Product\ProductResource;
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Product\ProductResource;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\ProductGroup\ProductGroupServiceInterface;
 use Illuminate\Http\Request;

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Search\SearchRequest;
-use App\Http\Resources\V1\Category\CategoryCollection;
-use App\Http\Resources\V1\Product\ProductCollection;
+use App\Http\Requests\Shop\Search\SearchRequest;
+use App\Http\Resources\Category\CategoryCollection;
+use App\Http\Resources\Product\ProductCollection;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 

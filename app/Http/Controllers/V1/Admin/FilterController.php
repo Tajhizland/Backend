@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Filter\StoreFilterRequest;
-use App\Http\Requests\V1\Admin\Filter\UpdateFilterRequest;
-use App\Http\Resources\V1\Filter\FilterCollection;
-use App\Http\Resources\V1\Filter\FilterResource;
+use App\Http\Requests\Admin\Filter\StoreFilterRequest;
+use App\Http\Requests\Admin\Filter\UpdateFilterRequest;
+use App\Http\Resources\Filter\FilterCollection;
+use App\Http\Resources\Filter\FilterResource;
 use App\Services\Filter\FilterServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

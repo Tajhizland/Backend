@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Order\OrderCollection;
-use App\Http\Resources\V1\Order\OrderResource;
+use App\Http\Resources\Order\OrderCollection;
+use App\Http\Resources\Order\OrderResource;
 use App\Services\Order\OrderServiceInterface;
 use Illuminate\Support\Facades\Auth;
 

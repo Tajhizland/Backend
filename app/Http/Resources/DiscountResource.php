@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\V1\Campaign\CampaignResource;
-use App\Http\Resources\V1\ProductColor\ProductColorResource;
+use App\Http\Resources\Campaign\CampaignResource;
+use App\Http\Resources\ProductColor\ProductColorResource;
 use App\Models\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

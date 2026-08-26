@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Notification\NotificationCollection;
+use App\Http\Resources\Notification\NotificationCollection;
 use App\Services\Notification\NotificationService;
 use Illuminate\Support\Facades\Lang;
 

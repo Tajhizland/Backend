@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Menu\MenuCollection;
+use App\Http\Resources\Menu\MenuCollection;
 use App\Services\Menu\MenuServiceInterface;
 
 class MenuController extends Controller

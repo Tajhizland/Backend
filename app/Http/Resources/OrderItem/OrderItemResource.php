@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Resources\OrderItem;
+
+use App\Http\Resources\Guaranty\GuarantyResource;
+use App\Http\Resources\Order\OrderResource;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\ProductColor\ProductColorResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Morilog\Jalali\Jalalian;
+
+/** @mixin \App\Models\OrderItem */
+class OrderItemResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'count' => $this->count,
+            'price' => $this->price,
+            'final_price' => $this->final_price,
+            'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
+            'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
+
+            'product_id' => $this->product_id,
+            'discount' => $this->discount,
+            'product_color_id' => $this->product_color_id,
+            'order_id' => $this->order_id,
+            'guaranty_id' => $this->guaranty_id,
+            'guaranty_price' => $this->guaranty_price,
+
+            'guaranty' => new GuarantyResource($this->whenLoaded('guaranty')),
+            'order' => new OrderResource($this->whenLoaded('order')),
+            'product' => new ProductResource($this->whenLoaded('product')),
+            'productColor' => new ProductColorResource($this->whenLoaded('productColor')),
+        ];
+    }
+}

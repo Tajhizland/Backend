@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Role\StoreRoleRequest;
-use App\Http\Requests\V1\Admin\Role\UpdateRoleRequest;
+use App\Http\Requests\Admin\Role\StoreRoleRequest;
+use App\Http\Requests\Admin\Role\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
-use App\Http\Resources\V1\Role\RoleCollection;
+use App\Http\Resources\Role\RoleCollection;
 use App\Services\Role\RoleServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

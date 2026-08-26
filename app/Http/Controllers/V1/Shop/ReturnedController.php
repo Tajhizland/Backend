@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Returned\StoreReturnedRequest;
+use App\Http\Requests\Shop\Returned\StoreReturnedRequest;
 use App\Services\Returned\ReturnedServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;

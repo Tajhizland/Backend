@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\TrustedBrand\StoreTrustedBrandRequest;
-use App\Http\Requests\V1\TrustedBrand\UpdateTrustedBrandRequest;
-use App\Http\Resources\V1\TrustedBrand\TrustedBrandCollection;
-use App\Http\Resources\V1\TrustedBrand\TrustedBrandResource;
+use App\Http\Requests\TrustedBrand\StoreTrustedBrandRequest;
+use App\Http\Requests\TrustedBrand\UpdateTrustedBrandRequest;
+use App\Http\Resources\TrustedBrand\TrustedBrandCollection;
+use App\Http\Resources\TrustedBrand\TrustedBrandResource;
 use App\Services\TrustedBrand\TrustedBrandServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

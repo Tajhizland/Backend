@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\CastCategory\CastCategoryCollection;
+use App\Http\Resources\CastCategory\CastCategoryCollection;
 use App\Services\CastCategory\CastCategoryService;
 
 class CastCategoryController extends Controller

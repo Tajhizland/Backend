@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Menu\StoreMenuRequest;
-use App\Http\Requests\V1\Admin\Menu\UpdateMenuRequest;
-use App\Http\Resources\V1\Menu\MenuCollection;
-use App\Http\Resources\V1\Menu\MenuResource;
+use App\Http\Requests\Admin\Menu\StoreMenuRequest;
+use App\Http\Requests\Admin\Menu\UpdateMenuRequest;
+use App\Http\Resources\Menu\MenuCollection;
+use App\Http\Resources\Menu\MenuResource;
 use App\Services\Menu\MenuServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

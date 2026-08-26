@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Banner\BannerCollection;
-use App\Http\Resources\V1\Product\ProductCollection;
+use App\Http\Resources\Banner\BannerCollection;
+use App\Http\Resources\Product\ProductCollection;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 

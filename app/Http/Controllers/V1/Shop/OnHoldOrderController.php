@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Coupon\CheckCouponRequest;
-use App\Http\Requests\V1\Shop\OnHoldOrder\OnHoldOrderCheckoutPaymentRequest;
-use App\Http\Resources\V1\Coupon\CouponResource;
-use App\Http\Resources\V1\Delivery\DeliveryCollection;
-use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderCheckoutResource;
-use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderCollection;
+use App\Http\Requests\Shop\Coupon\CheckCouponRequest;
+use App\Http\Requests\Shop\OnHoldOrder\OnHoldOrderCheckoutPaymentRequest;
+use App\Http\Resources\Coupon\CouponResource;
+use App\Http\Resources\Delivery\DeliveryCollection;
+use App\Http\Resources\OnHoldOrder\OnHoldOrderCheckoutResource;
+use App\Http\Resources\OnHoldOrder\OnHoldOrderCollection;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Services\Checkout\ShippingMethodResolver;
 use App\Services\Coupon\CouponServiceInterface;

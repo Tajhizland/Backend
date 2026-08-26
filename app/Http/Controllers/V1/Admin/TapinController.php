@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Tapin\TapinRegisterRequest;
+use App\Http\Requests\Admin\Tapin\TapinRegisterRequest;
 use App\Services\Order\OrderServiceInterface;
 use App\Services\Tapin\TapinService;
 use Illuminate\Support\Facades\Lang;

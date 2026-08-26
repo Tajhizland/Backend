@@ -4,11 +4,11 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Enums\SmsLogStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Sms\SendToContactRequest;
-use App\Http\Requests\V1\Admin\Sms\SmsRequest;
-use App\Http\Resources\V1\SmsLog\SmsLogCollection;
-use App\Http\Resources\V1\SmsLogItem\SmsLogItemCollection;
-use App\Http\Resources\V1\SmsLogItem\SmsLogItemResource;
+use App\Http\Requests\Admin\Sms\SendToContactRequest;
+use App\Http\Requests\Admin\Sms\SmsRequest;
+use App\Http\Resources\SmsLog\SmsLogCollection;
+use App\Http\Resources\SmsLogItem\SmsLogItemCollection;
+use App\Http\Resources\SmsLogItem\SmsLogItemResource;
 use App\Jobs\GroupContactSmsMarketingJob;
 use App\Jobs\GroupUserSmsMarketingJob;
 use App\Services\SmsLog\SmsLogServiceInterface;

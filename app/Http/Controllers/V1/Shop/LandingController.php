@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Landing\FindByUrlRequest;
-use App\Http\Resources\V1\Landing\LandingResource;
+use App\Http\Requests\Shop\Landing\FindByUrlRequest;
+use App\Http\Resources\Landing\LandingResource;
 use App\Services\Landing\LandingServiceInterface;
 
 class LandingController extends Controller

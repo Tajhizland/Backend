@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Address\ChangeActiveAddressRequest;
-use App\Http\Requests\V1\Shop\Address\UpdateAddresRequest;
-use App\Http\Resources\V1\Address\AddressCollection;
-use App\Http\Resources\V1\Address\AddressResource;
-use App\Http\Resources\V1\City\CityCollection;
-use App\Http\Resources\V1\Province\ProvinceCollection;
+use App\Http\Requests\Shop\Address\ChangeActiveAddressRequest;
+use App\Http\Requests\Shop\Address\UpdateAddresRequest;
+use App\Http\Resources\Address\AddressCollection;
+use App\Http\Resources\Address\AddressResource;
+use App\Http\Resources\City\CityCollection;
+use App\Http\Resources\Province\ProvinceCollection;
 use App\Services\Address\AddressServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;

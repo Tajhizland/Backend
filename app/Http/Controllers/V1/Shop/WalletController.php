@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Wallet\ChargeWalletRequest;
+use App\Http\Requests\Shop\Wallet\ChargeWalletRequest;
 use App\Services\Payment\PaymentServicesInterface;
 use App\Services\WalletTransaction\WalletTransactionServiceInterface;
 use Illuminate\Http\Request;

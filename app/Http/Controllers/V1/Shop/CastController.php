@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Banner\BannerCollection;
-use App\Http\Resources\V1\Cast\CastCollection;
-use App\Http\Resources\V1\Cast\CastResource;
-use App\Http\Resources\V1\CastCategory\CastCategoryCollection;
+use App\Http\Resources\Banner\BannerCollection;
+use App\Http\Resources\Cast\CastCollection;
+use App\Http\Resources\Cast\CastResource;
+use App\Http\Resources\CastCategory\CastCategoryCollection;
 use App\Repositories\Banner\BannerRepositoryInterface;
 use App\Services\Cast\CastServiceInterface;
 use App\Services\CastCategory\CastCategoryServiceInterface;

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Coupon\StoreCouponRequest;
-use App\Http\Requests\V1\Admin\Coupon\StoreGroupCouponRequest;
-use App\Http\Requests\V1\Admin\Coupon\UpdateCouponRequest;
-use App\Http\Resources\V1\Coupon\CouponCollection;
-use App\Http\Resources\V1\Coupon\CouponResource;
+use App\Http\Requests\Admin\Coupon\StoreCouponRequest;
+use App\Http\Requests\Admin\Coupon\StoreGroupCouponRequest;
+use App\Http\Requests\Admin\Coupon\UpdateCouponRequest;
+use App\Http\Resources\Coupon\CouponCollection;
+use App\Http\Resources\Coupon\CouponResource;
 use App\Services\Coupon\CouponServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

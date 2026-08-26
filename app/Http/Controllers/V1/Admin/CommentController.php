@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Comment\UpdateCommentStatusRequest;
-use App\Http\Resources\V1\Comment\CommentCollection;
-use App\Http\Resources\V1\Comment\CommentResource;
+use App\Http\Requests\Admin\Comment\UpdateCommentStatusRequest;
+use App\Http\Resources\Comment\CommentCollection;
+use App\Http\Resources\Comment\CommentResource;
 use App\Services\Comment\CommentServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

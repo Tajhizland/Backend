@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Profile\UpdateProfileRequest;
-use App\Http\Resources\V1\User\UserResource;
+use App\Http\Requests\Shop\Profile\UpdateProfileRequest;
+use App\Http\Resources\User\UserResource;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

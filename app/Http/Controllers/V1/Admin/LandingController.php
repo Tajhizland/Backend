@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Landing\SetBannerRequest;
-use App\Http\Requests\V1\Admin\Landing\SetCategoryLandingRequest;
-use App\Http\Requests\V1\Admin\Landing\SetLandingProductRequest;
-use App\Http\Requests\V1\Admin\Landing\StoreLandingRequest;
-use App\Http\Requests\V1\Admin\Landing\UpdateLandingRequest;
-use App\Http\Resources\V1\Landing\LandingCollection;
-use App\Http\Resources\V1\Landing\LandingResource;
-use App\Http\Resources\V1\LandingBanner\LandingBannerCollection;
-use App\Http\Resources\V1\LandingCategory\LandingCategoryCollection;
-use App\Http\Resources\V1\LandingProduct\LandingProductCollection;
+use App\Http\Requests\Admin\Landing\SetBannerRequest;
+use App\Http\Requests\Admin\Landing\SetCategoryLandingRequest;
+use App\Http\Requests\Admin\Landing\SetLandingProductRequest;
+use App\Http\Requests\Admin\Landing\StoreLandingRequest;
+use App\Http\Requests\Admin\Landing\UpdateLandingRequest;
+use App\Http\Resources\Landing\LandingCollection;
+use App\Http\Resources\Landing\LandingResource;
+use App\Http\Resources\LandingBanner\LandingBannerCollection;
+use App\Http\Resources\LandingCategory\LandingCategoryCollection;
+use App\Http\Resources\LandingProduct\LandingProductCollection;
 use App\Services\Landing\LandingServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

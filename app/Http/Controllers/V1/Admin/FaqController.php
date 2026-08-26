@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Faq\StoreFaqRequest;
-use App\Http\Requests\V1\Admin\Faq\UpdateFaqRequest;
-use App\Http\Resources\V1\Faq\FaqCollection;
-use App\Http\Resources\V1\Faq\FaqResource;
+use App\Http\Requests\Admin\Faq\StoreFaqRequest;
+use App\Http\Requests\Admin\Faq\UpdateFaqRequest;
+use App\Http\Resources\Faq\FaqCollection;
+use App\Http\Resources\Faq\FaqResource;
 use App\Services\Faq\FaqServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

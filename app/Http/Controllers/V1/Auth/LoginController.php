@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Auth\Login\LoginRequest;
+use App\Http\Requests\Auth\Login\LoginRequest;
 use App\Services\Auth\Login\LoginServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

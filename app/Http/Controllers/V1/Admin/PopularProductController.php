@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\PopularProduct\PopularProductRequest;
-use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
-use App\Http\Resources\V1\PopularProduct\PopularProductCollection;
+use App\Http\Requests\Admin\PopularProduct\PopularProductRequest;
+use App\Http\Resources\PopularCategory\PopularCategoryCollection;
+use App\Http\Resources\PopularProduct\PopularProductCollection;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

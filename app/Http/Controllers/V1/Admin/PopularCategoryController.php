@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\PopularCategory\PopularCategoryRequest;
-use App\Http\Resources\V1\PopularCategory\PopularCategoryCollection;
+use App\Http\Requests\Admin\PopularCategory\PopularCategoryRequest;
+use App\Http\Resources\PopularCategory\PopularCategoryCollection;
 use App\Services\PopularCategory\PopularCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

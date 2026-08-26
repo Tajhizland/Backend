@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Banner\BannerSortRequest;
-use App\Http\Requests\V1\Admin\Banner\StoreBannerRequest;
-use App\Http\Requests\V1\Admin\Banner\UpdateBannerRequest;
-use App\Http\Resources\V1\Banner\BannerCollection;
-use App\Http\Resources\V1\Banner\BannerResource;
+use App\Http\Requests\Admin\Banner\BannerSortRequest;
+use App\Http\Requests\Admin\Banner\StoreBannerRequest;
+use App\Http\Requests\Admin\Banner\UpdateBannerRequest;
+use App\Http\Resources\Banner\BannerCollection;
+use App\Http\Resources\Banner\BannerResource;
 use App\Services\Banner\BannerServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

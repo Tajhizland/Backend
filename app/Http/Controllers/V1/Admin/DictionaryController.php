@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Dictionary\StoreDictionaryRequest;
-use App\Http\Requests\V1\Admin\Dictionary\UpdateDictionaryRequest;
-use App\Http\Resources\V1\Dictionary\DictionaryCollection;
-use App\Http\Resources\V1\Dictionary\DictionaryResource;
+use App\Http\Requests\Admin\Dictionary\StoreDictionaryRequest;
+use App\Http\Requests\Admin\Dictionary\UpdateDictionaryRequest;
+use App\Http\Resources\Dictionary\DictionaryCollection;
+use App\Http\Resources\Dictionary\DictionaryResource;
 use App\Services\Dictionary\DictionaryServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

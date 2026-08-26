@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\PhoneBock\StorePhoneBockRequest;
-use App\Http\Requests\V1\Admin\PhoneBock\UpdatePhoneBockRequest;
-use App\Http\Requests\V1\Admin\PhoneBock\UploadExcelRequest;
-use App\Http\Resources\V1\PhoneBock\PhoneBockCollection;
-use App\Http\Resources\V1\PhoneBock\PhoneBockResource;
+use App\Http\Requests\Admin\PhoneBock\StorePhoneBockRequest;
+use App\Http\Requests\Admin\PhoneBock\UpdatePhoneBockRequest;
+use App\Http\Requests\Admin\PhoneBock\UploadExcelRequest;
+use App\Http\Resources\PhoneBock\PhoneBockCollection;
+use App\Http\Resources\PhoneBock\PhoneBockResource;
 use App\Imports\PhoneBockImport;
 use App\Services\PhoneBock\PhoneBockService;
 use Illuminate\Support\Facades\Lang;

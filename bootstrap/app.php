@@ -11,6 +11,7 @@ use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -67,6 +68,16 @@ return Application::configure(basePath: dirname(__DIR__))
                 400
             );
         });
+        $exceptions->render(function (BadRequestHttpException $exception, Request $request) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => $exception->getMessage(),
+                    'errors' => 'درخواست نامعتبر'
+                ],
+                400
+            );
+        });
         $exceptions->render(function (ValidationException $exception, Request $request) {
             return response()->json(
                 [
@@ -82,7 +93,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'محصول مورد نظر یافت نشد'
+                    'message' => 'صفحه مورد نظر یافت نشد'
                 ],
                 404
             );

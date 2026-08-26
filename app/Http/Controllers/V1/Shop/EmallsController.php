@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Product\EmallsCollection;
+use App\Http\Resources\Product\EmallsCollection;
 use App\Services\Product\ProductServiceInterface;
 use Illuminate\Http\Request;
 

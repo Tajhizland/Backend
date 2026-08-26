@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Torob\NewTorobResource; 
+use App\Http\Resources\Torob\NewTorobResource; 
 use App\Services\Product\ProductServiceInterface;
 use Illuminate\Http\Request;
 

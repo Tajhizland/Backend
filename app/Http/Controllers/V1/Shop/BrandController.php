@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Banner\BannerCollection;
-use App\Http\Resources\V1\Brand\BrandCollection;
-use App\Http\Resources\V1\Brand\BrandResource;
-use App\Http\Resources\V1\Category\SimpleCategoryCollection;
-use App\Http\Resources\V1\Product\ProductCollection;
+use App\Http\Resources\Banner\BannerCollection;
+use App\Http\Resources\Brand\BrandCollection;
+use App\Http\Resources\Brand\BrandResource;
+use App\Http\Resources\Category\SimpleCategoryCollection;
+use App\Http\Resources\Product\ProductCollection;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Brand\BrandServiceInterface;
 use Illuminate\Http\Request;

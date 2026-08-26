@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Upload\AbortUploadRequest;
-use App\Http\Requests\V1\Admin\Upload\CompleteUploadRequest;
-use App\Http\Requests\V1\Admin\Upload\InitiateUploadRequest;
-use App\Http\Requests\V1\Admin\Upload\SignPartsRequest;
+use App\Http\Requests\Admin\Upload\AbortUploadRequest;
+use App\Http\Requests\Admin\Upload\CompleteUploadRequest;
+use App\Http\Requests\Admin\Upload\InitiateUploadRequest;
+use App\Http\Requests\Admin\Upload\SignPartsRequest;
 use App\Services\DirectUpload\DirectUploadServiceInterface;
 use Illuminate\Support\Facades\Auth;
 

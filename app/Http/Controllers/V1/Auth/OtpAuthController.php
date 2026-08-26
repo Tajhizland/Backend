@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Auth\Otp\CheckMobileRequest;
-use App\Http\Requests\V1\Auth\Otp\SendOtpRequest;
-use App\Http\Requests\V1\Auth\Otp\VerifyOtpRequest;
+use App\Http\Requests\Auth\Otp\CheckMobileRequest;
+use App\Http\Requests\Auth\Otp\SendOtpRequest;
+use App\Http\Requests\Auth\Otp\VerifyOtpRequest;
 use App\Services\Auth\Otp\OtpAuthServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

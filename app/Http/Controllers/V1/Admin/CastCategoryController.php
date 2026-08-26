@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\CastCategory\StoreCastCategoryRequest;
-use App\Http\Requests\V1\Admin\CastCategory\UpdateCastCategoryRequest;
-use App\Http\Resources\V1\CastCategory\CastCategoryCollection;
-use App\Http\Resources\V1\CastCategory\CastCategoryResource;
+use App\Http\Requests\Admin\CastCategory\StoreCastCategoryRequest;
+use App\Http\Requests\Admin\CastCategory\UpdateCastCategoryRequest;
+use App\Http\Resources\CastCategory\CastCategoryCollection;
+use App\Http\Resources\CastCategory\CastCategoryResource;
 use App\Services\CastCategory\CastCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\RunConceptAnswer\StoreRunConceptAnswerRequest;
-use App\Http\Requests\V1\Admin\RunConceptAnswer\UpdateRunConceptAnswerRequest;
-use App\Http\Resources\V1\RunConceptAnswer\RunConceptAnswerCollection;
-use App\Http\Resources\V1\RunConceptAnswer\RunConceptAnswerResource;
+use App\Http\Requests\Admin\RunConceptAnswer\StoreRunConceptAnswerRequest;
+use App\Http\Requests\Admin\RunConceptAnswer\UpdateRunConceptAnswerRequest;
+use App\Http\Resources\RunConceptAnswer\RunConceptAnswerCollection;
+use App\Http\Resources\RunConceptAnswer\RunConceptAnswerResource;
 use App\Services\RunConceptAnswer\RunConceptAnswerServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

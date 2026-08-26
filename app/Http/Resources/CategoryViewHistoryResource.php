@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\V1\User\UserResource;
+use App\Http\Resources\User\UserResource;
 use App\Models\CategoryViewHistory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

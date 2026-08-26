@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Delivery\SelectDeliveryRequest;
-use App\Http\Resources\V1\Delivery\DeliveryCollection;
+use App\Http\Requests\Shop\Delivery\SelectDeliveryRequest;
+use App\Http\Resources\Delivery\DeliveryCollection;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\Delivery\DeliveryServiceInterface;
 use Illuminate\Support\Facades\Lang;

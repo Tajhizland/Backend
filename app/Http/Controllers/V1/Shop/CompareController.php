@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Compare\GetProductRequest;
-use App\Http\Requests\V1\Shop\Compare\SearchProductRequest;
-use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductCollection;
-use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductResource;
+use App\Http\Requests\Shop\Compare\GetProductRequest;
+use App\Http\Requests\Shop\Compare\SearchProductRequest;
+use App\Http\Resources\Product\SimpleProduct\SimpleProductCollection;
+use App\Http\Resources\Product\SimpleProduct\SimpleProductResource;
 use App\Services\Compare\CompareServiceInterface;
 
 class CompareController extends Controller

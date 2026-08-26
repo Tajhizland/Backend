@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Sample\SampleImageRequest;
-use App\Http\Requests\V1\Admin\Sample\SampleVideoRequest;
-use App\Http\Requests\V1\Admin\Sample\SortImageRequest;
-use App\Http\Requests\V1\Admin\Sample\SortVideoRequest;
-use App\Http\Requests\V1\Admin\SampleRequest;
-use App\Http\Resources\V1\Sample\SampleResource;
-use App\Http\Resources\V1\SampleImage\SampleImageCollection;
-use App\Http\Resources\V1\SampleVideo\SampleVideoCollection;
-use App\Http\Resources\V1\SampleVideo\SampleVideoResource;
+use App\Http\Requests\Admin\Sample\SampleImageRequest;
+use App\Http\Requests\Admin\Sample\SampleVideoRequest;
+use App\Http\Requests\Admin\Sample\SortImageRequest;
+use App\Http\Requests\Admin\Sample\SortVideoRequest;
+use App\Http\Requests\Admin\SampleRequest;
+use App\Http\Resources\Sample\SampleResource;
+use App\Http\Resources\SampleImage\SampleImageCollection;
+use App\Http\Resources\SampleVideo\SampleVideoCollection;
+use App\Http\Resources\SampleVideo\SampleVideoResource;
 use App\Services\Sample\SampleServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

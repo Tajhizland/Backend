@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Returned\UpdateReturnedStatusRequest;
-use App\Http\Resources\V1\Returned\ReturnedCollection;
+use App\Http\Requests\Admin\Returned\UpdateReturnedStatusRequest;
+use App\Http\Resources\Returned\ReturnedCollection;
 use App\Services\Returned\ReturnedServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

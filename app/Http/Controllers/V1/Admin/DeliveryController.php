@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Delivery\StoreDeliveryRequest;
-use App\Http\Requests\V1\Admin\Delivery\UpdateDeliveryRequest;
-use App\Http\Resources\V1\Delivery\DeliveryCollection;
-use App\Http\Resources\V1\Delivery\DeliveryResource;
+use App\Http\Requests\Admin\Delivery\StoreDeliveryRequest;
+use App\Http\Requests\Admin\Delivery\UpdateDeliveryRequest;
+use App\Http\Resources\Delivery\DeliveryCollection;
+use App\Http\Resources\Delivery\DeliveryResource;
 use App\Services\Delivery\DeliveryServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

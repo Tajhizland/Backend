@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Auth\Register\RegisterRequest;
-use App\Http\Requests\V1\Auth\Register\RegisterVerifyCodeRequest;
-use App\Http\Requests\V1\Auth\Register\SendRegisterVerificationCodeRequest;
+use App\Http\Requests\Auth\Register\RegisterRequest;
+use App\Http\Requests\Auth\Register\RegisterVerifyCodeRequest;
+use App\Http\Requests\Auth\Register\SendRegisterVerificationCodeRequest;
 use App\Services\Auth\Register\RegisterServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

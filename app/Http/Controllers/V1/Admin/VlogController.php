@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Vlog\StoreVlogDirectRequest;
-use App\Http\Requests\V1\Admin\Vlog\StoreVlogRequest;
-use App\Http\Requests\V1\Admin\Vlog\UpdateVlogRequest;
-use App\Http\Requests\V1\Admin\Vlog\VlogSearchRequest;
-use App\Http\Requests\V1\Admin\Vlog\VlogSortRequest;
-use App\Http\Resources\V1\Vlog\VlogCollection;
-use App\Http\Resources\V1\Vlog\VlogResource;
+use App\Http\Requests\Admin\Vlog\StoreVlogDirectRequest;
+use App\Http\Requests\Admin\Vlog\StoreVlogRequest;
+use App\Http\Requests\Admin\Vlog\UpdateVlogRequest;
+use App\Http\Requests\Admin\Vlog\VlogSearchRequest;
+use App\Http\Requests\Admin\Vlog\VlogSortRequest;
+use App\Http\Resources\Vlog\VlogCollection;
+use App\Http\Resources\Vlog\VlogResource;
 use App\Services\Vlog\VlogServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Guaranty\GuarantyResource;
+use App\Http\Resources\Guaranty\GuarantyResource;
 use App\Services\Guaranty\GuarantyServiceInterface;
 use Illuminate\Http\Request;
 

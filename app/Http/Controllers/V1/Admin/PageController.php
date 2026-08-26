@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Page\StorePageRequest;
-use App\Http\Requests\V1\Admin\Page\UpdatePageRequest;
-use App\Http\Resources\V1\Page\PageCollection;
-use App\Http\Resources\V1\Page\PageResource;
+use App\Http\Requests\Admin\Page\StorePageRequest;
+use App\Http\Requests\Admin\Page\UpdatePageRequest;
+use App\Http\Resources\Page\PageCollection;
+use App\Http\Resources\Page\PageResource;
 use App\Services\Page\PageServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

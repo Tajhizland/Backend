@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Auth\ResetPassword\ResetPasswordRequest;
-use App\Http\Requests\V1\Auth\ResetPassword\ResetPasswordVerifyCodeRequest;
-use App\Http\Requests\V1\Auth\ResetPassword\SendResetPasswordVerificationCodeRequest;
+use App\Http\Requests\Auth\ResetPassword\ResetPasswordRequest;
+use App\Http\Requests\Auth\ResetPassword\ResetPasswordVerifyCodeRequest;
+use App\Http\Requests\Auth\ResetPassword\SendResetPasswordVerificationCodeRequest;
 use App\Services\Auth\ResetPassword\ResetPasswordServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

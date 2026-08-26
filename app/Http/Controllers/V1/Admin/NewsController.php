@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\News\StoreNewsRequest;
-use App\Http\Requests\V1\Admin\News\UpdateNewsRequest;
-use App\Http\Resources\V1\News\NewsCollection;
-use App\Http\Resources\V1\News\NewsResource;
+use App\Http\Requests\Admin\News\StoreNewsRequest;
+use App\Http\Requests\Admin\News\UpdateNewsRequest;
+use App\Http\Resources\News\NewsCollection;
+use App\Http\Resources\News\NewsResource;
 use App\Services\New\NewServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;

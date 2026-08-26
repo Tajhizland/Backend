@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Order\CancelOrderRequest;
-use App\Http\Requests\V1\Admin\Order\DeleteOrderItemRequest;
-use App\Http\Requests\V1\Admin\Order\DigipayCalcRequest;
-use App\Http\Requests\V1\Admin\Order\UpdateOrderItemRequest;
-use App\Http\Requests\V1\Admin\Order\UpdateOrderStatusRequest;
-use App\Http\Resources\V1\Order\OrderCollection;
-use App\Http\Resources\V1\Order\OrderResource;
+use App\Http\Requests\Admin\Order\CancelOrderRequest;
+use App\Http\Requests\Admin\Order\DeleteOrderItemRequest;
+use App\Http\Requests\Admin\Order\DigipayCalcRequest;
+use App\Http\Requests\Admin\Order\UpdateOrderItemRequest;
+use App\Http\Requests\Admin\Order\UpdateOrderStatusRequest;
+use App\Http\Resources\Order\OrderCollection;
+use App\Http\Resources\Order\OrderResource;
 use App\Services\Order\OrderServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

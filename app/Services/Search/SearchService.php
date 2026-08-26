@@ -2,9 +2,9 @@
 
 namespace App\Services\Search;
 
-use App\Http\Resources\V1\Category\CategoryCollection;
-use App\Http\Resources\V1\Product\ProductCollection;
-use App\Http\Resources\V1\Vlog\VlogCollection;
+use App\Http\Resources\Category\CategoryCollection;
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Vlog\VlogCollection;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;

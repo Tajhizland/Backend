@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\OnHoldOrder\OnHoldOrderRequest;
-use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderCollection;
-use App\Http\Resources\V1\OnHoldOrder\OnHoldOrderResource;
-use App\Http\Resources\V1\Order\OrderResource;
+use App\Http\Requests\Admin\OnHoldOrder\OnHoldOrderRequest;
+use App\Http\Resources\OnHoldOrder\OnHoldOrderCollection;
+use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
+use App\Http\Resources\Order\OrderResource;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

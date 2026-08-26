@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Guaranty\StoreGuarantyRequest;
-use App\Http\Requests\V1\Admin\Guaranty\UpdateGuarantyRequest;
-use App\Http\Resources\V1\Guaranty\GuarantyCollection;
-use App\Http\Resources\V1\Guaranty\GuarantyResource;
+use App\Http\Requests\Admin\Guaranty\StoreGuarantyRequest;
+use App\Http\Requests\Admin\Guaranty\UpdateGuarantyRequest;
+use App\Http\Resources\Guaranty\GuarantyCollection;
+use App\Http\Resources\Guaranty\GuarantyResource;
 use App\Services\Guaranty\GuarantyServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

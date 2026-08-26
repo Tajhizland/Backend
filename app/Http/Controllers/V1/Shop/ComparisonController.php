@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Product\ComparisonRequest;
-use App\Http\Resources\V1\Product\ProductCollection;
-use App\Http\Resources\V1\Product\ProductResource;
+use App\Http\Requests\Shop\Product\ComparisonRequest;
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Product\ProductResource;
 use App\Services\Product\ProductServiceInterface;
 
 class ComparisonController extends Controller

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\Gateway\StoreGatewayRequest;
-use App\Http\Requests\V1\Admin\Gateway\UpdateGatewayRequest;
-use App\Http\Resources\V1\Gateway\GatewayCollection;
-use App\Http\Resources\V1\Gateway\GatewayResource;
+use App\Http\Requests\Admin\Gateway\StoreGatewayRequest;
+use App\Http\Requests\Admin\Gateway\UpdateGatewayRequest;
+use App\Http\Resources\Gateway\GatewayCollection;
+use App\Http\Resources\Gateway\GatewayResource;
 use App\Services\Gateway\GatewayServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

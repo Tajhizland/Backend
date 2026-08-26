@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Resources\CartItem;
+
+use App\Enums\ProductColorStatus;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/** @mixin \App\Models\CartItem */
+class CartItemResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        $price = $this->productColor?->price?->price;
+        $discountItem = $this->productColor->activeDiscountItem->first();
+
+        $hasStock = true;
+        if ($this->count > $this->productColor->stock->stock || $this->productColor->status == ProductColorStatus::DeActive->value) {
+            $hasStock = false;
+        }
+        return [
+            'id' => $this->id,
+            'product' => [
+                'name' => $this?->product?->name,
+                'allow_digipay' => $this?->product?->allow_digipay,
+                'allow_snappay' => $this?->product?->allow_snappay,
+                'url' => $this?->product?->url,
+                'digipay_extra_price' => $this?->product?->digipay_extra_price,
+                'image' => $this?->product?->images?->first()?->url,
+            ],
+            'color' => [
+                "id" => $this->productColor->id,
+                "title" => $this->productColor->color_name,
+                "code" => $this->productColor->color_code,
+                "status" => $this->productColor->status,
+                "delivery_delay" => $this->productColor->delivery_delay,
+                "price" => $this->productColor->price?->price,
+                "discountedPrice" => $discountItem?->discount_price,
+                "discount" => $discountItem?->discount_price * 100 / ($this->productColor?->price?->price==0?1:$this->productColor?->price?->price)
+            ],
+            'guaranty' => [
+                'id' => $this->guaranty?->id,
+                'name' => $this->guaranty?->name,
+                'free' => $this->guaranty?->free,
+            ],
+            'count' => $this->count,
+            'hasStock' => $hasStock,
+        ];
+    }
+}

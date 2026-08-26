@@ -2,159 +2,45 @@
 
 namespace App\Traits;
 
-/**
- * Class ApiResponseTrait
- *
- * @package App\Traits
- * @author Allan Kiezel <allan.kiezel@gmail.com>
- */
 trait ApiResponse
 {
-
-    /**
-     * Resource was successfully created
-     *
-     * @param $data
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function createdResponse($data)
+    protected function dataResponse($data, $message = "با موفقیت دریافت شد")
     {
-        $response = $this->successEnvelope(true, $data, 'Created');
-
-        return response()->json($response, 201);
+        return response()->json($this->successEnvelope(true, ["data" => $data], $message), 200);
     }
 
-    protected function updatedResponse($data)
+    protected function dataResponseCollection($data, $message = "با موفقیت دریافت شد")
     {
-        $response = $this->successEnvelope(true, $data, 'Updated');
-
-        return response()->json($response, 200);
+        return response()->json($this->successEnvelope(true, $data->response()->getData(), $message), 200);
     }
 
-    protected function dataResponse($data , $message="success")
+    protected function successResponse($message = 'OK')
     {
-        $response = $this->successEnvelope(true, ["data"=>$data], $message);
-
-        return response()->json($response, 200);
+        return response()->json($this->successEnvelope(true, [], $message));
     }
-   protected function dataResponseCollection($data , $message="success")
+
+    protected function redirectResponse($destination)
     {
-        $response = $this->successEnvelope(true, $data, $message);
-
-        return response()->json($response, 200);
+        return response()->json($this->successEnvelope(true, ["destination" => $destination], "انتقال"), 301);
     }
 
-    /**
-     * Returns general error
-     *
-     * @param $errors
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function badRequestResponse($errors , $message='Bad Request')
+    protected function badRequestResponse($message = 'درخواست نامعتبر', $errors = 'درخواست نا معتبر')
     {
-        $response = $this->errorEnvelope(false, $errors ,$message);
-
-        return response()->json($response, 400);
+        return response()->json($this->errorEnvelope(false, $errors, $message), 400);
     }
 
-    /**
-     * Client does not have proper permissions to perform action.
-     *
-     * @param $errors
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function forbiddenResponse($errors ,$message='Forbidden')
+    protected function forbiddenResponse($errors = 'Forbidden', $message = 'Forbidden')
     {
-        $response = $this->errorEnvelope(false, $errors,
-            $message);
-
-        return response()->json($response, 403);
+        return response()->json($this->errorEnvelope(false, $errors, $message), 403);
     }
-    protected function unauthorizedResponse($errors ,$message='Unauthorized')
+
+    protected function notFindResponse($message = 'موردی یافت نشد', $errors = 'موردی یافت نشد')
     {
-        $response = $this->errorEnvelope(false, $errors,
-            $message);
-
-        return response()->json($response, 401);
+        return response()->json($this->errorEnvelope(false, $errors, $message), 404);
     }
 
-    /**
-     * Returns a list of resources
-     *
-     * @param $data
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function successResponse( $message= 'OK')
+    private function successEnvelope($success = true, $data = [], $message = 'OK')
     {
-        $response = $this->successEnvelope(true ,[],$message);
-
-        return response()->json($response);
-    }
-    protected function errorResponse( $message= 'error')
-    {
-        $response = $this->errorEnvelope(false ,[],$message);
-
-        return response()->json($response , 400);
-    }
-
-    /**
-     * Requested resource wasn't found
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function notFoundResponse()
-    {
-        $response = $this->errorEnvelope(false, [], 'Not Found');
-
-        return response()->json($response, 404);
-    }
-
-    /**
-     * Return error when request is properly formatted, but contains validation errors
-     *
-     * @param $errors
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function validationErrorResponse($errors)
-    {
-        $response = $this->errorEnvelope(false, $errors, 'Unprocessable Entity');
-
-        return response()->json($response, 422);
-    }
-
-    /**
-     * Standard error envelope structure
-     *
-     * @param int $status
-     * @param array $errors
-     * @param string $message
-     * @return array
-     */
-    private function errorEnvelope(
-        $success = false,
-        $errors = [],
-        $message = 'Bad Request'
-    ) {
-        return [
-            'success' => $success,
-            'message' => $message,
-            'errors' => $errors,
-        ];
-    }
-
-    /**
-     * Standard success envelope structure
-     *
-     * @param int $status
-     * @param array $data
-     * @param string $message
-     * @return array
-     */
-    private function successEnvelope(
-        $success = true,
-        $data = [],
-        $message = 'OK'
-    ) {
         return [
             'success' => $success,
             'message' => $message,
@@ -162,4 +48,12 @@ trait ApiResponse
         ];
     }
 
+    private function errorEnvelope($success = false, $errors = [], $message = 'Bad Request')
+    {
+        return [
+            'success' => $success,
+            'message' => $message,
+            'errors' => $errors,
+        ];
+    }
 }

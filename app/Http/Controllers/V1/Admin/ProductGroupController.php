@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Admin\ProductGroup\AddFieldRequest;
-use App\Http\Requests\V1\Admin\ProductGroup\AddProductRequest;
-use App\Http\Requests\V1\Admin\ProductGroup\SetFieldValueRequest;
-use App\Http\Resources\V1\GroupField\GroupFieldCollection;
-use App\Http\Resources\V1\GroupProduct\GroupProductCollection;
-use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductCollection;
-use App\Http\Resources\V1\Product\SimpleProduct\SimpleProductResource;
+use App\Http\Requests\Admin\ProductGroup\AddFieldRequest;
+use App\Http\Requests\Admin\ProductGroup\AddProductRequest;
+use App\Http\Requests\Admin\ProductGroup\SetFieldValueRequest;
+use App\Http\Resources\GroupField\GroupFieldCollection;
+use App\Http\Resources\GroupProduct\GroupProductCollection;
+use App\Http\Resources\Product\SimpleProduct\SimpleProductCollection;
+use App\Http\Resources\Product\SimpleProduct\SimpleProductResource;
 use App\Services\ProductGroup\ProductGroupServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

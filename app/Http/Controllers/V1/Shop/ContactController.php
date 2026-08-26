@@ -4,7 +4,7 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Events\NewContactEvent;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Shop\Contact\StoreContactRequest;
+use App\Http\Requests\Shop\Contact\StoreContactRequest;
 use App\Services\Contact\ContactServiceInterface;
 use Illuminate\Support\Facades\Lang;
 

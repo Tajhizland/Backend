@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\HomePage\HomePageResource;
+use App\Http\Resources\HomePage\HomePageResource;
 use App\Services\HomePage\HomePageServiceInterface;
 
 class HomePageController extends Controller
