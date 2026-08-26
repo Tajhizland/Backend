@@ -2,6 +2,9 @@
 
 namespace App\Services\Address;
 
+use App\DTOs\Address\AddressChangeActiveDto;
+use App\DTOs\Address\AddressUpdateOrCreateDto;
+
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\Province\ProvinceRepositoryInterface;
@@ -55,40 +58,40 @@ readonly class AddressService implements AddressServiceInterface
         return $this->addressRepository->getUserAddress($userId);
     }
 
-    public function changeActiveAddress($id, $userId)
+    public function changeActiveAddress(AddressChangeActiveDto $dto): bool
     {
-        $address = $this->addressRepository->findOrFail($id);
+        $address = $this->addressRepository->findOrFail($dto->id);
         Gate::authorize('view', $address);
-        $this->addressRepository->disableAllAddress($userId);
+        $this->addressRepository->disableAllAddress($dto->user_id);
         return $this->addressRepository->update($address, ["active" => 1]);
     }
 
-    public function updateOrCreate($id, $userId, $cityId, $provinceId, $tell, $zipCode, $mobile, $address ,$title)
+    public function updateOrCreate(AddressUpdateOrCreateDto $dto): mixed
     {
-        if ($id) {
-            $addressModal = $this->addressRepository->findOrFail($id);
+        if ($dto->id) {
+            $addressModal = $this->addressRepository->findOrFail($dto->id);
             return $this->addressRepository->update($addressModal, [
-                "city_id" => $cityId,
-                "title" => $title,
-                "province_id" => $provinceId,
-                "tell" => $tell,
-                "zip_code" => $zipCode,
-                "mobile" => $mobile,
-                "address" => $address,
-            ]);
-        } else {
-            $this->addressRepository->disableAllAddress($userId);
-            return $this->addressRepository->create([
-                "user_id" => $userId,
-                "title" => $title,
-                "city_id" => $cityId,
-                "province_id" => $provinceId,
-                "tell" => $tell,
-                "zip_code" => $zipCode,
-                "mobile" => $mobile,
-                "address" => $address,
-                "active" => 1
+                "city_id" => $dto->city_id,
+                "title" => $dto->title,
+                "province_id" => $dto->province_id,
+                "tell" => $dto->tell,
+                "zip_code" => $dto->zip_code,
+                "mobile" => $dto->mobile,
+                "address" => $dto->address,
             ]);
         }
+
+        $this->addressRepository->disableAllAddress($dto->user_id);
+        return $this->addressRepository->create([
+            "user_id" => $dto->user_id,
+            "title" => $dto->title,
+            "city_id" => $dto->city_id,
+            "province_id" => $dto->province_id,
+            "tell" => $dto->tell,
+            "zip_code" => $dto->zip_code,
+            "mobile" => $dto->mobile,
+            "address" => $dto->address,
+            "active" => 1,
+        ]);
     }
 }

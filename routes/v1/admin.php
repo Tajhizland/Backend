@@ -101,22 +101,21 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("store", [\App\Http\Controllers\V1\Admin\OptionController::class, "store"]);
         Route::post("update", [\App\Http\Controllers\V1\Admin\OptionController::class, "update"]);
     });
-    Route::group(["prefix" => "user"], function () {
-        Route::post("type", [\App\Http\Controllers\V1\Admin\UserController::class, "getByType"]);
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\UserController::class, "dataTable"]);
-        Route::get("admin/dataTable", [\App\Http\Controllers\V1\Admin\UserController::class, "adminDataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\UserController::class, "findById"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\UserController::class, "update"]);
-        Route::post("wallet", [\App\Http\Controllers\V1\Admin\UserController::class, "updateWallet"]);
+    Route::prefix("user")->controller(\App\Http\Controllers\V1\Admin\UserController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("admin/dataTable", "adminDataTable");
+        Route::post("type", "getByType");
+        Route::post("wallet", "updateWallet");
 
-        Route::get('address/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getAddress"]);
-        Route::post('address/update', [\App\Http\Controllers\V1\Admin\UserController::class, "updateOrCreateAddress"]);
-        Route::post('address/active/change', [\App\Http\Controllers\V1\Admin\UserController::class, "changeActiveAddress"]);
+        Route::post("address", "updateOrCreateAddress");
+        Route::patch("address/active", "changeActiveAddress");
 
-        Route::get('on-hold-order/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getOnHoldOrder"]);
-        Route::get('order/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "getOrder"]);
-        Route::get('login/{id}', [\App\Http\Controllers\V1\Admin\UserController::class, "loginUser"]);
-
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::get("{id}/address", "getAddress");
+        Route::get("{id}/on-hold-order", "getOnHoldOrder");
+        Route::get("{id}/order", "getOrder");
+        Route::get("{id}/login", "loginUser");
     });
     Route::prefix("gateway")->controller(\App\Http\Controllers\V1\Admin\GatewayController::class)->group(function () {
         Route::get("dataTable", "dataTable");

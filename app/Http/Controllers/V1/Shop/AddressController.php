@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Shop;
 
+use App\DTOs\Address\AddressChangeActiveDto;
+use App\DTOs\Address\AddressUpdateOrCreateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Address\ChangeActiveAddressRequest;
 use App\Http\Requests\Shop\Address\UpdateAddresRequest;
@@ -22,8 +24,7 @@ class AddressController extends Controller
 
     public function changeActive(ChangeActiveAddressRequest $request)
     {
-        $userId = Auth::user()->id;
-        $this->addressService->changeActiveAddress($request->get("id"), $userId);
+        $this->addressService->changeActiveAddress(new AddressChangeActiveDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 
@@ -44,8 +45,7 @@ class AddressController extends Controller
 
     public function updateOrCreate(UpdateAddresRequest $request)
     {
-        $userId = Auth::user()->id;
-        $this->addressService->updateOrCreate($request->get("id"), $userId, $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"), $request->get("title"));
+        $this->addressService->updateOrCreate(new AddressUpdateOrCreateDto(Auth::user()->id, ...$request->validated()));
         return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 

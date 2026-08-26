@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Address\AddressChangeActiveDto;
+use App\DTOs\Address\AddressUpdateOrCreateDto;
+use App\DTOs\User\UserByTypeDto;
+use App\DTOs\User\UserUpdateDto;
+use App\DTOs\User\UserWalletUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Address\ChangeActiveAddressRequest;
 use App\Http\Requests\Admin\Address\UpdateAddressRequest;
@@ -58,38 +63,39 @@ class UserController extends Controller
         return $this->dataResponseCollection(OrderResource::collection($response));
     }
 
-    public function findById($id)
+    public function show($id)
     {
-        return $this->dataResponse(new UserResource($this->userService->findById($id)));
+        return $this->dataResponse(new UserResource($this->userService->find($id)));
     }
 
     public function getByType(GetUserByTypeRequest $request)
     {
-        return $this->dataResponseCollection(UserResource::collection($this->userService->getByType($request->get('type'))));
+        $dto = new UserByTypeDto(...$request->validated());
+        return $this->dataResponseCollection(UserResource::collection($this->userService->getByType($dto->type)));
     }
 
 
-    public function update(UpdateUserRequest $request)
+    public function update($id, UpdateUserRequest $request)
     {
-        $this->userService->updateUser($request->get("id"), $request->get("name"), $request->get("username"), $request->get("email"), $request->get("gender"), $request->get("role"), $request->get("last_name"), $request->get("national_code"), $request->get("role_id"));
+        $this->userService->updateUser(new UserUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.user")]));
     }
 
     public function updateWallet(UpdateWalletRequest $request)
     {
-        $this->userService->updateWallet($request->get("user_id"), $request->get("wallet"));
+        $this->userService->updateWallet(new UserWalletUpdateDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.user")]));
     }
 
     public function updateOrCreateAddress(UpdateAddressRequest $request)
     {
-        $this->addressService->updateOrCreate($request->get("id"), $request->get("user_id"), $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"), $request->get("title"));
+        $this->addressService->updateOrCreate(new AddressUpdateOrCreateDto(...$request->validated()));
         return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 
     public function changeActiveAddress(ChangeActiveAddressRequest $request)
     {
-        $this->addressService->changeActiveAddress($request->get("id"), $request->get("user_id"));
+        $this->addressService->changeActiveAddress(new AddressChangeActiveDto(...$request->validated()));
         return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 

@@ -2,6 +2,10 @@
 
 namespace App\Services\User;
 
+use App\DTOs\User\UserUpdateDto;
+use App\DTOs\User\UserWalletUpdateDto;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 use App\Repositories\PhoneBock\PhoneBockRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
@@ -17,9 +21,9 @@ readonly class UserService implements UserServiceInterface
     {
     }
 
-    public function updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code, $role_id)
+    public function updateUser(UserUpdateDto $dto): mixed
     {
-        return $this->repository->updateUser($id, $name, $username, $email, $gender, $role, $last_name, $national_code, $role_id);
+        return $this->repository->updateUser($dto->userId, $dto->name, $dto->username, $dto->email, $dto->gender, $dto->role, $dto->last_name, $dto->national_code, $dto->role_id);
     }
 
     public function updateProfile($id, $name, $email, $gender, $avatar, $last_name, $national_code)
@@ -42,9 +46,13 @@ readonly class UserService implements UserServiceInterface
         ]);
     }
 
-    public function findById($id)
+    public function find(int $id): mixed
     {
-        return $this->repository->findOrFail($id);
+        $user = $this->repository->find($id);
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+        return $user;
     }
 
     public function dataTable()
@@ -52,10 +60,10 @@ readonly class UserService implements UserServiceInterface
         return $this->repository->dataTable();
     }
 
-    public function updateWallet($id, $wallet)
+    public function updateWallet(UserWalletUpdateDto $dto): bool
     {
-        $user = $this->repository->findOrFail($id);
-        return $this->repository->update($user, ["wallet" => $wallet]);
+        $user = $this->find($dto->user_id);
+        return $this->repository->update($user, ["wallet" => $dto->wallet]);
     }
 
     public function getHasOrderUser()
