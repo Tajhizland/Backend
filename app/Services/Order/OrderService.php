@@ -3,6 +3,7 @@
 namespace App\Services\Order;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentGateway;
 use App\Exceptions\BreakException;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
@@ -25,10 +26,24 @@ class OrderService implements OrderServiceInterface
         return $this->orderRepository->userOrderPaginate($userId);
     }
 
+    /**
+     * بدون بررسی مالکیت. فقط برای مصرف داخلی/ادمین.
+     */
     public function findById($id)
     {
+        return $this->orderRepository->findOrFail($id);
+    }
+
+    /**
+     * سفارشِ کاربرِ احرازهویت‌شده.
+     *
+     * اندپوینت‌های فروشگاه باید از این استفاده کنند: OrderPolicy::view بررسی می‌کند
+     * سفارش متعلق به همان کاربر باشد، وگرنه ۴۰۳ می‌دهد.
+     */
+    public function findUserOrder($id)
+    {
         $order = $this->orderRepository->findOrFail($id);
-//        Gate::authorize("view", $order);
+        Gate::authorize("view", $order);
         return $order;
     }
 
@@ -48,7 +63,7 @@ class OrderService implements OrderServiceInterface
         try {
             $status = OrderStatus::from($status);
         } catch (\Throwable $throwable) {
-            throw new  BreakException($throwable->getMessage());
+            throw new BreakException($throwable->getMessage());
         }
         return $this->orderRepository->updateOrderStatus($order, $status->value);
     }
@@ -72,7 +87,7 @@ class OrderService implements OrderServiceInterface
         });
 
         $order = $this->orderRepository->findOrFail($id);
-        if ((int)$order->payment_method === 4) {
+        if (PaymentGateway::normalize($order->payment_method) === PaymentGateway::SnappPay) {
             $this->snappPayService->cancel($id);
         }
 
@@ -151,7 +166,7 @@ class OrderService implements OrderServiceInterface
     {
         $order = $this->orderRepository->findOrFail($orderId);
 
-        if ((int)$order->payment_method !== 4) {
+        if (PaymentGateway::normalize($order->payment_method) !== PaymentGateway::SnappPay) {
             return;
         }
 
