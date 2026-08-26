@@ -9,7 +9,6 @@ class UpdateCampaignSliderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'image' => ['nullable'],
             'url' => ['required'],
             'status' => ['required', 'integer'],

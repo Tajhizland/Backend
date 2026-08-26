@@ -2,7 +2,11 @@
 
 namespace App\Services\CampaignSlider;
 
+use App\DTOs\CampaignSlider\CampaignSliderSortDto;
+use App\DTOs\CampaignSlider\CampaignSliderStoreDto;
+use App\DTOs\CampaignSlider\CampaignSliderUpdateDto;
 use App\Repositories\CampaignSlider\CampaignSliderRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 
 readonly class CampaignSliderService implements CampaignSliderServiceInterface
@@ -15,56 +19,69 @@ readonly class CampaignSliderService implements CampaignSliderServiceInterface
     {
     }
 
-    public function store($title, $url, $status, $type, $image, $campaignId)
+    public function store(CampaignSliderStoreDto $dto): mixed
     {
-        $imagePath = $this->s3Service->upload($image, "slider");
-        return $this->campaignSliderRepository->create(["campaign_id" => $campaignId, "title" => $title, "url" => $url, "image" => $imagePath, "type" => $type, "status" => $status]);
-
+        return $this->campaignSliderRepository->create([
+            "campaign_id" => $dto->campaign_id,
+            "title" => $dto->title,
+            "url" => $dto->url,
+            "image" => $this->s3Service->upload($dto->image, "slider"),
+            "type" => $dto->type,
+            "status" => $dto->status,
+        ]);
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->campaignSliderRepository->findOrFail($id);
-    }
-
-    public function update($id, $title, $url, $status, $type, $image)
-    {
-        $slider = $this->campaignSliderRepository->findOrFail($id);
-        $imagePath = $slider->image;
-        if ($image) {
-            $this->s3Service->remove("slider/" . $slider->image);
-            $imagePath = $this->s3Service->upload($image, "slider");
+        $slider = $this->campaignSliderRepository->find($id);
+        if (!$slider) {
+            throw new NotFoundHttpException();
         }
-        return $this->campaignSliderRepository->update($slider, ["title" => $title, "url" => $url, "image" => $imagePath, "status" => $status, "type" => $type]);
-
+        return $slider;
     }
 
-    public function getAllDesktop()
+    public function update(CampaignSliderUpdateDto $dto): bool
+    {
+        $slider = $this->find($dto->campaignSliderId);
+        $imagePath = $slider->image;
+        if ($dto->image) {
+            $this->s3Service->remove("slider/" . $slider->image);
+            $imagePath = $this->s3Service->upload($dto->image, "slider");
+        }
+        return $this->campaignSliderRepository->update($slider, [
+            "title" => $dto->title,
+            "url" => $dto->url,
+            "image" => $imagePath,
+            "status" => $dto->status,
+            "type" => $dto->type,
+        ]);
+    }
+
+    public function getAllDesktop(): mixed
     {
         return $this->campaignSliderRepository->getAllDesktop();
     }
 
-    public function getAllMobile()
+    public function getAllMobile(): mixed
     {
         return $this->campaignSliderRepository->getAllMobile();
     }
 
-    public function sort($sliders)
+    public function sort(CampaignSliderSortDto $dto): bool
     {
-        foreach ($sliders as $item) {
+        foreach ($dto->slider as $item) {
             $this->campaignSliderRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
 
-    public function getByCampaignId($campaignId)
+    public function getByCampaignId($campaignId): mixed
     {
         return $this->campaignSliderRepository->getByCampaignId($campaignId);
     }
 
-    public function delete($id)
+    public function delete(int $id): bool|null
     {
-        $slider = $this->campaignSliderRepository->findOrFail($id);
-        return $this->campaignSliderRepository->delete($slider);
+        return $this->campaignSliderRepository->delete($this->find($id));
     }
 }

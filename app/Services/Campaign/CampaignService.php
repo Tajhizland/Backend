@@ -2,7 +2,10 @@
 
 namespace App\Services\Campaign;
 
+use App\DTOs\Campaign\CampaignStoreDto;
+use App\DTOs\Campaign\CampaignUpdateDto;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\S3\S3ServiceInterface;
 use Carbon\Carbon;
 
@@ -16,75 +19,78 @@ readonly class CampaignService implements CampaignServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->campaignRepository->dataTable();
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->campaignRepository->findOrFail($id);
-
+        $campaign = $this->campaignRepository->find($id);
+        if (!$campaign) {
+            throw new NotFoundHttpException();
+        }
+        return $campaign;
     }
 
-    public function store($title, $status, $color, $startDate, $endDate, $logo, $banner, $background_color, $discount_logo)
+    public function store(CampaignStoreDto $dto): mixed
     {
-        $logoPath = $this->s3Service->upload($logo, "campaign");
-        $discountLogoPath = $this->s3Service->upload($discount_logo, "campaign");
+        $logoPath = $this->s3Service->upload($dto->logo, "campaign");
+        $discountLogoPath = $this->s3Service->upload($dto->discount_logo, "campaign");
         $bannerPath = null;
-        if ($banner) {
-            $bannerPath = $this->s3Service->upload($banner, "campaign");
+        if ($dto->banner) {
+            $bannerPath = $this->s3Service->upload($dto->banner, "campaign");
         }
         return $this->campaignRepository->create([
-            "title" => $title,
-            "status" => $status,
-            "color" => $color,
-            "start_date" => Carbon::parse($startDate),
-            "end_date" => Carbon::parse($endDate),
+            "title" => $dto->title,
+            "status" => $dto->status,
+            "color" => $dto->color,
+            "start_date" => Carbon::parse($dto->start_date),
+            "end_date" => Carbon::parse($dto->end_date),
             "logo" => $logoPath,
             "banner" => $bannerPath,
-            "background_color" => $background_color,
+            "background_color" => $dto->background_color,
             "discount_logo" => $discountLogoPath,
         ]);
     }
 
-    public function update($id, $title, $status, $color, $startDate, $endDate, $logo, $banner, $background_color, $discount_logo)
+    public function update(CampaignUpdateDto $dto): bool
     {
-        $campaign = $this->campaignRepository->findOrFail($id);
+        $campaign = $this->find($dto->campaignId);
         $logoPath = $campaign->logo;
         $bannerPath = $campaign->banner;
         $discountLogoPath = $campaign->discount_logo;
-        if ($discount_logo) {
+        if ($dto->discount_logo) {
             $this->s3Service->remove("campaign/$discountLogoPath");
-            $discountLogoPath = $this->s3Service->upload($discount_logo, "campaign");
+            $discountLogoPath = $this->s3Service->upload($dto->discount_logo, "campaign");
         }
-        if ($logo) {
+        if ($dto->logo) {
             $this->s3Service->remove("campaign/$logoPath");
-            $logoPath = $this->s3Service->upload($logo, "campaign");
+            $logoPath = $this->s3Service->upload($dto->logo, "campaign");
         }
-        if ($banner) {
+        if ($dto->banner) {
             $this->s3Service->remove("campaign/$bannerPath");
-            $bannerPath = $this->s3Service->upload($banner, "campaign");
+            $bannerPath = $this->s3Service->upload($dto->banner, "campaign");
         }
         return $this->campaignRepository->update($campaign, [
-            "title" => $title,
-            "status" => $status,
-            "color" => $color,
-            "start_date" => Carbon::parse($startDate),
-            "end_date" => Carbon::parse($endDate),
+            "title" => $dto->title,
+            "status" => $dto->status,
+            "color" => $dto->color,
+            "start_date" => Carbon::parse($dto->start_date),
+            "end_date" => Carbon::parse($dto->end_date),
             "logo" => $logoPath,
             "banner" => $bannerPath,
-            "background_color" => $background_color,
+            "background_color" => $dto->background_color,
             "discount_logo" => $discountLogoPath,
         ]);
     }
 
-    public function findActiveCampaign()
+    public function findActiveCampaign(): mixed
     {
         return $this->campaignRepository->findActiveCampaign();
     }
 
-    public function findPendingActiveCampaign()
+    public function findPendingActiveCampaign(): mixed
     {
         return $this->campaignRepository->findPendingActiveCampaign();
     }

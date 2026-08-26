@@ -2,17 +2,20 @@
 
 namespace App\Services\Campaign;
 
+use App\DTOs\Campaign\CampaignStoreDto;
+use App\DTOs\Campaign\CampaignUpdateDto;
+
 interface CampaignServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function find($id);
+    public function find(int $id): mixed;
 
-    public function findActiveCampaign();
-    public function findPendingActiveCampaign();
+    public function store(CampaignStoreDto $dto): mixed;
 
-    public function store($title, $status, $color, $startDate, $endDate, $logo, $banner, $background_color, $discount_logo);
+    public function update(CampaignUpdateDto $dto): bool;
 
-    public function update($id, $title, $status, $color, $startDate, $endDate, $logo, $banner, $background_color, $discount_logo);
+    public function findActiveCampaign(): mixed;
 
+    public function findPendingActiveCampaign(): mixed;
 }

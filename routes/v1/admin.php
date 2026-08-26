@@ -402,11 +402,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
     });
 
-    Route::group(["prefix" => "campaign"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\CampaignController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CampaignController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\CampaignController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignController::class, "update"]);
+    Route::prefix("campaign")->controller(\App\Http\Controllers\V1\Admin\CampaignController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
     Route::prefix("discount")->controller(\App\Http\Controllers\V1\Admin\DiscountController::class)->group(function () {
@@ -422,15 +422,15 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("{id}/item", "getItem");
     });
 
-    Route::group(["prefix" => "campaign-slider"], function () {
-        Route::get("dataTable/{id}", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "campaignDataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "update"]);
-        Route::get("all_desktop", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "getAllDesktop"]);
-        Route::get("all_mobile", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "getAllMobile"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "sort"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\CampaignSliderController::class, "delete"]);
+    Route::prefix("campaign-slider")->controller(\App\Http\Controllers\V1\Admin\CampaignSliderController::class)->group(function () {
+        Route::get("dataTable/{id}", "campaignDataTable");
+        Route::get("all-desktop", "getAllDesktop");
+        Route::get("all-mobile", "getAllMobile");
+        Route::post("sort", "sort");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}", "destroy");
     });
 
     Route::prefix("cast-category")->controller(\App\Http\Controllers\V1\Admin\CastCategoryController::class)->group(function () {
@@ -449,14 +449,14 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
     });
 
-    Route::group(["prefix" => "campaign-banner"], function () {
-        Route::get("dataTable/{id}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "find"]);
-        Route::delete("delete/{id}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "delete"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "update"]);
-        Route::get("list/{type}", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "list"]);
-        Route::post("sort", [\App\Http\Controllers\V1\Admin\CampaignBannerController::class, "sort"]);
+    Route::prefix("campaign-banner")->controller(\App\Http\Controllers\V1\Admin\CampaignBannerController::class)->group(function () {
+        Route::get("dataTable/{id}", "dataTable");
+        Route::get("list/{type}", "list");
+        Route::post("sort", "sort");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}", "destroy");
     });
 
 });

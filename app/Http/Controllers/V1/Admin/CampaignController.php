@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Campaign\CampaignStoreDto;
+use App\DTOs\Campaign\CampaignUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Campaign\StoreCampaignRequest;
 use App\Http\Requests\Admin\Campaign\UpdateCampaignRequest;
@@ -23,7 +25,7 @@ class CampaignController extends Controller
         return $this->dataResponseCollection(CampaignResource::collection($response));
     }
 
-    public function find($id)
+    public function show($id)
     {
         $response = $this->campaignService->find($id);
         return $this->dataResponse(new CampaignResource($response));
@@ -31,34 +33,13 @@ class CampaignController extends Controller
 
     public function store(StoreCampaignRequest $request)
     {
-        $this->campaignService->store(
-            $request->get("title"),
-            $request->get("status"),
-            $request->get("color"),
-            $request->get("start_date"),
-            $request->get("end_date"),
-            $request->file("logo"),
-            $request->file("banner"),
-            $request->get("background_color"),
-            $request->file("discount_logo"),
-        );
+        $this->campaignService->store(new CampaignStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.campaign")]));
     }
 
-    public function update(UpdateCampaignRequest $request)
+    public function update($id, UpdateCampaignRequest $request)
     {
-        $this->campaignService->update(
-            $request->get("id"),
-            $request->get("title"),
-            $request->get("status"),
-            $request->get("color"),
-            $request->get("start_date"),
-            $request->get("end_date"),
-            $request->file("logo"),
-            $request->file("banner"),
-            $request->get("background_color"),
-            $request->file("discount_logo"),
-        );
+        $this->campaignService->update(new CampaignUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.campaign")]));
     }
 }

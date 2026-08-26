@@ -9,7 +9,6 @@ class UpdateCampaignRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', "exists:App\Models\Campaign"],
             'title' => ['required'],
             'logo' => ['required'],
             'color' => ['required'],

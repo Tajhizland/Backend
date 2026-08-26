@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\CampaignSlider\CampaignSliderSortDto;
+use App\DTOs\CampaignSlider\CampaignSliderStoreDto;
+use App\DTOs\CampaignSlider\CampaignSliderUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CampaignSlider\SortCampaignSliderRequest;
 use App\Http\Requests\Admin\CampaignSlider\StoreCampaignSliderRequest;
@@ -27,13 +30,13 @@ class CampaignSliderController extends Controller
 
     public function store(StoreCampaignSliderRequest $request)
     {
-        $this->campaignSliderService->store($request->get("title"), $request->get("url"), $request->get("status"), $request->get("type"), $request->file("image"), $request->get("campaign_id"));
+        $this->campaignSliderService->store(new CampaignSliderStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.filter")]));
     }
 
-    public function update(UpdateCampaignSliderRequest $request)
+    public function update($id, UpdateCampaignSliderRequest $request)
     {
-        $this->campaignSliderService->update($request->get("id"), $request->get("title"), $request->get("url"), $request->get("status"), $request->get("type"), $request->file("image"));
+        $this->campaignSliderService->update(new CampaignSliderUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.filter")]));
     }
 
@@ -51,17 +54,17 @@ class CampaignSliderController extends Controller
 
     public function sort(SortCampaignSliderRequest $request)
     {
-        $this->campaignSliderService->sort($request->get("slider"));
+        $this->campaignSliderService->sort(new CampaignSliderSortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.slider")]));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $this->campaignSliderService->delete($id);
         return $this->successResponse(__("action.remove", ["attr" => __("attr.slider")]));
     }
 
-    public function find($id)
+    public function show($id)
     {
         $response = $this->campaignSliderService->find($id);
         return $this->dataResponse(new CampaignSliderResource($response));

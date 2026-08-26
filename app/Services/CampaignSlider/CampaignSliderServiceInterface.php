@@ -2,21 +2,25 @@
 
 namespace App\Services\CampaignSlider;
 
+use App\DTOs\CampaignSlider\CampaignSliderSortDto;
+use App\DTOs\CampaignSlider\CampaignSliderStoreDto;
+use App\DTOs\CampaignSlider\CampaignSliderUpdateDto;
+
 interface CampaignSliderServiceInterface
 {
-    public function store($title, $url, $status, $type, $image, $campaignId);
+    public function getByCampaignId($campaignId): mixed;
 
-    public function find($id);
-    public function delete($id);
+    public function getAllDesktop(): mixed;
 
-    public function update($id, $title, $url, $status, $type, $image);
+    public function getAllMobile(): mixed;
 
-    public function getAllDesktop();
+    public function find(int $id): mixed;
 
-    public function getAllMobile();
+    public function store(CampaignSliderStoreDto $dto): mixed;
 
-    public function sort($sliders);
+    public function update(CampaignSliderUpdateDto $dto): bool;
 
-    public function getByCampaignId($campaignId);
+    public function delete(int $id): bool|null;
 
+    public function sort(CampaignSliderSortDto $dto): bool;
 }

@@ -2,19 +2,23 @@
 
 namespace App\Services\CampaignBanner;
 
+use App\DTOs\CampaignBanner\CampaignBannerSortDto;
+use App\DTOs\CampaignBanner\CampaignBannerStoreDto;
+use App\DTOs\CampaignBanner\CampaignBannerUpdateDto;
+
 interface CampaignBannerServiceInterface
 {
-    public function dataTable($campaign_id);
+    public function dataTable($campaign_id): mixed;
 
-    public function getByType($type);
+    public function find(int $id): mixed;
 
-    public function sort($array);
+    public function getByType($type): mixed;
 
-    public function delete($id);
+    public function store(CampaignBannerStoreDto $dto): mixed;
 
-    public function findById($id);
+    public function update(CampaignBannerUpdateDto $dto): bool;
 
-    public function create($image, $url, $type, $campaign_id);
+    public function delete(int $id): bool|null;
 
-    public function update($id, $image, $url, $type);
+    public function sort(CampaignBannerSortDto $dto): bool;
 }
