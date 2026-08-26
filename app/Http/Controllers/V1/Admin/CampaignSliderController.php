@@ -8,13 +8,12 @@ use App\Http\Requests\Admin\CampaignSlider\StoreCampaignSliderRequest;
 use App\Http\Requests\Admin\CampaignSlider\UpdateCampaignSliderRequest;
 use App\Http\Resources\CampaignSlider\CampaignSliderResource;
 use App\Services\CampaignSlider\CampaignSliderServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class CampaignSliderController extends Controller
 {
     public function __construct
     (
-        private CampaignSliderServiceInterface $campaignSliderService
+        private readonly CampaignSliderServiceInterface $campaignSliderService
     )
     {
     }
@@ -29,13 +28,13 @@ class CampaignSliderController extends Controller
     public function store(StoreCampaignSliderRequest $request)
     {
         $this->campaignSliderService->store($request->get("title"), $request->get("url"), $request->get("status"), $request->get("type"), $request->file("image"), $request->get("campaign_id"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.filter")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.filter")]));
     }
 
     public function update(UpdateCampaignSliderRequest $request)
     {
         $this->campaignSliderService->update($request->get("id"), $request->get("title"), $request->get("url"), $request->get("status"), $request->get("type"), $request->file("image"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.filter")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.filter")]));
     }
 
     public function getAllDesktop()
@@ -53,13 +52,13 @@ class CampaignSliderController extends Controller
     public function sort(SortCampaignSliderRequest $request)
     {
         $this->campaignSliderService->sort($request->get("slider"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.slider")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.slider")]));
     }
 
     public function delete($id)
     {
         $this->campaignSliderService->delete($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.slider")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.slider")]));
     }
 
     public function find($id)

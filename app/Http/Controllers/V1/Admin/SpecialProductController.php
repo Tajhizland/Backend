@@ -8,15 +8,14 @@ use App\Http\Requests\Admin\SpecialProduct\SpecialProductRequest;
 use App\Http\Requests\Admin\SpecialProduct\SpecialProductSortRequest;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\SpecialProduct\SpecialProductServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\SpecialProduct\SpecialProductResource;
 use App\Http\Resources\Product\ProductResource;
 
 class SpecialProductController extends Controller
 {
     public function __construct(
-        private SpecialProductServiceInterface $specialProductService,
-        private ProductServiceInterface        $productService
+        private readonly SpecialProductServiceInterface $specialProductService,
+        private readonly ProductServiceInterface        $productService
     )
     {
     }
@@ -29,19 +28,19 @@ class SpecialProductController extends Controller
     public function add(SpecialProductRequest $request)
     {
         $this->specialProductService->add($request->get("product_id"));
-        return $this->successResponse(Lang::get("action.add_to", ["attr" => Lang::get("attr.product"), "to" => Lang::get("attr.list")]));
+        return $this->successResponse(__("action.add_to", ["attr" => __("attr.product"), "to" => __("attr.list")]));
     }
 
     public function homepage(ShowHomepageRequest $request)
     {
         $this->specialProductService->showHomepage($request->get("id"), $request->get("homepage"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.list")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.list")]));
     }
 
     public function delete($id)
     {
         $this->specialProductService->delete($id);
-        return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.product"), "from" => Lang::get("attr.list")]));
+        return $this->successResponse(__("action.remove_from", ["attr" => __("attr.product"), "from" => __("attr.list")]));
     }
 
     public function list()
@@ -52,6 +51,6 @@ class SpecialProductController extends Controller
     public function sort(SpecialProductSortRequest $request)
     {
         $this->specialProductService->sort($request->get("special"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.product")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.product")]));
     }
 }

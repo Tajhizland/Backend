@@ -8,12 +8,11 @@ use App\Http\Requests\Shop\Cart\MergeCartRequest;
 use App\Http\Requests\Shop\Cart\UpdateCartItemRequest;
 use App\Services\Cart\CartServiceInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\CartItem\CartItemResource;
 
 class CartController extends Controller
 {
-    public function __construct(private CartServiceInterface $cartService)
+    public function __construct(private readonly CartServiceInterface $cartService)
     {
     }
 
@@ -26,36 +25,36 @@ class CartController extends Controller
     public function addToCart(AddToCartRequest $request)
     {
         $this->cartService->addProductToCart(Auth::user()->id, $request->get("productColorId"), $request->get("count"), $request->get("guaranty_id"));
-        return $this->successResponse(Lang::get("action.add_to",["attr"=>Lang::get("attr.product") , "to"=>Lang::get("attr.cart")]));
+        return $this->successResponse(__("action.add_to",["attr"=>__("attr.product") , "to"=>__("attr.cart")]));
     }
 
     public function merge(MergeCartRequest $request)
     {
         $cart = $this->cartService->mergeCart(Auth::user()->id, $request->get("items"));
-        return $this->dataResponseCollection(CartItemResource::collection($cart), Lang::get("action.update", ["attr" => Lang::get("attr.cart")]));
+        return $this->dataResponseCollection(CartItemResource::collection($cart), __("action.update", ["attr" => __("attr.cart")]));
     }
 
     public function removeItem(UpdateCartItemRequest $request)
     {
         $this->cartService->removeProductFromCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
-        return $this->successResponse(Lang::get("action.remove_from",["attr"=>Lang::get("attr.product") , "from"=>Lang::get("attr.cart")]));
+        return $this->successResponse(__("action.remove_from",["attr"=>__("attr.product") , "from"=>__("attr.cart")]));
      }
 
     public function increase(UpdateCartItemRequest $request)
     {
         $this->cartService->increaseProductInCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
-        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.cart")]));
+        return $this->successResponse(__("action.update",["attr"=>__("attr.cart")]));
     }
 
     public function decrease(UpdateCartItemRequest $request)
     {
         $this->cartService->decreaseProductInCart(Auth::user()->id, $request->get("productColorId"), $request->get("guaranty_id"));
-        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.cart")]));
+        return $this->successResponse(__("action.update",["attr"=>__("attr.cart")]));
     }
 
     public function clearAll()
     {
         $this->cartService->clearCart(Auth::user()->id);
-        return $this->successResponse(Lang::get("action.clear",["attr"=>Lang::get("attr.cart")]));
+        return $this->successResponse(__("action.clear",["attr"=>__("attr.cart")]));
     }
 }

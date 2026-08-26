@@ -21,7 +21,7 @@ use Carbon\Carbon;
  * تبدیل cart_item به order_item) در PaymentService پنج بار کپی شده بود و هر نسخه
  * کمی با بقیه فرق داشت.
  */
-class OrderFactory implements OrderFactoryInterface
+readonly class OrderFactory implements OrderFactoryInterface
 {
     public function __construct(
         private OrderRepositoryInterface       $orderRepository,

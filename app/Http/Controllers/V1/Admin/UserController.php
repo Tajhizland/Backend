@@ -14,7 +14,6 @@ use App\Services\Auth\Login\LoginServiceInterface;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use App\Services\Order\OrderServiceInterface;
 use App\Services\User\UserServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\Order\OrderResource;
 use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
@@ -23,11 +22,11 @@ class UserController extends Controller
 {
     public function __construct
     (
-        private UserServiceInterface        $userService,
-        private AddressServiceInterface     $addressService,
-        private OnHoldOrderServiceInterface $onHoldOrderService,
-        private OrderServiceInterface       $orderService,
-        private LoginServiceInterface       $loginService,
+        private readonly UserServiceInterface        $userService,
+        private readonly AddressServiceInterface     $addressService,
+        private readonly OnHoldOrderServiceInterface $onHoldOrderService,
+        private readonly OrderServiceInterface       $orderService,
+        private readonly LoginServiceInterface       $loginService,
     )
     {
     }
@@ -73,25 +72,25 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         $this->userService->updateUser($request->get("id"), $request->get("name"), $request->get("username"), $request->get("email"), $request->get("gender"), $request->get("role"), $request->get("last_name"), $request->get("national_code"), $request->get("role_id"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.user")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.user")]));
     }
 
     public function updateWallet(UpdateWalletRequest $request)
     {
         $this->userService->updateWallet($request->get("user_id"), $request->get("wallet"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.user")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.user")]));
     }
 
     public function updateOrCreateAddress(UpdateAddressRequest $request)
     {
         $this->addressService->updateOrCreate($request->get("id"), $request->get("user_id"), $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"), $request->get("title"));
-        return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
+        return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 
     public function changeActiveAddress(ChangeActiveAddressRequest $request)
     {
         $this->addressService->changeActiveAddress($request->get("id"), $request->get("user_id"));
-        return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
+        return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 
     public function loginUser($id)
@@ -100,7 +99,7 @@ class UserController extends Controller
         return $this->dataResponse
         (
             ["token" => $token],
-            (Lang::get("action.success", ["attr" => Lang::get("attr.login")]))
+            (__("action.success", ["attr" => __("attr.login")]))
         );
     }
 }

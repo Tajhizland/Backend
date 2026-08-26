@@ -4,7 +4,7 @@ namespace App\Services\Compare;
 
 use App\Repositories\Product\ProductRepositoryInterface;
 
-class CompareService implements CompareServiceInterface
+readonly class CompareService implements CompareServiceInterface
 {
     public function __construct
     (

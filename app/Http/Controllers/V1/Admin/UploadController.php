@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 class UploadController extends Controller
 {
     public function __construct(
-        private DirectUploadServiceInterface $directUploadService
+        private readonly DirectUploadServiceInterface $directUploadService
     )
     {
     }

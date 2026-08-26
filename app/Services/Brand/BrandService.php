@@ -9,7 +9,7 @@ use App\Services\Filter\FilterServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class BrandService implements BrandServiceInterface
+readonly class BrandService implements BrandServiceInterface
 {
 
     public function __construct(

@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Page\StorePageRequest;
 use App\Http\Requests\Admin\Page\UpdatePageRequest;
 use App\Http\Resources\Page\PageResource;
 use App\Services\Page\PageServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class PageController extends Controller
 {
     public function __construct
     (
-        private PageServiceInterface $pageService
+        private readonly PageServiceInterface $pageService
     )
     {
     }
@@ -31,13 +30,13 @@ class PageController extends Controller
     public function store(StorePageRequest $request)
     {
         $this->pageService->store($request->get("title"), $request->get("url"), $request->get("image"), $request->get("content"), $request->get("status"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.page")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.page")]));
     }
 
     public function update(UpdatePageRequest $request)
     {
         $this->pageService->update($request->get("id"), $request->get("title"), $request->get("url"), $request->get("image"), $request->get("content"), $request->get("status"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.page")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.page")]));
     }
 
 }

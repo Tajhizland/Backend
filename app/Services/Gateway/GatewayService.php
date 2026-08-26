@@ -6,7 +6,7 @@ use App\Enums\GatewayStatus;
 use App\Exceptions\BreakException;
 use App\Repositories\Gateway\GatewayRepositoryInterface;
 
-class GatewayService implements GatewayServiceInterface
+readonly class GatewayService implements GatewayServiceInterface
 {
 
     public function __construct

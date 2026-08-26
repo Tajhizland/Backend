@@ -8,7 +8,7 @@ use App\Repositories\GroupProduct\GroupProductRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class ProductGroupService implements ProductGroupServiceInterface
+readonly class ProductGroupService implements ProductGroupServiceInterface
 {
     public function __construct
     (

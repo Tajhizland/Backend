@@ -6,7 +6,7 @@ use App\Repositories\Option\OptionRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use App\Repositories\ProductOption\ProductOptionRepositoryInterface;
 
-class ProductCategoryService implements ProductCategoryServiceInterface
+readonly class ProductCategoryService implements ProductCategoryServiceInterface
 {
     public function __construct
     (

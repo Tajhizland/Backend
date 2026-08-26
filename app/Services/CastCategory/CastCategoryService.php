@@ -5,7 +5,7 @@ namespace App\Services\CastCategory;
 use App\Repositories\CastCategory\CastCategoryRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class CastCategoryService implements CastCategoryServiceInterface
+readonly class CastCategoryService implements CastCategoryServiceInterface
 {
 
     public function __construct

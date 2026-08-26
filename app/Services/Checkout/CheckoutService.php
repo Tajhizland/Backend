@@ -13,7 +13,7 @@ use App\Services\Checkout\States\DeliveryCheckHandler;
 use App\Services\Checkout\States\GatewayCheckHandler;
 use App\Services\Checkout\States\UserInfoCheckHandler;
 
-class CheckoutService implements CheckoutServiceInterface
+readonly class CheckoutService implements CheckoutServiceInterface
 {
     public function __construct(
         private DeliveryRepositoryInterface $deliveryRepository,

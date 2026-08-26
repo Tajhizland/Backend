@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Dictionary\StoreDictionaryRequest;
 use App\Http\Requests\Admin\Dictionary\UpdateDictionaryRequest;
 use App\Http\Resources\Dictionary\DictionaryResource;
 use App\Services\Dictionary\DictionaryServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class DictionaryController extends Controller
 {
     public function __construct
     (
-        private DictionaryServiceInterface $dictionaryServiceInterface
+        private readonly DictionaryServiceInterface $dictionaryServiceInterface
     )
     {
     }
@@ -33,21 +32,21 @@ class DictionaryController extends Controller
     public function store(StoreDictionaryRequest $request)
     {
         $this->dictionaryServiceInterface->store($request->get("original_word"), $request->get("mean"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.dictionary")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.dictionary")]));
 
     }
 
     public function update(UpdateDictionaryRequest $request)
     {
         $this->dictionaryServiceInterface->update($request->get("id"), $request->get("original_word"), $request->get("mean"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.dictionary")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.dictionary")]));
 
     }
 
     public function remove($id)
     {
         $this->dictionaryServiceInterface->delete($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.dictionary")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.dictionary")]));
 
     }
 }

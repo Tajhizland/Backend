@@ -5,11 +5,10 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Contact\ContactResource;
 use App\Services\Contact\ContactServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class ContactController extends Controller
 {
-    public function __construct(private ContactServiceInterface $contactService)
+    public function __construct(private readonly ContactServiceInterface $contactService)
     {
     }
 
@@ -26,6 +25,6 @@ class ContactController extends Controller
     public function remove($id)
     {
         $this->contactService->remove($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.message")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.message")]));
     }
 }

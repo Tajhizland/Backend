@@ -4,7 +4,7 @@ namespace App\Services\BlogCategory;
 
 use App\Repositories\BlogCategory\BlogCategoryRepositoryInterface;
 
-class BlogCategoryService implements BlogCategoryServiceInterface
+readonly class BlogCategoryService implements BlogCategoryServiceInterface
 {
     public function __construct
     (private BlogCategoryRepositoryInterface $blogCategoryRepository)

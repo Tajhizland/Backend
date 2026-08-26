@@ -5,7 +5,7 @@ namespace App\Services\Breadcrumb;
 use App\Enums\CategoryStatus;
 use App\Repositories\Category\CategoryRepositoryInterface;
 
-class BreadcrumbService implements BreadcrumbServiceInterface
+readonly class BreadcrumbService implements BreadcrumbServiceInterface
 {
     public function __construct
     (

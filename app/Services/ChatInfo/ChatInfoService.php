@@ -4,7 +4,7 @@ namespace App\Services\ChatInfo;
 
 use App\Repositories\ChatInfo\ChatInfoRepositoryInterface;
 
-class ChatInfoService implements ChatInfoServiceInterface
+readonly class ChatInfoService implements ChatInfoServiceInterface
 {
     public function __construct
     (

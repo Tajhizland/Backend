@@ -13,18 +13,17 @@ use App\Services\Coupon\CouponServiceInterface;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use App\Services\Payment\PaymentServicesInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Delivery\DeliveryResource;
 use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
 
 class OnHoldOrderController extends Controller
 {
     public function __construct(
-        private OnHoldOrderServiceInterface $onHoldOrderService,
-        private PaymentServicesInterface    $paymentServices,
-        private AddressRepositoryInterface  $addressRepository,
-        private ShippingMethodResolver      $shippingMethodResolver,
-        private CouponServiceInterface      $couponService,
+        private readonly OnHoldOrderServiceInterface $onHoldOrderService,
+        private readonly PaymentServicesInterface    $paymentServices,
+        private readonly AddressRepositoryInterface  $addressRepository,
+        private readonly ShippingMethodResolver      $shippingMethodResolver,
+        private readonly CouponServiceInterface      $couponService,
     )
     {
     }
@@ -118,7 +117,7 @@ class OnHoldOrderController extends Controller
     {
         return $this->dataResponse(
             OnHoldOrderResource::collection($this->onHoldOrderService->userHoldOnPaginate($id))->response()->getData(),
-            Lang::get("action.remove",["attr"=>Lang::get("attr.order_request")])
+            __("action.remove",["attr"=>__("attr.order_request")])
         );
     }
 }

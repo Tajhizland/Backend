@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\OnHoldOrder\OnHoldOrderRequest;
 use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
 use App\Http\Resources\Order\OrderResource;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class OnHoldOrderController extends Controller
 {
     public function __construct
     (
-        private  OnHoldOrderServiceInterface $onHoldOrderService
+        private readonly OnHoldOrderServiceInterface $onHoldOrderService
     )
     {
     }
@@ -29,12 +28,12 @@ class OnHoldOrderController extends Controller
     public function accept(OnHoldOrderRequest $request)
     {
         $this->onHoldOrderService->setAccept($request->get("id"));
-        return $this->successResponse(Lang::get("action.accept",["attr"=>Lang::get("attr.order_request")]));
+        return $this->successResponse(__("action.accept",["attr"=>__("attr.order_request")]));
 
     }
     public function reject(OnHoldOrderRequest $request)
     {
         $this->onHoldOrderService->setReject($request->get("id"));
-        return $this->successResponse(Lang::get("action.reject",["attr"=>Lang::get("attr.order_request")]));
+        return $this->successResponse(__("action.reject",["attr"=>__("attr.order_request")]));
     }
 }

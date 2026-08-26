@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Gateway\StoreGatewayRequest;
 use App\Http\Requests\Admin\Gateway\UpdateGatewayRequest;
 use App\Http\Resources\Gateway\GatewayResource;
 use App\Services\Gateway\GatewayServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class GatewayController extends Controller
 {
     public function __construct
     (
-        private GatewayServiceInterface $gatewayService
+        private readonly GatewayServiceInterface $gatewayService
     ) { }
 
     public function dataTable()
@@ -29,12 +28,12 @@ class GatewayController extends Controller
     public function store(StoreGatewayRequest $request)
     {
         $this->gatewayService->store($request->get("name"), $request->get("status"), $request->get("description"));
-        return $this->successResponse(Lang::get("action.store",["attr"=>Lang::get("attr.gateway")]));
+        return $this->successResponse(__("action.store",["attr"=>__("attr.gateway")]));
     }
 
     public function update(UpdateGatewayRequest $request)
     {
         $this->gatewayService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->get("description"));
-        return $this->successResponse(Lang::get("action.update",["attr"=>Lang::get("attr.gateway")]));
+        return $this->successResponse(__("action.update",["attr"=>__("attr.gateway")]));
     }
 }

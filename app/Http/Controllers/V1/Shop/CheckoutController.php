@@ -15,21 +15,20 @@ use App\Services\Delivery\DeliveryServiceInterface;
 use App\Services\Tapin\CheckPrice;
 use App\Services\Tapin\TapinService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Delivery\DeliveryResource;
 
 class CheckoutController extends Controller
 {
     public function __construct
     (
-        private CheckoutServiceInterface   $checkoutService,
-        private CartServiceInterface       $cartService,
-        private CartItemServiceInterface   $cartItemService,
-        private DeliveryServiceInterface   $deliveryService,
-        private AddressRepositoryInterface $addressRepository,
-        private CheckPrice                 $checkPrice,
-        private TapinService               $tapinService,
-        private ShippingMethodResolver     $shippingMethodResolver,
+        private readonly CheckoutServiceInterface   $checkoutService,
+        private readonly CartServiceInterface       $cartService,
+        private readonly CartItemServiceInterface   $cartItemService,
+        private readonly DeliveryServiceInterface   $deliveryService,
+        private readonly AddressRepositoryInterface $addressRepository,
+        private readonly CheckPrice                 $checkPrice,
+        private readonly TapinService               $tapinService,
+        private readonly ShippingMethodResolver     $shippingMethodResolver,
     )
     {
     }
@@ -74,14 +73,14 @@ class CheckoutController extends Controller
     public function setDeliveryMethod(SetDeliveryMethodRequest $request)
     {
         $this->cartService->setDeliveryMethod(Auth::user()->id, $request->get("delivery_id"));
-        return Lang::get('action.select', ['attr' => Lang::get("attr.delivery_method")]);
+        return __('action.select', ['attr' => __("attr.delivery_method")]);
 
     }
 
     public function setPaymentMethod(SetPaymentMethodRequest $request)
     {
         $this->cartService->setPaymentMethod(Auth::user()->id, $request->get("gateway_id"));
-        return Lang::get('action.select', ['attr' => Lang::get("attr.payment_method")]);
+        return __('action.select', ['attr' => __("attr.payment_method")]);
 
     }
 }

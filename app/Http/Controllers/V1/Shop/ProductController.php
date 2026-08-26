@@ -28,16 +28,16 @@ class ProductController extends Controller
 {
     public function __construct
     (
-        private ProductServiceInterface        $productService,
-        private OptionServiceInterface         $optionService,
-        private BannerServiceInterface         $bannerService,
-        private PriceRepositoryInterface       $priceRepository,
-        private PopularProductServiceInterface $popularProductService,
-        private CategoryServiceInterface       $categoryService,
-        private BreadcrumbServiceInterface     $breadcrumbService,
-        private CampaignServiceInterface       $campaignService,
-        private DiscountItemServiceInterface   $discountItemService,
-        private ProductRepositoryInterface     $productRepository,
+        private readonly ProductServiceInterface        $productService,
+        private readonly OptionServiceInterface         $optionService,
+        private readonly BannerServiceInterface         $bannerService,
+        private readonly PriceRepositoryInterface       $priceRepository,
+        private readonly PopularProductServiceInterface $popularProductService,
+        private readonly CategoryServiceInterface       $categoryService,
+        private readonly BreadcrumbServiceInterface     $breadcrumbService,
+        private readonly CampaignServiceInterface       $campaignService,
+        private readonly DiscountItemServiceInterface   $discountItemService,
+        private readonly ProductRepositoryInterface     $productRepository,
 
     )
     {

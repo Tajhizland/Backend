@@ -8,14 +8,13 @@ use App\Http\Requests\Admin\News\UpdateNewsRequest;
 use App\Http\Resources\News\NewsResource;
 use App\Services\New\NewServiceInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 
 class NewsController extends Controller
 {
 
     public function __construct
     (
-        private NewServiceInterface $newService,
+        private readonly NewServiceInterface $newService,
     )
     {
     }
@@ -34,12 +33,12 @@ class NewsController extends Controller
     {
         $userId = Auth::user()->id;
         $this->newService->storeNews($request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"), $request->get("categoryId"),$userId);
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.news")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.news")]));
     }
 
     public function update(UpdateNewsRequest $request)
     {
         $this->newService->updateNews($request->get("id"), $request->get("title"), $request->get("url"), $request->get("content"), $request->get("image"), $request->get("published"), $request->get("categoryId"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.news")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.news")]));
     }
 }

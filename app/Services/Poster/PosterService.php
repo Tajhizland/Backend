@@ -5,7 +5,7 @@ namespace App\Services\Poster;
 use App\Repositories\Poster\PosterRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class PosterService implements PosterServiceInterface
+readonly class PosterService implements PosterServiceInterface
 {
     public function __construct
     (

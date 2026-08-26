@@ -9,7 +9,7 @@ use App\Repositories\Returned\ReturnedRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 use Illuminate\Support\Facades\Gate;
 
-class ReturnedService implements ReturnedServiceInterface
+readonly class ReturnedService implements ReturnedServiceInterface
 {
     public function __construct
     (

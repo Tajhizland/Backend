@@ -8,7 +8,7 @@ use App\Services\Payment\Data\AppliedCoupon;
 /**
  * محاسبه‌ی مبلغ تخفیف کوپن. قبلاً همین بلوک if/elseif دو بار در PaymentService تکرار شده بود.
  */
-class CouponCalculator
+readonly class CouponCalculator
 {
     public function __construct(private CouponServiceInterface $couponService)
     {

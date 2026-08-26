@@ -10,7 +10,7 @@ use App\Repositories\Order\OrderRepositoryInterface;
 use App\Services\Sms\SmsServiceInterface;
 use Illuminate\Support\Facades\Gate;
 
-class OnHoldOrderService implements OnHoldOrderServiceInterface
+readonly class OnHoldOrderService implements OnHoldOrderServiceInterface
 {
     public function __construct(
         private OnHoldOrderRepositoryInterface $onHoldOrderRepository,

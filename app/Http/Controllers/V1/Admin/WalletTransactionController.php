@@ -10,7 +10,7 @@ class WalletTransactionController extends Controller
 {
     public function __construct
     (
-        private WalletTransactionServiceInterface $walletTransactionService
+        private readonly WalletTransactionServiceInterface $walletTransactionService
     )
     {
     }

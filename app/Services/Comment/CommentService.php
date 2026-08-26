@@ -5,7 +5,7 @@ namespace App\Services\Comment;
 use App\Enums\CommentStatus;
 use App\Repositories\Comment\CommentRepositoryInterface;
 
-class CommentService implements CommentServiceInterface
+readonly class CommentService implements CommentServiceInterface
 {
     public function __construct(
         private CommentRepositoryInterface $commentRepository

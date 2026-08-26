@@ -5,7 +5,7 @@ namespace App\Services\FileManager;
 use App\Repositories\FileManager\FileManagerRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class FileManagerService implements FileManagerServiceInterface
+readonly class FileManagerService implements FileManagerServiceInterface
 {
     public function __construct
     (

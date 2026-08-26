@@ -8,13 +8,12 @@ use App\Http\Requests\Admin\Coupon\StoreGroupCouponRequest;
 use App\Http\Requests\Admin\Coupon\UpdateCouponRequest;
 use App\Http\Resources\Coupon\CouponResource;
 use App\Services\Coupon\CouponServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class CouponController extends Controller
 {
     public function __construct
     (
-        private CouponServiceInterface $couponService
+        private readonly CouponServiceInterface $couponService
     )
     {
     }
@@ -50,7 +49,7 @@ class CouponController extends Controller
             $request->get("min_order_value"),
             $request->get("max_order_value"),
         );
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.discount")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.discount")]));
     }
     public function storeGroup(StoreGroupCouponRequest $request)
     {
@@ -66,7 +65,7 @@ class CouponController extends Controller
             $request->boolean("send_sms"),
             $request->get("message"),
         );
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.discount")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.discount")]));
     }
 
     public function update(UpdateCouponRequest $request)
@@ -83,6 +82,6 @@ class CouponController extends Controller
             $request->get("min_order_value"),
             $request->get("max_order_value"),
         );
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.discount")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.discount")]));
     }
 }

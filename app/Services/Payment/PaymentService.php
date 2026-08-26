@@ -16,7 +16,7 @@ namespace App\Services\Payment;
  * برای اضافه‌کردن یک درگاه جدید فقط PaymentGateway و PaymentGatewayRouter لمس
  * می‌شوند، نه این فایل.
  */
-class PaymentService implements PaymentServicesInterface
+readonly class PaymentService implements PaymentServicesInterface
 {
     public function __construct(
         private CheckoutPaymentService     $checkoutPayment,

@@ -5,14 +5,13 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Returned\UpdateReturnedStatusRequest;
 use App\Services\Returned\ReturnedServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Returned\ReturnedResource;
 
 class ReturnedController extends Controller
 {
     public function __construct
     (
-        private ReturnedServiceInterface $returnedService
+        private readonly ReturnedServiceInterface $returnedService
     )
     {
     }
@@ -25,12 +24,12 @@ class ReturnedController extends Controller
     public function accept(UpdateReturnedStatusRequest $request)
     {
         $this->returnedService->accept($request->get("id"));
-        return $this->successResponse(Lang::get("action.accept", ["attr" => Lang::get("attr.returned")]));
+        return $this->successResponse(__("action.accept", ["attr" => __("attr.returned")]));
     }
 
     public function reject(UpdateReturnedStatusRequest $request)
     {
         $this->returnedService->reject($request->get("id"));
-        return $this->successResponse(Lang::get("action.reject", ["attr" => Lang::get("attr.returned")]));
+        return $this->successResponse(__("action.reject", ["attr" => __("attr.returned")]));
     }
 }

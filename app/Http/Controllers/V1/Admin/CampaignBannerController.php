@@ -8,13 +8,12 @@ use App\Http\Requests\Admin\CampaignBanner\StoreCampaignBannerRequest;
 use App\Http\Requests\Admin\CampaignBanner\UpdateCampaignBannerRequest;
 use App\Http\Resources\CampaignBanner\CampaignBannerResource;
 use App\Services\CampaignBanner\CampaignBannerServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class CampaignBannerController extends Controller
 {
     public function __construct
     (
-        private CampaignBannerServiceInterface $campaignBannerService
+        private readonly CampaignBannerServiceInterface $campaignBannerService
     )
     {
     }
@@ -27,7 +26,7 @@ class CampaignBannerController extends Controller
     public function delete($id)
     {
         $this->campaignBannerService->delete($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.banner")]));
     }
 
     public function find($id)
@@ -38,13 +37,13 @@ class CampaignBannerController extends Controller
     public function store(StoreCampaignBannerRequest $request)
     {
         $this->campaignBannerService->create($request->file("image"), $request->get("url"), $request->get("type"), $request->get("campaign_id"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.banner")]));
     }
 
     public function update(UpdateCampaignBannerRequest $request)
     {
         $this->campaignBannerService->update($request->get("id"), $request->file("image"), $request->get("url"), $request->get("type"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.banner")]));
     }
 
     public function list($type)
@@ -55,6 +54,6 @@ class CampaignBannerController extends Controller
     public function sort(BannerSortRequest $request)
     {
         $this->campaignBannerService->sort($request->get("banner"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.banner")]));
     }
 }

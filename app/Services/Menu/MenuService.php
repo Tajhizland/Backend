@@ -5,7 +5,7 @@ namespace App\Services\Menu;
 use App\Repositories\Menu\MenuRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class MenuService implements MenuServiceInterface
+readonly class MenuService implements MenuServiceInterface
 {
     public function __construct
     (

@@ -12,8 +12,8 @@ class SpecialProductController extends Controller
 {
     public function __construct
     (
-        private ProductServiceInterface $productService,
-        private BannerServiceInterface  $bannerService,
+        private readonly ProductServiceInterface $productService,
+        private readonly BannerServiceInterface  $bannerService,
     )
     {
     }

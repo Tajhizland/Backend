@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Campaign\StoreCampaignRequest;
 use App\Http\Requests\Admin\Campaign\UpdateCampaignRequest;
 use App\Http\Resources\Campaign\CampaignResource;
 use App\Services\Campaign\CampaignServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class CampaignController extends Controller
 {
     public function __construct
     (
-        private CampaignServiceInterface $campaignService
+        private readonly CampaignServiceInterface $campaignService
     )
     {
     }
@@ -43,7 +42,7 @@ class CampaignController extends Controller
             $request->get("background_color"),
             $request->file("discount_logo"),
         );
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.campaign")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.campaign")]));
     }
 
     public function update(UpdateCampaignRequest $request)
@@ -60,6 +59,6 @@ class CampaignController extends Controller
             $request->get("background_color"),
             $request->file("discount_logo"),
         );
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.campaign")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.campaign")]));
     }
 }

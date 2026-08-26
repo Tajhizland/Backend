@@ -14,8 +14,8 @@ class SampleController extends Controller
 {
     public function __construct
     (
-        private SampleServiceInterface    $sampleService,
-        private PosterRepositoryInterface $posterRepository,
+        private readonly SampleServiceInterface    $sampleService,
+        private readonly PosterRepositoryInterface $posterRepository,
 
     )
     {

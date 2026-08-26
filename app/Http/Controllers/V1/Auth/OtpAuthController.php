@@ -7,11 +7,10 @@ use App\Http\Requests\Auth\Otp\CheckMobileRequest;
 use App\Http\Requests\Auth\Otp\SendOtpRequest;
 use App\Http\Requests\Auth\Otp\VerifyOtpRequest;
 use App\Services\Auth\Otp\OtpAuthServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class OtpAuthController extends Controller
 {
-    public function __construct(private OtpAuthServiceInterface $otpAuthService)
+    public function __construct(private readonly OtpAuthServiceInterface $otpAuthService)
     {
     }
 
@@ -24,7 +23,7 @@ class OtpAuthController extends Controller
         $result = $this->otpAuthService->checkMobile($request->get("mobile"));
         return $this->dataResponse(
             $result,
-            Lang::get("action.success", ["attr" => Lang::get("attr.mobile")])
+            __("action.success", ["attr" => __("attr.mobile")])
         );
     }
 
@@ -36,7 +35,7 @@ class OtpAuthController extends Controller
         $result = $this->otpAuthService->sendVerificationCode($request->get("mobile"));
         return $this->dataResponse(
             $result,
-            Lang::get("action.send", ["attr" => Lang::get("attr.verify_code"), "to" => $request->get("mobile")])
+            __("action.send", ["attr" => __("attr.verify_code"), "to" => $request->get("mobile")])
         );
     }
 
@@ -49,7 +48,7 @@ class OtpAuthController extends Controller
         $result = $this->otpAuthService->verifyCode($request->get("mobile"), $request->get("code"));
         return $this->dataResponse(
             $result,
-            Lang::get("action.verify", ["attr" => Lang::get("attr.verify_code")])
+            __("action.verify", ["attr" => __("attr.verify_code")])
         );
     }
 }

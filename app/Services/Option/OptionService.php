@@ -6,7 +6,7 @@ use App\Repositories\Option\OptionRepositoryInterface;
 use App\Repositories\OptionItem\OptionItemRepositoryInterface;
 use App\Repositories\ProductOption\ProductOptionRepositoryInterface;
 
-class OptionService implements OptionServiceInterface
+readonly class OptionService implements OptionServiceInterface
 {
 
     public function __construct

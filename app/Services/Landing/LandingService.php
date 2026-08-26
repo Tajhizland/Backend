@@ -9,7 +9,7 @@ use App\Repositories\LandingProduct\LandingProductRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class LandingService implements LandingServiceInterface
+readonly class LandingService implements LandingServiceInterface
 {
     public function __construct
     (

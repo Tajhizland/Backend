@@ -20,7 +20,7 @@ use App\Repositories\User\UserRepositoryInterface;
  * قبلاً این توالی (کسر کیف پول → وضعیت Paid → کم‌کردن موجودی انبار → ثبت تراکنش →
  * تکمیل سبد → رویداد OrderPaidEvent) در PaymentService پنج بار کپی شده بود.
  */
-class OrderPaymentFinalizer implements OrderPaymentFinalizerInterface
+readonly class OrderPaymentFinalizer implements OrderPaymentFinalizerInterface
 {
     public function __construct(
         private OrderRepositoryInterface       $orderRepository,

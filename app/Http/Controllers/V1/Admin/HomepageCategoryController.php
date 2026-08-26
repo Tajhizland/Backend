@@ -6,13 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\HomepageCategory\HomepageCategoryRequest;
 use App\Http\Requests\Admin\HomepageCategory\SetIconRequest;
 use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\HomepageCategory\HomepageCategoryResource;
 
 class HomepageCategoryController extends Controller
 {
     public function __construct(
-        private HomepageCategoryServiceInterface $homepageCategoryService
+        private readonly HomepageCategoryServiceInterface $homepageCategoryService
     )
     {
     }
@@ -25,17 +24,17 @@ class HomepageCategoryController extends Controller
     public function add(HomepageCategoryRequest $request)
     {
         $this->homepageCategoryService->add($request->get("category_id"));
-        return $this->successResponse(Lang::get("action.add_to", ["attr" => Lang::get("attr.category"), "to" => Lang::get("attr.list")]));
+        return $this->successResponse(__("action.add_to", ["attr" => __("attr.category"), "to" => __("attr.list")]));
     }
 
     public function delete($id)
     {
         $this->homepageCategoryService->delete($id);
-        return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.category"), "from" => Lang::get("attr.list")]));
+        return $this->successResponse(__("action.remove_from", ["attr" => __("attr.category"), "from" => __("attr.list")]));
     }
     public function setIcon(SetIconRequest $request)
     {
         $this->homepageCategoryService->setIcon($request->get("id"),$request->file("icon"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
 }

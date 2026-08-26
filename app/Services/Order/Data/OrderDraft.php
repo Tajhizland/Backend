@@ -17,7 +17,7 @@ use App\Models\User;
  * مبالغ عمداً int|float هستند چون محاسبه‌ی درصدِ کوپن مقدار اعشاری تولید می‌کند و
  * رفتار فعلیِ ذخیره‌سازی نباید تغییر کند.
  */
-final class OrderDraft
+readonly class OrderDraft
 {
     /**
      * @param  mixed  $cartItems  اقلام سبد که به order_item تبدیل می‌شوند

@@ -10,7 +10,7 @@ use App\Services\Filter\FilterServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class CategoryService implements CategoryServiceInterface
+readonly class CategoryService implements CategoryServiceInterface
 {
     public function __construct(
         private CategoryRepositoryInterface  $categoryRepository,

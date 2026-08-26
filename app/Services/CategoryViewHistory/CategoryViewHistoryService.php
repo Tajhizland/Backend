@@ -6,7 +6,7 @@ use App\Repositories\CategoryViewHistory\CategoryViewHistoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
-class CategoryViewHistoryService implements CategoryViewHistoryServiceInterface
+readonly class CategoryViewHistoryService implements CategoryViewHistoryServiceInterface
 {
     public function __construct
     (

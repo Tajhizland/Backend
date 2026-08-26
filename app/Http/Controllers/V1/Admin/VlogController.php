@@ -11,13 +11,12 @@ use App\Http\Requests\Admin\Vlog\VlogSortRequest;
 use App\Http\Resources\Vlog\VlogResource;
 use App\Services\Vlog\VlogServiceInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 
 class VlogController extends Controller
 {
     public function __construct
     (
-        private VlogServiceInterface $vlogService
+        private readonly VlogServiceInterface $vlogService
     )
     {
     }
@@ -36,7 +35,7 @@ class VlogController extends Controller
     {
         $userId = Auth::user()->id;
         $this->vlogService->store($request->get("title"), $request->get("description"), $request->file("video"), $request->file("poster"), $request->get("url"), $request->get("status"), $request->get("categoryId") ,$userId);
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.vlog")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.vlog")]));
     }
 
     /** ثبت ولاگ با ویدیویی که مستقیماً روی S3 آپلود شده است */
@@ -57,7 +56,7 @@ class VlogController extends Controller
 
         return $this->dataResponse(
             new VlogResource($vlog),
-            Lang::get("action.store", ["attr" => Lang::get("attr.vlog")])
+            __("action.store", ["attr" => __("attr.vlog")])
         );
     }
 
@@ -77,7 +76,7 @@ class VlogController extends Controller
     public function update(UpdateVlogRequest $request)
     {
         $this->vlogService->update($request->get("id"), $request->get("title"), $request->get("description"), $request->file("video"), $request->file("poster"), $request->get("url"), $request->get("status"), $request->get("categoryId"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.vlog")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.vlog")]));
     }
     public function search(VlogSearchRequest $request)
     {
@@ -92,7 +91,7 @@ class VlogController extends Controller
     public function sort(VlogSortRequest $request)
     {
         $this->vlogService->sort($request->get("vlog"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.vlog")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.vlog")]));
     }
 
 }

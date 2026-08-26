@@ -5,7 +5,7 @@ namespace App\Services\CampaignSlider;
 use App\Repositories\CampaignSlider\CampaignSliderRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class CampaignSliderService implements CampaignSliderServiceInterface
+readonly class CampaignSliderService implements CampaignSliderServiceInterface
 {
     public function __construct
     (

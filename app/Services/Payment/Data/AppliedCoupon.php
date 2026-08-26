@@ -7,7 +7,7 @@ use App\Models\Coupon;
 /**
  * نتیجه‌ی اعمال یک کد تخفیف روی مبلغ سفارش.
  */
-final class AppliedCoupon
+readonly class AppliedCoupon
 {
     /**
      * @param  int|float  $off       تخفیف روی مبلغ عادی

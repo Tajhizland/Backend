@@ -12,7 +12,7 @@ use App\Services\ProductGuaranty\ProductGuarantyServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class ProductService implements ProductServiceInterface
+readonly class ProductService implements ProductServiceInterface
 {
     public function __construct(
         private ProductRepositoryInterface         $productRepository,

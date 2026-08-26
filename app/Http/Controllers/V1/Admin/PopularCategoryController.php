@@ -5,12 +5,11 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PopularCategory\PopularCategoryRequest;
 use App\Services\PopularCategory\PopularCategoryServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\PopularCategory\PopularCategoryResource;
 
 class PopularCategoryController extends Controller
 {
-    public function __construct(private  PopularCategoryServiceInterface $popularCategoryService)
+    public function __construct(private readonly PopularCategoryServiceInterface $popularCategoryService)
     {
     }
 
@@ -21,11 +20,11 @@ class PopularCategoryController extends Controller
     public function add(PopularCategoryRequest $request)
     {
         $this->popularCategoryService->add($request->get("category_id"));
-        return $this->successResponse(Lang::get("action.add_to",["attr"=>Lang::get("attr.category") , "to"=>Lang::get("attr.list")]));
+        return $this->successResponse(__("action.add_to",["attr"=>__("attr.category") , "to"=>__("attr.list")]));
     }
     public function delete($id)
     {
         $this->popularCategoryService->delete($id);
-        return $this->successResponse(Lang::get("action.remove_from",["attr"=>Lang::get("attr.category") , "from"=>Lang::get("attr.list")]));
+        return $this->successResponse(__("action.remove_from",["attr"=>__("attr.category") , "from"=>__("attr.list")]));
     }
 }

@@ -13,7 +13,7 @@ use App\Models\User;
  * وجودش برای این است که سه سناریوی PaymentService::request() به‌جای اینکه هرکدام
  * ده خط مقدمه‌ی یکسان داشته باشند، فقط تفاوت‌شان را بنویسند.
  */
-final class CheckoutContext
+readonly class CheckoutContext
 {
     /**
      * @param  mixed  $cartItems

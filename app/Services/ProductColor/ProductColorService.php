@@ -6,7 +6,7 @@ use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use App\Repositories\Stock\StockRepositoryInterface;
 
-class ProductColorService implements ProductColorServiceInterface
+readonly class ProductColorService implements ProductColorServiceInterface
 {
     public function __construct
     (

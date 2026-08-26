@@ -11,7 +11,7 @@ class EmallsController extends Controller
 {
     public function __construct
     (
-        private ProductServiceInterface $productService
+        private readonly ProductServiceInterface $productService
     )
     {
     }

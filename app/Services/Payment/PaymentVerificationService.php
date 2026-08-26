@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
  * commit شلیک می‌شود؛ چون listenerهایش پیامک و نوتیفیکیشن می‌فرستند و نباید در
  * صورت rollback پیام رفته باشد.
  */
-class PaymentVerificationService
+readonly class PaymentVerificationService
 {
     public function __construct(
         private OrderRepositoryInterface       $orderRepository,

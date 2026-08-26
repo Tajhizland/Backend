@@ -5,7 +5,7 @@ namespace App\Services\Delivery;
 use App\Repositories\Delivery\DeliveryRepositoryInterface;
 use App\Services\S3\S3Service;
 
-class DeliveryService implements DeliveryServiceInterface
+readonly class DeliveryService implements DeliveryServiceInterface
 {
 
     public function __construct

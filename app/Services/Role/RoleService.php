@@ -5,7 +5,7 @@ namespace App\Services\Role;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\RolePermission\RolePermissionRepositoryInterface;
 
-class RoleService implements RoleServiceInterface
+readonly class RoleService implements RoleServiceInterface
 {
     public function __construct
     (

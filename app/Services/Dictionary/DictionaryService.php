@@ -4,7 +4,7 @@ namespace App\Services\Dictionary;
 
 use App\Repositories\Dictionary\DictionaryRepositoryInterface;
 
-class DictionaryService implements DictionaryServiceInterface
+readonly class DictionaryService implements DictionaryServiceInterface
 {
     public function __construct
     (

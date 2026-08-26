@@ -4,7 +4,7 @@ namespace App\Services\Contact;
 
 use App\Repositories\Contact\ContactRepositoryInterface;
 
-class ContactService implements ContactServiceInterface
+readonly class ContactService implements ContactServiceInterface
 {
     public function __construct(private ContactRepositoryInterface $contactRepository)
     {

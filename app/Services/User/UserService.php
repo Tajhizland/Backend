@@ -6,7 +6,7 @@ use App\Repositories\PhoneBock\PhoneBockRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class UserService implements UserServiceInterface
+readonly class UserService implements UserServiceInterface
 {
     public function __construct
     (

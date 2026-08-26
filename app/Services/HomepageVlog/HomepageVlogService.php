@@ -4,7 +4,7 @@ namespace App\Services\HomepageVlog;
 
 use App\Repositories\HomepageVlog\HomepageVlogRepositoryInterface;
 
-class HomepageVlogService implements HomepageVlogServiceInterface
+readonly class HomepageVlogService implements HomepageVlogServiceInterface
 {
     public function __construct
     (

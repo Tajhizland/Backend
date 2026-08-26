@@ -15,9 +15,9 @@ class NewsController extends Controller
 {
     public function __construct
     (
-        private BannerServiceInterface       $bannerService,
-        private NewServiceInterface          $newService,
-        private BlogCategoryServiceInterface $blogCategoryService
+        private readonly BannerServiceInterface       $bannerService,
+        private readonly NewServiceInterface          $newService,
+        private readonly BlogCategoryServiceInterface $blogCategoryService
     ) { }
 
     public function paginate(Request $request)

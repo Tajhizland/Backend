@@ -149,7 +149,7 @@ namespace App\Services\ConvertToHLS;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class HlsService implements HlsServiceInterface
+readonly class HlsService implements HlsServiceInterface
 {
     public function __construct(private S3ServiceInterface $s3Service)
     {

@@ -6,7 +6,7 @@ use App\Repositories\ProductImage\ProductImageRepositoryInterface;
 use App\Services\ImageResize\ImageResizeServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class ProductImageService implements ProductImageServiceInterface
+readonly class ProductImageService implements ProductImageServiceInterface
 {
     public function __construct(
         private ProductImageRepositoryInterface $productImageRepository,

@@ -9,13 +9,12 @@ use App\Http\Requests\Admin\PhoneBock\UploadExcelRequest;
 use App\Http\Resources\PhoneBock\PhoneBockResource;
 use App\Imports\PhoneBockImport;
 use App\Services\PhoneBock\PhoneBockService;
-use Illuminate\Support\Facades\Lang;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PhoneBockController extends Controller
 {
     public function __construct(
-        private PhoneBockService $phoneBockService
+        private readonly PhoneBockService $phoneBockService
     )
     {
     }
@@ -41,18 +40,18 @@ class PhoneBockController extends Controller
     public function store(StorePhoneBockRequest $request)
     {
         $this->phoneBockService->store($request->get("name"), $request->get("mobile"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.contact")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.contact")]));
     }
 
     public function update(UpdatePhoneBockRequest $request)
     {
         $this->phoneBockService->update($request->get("id"), $request->get("name"), $request->get("mobile"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.contact")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.contact")]));
     }
     public function uploadExcel(UploadExcelRequest $request)
     {
         Excel::import(new PhoneBockImport, $request->file('excel_file'));
 
-        return $this->successResponse(Lang::get("action.submit", ["attr" => Lang::get("attr.contact")]));
+        return $this->successResponse(__("action.submit", ["attr" => __("attr.contact")]));
     }
 }

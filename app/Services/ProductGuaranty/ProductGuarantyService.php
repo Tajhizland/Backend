@@ -4,7 +4,7 @@ namespace App\Services\ProductGuaranty;
 
 use App\Repositories\ProductGuaranty\ProductGuarantyRepositoryInterface;
 
-class ProductGuarantyService implements ProductGuarantyServiceInterface
+readonly class ProductGuarantyService implements ProductGuarantyServiceInterface
 {
     public function __construct
     (

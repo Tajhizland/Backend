@@ -13,8 +13,8 @@ class SearchController extends Controller
 {
     public function __construct
     (
-        private ProductServiceInterface  $productService,
-        private CategoryServiceInterface $categoryService
+        private readonly ProductServiceInterface  $productService,
+        private readonly CategoryServiceInterface $categoryService
     )
     {
     }

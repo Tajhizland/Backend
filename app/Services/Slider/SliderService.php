@@ -5,7 +5,7 @@ namespace App\Services\Slider;
 use App\Repositories\Slider\SliderRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class SliderService implements SliderServiceInterface
+readonly class SliderService implements SliderServiceInterface
 {
     public function __construct
     (

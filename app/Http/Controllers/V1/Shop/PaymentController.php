@@ -15,7 +15,7 @@ class PaymentController extends Controller
 {
     public function __construct
     (
-        private PaymentServicesInterface $paymentServices
+        private readonly PaymentServicesInterface $paymentServices
     )
     {
     }

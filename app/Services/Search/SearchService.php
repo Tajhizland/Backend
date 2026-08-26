@@ -9,7 +9,7 @@ use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Vlog\VlogResource;
 use App\Http\Resources\Product\ProductResource;
 
-class SearchService implements SearchServiceInterface
+readonly class SearchService implements SearchServiceInterface
 {
     public function __construct(
         private ProductRepositoryInterface  $productRepository,

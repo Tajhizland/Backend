@@ -10,7 +10,7 @@ class FaqController extends Controller
 {
     public function __construct
     (
-        private FaqServiceInterface $faqService
+        private readonly FaqServiceInterface $faqService
     )
     {
     }

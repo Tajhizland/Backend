@@ -18,7 +18,7 @@ use App\Services\Campaign\CampaignServiceInterface;
 use App\Services\DiscountItem\DiscountItemServiceInterface;
 use App\Services\TrustedBrand\TrustedBrandServiceInterface;
 
-class HomePageService implements HomePageServiceInterface
+readonly class HomePageService implements HomePageServiceInterface
 {
     public function __construct
     (

@@ -4,7 +4,7 @@ namespace App\Services\Faq;
 
 use App\Repositories\Faq\FaqRepositoryInterface;
 
-class FaqService implements FaqServiceInterface
+readonly class FaqService implements FaqServiceInterface
 {
     public function __construct(private FaqRepositoryInterface $faqRepository)
     {

@@ -4,7 +4,7 @@ namespace App\Services\SpecialProduct;
 
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 
-class SpecialProductService implements SpecialProductServiceInterface
+readonly class SpecialProductService implements SpecialProductServiceInterface
 {
     public function __construct(private SpecialProductRepositoryInterface $specialProductRepository)
     {

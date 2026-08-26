@@ -31,7 +31,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  * برخلاف CheckoutPaymentService اینجا سفارش از قبل وجود دارد و اقلامش قفل است؛
  * فقط شرایط پرداخت (آدرس، ارسال، کوپن، کیف پول، درگاه) دوباره اعمال می‌شود.
  */
-class OnHoldPaymentService
+readonly class OnHoldPaymentService
 {
     use BuildsPaymentResponse;
 

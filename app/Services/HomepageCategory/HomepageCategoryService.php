@@ -5,7 +5,7 @@ namespace App\Services\HomepageCategory;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class HomepageCategoryService implements HomepageCategoryServiceInterface
+readonly class HomepageCategoryService implements HomepageCategoryServiceInterface
 {
     public function __construct(
         private HomepageCategoryRepositoryInterface $homepageCategoryRepository,

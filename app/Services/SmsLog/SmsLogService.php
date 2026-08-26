@@ -4,7 +4,7 @@ namespace App\Services\SmsLog;
 
 use App\Repositories\SmsLog\SmsLogRepositoryInterface;
 
-class SmsLogService implements SmsLogServiceInterface
+readonly class SmsLogService implements SmsLogServiceInterface
 {
     public function __construct
     (

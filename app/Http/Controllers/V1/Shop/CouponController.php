@@ -12,7 +12,7 @@ class CouponController extends Controller
 {
     public function __construct
     (
-        private CouponServiceInterface $couponService
+        private readonly CouponServiceInterface $couponService
     )
     {
     }

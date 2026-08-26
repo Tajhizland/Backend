@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Guaranty\StoreGuarantyRequest;
 use App\Http\Requests\Admin\Guaranty\UpdateGuarantyRequest;
 use App\Http\Resources\Guaranty\GuarantyResource;
 use App\Services\Guaranty\GuarantyServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class GuarantyController extends Controller
 {
     public function __construct
     (
-        private GuarantyServiceInterface $guarantyService
+        private readonly GuarantyServiceInterface $guarantyService
     )
     {
     }
@@ -35,12 +34,12 @@ class GuarantyController extends Controller
     public function store(StoreGuarantyRequest $request)
     {
         $this->guarantyService->store($request->get("name"),$request->get("free"), $request->get("description"), $request->file("icon"), $request->get("status"),$request->get("url"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.guaranty")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.guaranty")]));
     }
 
     public function update(UpdateGuarantyRequest $request)
     {
         $this->guarantyService->update($request->get("id"), $request->get("name"), $request->get("free"), $request->get("description"), $request->file("icon"), $request->get("status"),$request->get("url"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.guaranty")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.guaranty")]));
     }
 }

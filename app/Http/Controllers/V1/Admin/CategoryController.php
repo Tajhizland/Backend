@@ -15,7 +15,6 @@ use App\Http\Resources\Category\CategoryResource;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Category\SimpleCategoryResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\OptionItem\OptionItemResource;
@@ -26,9 +25,9 @@ class CategoryController extends Controller
 {
     public function __construct
     (
-        private CategoryServiceInterface $categoryService,
-        private FilterServiceInterface   $filterService,
-        private OptionServiceInterface   $optionService,
+        private readonly CategoryServiceInterface $categoryService,
+        private readonly FilterServiceInterface   $filterService,
+        private readonly OptionServiceInterface   $optionService,
     )
     {
     }
@@ -46,7 +45,7 @@ class CategoryController extends Controller
     public function productSort(ProductSortRequest $request)
     {
         $this->categoryService->productSort($request->get("product"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.category")]));
     }
 
     public function dataTable()
@@ -62,13 +61,13 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $this->categoryService->storeCategory($request->get("name"), $request->get("status"), $request->get("url"), $request->file("image"), $request->get("description"), $request->get("parent_id"), $request->get("type"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.category")]));
     }
 
     public function update(UpdateCategoryRequest $request)
     {
         $this->categoryService->updateCategory($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"), $request->file("image"), $request->get("description"), $request->get("parent_id"), $request->get("type"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
 
     public function getFilter($id)
@@ -89,35 +88,35 @@ class CategoryController extends Controller
     public function setFilter(SetFilterRequest $request)
     {
         $this->filterService->setFilter($request->get("category_id"), $request->get("filter"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.filter")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.filter")]));
     }
 
     public function setOption(SetOptionRequest $request)
     {
         $this->optionService->setOption($request->get("category_id"), $request->get("option"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.option")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.option")]));
     }
 
     public function updateOption(UpdateOptionItemRequest $request)
     {
         $this->optionService->updateOptionItem($request->get("id"), $request->get("categoryId"), $request->get("title"), $request->get("status"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.option")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.option")]));
     }
     public function sortOption(SortOptionRequest $request)
     {
         $this->optionService->sortOption($request->get("option"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.option")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.option")]));
     }
 
     public function sortOptionItem(SortOptionItemRequest $request)
     {
         $this->optionService->sortOptionItem($request->get("optionItem"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.option")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.option")]));
     }
 
     public function deleteImage($id)
     {
         $this->categoryService->deleteImage($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.image")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.image")]));
     }
 }

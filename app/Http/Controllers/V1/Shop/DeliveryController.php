@@ -6,14 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Delivery\SelectDeliveryRequest;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\Delivery\DeliveryServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Delivery\DeliveryResource;
 
 class DeliveryController extends Controller
 {
     public function __construct
-    (private DeliveryServiceInterface $deliveryService,
-     private CartServiceInterface     $cartService)
+    (private readonly DeliveryServiceInterface $deliveryService,
+     private readonly CartServiceInterface     $cartService)
     {
     }
 
@@ -25,6 +24,6 @@ class DeliveryController extends Controller
     public function select(SelectDeliveryRequest $request)
     {
         $this->cartService->setDeliveryMethod(\Auth::user()->id,$request->get("id"));
-        return $this->successResponse(Lang::get("action.select",["attr"=>Lang::get("attr.delivery")]));
+        return $this->successResponse(__("action.select",["attr"=>__("attr.delivery")]));
     }
 }

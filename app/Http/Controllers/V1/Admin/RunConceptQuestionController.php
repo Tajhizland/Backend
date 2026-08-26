@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\RunConceptQuestion\StoreRunConceptQuestionRequest;
 use App\Http\Requests\Admin\RunConceptQuestion\UpdateRunConceptQuestionRequest;
 use App\Http\Resources\RunConceptQuestion\RunConceptQuestionResource;
 use App\Services\RunConceptQuestion\RunConceptQuestionServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class RunConceptQuestionController extends Controller
 {
     public function __construct
     (
-        private RunConceptQuestionServiceInterface $conceptQuestionService
+        private readonly RunConceptQuestionServiceInterface $conceptQuestionService
     )
     {
     }
@@ -45,7 +44,7 @@ class RunConceptQuestionController extends Controller
             $request->get("parent_question"),
             $request->get("parent_answer"),
         );
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.question")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.question")]));
     }
 
     public function update(UpdateRunConceptQuestionRequest $request)
@@ -58,6 +57,6 @@ class RunConceptQuestionController extends Controller
             $request->get("parent_question"),
             $request->get("parent_answer"),
         );
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.question")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.question")]));
     }
 }

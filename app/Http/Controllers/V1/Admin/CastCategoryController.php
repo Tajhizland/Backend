@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\CastCategory\StoreCastCategoryRequest;
 use App\Http\Requests\Admin\CastCategory\UpdateCastCategoryRequest;
 use App\Http\Resources\CastCategory\CastCategoryResource;
 use App\Services\CastCategory\CastCategoryServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class CastCategoryController extends Controller
 {
     public function __construct
     (
-        private CastCategoryServiceInterface $castCategoryService
+        private readonly CastCategoryServiceInterface $castCategoryService
     )
     {
     }
@@ -39,12 +38,12 @@ class CastCategoryController extends Controller
     public function store(StoreCastCategoryRequest $request)
     {
         $this->castCategoryService->store($request->get("name"), $request->get("status"), $request->file("icon"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.category")]));
     }
 
     public function update(UpdateCastCategoryRequest $request)
     {
         $this->castCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->file("icon"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
 }

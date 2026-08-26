@@ -17,9 +17,9 @@ class VlogController extends Controller
 {
     public function __construct
     (
-        private BannerServiceInterface          $bannerService,
-        private VlogCategoryRepositoryInterface $vlogCategoryRepository,
-        private VlogServiceInterface            $vlogService
+        private readonly BannerServiceInterface          $bannerService,
+        private readonly VlogCategoryRepositoryInterface $vlogCategoryRepository,
+        private readonly VlogServiceInterface            $vlogService
     )
     {
     }

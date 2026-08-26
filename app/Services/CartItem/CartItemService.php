@@ -14,7 +14,7 @@ use App\Services\Guaranty\GuarantyServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Lang;
 
-class CartItemService implements CartItemServiceInterface
+readonly class CartItemService implements CartItemServiceInterface
 {
     public function __construct
     (

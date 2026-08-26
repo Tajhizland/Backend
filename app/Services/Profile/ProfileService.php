@@ -7,7 +7,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
-class ProfileService implements ProfileServiceInterface
+readonly class ProfileService implements ProfileServiceInterface
 {
     public function __construct
     (

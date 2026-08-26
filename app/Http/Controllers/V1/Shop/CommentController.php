@@ -6,7 +6,6 @@ use App\Events\CommentSubmitEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Comment\StoreCommentRequest;
 use App\Services\Comment\CommentServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -14,7 +13,7 @@ class CommentController extends Controller
 {
     public function __construct
     (
-        private CommentServiceInterface $commentService
+        private readonly CommentServiceInterface $commentService
     )
     {
     }
@@ -23,6 +22,6 @@ class CommentController extends Controller
     {
         $this->commentService->createComment($request->get("productId"),$request->get("text"),$request->get("rating"),Auth::user()->id);
         event(new CommentSubmitEvent());
-        return $this->successResponse(Lang::get("action.send",["attr"=>Lang::get("attr.comment")]));
+        return $this->successResponse(__("action.send",["attr"=>__("attr.comment")]));
     }
 }

@@ -12,7 +12,7 @@ use App\Services\DirectUpload\DirectUploadServiceInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class VlogService implements VlogServiceInterface
+readonly class VlogService implements VlogServiceInterface
 {
     public function __construct
     (

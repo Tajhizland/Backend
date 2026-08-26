@@ -13,7 +13,7 @@ class CategoryViewHistoryController extends Controller
 {
     public function __construct
     (
-        private CategoryViewHistoryServiceInterface $categoryViewHistoryService
+        private readonly CategoryViewHistoryServiceInterface $categoryViewHistoryService
     )
     {
     }

@@ -5,7 +5,7 @@ namespace App\Services\Banner;
 use App\Repositories\Banner\BannerRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class BannerService implements BannerServiceInterface
+readonly class BannerService implements BannerServiceInterface
 {
     public function __construct
     (

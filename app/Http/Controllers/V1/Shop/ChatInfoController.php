@@ -11,7 +11,7 @@ class ChatInfoController extends Controller
 {
     public function __construct
     (
-        private ChatInfoService $chatInfoService
+        private readonly ChatInfoService $chatInfoService
     )
     {
     }

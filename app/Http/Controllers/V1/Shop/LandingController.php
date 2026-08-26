@@ -11,7 +11,7 @@ class LandingController extends Controller
 {
     public function __construct
     (
-        private LandingServiceInterface $landingService
+        private readonly LandingServiceInterface $landingService
     )
     {
     }

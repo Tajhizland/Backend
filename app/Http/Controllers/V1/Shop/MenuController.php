@@ -10,7 +10,7 @@ class MenuController extends Controller
 {
     public function __construct
     (
-        private  MenuServiceInterface $menuService
+        private readonly MenuServiceInterface $menuService
     )
     {
     }

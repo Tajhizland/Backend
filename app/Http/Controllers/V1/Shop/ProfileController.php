@@ -5,13 +5,12 @@ namespace App\Http\Controllers\V1\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Profile\ChangePasswordRequest;
 use App\Services\Profile\ProfileServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class ProfileController extends Controller
 {
     public function __construct
     (
-        private ProfileServiceInterface $profileService
+        private readonly ProfileServiceInterface $profileService
     )
     {
     }
@@ -19,6 +18,6 @@ class ProfileController extends Controller
     public function changePassword(ChangePasswordRequest $request)
     {
         $this->profileService->changePassword($request->get("current_password"), $request->get("new_password"));
-        return $this->successResponse(Lang::get("action.change", ["attr" => Lang::get("attr.password")]));
+        return $this->successResponse(__("action.change", ["attr" => __("attr.password")]));
     }
 }

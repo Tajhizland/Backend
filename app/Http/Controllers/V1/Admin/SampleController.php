@@ -11,14 +11,13 @@ use App\Http\Requests\Admin\SampleRequest;
 use App\Http\Resources\Sample\SampleResource;
 use App\Http\Resources\SampleVideo\SampleVideoResource;
 use App\Services\Sample\SampleServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\SampleImage\SampleImageResource;
 
 class SampleController extends Controller
 {
     public function __construct
     (
-        private SampleServiceInterface $sampleService
+        private readonly SampleServiceInterface $sampleService
     )
     {
     }
@@ -31,33 +30,33 @@ class SampleController extends Controller
     public function update(SampleRequest $request)
     {
         $this->sampleService->update($request->get("content"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.sample")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.sample")]));
 
     }
 
     public function uploadImage(SampleImageRequest $request)
     {
         $this->sampleService->uploadImage($request->file("image"));
-        return $this->successResponse(Lang::get("action.upload", ["attr" => Lang::get("attr.image")]));
+        return $this->successResponse(__("action.upload", ["attr" => __("attr.image")]));
 
     }
 
     public function removeImage($id)
     {
         $this->sampleService->removeImage($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.image")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.image")]));
     }
 
     public function addVideo(SampleVideoRequest $request)
     {
         $this->sampleService->addVideo($request->get("vlog_id"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.sample")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.sample")]));
     }
 
     public function deleteVideo($id)
     {
         $this->sampleService->deleteVideo($id);
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.sample")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.sample")]));
     }
 
     public function getImages()
@@ -72,11 +71,11 @@ class SampleController extends Controller
     public function sortVideo(SortVideoRequest $request)
     {
         $this->sampleService->sortVideo($request->get("video"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.vlog")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.vlog")]));
     }
     public function sortImage(SortImageRequest $request)
     {
         $this->sampleService->sortImage($request->get("image"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.image")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.image")]));
     }
 }

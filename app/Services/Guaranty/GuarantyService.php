@@ -6,7 +6,7 @@ use App\Repositories\Guaranty\GuarantyRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class GuarantyService implements GuarantyServiceInterface
+readonly class GuarantyService implements GuarantyServiceInterface
 {
     public function __construct
     (

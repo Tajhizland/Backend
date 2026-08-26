@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
  * قرارداد امنیتی: کلاینت هرگز مسیر فایل، پوشه‌ی مقصد یا سقف حجم را تعیین
  * نمی‌کند؛ فقط نام پروفایل را می‌فرستد. مسیر همیشه اینجا ساخته می‌شود.
  */
-class DirectUploadService implements DirectUploadServiceInterface
+readonly class DirectUploadService implements DirectUploadServiceInterface
 {
     /** سقف تعداد پارت در استاندارد S3 */
     private const MAX_PARTS = 10000;

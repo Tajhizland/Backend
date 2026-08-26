@@ -6,14 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\StoreRoleRequest;
 use App\Http\Requests\Admin\Role\UpdateRoleRequest;
 use App\Services\Role\RoleServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Role\RoleResource;
 
 class RoleController extends Controller
 {
     public function __construct
     (
-        private RoleServiceInterface $roleService
+        private readonly RoleServiceInterface $roleService
     )
     {
     }
@@ -38,13 +37,13 @@ class RoleController extends Controller
     public function store(StoreRoleRequest $request)
     {
         $this->roleService->store($request->get("name"),$request->get("permissions"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.role")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.role")]));
     }
 
     public function update(UpdateRoleRequest $request)
     {
         $this->roleService->update($request->get("id"), $request->get("name"),$request->get("permissions"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.role")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.role")]));
 
     }
 }

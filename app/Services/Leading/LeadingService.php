@@ -6,7 +6,7 @@ use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\Poster\PosterRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 
-class LeadingService implements LeadingServiceInterface
+readonly class LeadingService implements LeadingServiceInterface
 {
     public function __construct
     (

@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\RunConceptAnswer\StoreRunConceptAnswerRequest;
 use App\Http\Requests\Admin\RunConceptAnswer\UpdateRunConceptAnswerRequest;
 use App\Http\Resources\RunConceptAnswer\RunConceptAnswerResource;
 use App\Services\RunConceptAnswer\RunConceptAnswerServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class RunConceptAnswerController extends Controller
 {
     public function __construct
     (
-        private RunConceptAnswerServiceInterface $runConceptAnswerService
+        private readonly RunConceptAnswerServiceInterface $runConceptAnswerService
     )
     {
     }
@@ -44,7 +43,7 @@ class RunConceptAnswerController extends Controller
             $request->get("status"),
             $request->get("price"),
         );
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.answer")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.answer")]));
 
     }
 
@@ -57,7 +56,7 @@ class RunConceptAnswerController extends Controller
             $request->get("status"),
             $request->get("price"),
         );
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.answer")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.answer")]));
 
     }
 }

@@ -10,7 +10,7 @@ class HomePageController extends Controller
 {
     public function __construct
     (
-        private HomePageServiceInterface $homePageService
+        private readonly HomePageServiceInterface $homePageService
     )
     {
     }

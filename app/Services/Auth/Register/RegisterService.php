@@ -9,7 +9,7 @@ use App\Services\Sms\SmsServiceInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Lang;
 
-class RegisterService implements RegisterServiceInterface
+readonly class RegisterService implements RegisterServiceInterface
 {
     use  ApiResponse;
 

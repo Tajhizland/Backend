@@ -9,7 +9,7 @@ use App\Services\Product\ProductServiceInterface;
 
 class ComparisonController extends Controller
 {
-    public function __construct(private  ProductServiceInterface $productService)
+    public function __construct(private readonly ProductServiceInterface $productService)
     {
     }
 

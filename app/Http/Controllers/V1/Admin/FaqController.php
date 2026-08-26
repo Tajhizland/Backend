@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Faq\StoreFaqRequest;
 use App\Http\Requests\Admin\Faq\UpdateFaqRequest;
 use App\Http\Resources\Faq\FaqResource;
 use App\Services\Faq\FaqServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class FaqController extends Controller
 {
     public function __construct
     (
-        private FaqServiceInterface $faqService
+        private readonly FaqServiceInterface $faqService
     )
     {
     }
@@ -31,13 +30,13 @@ class FaqController extends Controller
     public function store(StoreFaqRequest $request)
     {
         $this->faqService->store($request->get("question"), $request->get("answer"), $request->get("status"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.faq")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.faq")]));
     }
 
     public function update(UpdateFaqRequest $request)
     {
         $this->faqService->update($request->get("id"), $request->get("question"), $request->get("answer"), $request->get("status"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.faq")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.faq")]));
     }
 
 }

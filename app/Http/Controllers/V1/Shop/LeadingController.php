@@ -10,7 +10,7 @@ class LeadingController extends Controller
 {
     public function __construct
     (
-        private LeadingServiceInterface $leadingService
+        private readonly LeadingServiceInterface $leadingService
     )
     {
     }

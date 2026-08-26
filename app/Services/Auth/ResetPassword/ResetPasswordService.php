@@ -8,7 +8,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Sms\SmsServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
-class ResetPasswordService implements ResetPasswordServiceInterface
+readonly class ResetPasswordService implements ResetPasswordServiceInterface
 {
 
     public function __construct(

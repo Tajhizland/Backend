@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *   - placeWalletOrder       : کل مبلغ از کیف پول
  *   - placePartialWalletOrder: کیف پول + درگاه
  */
-class CheckoutPaymentService
+readonly class CheckoutPaymentService
 {
     use BuildsPaymentResponse;
 

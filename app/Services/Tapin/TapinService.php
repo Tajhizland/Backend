@@ -8,7 +8,7 @@ use App\Services\Lang\LangService;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class TapinService implements TapinServiceInterface
+readonly class TapinService implements TapinServiceInterface
 {
     public function __construct
     (

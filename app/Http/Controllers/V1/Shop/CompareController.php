@@ -12,7 +12,7 @@ class CompareController extends Controller
 {
     public function __construct
     (
-        private CompareServiceInterface $compareService
+        private readonly CompareServiceInterface $compareService
     )
     {
     }

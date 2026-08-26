@@ -5,7 +5,7 @@ namespace App\Services\Page;
 use App\Repositories\Page\PageRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class PageService implements PageServiceInterface
+readonly class PageService implements PageServiceInterface
 {
     public function __construct
     (private PageRepositoryInterface $pageRepository,

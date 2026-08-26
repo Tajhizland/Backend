@@ -14,7 +14,7 @@ use App\Http\Resources\Breadcrumb\BreadcrumbResource;
 class CategoryController extends Controller
 {
     public function __construct(
-        private CategoryServiceInterface $categoryService,
+        private readonly CategoryServiceInterface $categoryService,
     )
     {
     }

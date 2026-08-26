@@ -10,7 +10,7 @@ class DashboardController extends  Controller
 {
     public function __construct
     (
-        private DashboardServiceInterface $dashboardService
+        private readonly DashboardServiceInterface $dashboardService
     )
     {
     }

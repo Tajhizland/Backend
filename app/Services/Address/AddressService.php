@@ -7,7 +7,7 @@ use App\Repositories\City\CityRepositoryInterface;
 use App\Repositories\Province\ProvinceRepositoryInterface;
 use Illuminate\Support\Facades\Gate;
 
-class AddressService implements AddressServiceInterface
+readonly class AddressService implements AddressServiceInterface
 {
     public function __construct
     (

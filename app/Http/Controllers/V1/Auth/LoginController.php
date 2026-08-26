@@ -5,11 +5,10 @@ namespace App\Http\Controllers\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login\LoginRequest;
 use App\Services\Auth\Login\LoginServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class LoginController extends Controller
 {
-    public function __construct(private LoginServiceInterface $loginService)
+    public function __construct(private readonly LoginServiceInterface $loginService)
     {
     }
 
@@ -19,7 +18,7 @@ class LoginController extends Controller
         return $this->dataResponse
         (
             ["token" => $token],
-            (Lang::get("action.success",["attr"=>Lang::get("attr.login")]))
+            (__("action.success",["attr"=>__("attr.login")]))
         );
     }
 }

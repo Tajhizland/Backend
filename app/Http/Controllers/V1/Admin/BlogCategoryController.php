@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\BlogCategory\StoreBlogCategoryRequest;
 use App\Http\Requests\Admin\BlogCategory\UpdateBlogCategoryRequest;
 use App\Http\Resources\BlogCategory\BlogCategoryResource;
 use App\Services\BlogCategory\BlogCategoryServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class BlogCategoryController extends Controller
 {
     public function __construct
     (
-        private BlogCategoryServiceInterface $blogCategoryService
+        private readonly BlogCategoryServiceInterface $blogCategoryService
     )
     {
     }
@@ -37,12 +36,12 @@ class BlogCategoryController extends Controller
     public function store(StoreBlogCategoryRequest $request)
     {
         $this->blogCategoryService->create($request->get("name"), $request->get("status"), $request->get("url"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.category")]));
     }
 
     public function update(UpdateBlogCategoryRequest $request)
     {
         $this->blogCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
 }

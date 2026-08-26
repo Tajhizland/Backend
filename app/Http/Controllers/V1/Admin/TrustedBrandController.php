@@ -7,13 +7,12 @@ use App\Http\Requests\TrustedBrand\StoreTrustedBrandRequest;
 use App\Http\Requests\TrustedBrand\UpdateTrustedBrandRequest;
 use App\Http\Resources\TrustedBrand\TrustedBrandResource;
 use App\Services\TrustedBrand\TrustedBrandServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class TrustedBrandController extends Controller
 {
     public function __construct
     (
-        private TrustedBrandServiceInterface $trustedBrandService
+        private readonly TrustedBrandServiceInterface $trustedBrandService
     )
     {
     }
@@ -27,14 +26,14 @@ class TrustedBrandController extends Controller
     public function store(StoreTrustedBrandRequest $request)
     {
         $this->trustedBrandService->store($request->get("logo"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.image")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.image")]));
 
     }
 
     public function update(UpdateTrustedBrandRequest $request)
     {
         $this->trustedBrandService->update($request->get("id"), $request->get("logo"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.image")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.image")]));
 
     }
 
@@ -47,6 +46,6 @@ class TrustedBrandController extends Controller
     public function delete($id)
     {
         $this->trustedBrandService->delete($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.image")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.image")]));
     }
 }

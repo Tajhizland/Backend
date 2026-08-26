@@ -4,12 +4,11 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\Notification\NotificationService;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Notification\NotificationResource;
 
 class NotificationController extends Controller
 {
-    public function __construct(private NotificationService $notificationService)
+    public function __construct(private readonly NotificationService $notificationService)
     { }
     public function unSeen()
     {
@@ -18,7 +17,7 @@ class NotificationController extends Controller
     public function seen()
     {
         $this->notificationService->seen();
-        return $this->successResponse(Lang::get("action.change", ["attr" => Lang::get("attr.notification")]));
+        return $this->successResponse(__("action.change", ["attr" => __("attr.notification")]));
     }
     public function dataTable()
     {

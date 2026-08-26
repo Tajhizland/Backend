@@ -4,7 +4,7 @@ namespace App\Services\SmsLogItem;
 
 use App\Repositories\SmsLogItem\SmsLogItemRepositoryInterface;
 
-class SmsLogItemService implements SmsLogItemServiceInterface
+readonly class SmsLogItemService implements SmsLogItemServiceInterface
 {
     public function __construct(
         private SmsLogItemRepositoryInterface $smsLogItemRepository

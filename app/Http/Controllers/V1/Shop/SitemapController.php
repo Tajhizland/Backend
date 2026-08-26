@@ -16,13 +16,13 @@ class SitemapController extends Controller
 {
     public function __construct
     (
-        private ProductServiceInterface  $productService,
-        private CategoryServiceInterface $categoryService,
-        private BrandServiceInterface    $brandService,
-        private GuarantyServiceInterface $guarantyService,
-        private LandingServiceInterface  $landingService,
-        private NewServiceInterface      $newService,
-        private VlogServiceInterface     $vlogService
+        private readonly ProductServiceInterface  $productService,
+        private readonly CategoryServiceInterface $categoryService,
+        private readonly BrandServiceInterface    $brandService,
+        private readonly GuarantyServiceInterface $guarantyService,
+        private readonly LandingServiceInterface  $landingService,
+        private readonly NewServiceInterface      $newService,
+        private readonly VlogServiceInterface     $vlogService
     )
     {
     }

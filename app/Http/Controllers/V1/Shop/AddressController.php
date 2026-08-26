@@ -8,7 +8,6 @@ use App\Http\Requests\Shop\Address\UpdateAddresRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Services\Address\AddressServiceInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\City\CityResource;
 use App\Http\Resources\Province\ProvinceResource;
 
@@ -16,7 +15,7 @@ class AddressController extends Controller
 {
     public function __construct
     (
-        private AddressServiceInterface $addressService
+        private readonly AddressServiceInterface $addressService
     )
     {
     }
@@ -25,7 +24,7 @@ class AddressController extends Controller
     {
         $userId = Auth::user()->id;
         $this->addressService->changeActiveAddress($request->get("id"), $userId);
-        return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
+        return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 
     public function findActive()
@@ -47,14 +46,14 @@ class AddressController extends Controller
     {
         $userId = Auth::user()->id;
         $this->addressService->updateOrCreate($request->get("id"), $userId, $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"), $request->get("title"));
-        return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
+        return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 
     public function createOrUpdate(UpdateAddresRequest $request)
     {
         $userId = Auth::user()->id;
         $this->addressService->updateOrCreateByUserId($userId, $request->get("city_id"), $request->get("province_id"), $request->get("tell"), $request->get("zip_code"), $request->get("mobile"), $request->get("address"));
-        return $this->successResponse(Lang::get('action.update', ['attr' => Lang::get("attr.address")]));
+        return $this->successResponse(__('action.update', ['attr' => __("attr.address")]));
     }
 
     public function getCities($id)

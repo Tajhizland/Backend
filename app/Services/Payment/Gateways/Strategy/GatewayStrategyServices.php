@@ -6,7 +6,7 @@ use App\Services\Gateway\GatewayServiceInterface;
 use App\Services\Payment\Gateways\GatewaysInterface;
 use App\Services\Payment\Gateways\Zibal\ZibalService;
 
-class GatewayStrategyServices implements GatewayStrategyServicesInterface
+readonly class GatewayStrategyServices implements GatewayStrategyServicesInterface
 {
     public function __construct
     (

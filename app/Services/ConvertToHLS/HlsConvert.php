@@ -6,7 +6,7 @@ use App\Services\S3\S3ServiceInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Str;
 
-class HlsConvert implements HlsServiceInterface
+readonly class HlsConvert implements HlsServiceInterface
 {
     public function __construct(
         private S3ServiceInterface $s3Service

@@ -15,9 +15,9 @@ class CastController extends Controller
 {
     public function __construct
     (
-        private CastServiceInterface         $castService,
-        private BannerRepositoryInterface    $bannerRepository,
-        private CastCategoryServiceInterface $castCategoryService,
+        private readonly CastServiceInterface         $castService,
+        private readonly BannerRepositoryInterface    $bannerRepository,
+        private readonly CastCategoryServiceInterface $castCategoryService,
     )
     {
     }

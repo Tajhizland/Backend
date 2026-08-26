@@ -4,7 +4,7 @@ namespace App\Services\PhoneBock;
 
 use App\Repositories\PhoneBock\PhoneBockRepositoryInterface;
 
-class PhoneBockService implements PhoneBockServiceInterface
+readonly class PhoneBockService implements PhoneBockServiceInterface
 {
     public function __construct
     (

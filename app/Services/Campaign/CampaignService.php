@@ -6,7 +6,7 @@ use App\Repositories\Campaign\CampaignRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 use Carbon\Carbon;
 
-class CampaignService implements CampaignServiceInterface
+readonly class CampaignService implements CampaignServiceInterface
 {
     public function __construct
     (

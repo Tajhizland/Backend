@@ -11,7 +11,7 @@ class PageController extends Controller
 {
     public function __construct
     (
-        private PageServiceInterface $pageService
+        private readonly PageServiceInterface $pageService
     )
     {
     }

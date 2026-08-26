@@ -12,8 +12,8 @@ class GroupController extends Controller
 {
     public function __construct
     (
-        private ProductGroupServiceInterface $productGroupService,
-        private ProductServiceInterface      $productService,
+        private readonly ProductGroupServiceInterface $productGroupService,
+        private readonly ProductServiceInterface      $productService,
     )
     {
     }

@@ -5,7 +5,7 @@ namespace App\Services\TrustedBrand;
 use App\Repositories\TrustedBrand\TrustedBrandRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class TrustedBrandService implements TrustedBrandServiceInterface
+readonly class TrustedBrandService implements TrustedBrandServiceInterface
 {
     public function __construct
     (

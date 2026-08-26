@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Cast\StoreCastRequest;
 use App\Http\Requests\Admin\Cast\UpdateCastRequest;
 use App\Http\Resources\Cast\CastResource;
 use App\Services\Cast\CastServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class CastController extends Controller
 {
     public function __construct
     (
-        private CastServiceInterface $castService
+        private readonly CastServiceInterface $castService
     )
     {
     }
@@ -33,13 +32,13 @@ class CastController extends Controller
     public function store(StoreCastRequest $request)
     {
         $this->castService->store($request->get("title"), $request->file("image"), $request->get("description"), $request->get("url"), $request->get("status"), $request->file("audio"), $request->get("vlog_id"), $request->get("category_id"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.cast")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.cast")]));
     }
 
     public function update(UpdateCastRequest $request)
     {
         $this->castService->update($request->get("id"), $request->get("title"), $request->file("image"), $request->get("description"), $request->get("url"), $request->get("status"), $request->file("audio"), $request->get("vlog_id"), $request->get("category_id"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.cast")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.cast")]));
     }
 
 

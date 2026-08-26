@@ -11,7 +11,7 @@ class GuarantyController extends Controller
 {
     public function __construct
     (
-        private GuarantyServiceInterface $guarantyService
+        private readonly GuarantyServiceInterface $guarantyService
     )
     {
     }

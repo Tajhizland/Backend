@@ -10,7 +10,7 @@ class CastCategoryController extends Controller
 {
     public function __construct
     (
-        private CastCategoryService $castCategoryService
+        private readonly CastCategoryService $castCategoryService
     )
     {
     }

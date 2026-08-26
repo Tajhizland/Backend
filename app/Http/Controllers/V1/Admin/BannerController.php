@@ -8,13 +8,12 @@ use App\Http\Requests\Admin\Banner\StoreBannerRequest;
 use App\Http\Requests\Admin\Banner\UpdateBannerRequest;
 use App\Http\Resources\Banner\BannerResource;
 use App\Services\Banner\BannerServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class BannerController extends Controller
 {
     public function __construct
     (
-        private BannerServiceInterface $bannerService
+        private readonly BannerServiceInterface $bannerService
     )
     {
     }
@@ -27,7 +26,7 @@ class BannerController extends Controller
     public function delete($id)
     {
         $this->bannerService->delete($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.banner")]));
     }
 
     public function find($id)
@@ -38,13 +37,13 @@ class BannerController extends Controller
     public function store(StoreBannerRequest $request)
     {
         $this->bannerService->create($request->file("image"), $request->get("url"),$request->get("type"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.banner")]));
     }
 
     public function update(UpdateBannerRequest $request)
     {
         $this->bannerService->update($request->get("id"), $request->file("image"), $request->get("url"),$request->get("type"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.banner")]));
     }
     public function list()
     {
@@ -53,6 +52,6 @@ class BannerController extends Controller
     public function sort(BannerSortRequest $request)
     {
         $this->bannerService->sort($request->get("banner"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.banner")]));
     }
 }

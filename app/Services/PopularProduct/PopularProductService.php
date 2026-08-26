@@ -4,7 +4,7 @@ namespace App\Services\PopularProduct;
 
 use App\Repositories\PopularProduct\PopularProductRepositoryInterface;
 
-class PopularProductService implements  PopularProductServiceInterface
+readonly class PopularProductService implements  PopularProductServiceInterface
 {
     public function __construct(private PopularProductRepositoryInterface $popularProductRepository)
     {

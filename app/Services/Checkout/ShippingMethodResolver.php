@@ -12,7 +12,7 @@ use App\Services\Tapin\TapinService;
  * هم با اقلام سبد خرید کار می‌کند و هم با اقلام یک سفارش (مثل سفارش معلقِ تاییدشده)،
  * چون هر دو رابطه‌ی productColor->product و فیلد count را دارند.
  */
-class ShippingMethodResolver
+readonly class ShippingMethodResolver
 {
     public function __construct
     (

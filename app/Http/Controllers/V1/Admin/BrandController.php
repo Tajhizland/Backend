@@ -8,13 +8,12 @@ use App\Http\Requests\Admin\Brand\StoreBrandRequest;
 use App\Http\Requests\Admin\Brand\UpdateBrandRequest;
 use App\Http\Resources\Brand\BrandResource;
 use App\Services\Brand\BrandServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class BrandController extends Controller
 {
     public function __construct
     (
-        private BrandServiceInterface $brandService,
+        private readonly BrandServiceInterface $brandService,
 
     )
     {
@@ -33,7 +32,7 @@ class BrandController extends Controller
     public function sort(BrandSortRequest $request)
     {
         $this->brandService->sort($request->get("brand"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.brand")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.brand")]));
     }
 
     public function findById($id)
@@ -44,13 +43,13 @@ class BrandController extends Controller
     public function store(StoreBrandRequest $request)
     {
         $this->brandService->storeBrand($request->get("name"), $request->get("url"), $request->get("status"), $request->get("image"), $request->get("banner"), $request->get("description"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.brand")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.brand")]));
     }
 
     public function update(UpdateBrandRequest $request)
     {
         $this->brandService->updateBrand($request->get("id"), $request->get("name"), $request->get("url"), $request->get("status"), $request->get("image"), $request->get("banner"), $request->get("description"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.brand")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.brand")]));
     }
 
 }

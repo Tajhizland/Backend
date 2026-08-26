@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Menu\StoreMenuRequest;
 use App\Http\Requests\Admin\Menu\UpdateMenuRequest;
 use App\Http\Resources\Menu\MenuResource;
 use App\Services\Menu\MenuServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class MenuController extends Controller
 {
     public function __construct
     (
-        private MenuServiceInterface $menuService
+        private readonly MenuServiceInterface $menuService
     )
     {
     }
@@ -31,24 +30,24 @@ class MenuController extends Controller
     public function store(StoreMenuRequest $request)
     {
         $this->menuService->store($request->get("title"),$request->get("parent_id"),$request->get("url"),$request->get("status"),$request->get("category_id"),$request->get("banner_link"),$request->get("banner_logo"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.menu")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.menu")]));
     }
 
     public function update(UpdateMenuRequest $request)
     {
         $this->menuService->update($request->get("id"),$request->get("title"),$request->get("parent_id"),$request->get("url"),$request->get("status"),$request->get("category_id"),$request->get("banner_link"),$request->get("banner_logo"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.menu")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.menu")]));
     }
 
     public function delete($id)
     {
         $this->menuService->delete($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.menu")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.menu")]));
     }
     public function deleteBanner($id)
     {
         $this->menuService->deleteBanner($id);
-        return $this->successResponse(Lang::get("action.remove", ["attr" => Lang::get("attr.banner")]));
+        return $this->successResponse(__("action.remove", ["attr" => __("attr.banner")]));
     }
 
     public function findById($id)

@@ -5,7 +5,7 @@ namespace App\Services\VlogCategory;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class VlogCategoryService implements VlogCategoryServiceInterface
+readonly class VlogCategoryService implements VlogCategoryServiceInterface
 {
     public function __construct
     (

@@ -8,7 +8,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Sms\SmsServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
-class OtpAuthService implements OtpAuthServiceInterface
+readonly class OtpAuthService implements OtpAuthServiceInterface
 {
     public function __construct(
         private UserRepositoryInterface               $userRepository,

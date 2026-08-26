@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Delivery\StoreDeliveryRequest;
 use App\Http\Requests\Admin\Delivery\UpdateDeliveryRequest;
 use App\Http\Resources\Delivery\DeliveryResource;
 use App\Services\Delivery\DeliveryServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class DeliveryController extends Controller
 {
     public function __construct
     (
-        private DeliveryServiceInterface $deliveryService
+        private readonly DeliveryServiceInterface $deliveryService
     )
     {
     }
@@ -31,12 +30,12 @@ class DeliveryController extends Controller
     public function store(StoreDeliveryRequest $request)
     {
         $this->deliveryService->store($request->get("name"), $request->get("status"), $request->get("description"), $request->get("price"), $request->get("logo"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.delivery")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.delivery")]));
     }
 
     public function update(UpdateDeliveryRequest $request)
     {
         $this->deliveryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->get("description"), $request->get("price"), $request->get("logo"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.delivery")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.delivery")]));
     }
 }

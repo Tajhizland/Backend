@@ -4,7 +4,7 @@ namespace App\Services\PopularCategory;
 
 use App\Repositories\PopularCategory\PopularCategoryRepositoryInterface;
 
-class PopularCategoryService implements PopularCategoryServiceInterface
+readonly class PopularCategoryService implements PopularCategoryServiceInterface
 {
     public function __construct(private PopularCategoryRepositoryInterface $popularCategoryRepository)
     {

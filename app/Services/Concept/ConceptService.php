@@ -7,7 +7,7 @@ use App\Repositories\CategoryConcept\CategoryConceptRepositoryInterface;
 use App\Repositories\Concept\ConceptRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class ConceptService implements ConceptServiceInterface
+readonly class ConceptService implements ConceptServiceInterface
 {
     public function __construct(
         private ConceptRepositoryInterface         $conceptRepository,

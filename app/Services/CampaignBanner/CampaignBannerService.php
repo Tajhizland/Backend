@@ -5,7 +5,7 @@ namespace App\Services\CampaignBanner;
 use App\Repositories\CampaignBanner\CampaignBannerRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class CampaignBannerService implements CampaignBannerServiceInterface
+readonly class CampaignBannerService implements CampaignBannerServiceInterface
 {
     public function __construct(
         private CampaignBannerRepositoryInterface $campaignBannerRepository,

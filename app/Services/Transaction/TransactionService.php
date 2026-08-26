@@ -4,7 +4,7 @@ namespace App\Services\Transaction;
 
 use App\Repositories\Transaction\TransactionRepositoryInterface;
 
-class TransactionService implements TransactionServiceInterface
+readonly class TransactionService implements TransactionServiceInterface
 {
 
     public function __construct

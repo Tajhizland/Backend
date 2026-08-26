@@ -8,13 +8,12 @@ use App\Http\Resources\User\UserResource;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 
 class MeController extends Controller
 {
     public function __construct
     (
-        private UserServiceInterface $userService,
+        private readonly UserServiceInterface $userService,
     )
     {
     }
@@ -23,7 +22,7 @@ class MeController extends Controller
     {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
-        return $this->successResponse(\Lang::get("action.success", ["attr" => \Lang::get("attr.logout")]));
+        return $this->successResponse(\__("action.success", ["attr" => \__("attr.logout")]));
     }
 
     public function me(Request $request)
@@ -41,6 +40,6 @@ class MeController extends Controller
     {
 
         $this->userService->updateProfile(Auth::user()->id, $request->get("name"), $request->get("email"), $request->get("gender"), $request->file("avatar"), $request->get("last_name"), $request->get("national_code"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.profile")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.profile")]));
     }
 }

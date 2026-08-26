@@ -6,14 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Permission\StorePermissionRequest;
 use App\Http\Requests\Admin\Permission\UpdatePermissionRequest;
 use App\Services\Permission\PermissionServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\Permission\PermissionResource;
 
 class PermissionController extends Controller
 {
     public function __construct
     (
-        private PermissionServiceInterface $permissionService
+        private readonly PermissionServiceInterface $permissionService
     )
     {
     }
@@ -38,13 +37,13 @@ class PermissionController extends Controller
     public function store(StorePermissionRequest $request)
     {
         $this->permissionService->store($request->get("name"), $request->get("value"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.permission")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.permission")]));
     }
 
     public function update(UpdatePermissionRequest $request)
     {
         $this->permissionService->update($request->get("id"), $request->get("name"), $request->get("value"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.permission")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.permission")]));
 
     }
 }

@@ -9,7 +9,7 @@ use App\Repositories\ProductColor\ProductColorRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
-class CartService implements CartServiceInterface
+readonly class CartService implements CartServiceInterface
 {
     public function __construct
     (

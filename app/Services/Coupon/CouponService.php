@@ -12,7 +12,7 @@ use App\Services\SmsLog\SmsLogServiceInterface;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class CouponService implements CouponServiceInterface
+readonly class CouponService implements CouponServiceInterface
 {
     public function __construct
     (

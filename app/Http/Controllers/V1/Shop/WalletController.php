@@ -8,15 +8,14 @@ use App\Services\Payment\PaymentServicesInterface;
 use App\Services\WalletTransaction\WalletTransactionServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 
 class WalletController extends Controller
 {
     public function __construct
     (
-        private WalletTransactionServiceInterface $walletTransactionService,
-        private PaymentServicesInterface          $paymentServices,
+        private readonly WalletTransactionServiceInterface $walletTransactionService,
+        private readonly PaymentServicesInterface          $paymentServices,
     )
     {
     }

@@ -10,7 +10,6 @@ use App\Http\Requests\Admin\Landing\StoreLandingRequest;
 use App\Http\Requests\Admin\Landing\UpdateLandingRequest;
 use App\Http\Resources\Landing\LandingResource;
 use App\Services\Landing\LandingServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\LandingBanner\LandingBannerResource;
 use App\Http\Resources\LandingCategory\LandingCategoryResource;
 use App\Http\Resources\LandingProduct\LandingProductResource;
@@ -19,7 +18,7 @@ class LandingController extends Controller
 {
     public function __construct
     (
-        private LandingServiceInterface $landingService
+        private readonly LandingServiceInterface $landingService
     )
     {
     }
@@ -37,13 +36,13 @@ class LandingController extends Controller
     public function store(StoreLandingRequest $request)
     {
         $this->landingService->store($request->get("title"),$request->get("description"),$request->get("status"),$request->get("url"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.landing")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.landing")]));
     }
 
     public function update(UpdateLandingRequest $request)
     {
         $this->landingService->update($request->get("id"),$request->get("title"),$request->get("description"),$request->get("status"),$request->get("url"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.landing")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.landing")]));
     }
 
     public function getProduct($id)
@@ -62,36 +61,36 @@ class LandingController extends Controller
     public function setProduct(SetLandingProductRequest $request)
     {
         $this->landingService->setProduct($request->get("landing_id") ,$request->get("product_id"));
-        return $this->successResponse(Lang::get("action.add_to", ["attr" => Lang::get("attr.product") , "to" => Lang::get("attr.landing")]));
+        return $this->successResponse(__("action.add_to", ["attr" => __("attr.product") , "to" => __("attr.landing")]));
     }
 
     public function setCategory(SetCategoryLandingRequest $request)
     {
         $this->landingService->setCategory($request->get("landing_id") ,$request->get("category_id"));
-        return $this->successResponse(Lang::get("action.add_to", ["attr" => Lang::get("attr.category") , "to" => Lang::get("attr.landing")]));
+        return $this->successResponse(__("action.add_to", ["attr" => __("attr.category") , "to" => __("attr.landing")]));
     }
 
     public function setBanner(SetBannerRequest $request)
     {
         $this->landingService->setBanner($request->file("image"),$request->get("url") ,$request->get("landing_id"),$request->get("slider"));
-        return $this->successResponse(Lang::get("action.add_to", ["attr" => Lang::get("attr.banner") , "to" => Lang::get("attr.landing")]));
+        return $this->successResponse(__("action.add_to", ["attr" => __("attr.banner") , "to" => __("attr.landing")]));
     }
 
     public function deleteProduct($id)
     {
         $this->landingService->deleteProduct($id);
-        return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.product") , "from" => Lang::get("attr.landing")]));
+        return $this->successResponse(__("action.remove_from", ["attr" => __("attr.product") , "from" => __("attr.landing")]));
     }
     public function deleteBanner($id)
     {
         $this->landingService->deleteBanner($id);
-        return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.banner") , "from" => Lang::get("attr.landing")]));
+        return $this->successResponse(__("action.remove_from", ["attr" => __("attr.banner") , "from" => __("attr.landing")]));
     }
 
     public function deleteCategory($id)
     {
         $this->landingService->deleteCategory($id);
-        return $this->successResponse(Lang::get("action.remove_from", ["attr" => Lang::get("attr.category") , "from" => Lang::get("attr.landing")]));
+        return $this->successResponse(__("action.remove_from", ["attr" => __("attr.category") , "from" => __("attr.landing")]));
     }
 
 }

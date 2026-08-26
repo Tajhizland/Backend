@@ -5,7 +5,7 @@ namespace App\Services\Discount;
 use App\Repositories\Discount\DiscountRepositoryInterface;
 use App\Repositories\DiscountItem\DiscountItemRepositoryInterface;
 
-class DiscountService implements DiscountServiceInterface
+readonly class DiscountService implements DiscountServiceInterface
 {
     public function __construct
     (

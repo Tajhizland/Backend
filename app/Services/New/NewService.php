@@ -5,7 +5,7 @@ namespace App\Services\New;
 use App\Repositories\New\NewRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class NewService implements NewServiceInterface
+readonly class NewService implements NewServiceInterface
 {
     public function __construct(
         private NewRepositoryInterface $newRepository,

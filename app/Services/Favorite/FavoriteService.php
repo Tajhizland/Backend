@@ -7,7 +7,7 @@ use App\Repositories\Favorite\FavoriteRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use Illuminate\Support\Facades\Lang;
 
-class FavoriteService implements FavoriteServiceInterface
+readonly class FavoriteService implements FavoriteServiceInterface
 {
     public function __construct
     (

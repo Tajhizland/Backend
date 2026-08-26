@@ -8,7 +8,7 @@ use App\Repositories\OnHoldOrder\OnHoldOrderRepositoryInterface;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 
-class DashboardService implements DashboardServiceInterface
+readonly class DashboardService implements DashboardServiceInterface
 {
     public function __construct
     (

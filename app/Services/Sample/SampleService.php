@@ -7,7 +7,7 @@ use App\Repositories\SampleImage\SampleImageRepositoryInterface;
 use App\Repositories\SampleVideo\SampleVideoRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
 
-class SampleService implements SampleServiceInterface
+readonly class SampleService implements SampleServiceInterface
 {
     public function __construct
     (

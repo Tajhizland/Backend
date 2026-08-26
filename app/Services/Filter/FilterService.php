@@ -9,7 +9,7 @@ use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductFilter\ProductFilterRepositoryInterface;
 use Illuminate\Support\Facades\Lang;
 
-class FilterService implements FilterServiceInterface
+readonly class FilterService implements FilterServiceInterface
 {
     public function __construct
     (

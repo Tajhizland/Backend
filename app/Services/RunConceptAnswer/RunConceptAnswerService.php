@@ -4,7 +4,7 @@ namespace App\Services\RunConceptAnswer;
 
 use App\Repositories\RunConceptAnswer\RunConceptAnswerRepositoryInterface;
 
-class RunConceptAnswerService implements RunConceptAnswerServiceInterface
+readonly class RunConceptAnswerService implements RunConceptAnswerServiceInterface
 {
     public function __construct
     (

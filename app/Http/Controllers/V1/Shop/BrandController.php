@@ -15,8 +15,8 @@ class BrandController extends Controller
 {
     public function __construct
     (
-        private BrandServiceInterface  $brandService,
-        private BannerServiceInterface $bannerService
+        private readonly BrandServiceInterface  $brandService,
+        private readonly BannerServiceInterface $bannerService
     )
     {
     }

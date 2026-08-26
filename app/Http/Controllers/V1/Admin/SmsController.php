@@ -11,15 +11,14 @@ use App\Jobs\GroupContactSmsMarketingJob;
 use App\Jobs\GroupUserSmsMarketingJob;
 use App\Services\SmsLog\SmsLogServiceInterface;
 use App\Services\SmsLogItem\SmsLogItemServiceInterface;
-use Illuminate\Support\Facades\Lang;
 use App\Http\Resources\SmsLog\SmsLogResource;
 
 class SmsController extends Controller
 {
     public function __construct
     (
-        private SmsLogServiceInterface     $smsLogService,
-        private SmsLogItemServiceInterface $smsLogItemService
+        private readonly SmsLogServiceInterface     $smsLogService,
+        private readonly SmsLogItemServiceInterface $smsLogItemService
     )
     {
     }
@@ -46,13 +45,13 @@ class SmsController extends Controller
     {
         $smsLog = $this->smsLogService->store("users", SmsLogStatus::Pending->value);
         GroupUserSmsMarketingJob::dispatch($request->get("message"), $smsLog, $request->get("userIds"));
-        return $this->successResponse(Lang::get("action.queued", ["attr" => Lang::get("attr.sms")]));
+        return $this->successResponse(__("action.queued", ["attr" => __("attr.sms")]));
     }
 
     public function sendToContact(SendToContactRequest $request)
     {
         $smsLog = $this->smsLogService->store("phone-bock", SmsLogStatus::Pending->value);
         GroupContactSmsMarketingJob::dispatch($request->get("message"), $smsLog, $request->get("mobiles"));
-        return $this->successResponse(Lang::get("action.queued", ["attr" => Lang::get("attr.sms")]));
+        return $this->successResponse(__("action.queued", ["attr" => __("attr.sms")]));
     }
 }

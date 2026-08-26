@@ -8,13 +8,12 @@ use App\Http\Requests\Admin\VlogCategory\UpdateVlogCategoryRequest;
 use App\Http\Resources\VlogCategory\VlogCategoryResource;
 use App\Http\Requests\Admin\VlogCategory\VlogCategorySortRequest;
 use App\Services\VlogCategory\VlogCategoryServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class VlogCategoryController extends Controller
 {
     public function __construct
     (
-        private VlogCategoryServiceInterface $vlogCategoryService
+        private readonly VlogCategoryServiceInterface $vlogCategoryService
     )
     {
     }
@@ -37,17 +36,17 @@ class VlogCategoryController extends Controller
     public function store(StoreVlogCategoryRequest $request)
     {
         $this->vlogCategoryService->store($request->get("name"), $request->get("status"), $request->get("url"), $request->file("icon"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.category")]));
     }
 
     public function update(UpdateVlogCategoryRequest $request)
     {
         $this->vlogCategoryService->update($request->get("id"), $request->get("name"), $request->get("status"), $request->get("url"), $request->file("icon"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.category")]));
     }
     public function sort(VlogCategorySortRequest $request)
     {
         $this->vlogCategoryService->sort($request->get("vlogs"));
-        return $this->successResponse(Lang::get("action.sort", ["attr" => Lang::get("attr.category")]));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.category")]));
     }
 }

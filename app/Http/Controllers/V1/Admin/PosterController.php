@@ -7,13 +7,12 @@ use App\Http\Requests\Admin\Poster\StorePosterRequest;
 use App\Http\Requests\Admin\Poster\UpdatePosterRequest;
 use App\Http\Resources\Poster\PosterResource;
 use App\Services\Poster\PosterServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class PosterController extends Controller
 {
     public function __construct
     (
-        private PosterServiceInterface $posterService
+        private readonly PosterServiceInterface $posterService
     )
     {
     }
@@ -26,7 +25,7 @@ class PosterController extends Controller
     public function store(StorePosterRequest $request)
     {
         $this->posterService->store($request->file("image"));
-        return $this->successResponse(Lang::get("action.store", ["attr" => Lang::get("attr.poster")]));
+        return $this->successResponse(__("action.store", ["attr" => __("attr.poster")]));
     }
 
     public function find($id)
@@ -37,6 +36,6 @@ class PosterController extends Controller
     public function update(UpdatePosterRequest $request)
     {
         $this->posterService->update($request->get("id"),$request->file("image"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.poster")]));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.poster")]));
     }
 }

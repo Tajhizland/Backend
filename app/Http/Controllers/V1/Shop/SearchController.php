@@ -11,7 +11,7 @@ class SearchController extends Controller
 {
     public function __construct
     (
-        private SearchServiceInterface $searchService
+        private readonly SearchServiceInterface $searchService
     )
     {
     }
