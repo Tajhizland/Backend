@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Sample\SampleImageDto;
+use App\DTOs\Sample\SampleSortImageDto;
+use App\DTOs\Sample\SampleSortVideoDto;
+use App\DTOs\Sample\SampleUpdateDto;
+use App\DTOs\Sample\SampleVideoDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Sample\SampleImageRequest;
 use App\Http\Requests\Admin\Sample\SampleVideoRequest;
@@ -29,14 +34,14 @@ class SampleController extends Controller
 
     public function update(SampleRequest $request)
     {
-        $this->sampleService->update($request->get("content"));
+        $this->sampleService->update(new SampleUpdateDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.sample")]));
 
     }
 
     public function uploadImage(SampleImageRequest $request)
     {
-        $this->sampleService->uploadImage($request->file("image"));
+        $this->sampleService->uploadImage(new SampleImageDto(...$request->validated()));
         return $this->successResponse(__("action.upload", ["attr" => __("attr.image")]));
 
     }
@@ -49,7 +54,7 @@ class SampleController extends Controller
 
     public function addVideo(SampleVideoRequest $request)
     {
-        $this->sampleService->addVideo($request->get("vlog_id"));
+        $this->sampleService->addVideo(new SampleVideoDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.sample")]));
     }
 
@@ -70,12 +75,12 @@ class SampleController extends Controller
     }
     public function sortVideo(SortVideoRequest $request)
     {
-        $this->sampleService->sortVideo($request->get("video"));
+        $this->sampleService->sortVideo(new SampleSortVideoDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.vlog")]));
     }
     public function sortImage(SortImageRequest $request)
     {
-        $this->sampleService->sortImage($request->get("image"));
+        $this->sampleService->sortImage(new SampleSortImageDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.image")]));
     }
 }

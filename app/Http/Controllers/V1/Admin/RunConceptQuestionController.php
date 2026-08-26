@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\RunConceptQuestion\RunConceptQuestionStoreDto;
+use App\DTOs\RunConceptQuestion\RunConceptQuestionUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RunConceptQuestion\StoreRunConceptQuestionRequest;
 use App\Http\Requests\Admin\RunConceptQuestion\UpdateRunConceptQuestionRequest;
@@ -29,7 +31,7 @@ class RunConceptQuestionController extends Controller
         return $this->dataResponseCollection(RunConceptQuestionResource::collection($response));
     }
 
-    public function find($id)
+    public function show($id)
     {
         $response = $this->conceptQuestionService->find($id);
         return $this->dataResponse(new RunConceptQuestionResource($response));
@@ -37,26 +39,13 @@ class RunConceptQuestionController extends Controller
 
     public function store(StoreRunConceptQuestionRequest $request)
     {
-        $this->conceptQuestionService->store(
-            $request->get("question"),
-            $request->get("status"),
-            $request->get("level"),
-            $request->get("parent_question"),
-            $request->get("parent_answer"),
-        );
+        $this->conceptQuestionService->store(new RunConceptQuestionStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.question")]));
     }
 
-    public function update(UpdateRunConceptQuestionRequest $request)
+    public function update($id, UpdateRunConceptQuestionRequest $request)
     {
-        $this->conceptQuestionService->update(
-            $request->get("id"),
-            $request->get("question"),
-            $request->get("status"),
-            $request->get("level"),
-            $request->get("parent_question"),
-            $request->get("parent_answer"),
-        );
+        $this->conceptQuestionService->update(new RunConceptQuestionUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.question")]));
     }
 }

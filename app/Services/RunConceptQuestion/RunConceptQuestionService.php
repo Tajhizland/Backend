@@ -2,7 +2,10 @@
 
 namespace App\Services\RunConceptQuestion;
 
+use App\DTOs\RunConceptQuestion\RunConceptQuestionStoreDto;
+use App\DTOs\RunConceptQuestion\RunConceptQuestionUpdateDto;
 use App\Repositories\RunConceptQuestion\RunConceptQuestionRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class RunConceptQuestionService implements RunConceptQuestionServiceInterface
 {
@@ -13,40 +16,44 @@ readonly class RunConceptQuestionService implements RunConceptQuestionServiceInt
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->conceptQuestionRepository->dataTable();
     }
 
-    public function store($question, $status, $level, $parent_question, $parent_answer)
+    public function store(RunConceptQuestionStoreDto $dto): mixed
     {
         return $this->conceptQuestionRepository->create([
-            "question" => $question,
-            "status" => $status,
-            "level" => $level,
-            "parent_question" => $parent_question,
-            "parent_answer" => $parent_answer
+            "question" => $dto->question,
+            "status" => $dto->status,
+            "level" => $dto->level,
+            "parent_question" => $dto->parent_question,
+            "parent_answer" => $dto->parent_answer,
         ]);
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->conceptQuestionRepository->findOrFail($id);
+        $question = $this->conceptQuestionRepository->find($id);
+        if (!$question) {
+            throw new NotFoundHttpException();
+        }
+        return $question;
     }
 
-    public function update($id, $question, $status, $level, $parent_question, $parent_answer)
+    public function update(RunConceptQuestionUpdateDto $dto): bool
     {
-        $model = $this->conceptQuestionRepository->findOrFail($id);
-        $this->conceptQuestionRepository->update($model, [
-            "question" => $question,
-            "status" => $status,
-            "level" => $level,
-            "parent_question" => $parent_question,
-            "parent_answer" => $parent_answer
+        $question = $this->find($dto->runConceptQuestionId);
+        return $this->conceptQuestionRepository->update($question, [
+            "question" => $dto->question,
+            "status" => $dto->status,
+            "level" => $dto->level,
+            "parent_question" => $dto->parent_question,
+            "parent_answer" => $dto->parent_answer,
         ]);
     }
 
-    public function list()
+    public function list(): mixed
     {
         return $this->conceptQuestionRepository->list();
     }

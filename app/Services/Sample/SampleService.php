@@ -2,6 +2,11 @@
 
 namespace App\Services\Sample;
 
+use App\DTOs\Sample\SampleImageDto;
+use App\DTOs\Sample\SampleSortImageDto;
+use App\DTOs\Sample\SampleSortVideoDto;
+use App\DTOs\Sample\SampleUpdateDto;
+use App\DTOs\Sample\SampleVideoDto;
 use App\Repositories\Sample\SampleRepositoryInterface;
 use App\Repositories\SampleImage\SampleImageRepositoryInterface;
 use App\Repositories\SampleVideo\SampleVideoRepositoryInterface;
@@ -19,72 +24,72 @@ readonly class SampleService implements SampleServiceInterface
     {
     }
 
-    public function find()
+    public function find(): mixed
     {
         return $this->sampleRepository->first();
     }
 
-    public function update($content)
+    public function update(SampleUpdateDto $dto): mixed
     {
         $sample = $this->sampleRepository->first();
         return $this->sampleRepository->update($sample, [
-            "content" => $content
+            "content" => $dto->content,
         ]);
     }
 
-    public function uploadImage($image)
+    public function uploadImage(SampleImageDto $dto): mixed
     {
-        $imagePath = $this->s3Service->upload($image, "sample");
+        $imagePath = $this->s3Service->upload($dto->image, "sample");
         return $this->sampleImageRepository->create([
             "image" => $imagePath
         ]);
     }
 
-    public function removeImage($id)
+    public function removeImage(int $id): bool|null
     {
         $imagePath = $this->sampleImageRepository->findOrFail($id);
         $this->s3Service->remove("sample/" . $imagePath->image);
         return $this->sampleImageRepository->delete($imagePath);
     }
 
-    public function addVideo($id)
+    public function addVideo(SampleVideoDto $dto): mixed
     {
-        $sampleVideo = $this->sampleVideoRepository->findByVideoId($id);
+        $sampleVideo = $this->sampleVideoRepository->findByVideoId($dto->vlog_id);
         if (!$sampleVideo) {
             $sampleVideo = $this->sampleVideoRepository->create([
-                "vlog_id" => $id
+                "vlog_id" => $dto->vlog_id,
             ]);
         }
         return $sampleVideo;
     }
 
-    public function deleteVideo($id)
+    public function deleteVideo(int $id): bool|null
     {
         $sampleVideo = $this->sampleVideoRepository->findOrFail($id);
         return $this->sampleVideoRepository->delete($sampleVideo);
     }
 
-    public function getImages()
+    public function getImages(): mixed
     {
         return $this->sampleImageRepository->getAll();
     }
 
-    public function getVideos()
+    public function getVideos(): mixed
     {
         return $this->sampleVideoRepository->getWithVlog();
     }
 
-    public function sortImage($array)
+    public function sortImage(SampleSortImageDto $dto): bool
     {
-        foreach ($array as $item) {
+        foreach ($dto->image as $item) {
             $this->sampleImageRepository->sort($item["id"], $item["sort"]);
         }
         return true;
     }
 
-    public function sortVideo($array)
+    public function sortVideo(SampleSortVideoDto $dto): bool
     {
-        foreach ($array as $item) {
+        foreach ($dto->video as $item) {
             $this->sampleVideoRepository->sort($item["id"], $item["sort"]);
         }
         return true;

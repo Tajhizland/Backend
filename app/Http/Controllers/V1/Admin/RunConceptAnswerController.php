@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\RunConceptAnswer\RunConceptAnswerStoreDto;
+use App\DTOs\RunConceptAnswer\RunConceptAnswerUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RunConceptAnswer\StoreRunConceptAnswerRequest;
 use App\Http\Requests\Admin\RunConceptAnswer\UpdateRunConceptAnswerRequest;
@@ -29,7 +31,7 @@ class RunConceptAnswerController extends Controller
         return $this->dataResponseCollection(RunConceptAnswerResource::collection($response));
     }
 
-    public function find($id)
+    public function show($id)
     {
         $response = $this->runConceptAnswerService->find($id);
         return $this->dataResponse(new RunConceptAnswerResource($response));
@@ -37,25 +39,14 @@ class RunConceptAnswerController extends Controller
 
     public function store(StoreRunConceptAnswerRequest $request)
     {
-        $this->runConceptAnswerService->store(
-            $request->get("run_concept_question_id"),
-            $request->get("answer"),
-            $request->get("status"),
-            $request->get("price"),
-        );
+        $this->runConceptAnswerService->store(new RunConceptAnswerStoreDto(...$request->validated()));
         return $this->successResponse(__("action.store", ["attr" => __("attr.answer")]));
 
     }
 
-    public function update(UpdateRunConceptAnswerRequest $request)
+    public function update($id, UpdateRunConceptAnswerRequest $request)
     {
-        $this->runConceptAnswerService->update(
-            $request->get("id"),
-            $request->get("run_concept_question_id"),
-            $request->get("answer"),
-            $request->get("status"),
-            $request->get("price"),
-        );
+        $this->runConceptAnswerService->update(new RunConceptAnswerUpdateDto($id, ...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.answer")]));
 
     }

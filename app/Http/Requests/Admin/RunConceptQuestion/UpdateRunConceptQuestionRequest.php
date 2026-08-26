@@ -9,7 +9,6 @@ class UpdateRunConceptQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['exists:App\Models\RunConceptQuestion'],
             'question' => ['required'],
             'parent_question' => ['nullable'],
             'parent_answer' => ['nullable'],

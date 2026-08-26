@@ -2,7 +2,10 @@
 
 namespace App\Services\RunConceptAnswer;
 
+use App\DTOs\RunConceptAnswer\RunConceptAnswerStoreDto;
+use App\DTOs\RunConceptAnswer\RunConceptAnswerUpdateDto;
 use App\Repositories\RunConceptAnswer\RunConceptAnswerRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class RunConceptAnswerService implements RunConceptAnswerServiceInterface
 {
@@ -13,41 +16,43 @@ readonly class RunConceptAnswerService implements RunConceptAnswerServiceInterfa
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->runConceptAnswerRepository->dataTable();
     }
 
-    public function find($id)
+    public function find(int $id): mixed
     {
-        return $this->runConceptAnswerRepository->findOrFail($id);
+        $answer = $this->runConceptAnswerRepository->find($id);
+        if (!$answer) {
+            throw new NotFoundHttpException();
+        }
+        return $answer;
     }
 
-    public function getByQuestionId($id)
+    public function getByQuestionId($id): mixed
     {
         return $this->runConceptAnswerRepository->getByQuestionId($id);
     }
 
-    public function store($run_concept_question_id, $answer, $status, $price)
+    public function store(RunConceptAnswerStoreDto $dto): mixed
     {
-        return $this->runConceptAnswerRepository->create(
-            [
-                "run_concept_question_id" => $run_concept_question_id,
-                "answer" => $answer,
-                "status" => $status,
-                "price" => $price,
-            ]);
+        return $this->runConceptAnswerRepository->create([
+            "run_concept_question_id" => $dto->run_concept_question_id,
+            "answer" => $dto->answer,
+            "status" => $dto->status,
+            "price" => $dto->price,
+        ]);
     }
 
-    public function update($id, $run_concept_question_id, $answer, $status, $price)
+    public function update(RunConceptAnswerUpdateDto $dto): bool
     {
-        $model = $this->runConceptAnswerRepository->findOrFail($id);
-        return $this->runConceptAnswerRepository->update($model,
-            [
-                "run_concept_question_id" => $run_concept_question_id,
-                "answer" => $answer,
-                "status" => $status,
-                "price" => $price,
-            ]);
+        $answer = $this->find($dto->runConceptAnswerId);
+        return $this->runConceptAnswerRepository->update($answer, [
+            "run_concept_question_id" => $dto->run_concept_question_id,
+            "answer" => $dto->answer,
+            "status" => $dto->status,
+            "price" => $dto->price,
+        ]);
     }
 }

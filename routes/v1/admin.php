@@ -300,19 +300,19 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
     });
 
-    Route::group(["prefix" => "sample"], function () {
-        Route::get("find", [\App\Http\Controllers\V1\Admin\SampleController::class, "find"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\SampleController::class, "update"]);
+    Route::prefix("sample")->controller(\App\Http\Controllers\V1\Admin\SampleController::class)->group(function () {
+        Route::get("/", "find");
+        Route::put("/", "update");
 
-        Route::get("image/get", [\App\Http\Controllers\V1\Admin\SampleController::class, "getImages"]);
-        Route::post("image/upload", [\App\Http\Controllers\V1\Admin\SampleController::class, "uploadImage"]);
-        Route::post("image/sort", [\App\Http\Controllers\V1\Admin\SampleController::class, "sortImage"]);
-        Route::delete("image/delete/{id}", [\App\Http\Controllers\V1\Admin\SampleController::class, "removeImage"]);
+        Route::get("image", "getImages");
+        Route::post("image", "uploadImage");
+        Route::post("image/sort", "sortImage");
+        Route::delete("image/{id}", "removeImage");
 
-        Route::get("video/get", [\App\Http\Controllers\V1\Admin\SampleController::class, "getVideos"]);
-        Route::post("video/add", [\App\Http\Controllers\V1\Admin\SampleController::class, "addVideo"]);
-        Route::post("video/sort", [\App\Http\Controllers\V1\Admin\SampleController::class, "sortVideo"]);
-        Route::delete("video/delete/{id}", [\App\Http\Controllers\V1\Admin\SampleController::class, "deleteVideo"]);
+        Route::get("video", "getVideos");
+        Route::post("video", "addVideo");
+        Route::post("video/sort", "sortVideo");
+        Route::delete("video/{id}", "deleteVideo");
     });
 
     Route::prefix("homepage-vlog")->controller(\App\Http\Controllers\V1\Admin\HomepageVlogController::class)->group(function () {
@@ -342,20 +342,20 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("set", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "set"]);
     });
 
-    Route::group(["prefix" => "run-concept-answer"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "find"]);
-        Route::get("question/{id}", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "getByQuestionId"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class, "update"]);
+    Route::prefix("run-concept-answer")->controller(\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("question/{id}", "getByQuestionId");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
-    Route::group(["prefix" => "run-concept-question"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "find"]);
-        Route::post("store", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "store"]);
-        Route::post("update", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "update"]);
-        Route::get("list", [\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class, "list"]);
+    Route::prefix("run-concept-question")->controller(\App\Http\Controllers\V1\Admin\RunConceptQuestionController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
     });
 
     Route::prefix("dictionary")->controller(\App\Http\Controllers\V1\Admin\DictionaryController::class)->group(function () {

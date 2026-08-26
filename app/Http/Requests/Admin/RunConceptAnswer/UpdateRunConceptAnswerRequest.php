@@ -9,7 +9,6 @@ class UpdateRunConceptAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'exists:run_concept_answers'],
             'run_concept_question_id' => ['required', 'exists:run_concept_questions,id'],
             'answer' => ['required'],
             'status' => ['required', 'integer'],

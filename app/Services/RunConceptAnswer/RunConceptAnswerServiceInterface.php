@@ -2,14 +2,18 @@
 
 namespace App\Services\RunConceptAnswer;
 
+use App\DTOs\RunConceptAnswer\RunConceptAnswerStoreDto;
+use App\DTOs\RunConceptAnswer\RunConceptAnswerUpdateDto;
+
 interface RunConceptAnswerServiceInterface
 {
-    public function dataTable();
+    public function dataTable(): mixed;
 
-    public function find($id);
-    public function getByQuestionId($id);
+    public function getByQuestionId($id): mixed;
 
-    public function store($run_concept_question_id, $answer, $status, $price);
+    public function find(int $id): mixed;
 
-    public function update($id, $run_concept_question_id, $answer, $status, $price);
+    public function store(RunConceptAnswerStoreDto $dto): mixed;
+
+    public function update(RunConceptAnswerUpdateDto $dto): bool;
 }
