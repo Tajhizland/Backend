@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources\Concept;
 
-use App\Http\Resources\Category\CategoryCollection;
-use App\Http\Resources\Category\SimpleCategoryCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\Category\SimpleCategoryResource;
 
 /** @mixin \App\Models\concept */
 class ConceptResource extends JsonResource
@@ -18,7 +17,7 @@ class ConceptResource extends JsonResource
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
             'id' => $this->id,
             'title' => $this->title,
-            'categories' => new SimpleCategoryCollection($this->whenLoaded('categories')),
+            'categories' => ["data" => SimpleCategoryResource::collection($this->whenLoaded('categories'))],
             'description' => $this->description,
             'status' => $this->status,
             'icon' => $this->icon,

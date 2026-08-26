@@ -5,9 +5,9 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\HomepageCategory\HomepageCategoryRequest;
 use App\Http\Requests\Admin\HomepageCategory\SetIconRequest;
-use App\Http\Resources\HomepageCategory\HomepageCategoryCollection;
 use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\HomepageCategory\HomepageCategoryResource;
 
 class HomepageCategoryController extends Controller
 {
@@ -19,7 +19,7 @@ class HomepageCategoryController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new HomepageCategoryCollection($this->homepageCategoryService->dataTable()));
+        return $this->dataResponseCollection(HomepageCategoryResource::collection($this->homepageCategoryService->dataTable()));
     }
 
     public function add(HomepageCategoryRequest $request)

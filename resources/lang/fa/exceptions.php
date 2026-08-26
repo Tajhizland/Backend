@@ -64,4 +64,5 @@ return [
     "type_not_find" => "نوع ویدیو یافت  نشد ",
 
 
+    "invalid_order_status" => 'وضعیت سفارش نامعتبر است',
 ];

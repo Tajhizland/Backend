@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Coupon\CheckCouponRequest;
 use App\Http\Requests\Shop\OnHoldOrder\OnHoldOrderCheckoutPaymentRequest;
 use App\Http\Resources\Coupon\CouponResource;
-use App\Http\Resources\Delivery\DeliveryCollection;
 use App\Http\Resources\OnHoldOrder\OnHoldOrderCheckoutResource;
-use App\Http\Resources\OnHoldOrder\OnHoldOrderCollection;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Services\Checkout\ShippingMethodResolver;
 use App\Services\Coupon\CouponServiceInterface;
@@ -16,6 +14,8 @@ use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use App\Services\Payment\PaymentServicesInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Delivery\DeliveryResource;
+use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
 
 class OnHoldOrderController extends Controller
 {
@@ -32,7 +32,7 @@ class OnHoldOrderController extends Controller
     public function userHoldOnPaginate()
     {
         return $this->dataResponseCollection(
-            new OnHoldOrderCollection($this->onHoldOrderService->userHoldOnPaginate(Auth::user()->id))
+            OnHoldOrderResource::collection($this->onHoldOrderService->userHoldOnPaginate(Auth::user()->id))
         );
     }
 
@@ -76,7 +76,7 @@ class OnHoldOrderController extends Controller
             $totalItemsPrice += $item->final_price * $item->count;
         }
 
-        return $this->dataResponseCollection(new DeliveryCollection(
+        return $this->dataResponseCollection(DeliveryResource::collection(
             $this->shippingMethodResolver->resolve($items, $address, $totalItemsPrice)
         ));
     }
@@ -117,7 +117,7 @@ class OnHoldOrderController extends Controller
     public function remove($id)
     {
         return $this->dataResponse(
-            new OnHoldOrderCollection($this->onHoldOrderService->userHoldOnPaginate($id)),
+            OnHoldOrderResource::collection($this->onHoldOrderService->userHoldOnPaginate($id))->response()->getData(),
             Lang::get("action.remove",["attr"=>Lang::get("attr.order_request")])
         );
     }

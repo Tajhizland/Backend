@@ -2,28 +2,29 @@
 
 namespace App\Services\Order;
 
+use App\DTOs\Order\DigipayCalcDto;
+use App\DTOs\Order\OrderItemUpdateDto;
+use App\DTOs\Order\OrderStatusUpdateDto;
 
 interface OrderServiceInterface
 {
-    public function userOrderPaginate($userId);
+    public function dataTable(): mixed;
 
-    public function findById($id);
+    public function find(int $id): mixed;
 
-    public function findUserOrder($id);
+    public function findWithDetails(int $id): mixed;
 
-    public function findWithDetails($id);
+    public function userOrderPaginate(int $userId): mixed;
 
-    public function dataTable();
+    public function updateStatus(OrderStatusUpdateDto $dto): bool;
 
-    public function setDeliveryToken($id, $token);
+    public function setDeliveryToken(int $id, $token): bool;
 
-    public function updateOrderStatus($id, $status);
+    public function cancel(int $id): mixed;
 
-    public function digipayCalc($startDate, $endDate);
+    public function updateItem(OrderItemUpdateDto $dto): mixed;
 
-    public function cancelOrder($id);
+    public function deleteItem(int $itemId): mixed;
 
-    public function updateOrderItem($itemId, $count);
-
-    public function deleteOrderItem($itemId);
+    public function digipayCalc(DigipayCalcDto $dto): mixed;
 }

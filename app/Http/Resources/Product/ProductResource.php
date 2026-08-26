@@ -3,20 +3,18 @@
 namespace App\Http\Resources\Product;
 
 use App\Http\Resources\Brand\BrandResource;
-use App\Http\Resources\Comment\CommentCollection;
-use App\Http\Resources\GroupProduct\GroupProductCollection;
-use App\Http\Resources\Guaranty\GuarantyCollection;
 use App\Http\Resources\Guaranty\GuarantyResource;
-use App\Http\Resources\ProductColor\ProductColorCollection;
-use App\Http\Resources\ProductImage\ProductImageCollection;
-use App\Http\Resources\ProductOption\ProductOptionCollection;
-use App\Http\Resources\ProductVideo\ProductVideoCollection;
 use App\Http\Resources\ProductVideo\ProductVideoResource;
 use App\Http\Resources\Vlog\VlogResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\Comment\CommentResource;
+use App\Http\Resources\ProductImage\ProductImageResource;
+use App\Http\Resources\ProductOption\ProductOptionResource;
+use App\Http\Resources\GroupProduct\GroupProductResource;
+use App\Http\Resources\ProductColor\ProductColorResource;
 
 /** @mixin \App\Models\Product */
 class ProductResource extends JsonResource
@@ -63,14 +61,14 @@ class ProductResource extends JsonResource
             'guaranty_time' => $this->guaranty_time,
             'stockOf' => new ProductResource($this->whenLoaded("stockOf")),
             'guaranty' => new GuarantyResource($this->guaranty),
-            'guaranties' => new GuarantyCollection($this->guaranties),
-            'productOptions' => new ProductOptionCollection($this->productOptions),
-            'colors' => new ProductColorCollection($this->activeProductColors),
-            'comments' => new CommentCollection($this->confirmedComments),
-            'images' => new ProductImageCollection($this->images),
+            'guaranties' => ["data" => GuarantyResource::collection($this->guaranties)],
+            'productOptions' => ["data" => ProductOptionResource::collection($this->productOptions)],
+            'colors' => ["data" => ProductColorResource::collection($this->activeProductColors)],
+            'comments' => ["data" => CommentResource::collection($this->confirmedComments)],
+            'images' => ["data" => ProductImageResource::collection($this->images)],
             'brand' => new BrandResource($this->brand),
-            'videos' => new ProductVideoCollection($this->videos),
-            'groupItems' => new GroupProductCollection($this->groupItems),
+            'videos' => ["data" => ProductVideoResource::collection($this->videos)],
+            'groupItems' => ["data" => GroupProductResource::collection($this->groupItems)],
             'length' => $this->length,
             'width' => $this->width,
             'height' => $this->height,

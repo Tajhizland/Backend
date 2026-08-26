@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Dictionary\StoreDictionaryRequest;
 use App\Http\Requests\Admin\Dictionary\UpdateDictionaryRequest;
-use App\Http\Resources\Dictionary\DictionaryCollection;
 use App\Http\Resources\Dictionary\DictionaryResource;
 use App\Services\Dictionary\DictionaryServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,7 +21,7 @@ class DictionaryController extends Controller
     public function dataTable()
     {
         $response = $this->dictionaryServiceInterface->dataTable();
-        return $this->dataResponseCollection(new DictionaryCollection($response));
+        return $this->dataResponseCollection(DictionaryResource::collection($response));
     }
 
     public function find($id)

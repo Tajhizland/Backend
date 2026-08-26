@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Menu\MenuCollection;
 use App\Services\Menu\MenuServiceInterface;
+use App\Http\Resources\Menu\MenuResource;
 
 class MenuController extends Controller
 {
@@ -17,6 +17,6 @@ class MenuController extends Controller
 
     public function get()
     {
-        return $this->dataResponseCollection(new MenuCollection($this->menuService->buildMenu()));
+        return $this->dataResponseCollection(MenuResource::collection($this->menuService->buildMenu()));
     }
 }

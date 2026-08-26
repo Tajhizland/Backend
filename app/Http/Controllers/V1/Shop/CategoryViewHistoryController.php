@@ -4,10 +4,10 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\CategoryViewHistory\StoreCategoryViewHistoryRequest;
-use App\Http\Resources\Product\ProductCollection;
 use App\Services\CategoryViewHistory\CategoryViewHistoryService;
 use App\Services\CategoryViewHistory\CategoryViewHistoryServiceInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\Product\ProductResource;
 
 class CategoryViewHistoryController extends Controller
 {
@@ -29,14 +29,14 @@ class CategoryViewHistoryController extends Controller
     {
         $response = $this->categoryViewHistoryService->suggest(Auth::user()->id);
         return $this->dataResponseCollection(
-            new ProductCollection($response)
+            ProductResource::collection($response)
         );
     }
     public function suggestIp()
     {
         $response = $this->categoryViewHistoryService->suggestIp(request()->ip());
         return $this->dataResponseCollection(
-            new ProductCollection($response)
+            ProductResource::collection($response)
         );
     }
 }

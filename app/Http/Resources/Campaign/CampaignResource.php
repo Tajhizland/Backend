@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Campaign;
 
-use App\Http\Resources\CampaignBanner\CampaignBannerCollection;
-use App\Http\Resources\CampaignSlider\CampaignSliderCollection;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\CampaignSlider\CampaignSliderResource;
+use App\Http\Resources\CampaignBanner\CampaignBannerResource;
 
 /** @mixin Campaign */
 class CampaignResource extends JsonResource
@@ -27,11 +27,11 @@ class CampaignResource extends JsonResource
 
             'start_date_fa' => $this->start_date != null ? Jalalian::fromDateTime($this->start_date)->format('Y/m/d H:i') : "",
             'end_date_fa' => $this->end_date != null ? Jalalian::fromDateTime($this->end_date)->format('Y/m/d H:i') : "",
-            'mobileSliders' => new CampaignSliderCollection($this->whenLoaded('mobileSliders')),
-            'desktopSliders' => new CampaignSliderCollection($this->whenLoaded('desktopSliders')),
+            'mobileSliders' => ["data" => CampaignSliderResource::collection($this->whenLoaded('mobileSliders'))],
+            'desktopSliders' => ["data" => CampaignSliderResource::collection($this->whenLoaded('desktopSliders'))],
 
-            'homepageBanner' => new CampaignBannerCollection($this->whenLoaded('homepageBanner')),
-            'homepage2Banner' => new CampaignBannerCollection($this->whenLoaded('homepage2Banner')),
+            'homepageBanner' => ["data" => CampaignBannerResource::collection($this->whenLoaded('homepageBanner'))],
+            'homepage2Banner' => ["data" => CampaignBannerResource::collection($this->whenLoaded('homepage2Banner'))],
 
             'banner' => $this->banner,
             'created_at' => $this->created_at,

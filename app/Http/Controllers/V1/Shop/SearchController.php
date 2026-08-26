@@ -4,9 +4,8 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Search\SearchRequest;
-use App\Http\Resources\Product\ProductCollection;
-use App\Http\Resources\Search\SearchCollection;
 use App\Services\Search\SearchServiceInterface;
+use App\Http\Resources\Product\ProductResource;
 
 class SearchController extends Controller
 {
@@ -19,7 +18,7 @@ class SearchController extends Controller
 
 //    public function index(SearchRequest $request)
 //    {
-//        return $this->dataResponseCollection(new ProductCollection($this->searchService->searchQuery($request->get("query"))));
+//        return $this->dataResponseCollection(ProductResource::collection($this->searchService->searchQuery($request->get("query"))));
 //    }
     public function index(SearchRequest $request)
     {
@@ -28,6 +27,6 @@ class SearchController extends Controller
 
     public function paginate(SearchRequest $request)
     {
-        return $this->dataResponseCollection(new ProductCollection($this->searchService->searchPaginate($request->get("query"))));
+        return $this->dataResponseCollection(ProductResource::collection($this->searchService->searchPaginate($request->get("query"))));
     }
 }

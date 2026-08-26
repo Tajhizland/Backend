@@ -145,17 +145,18 @@ Route::group(["middleware" => "auth:sanctum"], function () {
     Route::group(["prefix" => "transaction"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\TransactionController::class, "dataTable"]);
     });
-    Route::group(["prefix" => "order"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OrderController::class, "dataTable"]);
-        Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OrderController::class, "findById"]);
-        Route::post("update/status", [\App\Http\Controllers\V1\Admin\OrderController::class, "updateStatus"]);
-        Route::post('digipay_calc', [\App\Http\Controllers\V1\Admin\OrderController::class, "digipayCalc"]);
-        Route::post('item/update', [\App\Http\Controllers\V1\Admin\OrderController::class, "updateItem"]);
-        Route::post('item/delete', [\App\Http\Controllers\V1\Admin\OrderController::class, "deleteItem"]);
-        Route::post('cancel', [\App\Http\Controllers\V1\Admin\OrderController::class, "cancel"]);
+    Route::prefix("order")->group(function () {
+        Route::controller(\App\Http\Controllers\V1\Admin\OrderController::class)->group(function () {
+            Route::get("dataTable", "dataTable");
+            Route::post("digipay-calc", "digipayCalc");
+            Route::patch("item/{id}", "updateItem");
+            Route::delete("item/{id}", "deleteItem");
+            Route::get("{id}", "show");
+            Route::patch("{id}/status", "updateStatus");
+            Route::patch("{id}/cancel", "cancel");
+        });
 
-        Route::post('tapin/{id}', [\App\Http\Controllers\V1\Admin\TapinController::class, "register"]);
-
+        Route::post('{id}/tapin', [\App\Http\Controllers\V1\Admin\TapinController::class, "register"]);
     });
     Route::group(["prefix" => "onHoldOrder"], function () {
         Route::get("dataTable", [\App\Http\Controllers\V1\Admin\OnHoldOrderController::class, "dataTable"]);

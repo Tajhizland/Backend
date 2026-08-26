@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RunConceptQuestion\StoreRunConceptQuestionRequest;
 use App\Http\Requests\Admin\RunConceptQuestion\UpdateRunConceptQuestionRequest;
-use App\Http\Resources\RunConceptQuestion\RunConceptQuestionCollection;
 use App\Http\Resources\RunConceptQuestion\RunConceptQuestionResource;
 use App\Services\RunConceptQuestion\RunConceptQuestionServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,13 +21,13 @@ class RunConceptQuestionController extends Controller
     public function dataTable()
     {
         $response = $this->conceptQuestionService->dataTable();
-        return $this->dataResponseCollection(new RunConceptQuestionCollection($response));
+        return $this->dataResponseCollection(RunConceptQuestionResource::collection($response));
     }
 
     public function list()
     {
         $response = $this->conceptQuestionService->list();
-        return $this->dataResponseCollection(new RunConceptQuestionCollection($response));
+        return $this->dataResponseCollection(RunConceptQuestionResource::collection($response));
     }
 
     public function find($id)

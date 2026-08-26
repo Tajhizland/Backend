@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\ProductGroup\ProductGroupServiceInterface;
@@ -25,7 +24,7 @@ class GroupController extends Controller
         $relatedProductResponse = $this->productService->getRelatedProducts($response->id);
         return $this->dataResponse([
             "product" => new ProductResource($response),
-            "relatedProduct" => new ProductCollection($relatedProductResponse),
+            "relatedProduct" => ProductResource::collection($relatedProductResponse)->response()->getData(),
         ]);
     }
 }

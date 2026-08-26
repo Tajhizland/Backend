@@ -4,10 +4,10 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Delivery\SelectDeliveryRequest;
-use App\Http\Resources\Delivery\DeliveryCollection;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\Delivery\DeliveryServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Delivery\DeliveryResource;
 
 class DeliveryController extends Controller
 {
@@ -19,7 +19,7 @@ class DeliveryController extends Controller
 
     public function getActives()
     {
-        return $this->dataResponseCollection(new DeliveryCollection($this->deliveryService->getActives()));
+        return $this->dataResponseCollection(DeliveryResource::collection($this->deliveryService->getActives()));
     }
 
     public function select(SelectDeliveryRequest $request)

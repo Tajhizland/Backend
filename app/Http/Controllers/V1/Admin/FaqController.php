@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Faq\StoreFaqRequest;
 use App\Http\Requests\Admin\Faq\UpdateFaqRequest;
-use App\Http\Resources\Faq\FaqCollection;
 use App\Http\Resources\Faq\FaqResource;
 use App\Services\Faq\FaqServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -21,7 +20,7 @@ class FaqController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new FaqCollection($this->faqService->dataTable()));
+        return $this->dataResponseCollection(FaqResource::collection($this->faqService->dataTable()));
     }
 
     public function findById($id)

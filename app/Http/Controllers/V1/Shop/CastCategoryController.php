@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CastCategory\CastCategoryCollection;
 use App\Services\CastCategory\CastCategoryService;
+use App\Http\Resources\CastCategory\CastCategoryResource;
 
 class CastCategoryController extends Controller
 {
@@ -18,6 +18,6 @@ class CastCategoryController extends Controller
     public function index()
     {
         $response = $this->castCategoryService->get();
-        return $this->dataResponseCollection(CastCategoryCollection::make($response));
+        return $this->dataResponseCollection(CastCategoryResource::collection($response));
     }
 }

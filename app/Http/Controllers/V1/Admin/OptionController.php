@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Option\StoreOptionRequest;
 use App\Http\Requests\Admin\Option\UpdateOptionRequest;
-use App\Http\Resources\Option\OptionCollection;
 use App\Http\Resources\Option\OptionResource;
 use App\Services\Option\OptionServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -19,7 +18,7 @@ class OptionController extends Controller
     {}
     public function dataTable()
     {
-        return $this->dataResponseCollection(new OptionCollection($this->optionService->dataTable()));
+        return $this->dataResponseCollection(OptionResource::collection($this->optionService->dataTable()));
     }
 
     public function findById($id)

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Checkout\SetDeliveryMethodRequest;
 use App\Http\Requests\Shop\Checkout\SetPaymentMethodRequest;
 use App\Http\Resources\Checkout\CheckoutResource;
-use App\Http\Resources\Delivery\DeliveryCollection;
 use App\Repositories\Address\AddressRepositoryInterface;
 use App\Services\Cart\CartServiceInterface;
 use App\Services\CartItem\CartItemServiceInterface;
@@ -17,6 +16,7 @@ use App\Services\Tapin\CheckPrice;
 use App\Services\Tapin\TapinService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Delivery\DeliveryResource;
 
 class CheckoutController extends Controller
 {
@@ -41,14 +41,14 @@ class CheckoutController extends Controller
         $address = $this->addressRepository->findActiveByUserId($userId);
         $cartPrices = $this->cartItemService->calculatePrice($cartItems);
 
-        return $this->dataResponseCollection(new DeliveryCollection(
+        return $this->dataResponseCollection(DeliveryResource::collection(
             $this->shippingMethodResolver->resolve($cartItems, $address, $cartPrices["totalItemPrice"])
         ));
     }
 
     public function getShippingMethods2()
     {
-        return $this->dataResponseCollection(new DeliveryCollection($this->deliveryService->getActives()));
+        return $this->dataResponseCollection(DeliveryResource::collection($this->deliveryService->getActives()));
     }
 
     public function checkoutOrder()

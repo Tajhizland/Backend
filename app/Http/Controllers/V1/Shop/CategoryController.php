@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Breadcrumb\BreadcrumbCollection;
 use App\Http\Resources\Category\CategoryResource;
-use App\Http\Resources\Category\SimpleCategoryCollection;
-use App\Http\Resources\Product\ProductCategory\ProductCategoryCollection;
-use App\Http\Resources\Product\ProductCollection;
 use App\Services\Category\CategoryServiceInterface;
 use Illuminate\Http\Request;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Product\ProductCategory\ProductCategoryResource;
+use App\Http\Resources\Category\SimpleCategoryResource;
+use App\Http\Resources\Breadcrumb\BreadcrumbResource;
 
 class CategoryController extends Controller
 {
@@ -24,10 +24,10 @@ class CategoryController extends Controller
         $listing = $this->categoryService->listing($request->get("url"), $request->get("filter"));
 
         $categoryResource = new CategoryResource($listing["category"]);
-        $children = new SimpleCategoryCollection($listing["children"]);
-        $productCollection = new ProductCategoryCollection($listing["products"]);
-        $groups = new ProductCategoryCollection($listing["groups"]);
-        $breadcrumbCollection = new BreadcrumbCollection($listing["breadcrumb"]);
+        $children = SimpleCategoryResource::collection($listing["children"])->response()->getData();
+        $productCollection = ProductCategoryResource::collection($listing["products"])->response()->getData();
+        $groups = ProductCategoryResource::collection($listing["groups"])->response()->getData();
+        $breadcrumbCollection = BreadcrumbResource::collection($listing["breadcrumb"])->response()->getData();
 
         return $this->dataResponse([
             "category" => $categoryResource,
@@ -42,8 +42,8 @@ class CategoryController extends Controller
     {
         $listing = $this->categoryService->groupListing($request->get("url"));
         $categoryResource = new CategoryResource($listing["category"]);
-        $groups = new ProductCollection($listing["groups"]);
-        $breadcrumbCollection = new BreadcrumbCollection($listing["breadcrumb"]);
+        $groups = ProductResource::collection($listing["groups"])->response()->getData();
+        $breadcrumbCollection = BreadcrumbResource::collection($listing["breadcrumb"])->response()->getData();
 
         return $this->dataResponse([
             "category" => $categoryResource,

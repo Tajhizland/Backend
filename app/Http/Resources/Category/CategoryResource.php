@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\Category;
 
-use App\Http\Resources\Filter\FilterCollection;
-use App\Http\Resources\Product\ProductCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Filter\FilterResource;
 
 /** @mixin \App\Models\Category */
 class CategoryResource extends JsonResource
@@ -26,8 +26,8 @@ class CategoryResource extends JsonResource
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
 //            'minPrice'=> $this->getMinProductPrice(),
 //            'maxPrice'=> $this->getMaxProductPrice(),
-            'filters' => new FilterCollection($this->whenLoaded('filters')),
-            'products' => new ProductCollection($this->whenLoaded('products')),
+            'filters' => ["data" => FilterResource::collection($this->whenLoaded('filters'))],
+            'products' => ["data" => ProductResource::collection($this->whenLoaded('products'))],
 
         ];
     }

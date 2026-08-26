@@ -5,10 +5,10 @@ namespace App\Http\Controllers\V1\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Poster\PosterResource;
 use App\Http\Resources\Sample\SampleResource;
-use App\Http\Resources\SampleImage\SampleImageCollection;
-use App\Http\Resources\SampleVideo\SampleVideoCollection;
 use App\Repositories\Poster\PosterRepositoryInterface;
 use App\Services\Sample\SampleServiceInterface;
+use App\Http\Resources\SampleImage\SampleImageResource;
+use App\Http\Resources\SampleVideo\SampleVideoResource;
 
 class SampleController extends Controller
 {
@@ -31,8 +31,8 @@ class SampleController extends Controller
         return $this->dataResponse([
             "info" => new SampleResource($info),
             "poster" => new PosterResource($poster),
-            "image" => new SampleImageCollection($image),
-            "video" => new SampleVideoCollection($video)
+            "image" => SampleImageResource::collection($image)->response()->getData(),
+            "video" => SampleVideoResource::collection($video)->response()->getData()
         ]);
     }
 }

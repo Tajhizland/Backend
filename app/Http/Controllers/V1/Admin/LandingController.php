@@ -8,13 +8,12 @@ use App\Http\Requests\Admin\Landing\SetCategoryLandingRequest;
 use App\Http\Requests\Admin\Landing\SetLandingProductRequest;
 use App\Http\Requests\Admin\Landing\StoreLandingRequest;
 use App\Http\Requests\Admin\Landing\UpdateLandingRequest;
-use App\Http\Resources\Landing\LandingCollection;
 use App\Http\Resources\Landing\LandingResource;
-use App\Http\Resources\LandingBanner\LandingBannerCollection;
-use App\Http\Resources\LandingCategory\LandingCategoryCollection;
-use App\Http\Resources\LandingProduct\LandingProductCollection;
 use App\Services\Landing\LandingServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\LandingBanner\LandingBannerResource;
+use App\Http\Resources\LandingCategory\LandingCategoryResource;
+use App\Http\Resources\LandingProduct\LandingProductResource;
 
 class LandingController extends Controller
 {
@@ -27,7 +26,7 @@ class LandingController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new LandingCollection($this->landingService->dataTable()));
+        return $this->dataResponseCollection(LandingResource::collection($this->landingService->dataTable()));
     }
 
     public function findById($id)
@@ -49,16 +48,16 @@ class LandingController extends Controller
 
     public function getProduct($id)
     {
-        return $this->dataResponseCollection(new LandingProductCollection($this->landingService->getProductByLanding($id)));
+        return $this->dataResponseCollection(LandingProductResource::collection($this->landingService->getProductByLanding($id)));
     }
 
     public function getCategory($id)
     {
-        return $this->dataResponseCollection(new LandingCategoryCollection($this->landingService->getCategoryByLanding($id)));
+        return $this->dataResponseCollection(LandingCategoryResource::collection($this->landingService->getCategoryByLanding($id)));
     }
     public function getBanner($id)
     {
-        return $this->dataResponseCollection(new LandingBannerCollection($this->landingService->getBanner($id)));
+        return $this->dataResponseCollection(LandingBannerResource::collection($this->landingService->getBanner($id)));
     }
     public function setProduct(SetLandingProductRequest $request)
     {

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Notification\NotificationCollection;
 use App\Services\Notification\NotificationService;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Notification\NotificationResource;
 
 class NotificationController extends Controller
 {
@@ -13,7 +13,7 @@ class NotificationController extends Controller
     { }
     public function unSeen()
     {
-        return $this->dataResponseCollection(new NotificationCollection($this->notificationService->getUnSeen()));
+        return $this->dataResponseCollection(NotificationResource::collection($this->notificationService->getUnSeen()));
     }
     public function seen()
     {
@@ -22,6 +22,6 @@ class NotificationController extends Controller
     }
     public function dataTable()
     {
-        return $this->dataResponseCollection(new NotificationCollection($this->notificationService->dataTable()));
+        return $this->dataResponseCollection(NotificationResource::collection($this->notificationService->dataTable()));
     }
 }

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Returned\UpdateReturnedStatusRequest;
-use App\Http\Resources\Returned\ReturnedCollection;
 use App\Services\Returned\ReturnedServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Returned\ReturnedResource;
 
 class ReturnedController extends Controller
 {
@@ -19,7 +19,7 @@ class ReturnedController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponse(new ReturnedCollection($this->returnedService->dataTable()));
+        return $this->dataResponse(ReturnedResource::collection($this->returnedService->dataTable())->response()->getData());
     }
 
     public function accept(UpdateReturnedStatusRequest $request)

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Filter\StoreFilterRequest;
 use App\Http\Requests\Admin\Filter\UpdateFilterRequest;
-use App\Http\Resources\Filter\FilterCollection;
 use App\Http\Resources\Filter\FilterResource;
 use App\Services\Filter\FilterServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -21,7 +20,7 @@ class FilterController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new FilterCollection($this->filterService->dataTable()));
+        return $this->dataResponseCollection(FilterResource::collection($this->filterService->dataTable()));
     }
 
     public function findById($id)

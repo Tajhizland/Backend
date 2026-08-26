@@ -11,18 +11,16 @@ use App\Http\Requests\Admin\Option\SetOptionRequest;
 use App\Http\Requests\Admin\Option\SortOptionItemRequest;
 use App\Http\Requests\Admin\Option\SortOptionRequest;
 use App\Http\Requests\Admin\Option\UpdateOptionItemRequest;
-use App\Http\Resources\Category\CategoryCollection;
 use App\Http\Resources\Category\CategoryResource;
-use App\Http\Resources\Category\SimpleCategoryCollection;
-use App\Http\Resources\CategoryList\CategoryListCollection;
-use App\Http\Resources\Filter\FilterCollection;
-use App\Http\Resources\Option\OptionCollection;
-use App\Http\Resources\OptionItem\OptionItemCollection;
-use App\Http\Resources\Product\ProductCollection;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Category\SimpleCategoryResource;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\OptionItem\OptionItemResource;
+use App\Http\Resources\Filter\FilterResource;
+use App\Http\Resources\CategoryList\CategoryListResource;
 
 class CategoryController extends Controller
 {
@@ -37,12 +35,12 @@ class CategoryController extends Controller
 
     public function list()
     {
-        return $this->dataResponseCollection(new CategoryListCollection($this->categoryService->list()));
+        return $this->dataResponseCollection(CategoryListResource::collection($this->categoryService->list()));
     }
 
     public function productList($id)
     {
-        return $this->dataResponseCollection(new ProductCollection($this->categoryService->productList($id)));
+        return $this->dataResponseCollection(ProductResource::collection($this->categoryService->productList($id)));
     }
 
     public function productSort(ProductSortRequest $request)
@@ -53,7 +51,7 @@ class CategoryController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new SimpleCategoryCollection($this->categoryService->dataTable()));
+        return $this->dataResponseCollection(SimpleCategoryResource::collection($this->categoryService->dataTable()));
     }
 
     public function findById($id)
@@ -75,17 +73,17 @@ class CategoryController extends Controller
 
     public function getFilter($id)
     {
-        return $this->dataResponseCollection(new FilterCollection($this->filterService->getCategoryFilters($id)));
+        return $this->dataResponseCollection(FilterResource::collection($this->filterService->getCategoryFilters($id)));
     }
 
     public function getOption($id)
     {
-        return $this->dataResponseCollection(new OptionItemCollection($this->optionService->getCategoryOptions($id)));
+        return $this->dataResponseCollection(OptionItemResource::collection($this->optionService->getCategoryOptions($id)));
     }
 
     public function getOptionItem($id)
     {
-        return $this->dataResponseCollection(new OptionItemCollection($this->optionService->getItemOfOption($id)));
+        return $this->dataResponseCollection(OptionItemResource::collection($this->optionService->getItemOfOption($id)));
     }
 
     public function setFilter(SetFilterRequest $request)

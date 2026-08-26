@@ -8,10 +8,6 @@ use App\Http\Requests\Admin\Address\UpdateAddressRequest;
 use App\Http\Requests\Admin\User\GetUserByTypeRequest;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Http\Requests\Admin\User\UpdateWalletRequest;
-use App\Http\Resources\Address\AddressCollection;
-use App\Http\Resources\OnHoldOrder\OnHoldOrderCollection;
-use App\Http\Resources\Order\OrderCollection;
-use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
 use App\Services\Address\AddressServiceInterface;
 use App\Services\Auth\Login\LoginServiceInterface;
@@ -19,6 +15,9 @@ use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
 use App\Services\Order\OrderServiceInterface;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Address\AddressResource;
+use App\Http\Resources\Order\OrderResource;
+use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
 
 class UserController extends Controller
 {
@@ -35,29 +34,29 @@ class UserController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new UserCollection($this->userService->dataTable()));
+        return $this->dataResponseCollection(UserResource::collection($this->userService->dataTable()));
     }
     public function adminDataTable()
     {
-        return $this->dataResponseCollection(new UserCollection($this->userService->adminDataTable()));
+        return $this->dataResponseCollection(UserResource::collection($this->userService->adminDataTable()));
     }
 
     public function getAddress($id)
     {
         $response = $this->addressService->getByUserId($id);
-        return $this->dataResponseCollection(new AddressCollection($response));
+        return $this->dataResponseCollection(AddressResource::collection($response));
     }
 
     public function getOnHoldOrder($id)
     {
         $response = $this->onHoldOrderService->userHoldOnPaginate($id);
-        return $this->dataResponseCollection(new OnHoldOrderCollection($response));
+        return $this->dataResponseCollection(OnHoldOrderResource::collection($response));
     }
 
     public function getOrder($id)
     {
         $response = $this->orderService->userOrderPaginate($id);
-        return $this->dataResponseCollection(new OrderCollection($response));
+        return $this->dataResponseCollection(OrderResource::collection($response));
     }
 
     public function findById($id)
@@ -67,7 +66,7 @@ class UserController extends Controller
 
     public function getByType(GetUserByTypeRequest $request)
     {
-        return $this->dataResponseCollection(new UserCollection($this->userService->getByType($request->get('type'))));
+        return $this->dataResponseCollection(UserResource::collection($this->userService->getByType($request->get('type'))));
     }
 
 

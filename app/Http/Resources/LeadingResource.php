@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\News\NewsCollection;
 use App\Http\Resources\Poster\PosterResource;
-use App\Http\Resources\Vlog\VlogCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\News\NewsResource;
+use App\Http\Resources\Vlog\VlogResource;
 
 class LeadingResource extends JsonResource
 {
@@ -14,8 +14,8 @@ class LeadingResource extends JsonResource
     {
         return [
             "poster" => new PosterResource($this["poster"]),
-            "blog" => new NewsCollection($this["blog"]),
-            "vlog" => new VlogCollection($this["vlog"]),
+            "blog" => ["data" => NewsResource::collection($this["blog"])],
+            "vlog" => ["data" => VlogResource::collection($this["vlog"])],
         ];
     }
 }

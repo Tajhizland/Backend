@@ -3,16 +3,10 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Banner\BannerCollection;
-use App\Http\Resources\Breadcrumb\BreadcrumbCollection;
 use App\Http\Resources\Campaign\CampaignResource;
-use App\Http\Resources\Category\SimpleCategoryCollection;
 use App\Http\Resources\DiscountItem\DiscountItemResource;
-use App\Http\Resources\PopularProduct\PopularProductCollection;
 use App\Http\Resources\Price\PriceResource;
-use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Resources\ProductOption\ProductOptionCollection;
 use App\Repositories\Price\PriceRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;
@@ -24,6 +18,11 @@ use App\Services\Option\OptionServiceInterface;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use App\Services\Product\ProductServiceInterface;
 use Illuminate\Http\Request;
+use App\Http\Resources\Category\SimpleCategoryResource;
+use App\Http\Resources\Breadcrumb\BreadcrumbResource;
+use App\Http\Resources\PopularProduct\PopularProductResource;
+use App\Http\Resources\ProductOption\ProductOptionResource;
+use App\Http\Resources\Banner\BannerResource;
 
 class ProductController extends Controller
 {
@@ -54,9 +53,9 @@ class ProductController extends Controller
             $category = $productResponse->categories[0];
             if ($category) {
                 $breadcrumb = $this->breadcrumbService->generate($category);
-                $breadcrumbCollection = new BreadcrumbCollection($breadcrumb);
+                $breadcrumbCollection = BreadcrumbResource::collection($breadcrumb)->response()->getData();
                 $options = $this->optionService->getByProductIdAndCategoryId($productResponse->id, $category->id);
-                $optionsCollection = new ProductOptionCollection($options);
+                $optionsCollection = ProductOptionResource::collection($options)->response()->getData();
             }
         }
         $campaign = $this->campaignService->findActiveCampaign();
@@ -67,17 +66,17 @@ class ProductController extends Controller
             "breadcrumb" => $breadcrumbCollection,
             "options" => $optionsCollection,
             "campaign" => $campaign,
-            "relatedProduct" => new ProductCollection($relatedProductResponse),
+            "relatedProduct" => ProductResource::collection($relatedProductResponse)->response()->getData(),
         ]);
     }
 
     public function getDiscountedProducts(Request $request)
     {
-        $banners = new BannerCollection($this->bannerService->getDiscountedBanner());
-        $data = new ProductCollection($this->productService->getDiscountedProducts($request->get("filter")));
-        $discounts = new PopularProductCollection($this->popularProductService->get());
+        $banners = BannerResource::collection($this->bannerService->getDiscountedBanner())->response()->getData();
+        $data = ProductResource::collection($this->productService->getDiscountedProducts($request->get("filter")))->response()->getData();
+        $discounts = PopularProductResource::collection($this->popularProductService->get())->response()->getData();
 
-        $category = new SimpleCategoryCollection($this->categoryService->getDiscountedCategory());
+        $category = SimpleCategoryResource::collection($this->categoryService->getDiscountedCategory())->response()->getData();
 
         $discountTimer = $this->discountItemService->findFirstExpireDiscount();
         if ($discountTimer)
@@ -89,7 +88,7 @@ class ProductController extends Controller
 
         $discountedProducts = $this->productRepository->getTopDiscountedProducts();
         if ($discountedProducts) {
-            $discountedProducts = new ProductCollection($discountedProducts);
+            $discountedProducts = ProductResource::collection($discountedProducts)->response()->getData();
         }
         return $this->dataResponse(
             [
@@ -107,8 +106,8 @@ class ProductController extends Controller
     public function getStockProducts(Request $request)
     {
         $response = $this->productService->getStockProducts($request->get("filter"));
-        $data = new ProductCollection($response);
-        $category = new SimpleCategoryCollection($this->categoryService->getStockProductCategory());
+        $data = ProductResource::collection($response)->response()->getData();
+        $category = SimpleCategoryResource::collection($this->categoryService->getStockProductCategory())->response()->getData();
 
         return $this->dataResponse(
             [

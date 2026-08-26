@@ -7,12 +7,11 @@ use App\Http\Requests\Admin\CategoryConcept\CategoryConceptRequest;
 use App\Http\Requests\Admin\Concept\SetDisplayRequest;
 use App\Http\Requests\Admin\Concept\StoreConceptRequest;
 use App\Http\Requests\Admin\Concept\UpdateConceptRequest;
-use App\Http\Resources\CategoryConcept\CategoryConceptCollection;
-use App\Http\Resources\Concept\ConceptCollection;
 use App\Http\Resources\Concept\ConceptResource;
 use App\Services\Concept\ConceptServiceInterface;
 use App\Services\FileManager\FileManagerServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\CategoryConcept\CategoryConceptResource;
 
 class ConceptController extends Controller
 {
@@ -27,7 +26,7 @@ class ConceptController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new ConceptCollection($this->conceptService->dataTable()));
+        return $this->dataResponseCollection(ConceptResource::collection($this->conceptService->dataTable()));
     }
 
     public function store(StoreConceptRequest $request)
@@ -49,7 +48,7 @@ class ConceptController extends Controller
 
     public function getItems($id)
     {
-        return $this->dataResponseCollection(new CategoryConceptCollection($this->conceptService->getItemsById($id)));
+        return $this->dataResponseCollection(CategoryConceptResource::collection($this->conceptService->getItemsById($id)));
     }
 
     public function setItem(CategoryConceptRequest $request)

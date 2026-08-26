@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Banner\BannerSortRequest;
 use App\Http\Requests\Admin\Banner\StoreBannerRequest;
 use App\Http\Requests\Admin\Banner\UpdateBannerRequest;
-use App\Http\Resources\Banner\BannerCollection;
 use App\Http\Resources\Banner\BannerResource;
 use App\Services\Banner\BannerServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,7 +21,7 @@ class BannerController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new BannerCollection($this->bannerService->dataTable()));
+        return $this->dataResponseCollection(BannerResource::collection($this->bannerService->dataTable()));
     }
 
     public function delete($id)
@@ -49,7 +48,7 @@ class BannerController extends Controller
     }
     public function list()
     {
-        return $this->dataResponseCollection(new BannerCollection($this->bannerService->getAll()));
+        return $this->dataResponseCollection(BannerResource::collection($this->bannerService->getAll()));
     }
     public function sort(BannerSortRequest $request)
     {

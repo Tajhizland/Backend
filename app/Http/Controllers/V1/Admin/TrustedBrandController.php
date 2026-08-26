@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TrustedBrand\StoreTrustedBrandRequest;
 use App\Http\Requests\TrustedBrand\UpdateTrustedBrandRequest;
-use App\Http\Resources\TrustedBrand\TrustedBrandCollection;
 use App\Http\Resources\TrustedBrand\TrustedBrandResource;
 use App\Services\TrustedBrand\TrustedBrandServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,7 +21,7 @@ class TrustedBrandController extends Controller
     public function dataTable()
     {
         $response = $this->trustedBrandService->dataTable();
-        return $this->dataResponseCollection(new TrustedBrandCollection($response));
+        return $this->dataResponseCollection(TrustedBrandResource::collection($response));
     }
 
     public function store(StoreTrustedBrandRequest $request)

@@ -19,7 +19,7 @@ Route::get('/d', [\App\Http\Controllers\V1\Admin\DashboardController::class, "in
 Route::get('city/get/{id}', [\App\Http\Controllers\V1\Shop\AddressController::class, "getCities"]);
 Route::get('province/get', [\App\Http\Controllers\V1\Shop\AddressController::class, "getProvinces"]);
 Route::post('contact', [\App\Http\Controllers\V1\Shop\ContactController::class, "store"]);
-Route::get('my-orders', [\App\Http\Controllers\V1\Shop\OrderController::class, "userOrderPaginate"])->middleware("auth:sanctum");
+
 Route::post('goftino/sync', [\App\Http\Controllers\V1\Shop\ChatInfoController::class, "sync"])->middleware("auth:sanctum");
 Route::get('emalls/list', [\App\Http\Controllers\V1\Shop\EmallsController::class, "list"]);
 //Route::get('torob/list', [\App\Http\Controllers\V1\Shop\TorobController::class, "get"]);
@@ -184,9 +184,11 @@ Route::group(["prefix" => 'cast'], function () {
 Route::get('cast-category', [\App\Http\Controllers\V1\Shop\CastCategoryController::class, "index"]);
 
 
-Route::group(["prefix" => "order"], function () {
-    Route::get("find/{id}", [\App\Http\Controllers\V1\Admin\OrderController::class, "findById"]);
-});
+Route::middleware("auth:sanctum")->prefix("order")
+    ->controller(\App\Http\Controllers\V1\Shop\OrderController::class)->group(function () {
+        Route::get("/", "index");
+        Route::get("{id}", "show");
+    });
 
 Route::get('info', function () {
     phpinfo();

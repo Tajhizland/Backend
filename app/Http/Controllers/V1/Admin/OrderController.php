@@ -2,63 +2,63 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\Order\DigipayCalcDto;
+use App\DTOs\Order\OrderItemUpdateDto;
+use App\DTOs\Order\OrderStatusUpdateDto;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Order\CancelOrderRequest;
-use App\Http\Requests\Admin\Order\DeleteOrderItemRequest;
 use App\Http\Requests\Admin\Order\DigipayCalcRequest;
 use App\Http\Requests\Admin\Order\UpdateOrderItemRequest;
 use App\Http\Requests\Admin\Order\UpdateOrderStatusRequest;
-use App\Http\Resources\Order\OrderCollection;
 use App\Http\Resources\Order\OrderResource;
 use App\Services\Order\OrderServiceInterface;
-use Illuminate\Support\Facades\Lang;
 
 class OrderController extends Controller
 {
-    public function __construct
-    (
-        private OrderServiceInterface $orderService
+    public function __construct(
+        private readonly OrderServiceInterface $orderService,
     )
     {
     }
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new OrderCollection($this->orderService->dataTable()));
+        return $this->dataResponseCollection(OrderResource::collection($this->orderService->dataTable()));
     }
 
-    public function findById($id)
+    public function show($id)
     {
         return $this->dataResponse(new OrderResource($this->orderService->findWithDetails($id)));
     }
 
-    public function updateStatus(UpdateOrderStatusRequest $request)
+    public function updateStatus($id, UpdateOrderStatusRequest $request)
     {
-        $this->orderService->updateOrderStatus($request->get("id"), $request->get("status"));
-        return $this->successResponse(Lang::get("action.update", ["attr" => Lang::get("attr.order_status")]));
+        $dto = new OrderStatusUpdateDto($id, ...$request->validated());
+        $this->orderService->updateStatus($dto);
+        return $this->successResponse(__("action.update", ["attr" => __("attr.order_status")]));
+    }
+
+    public function cancel($id)
+    {
+        $order = $this->orderService->cancel($id);
+        return $this->dataResponse(new OrderResource($order), __("action.cancel", ["attr" => __("attr.order")]));
+    }
+
+    public function updateItem($id, UpdateOrderItemRequest $request)
+    {
+        $dto = new OrderItemUpdateDto($id, ...$request->validated());
+        $order = $this->orderService->updateItem($dto);
+        return $this->dataResponse(new OrderResource($order), __("action.update", ["attr" => __("attr.order_item")]));
+    }
+
+    public function deleteItem($id)
+    {
+        $order = $this->orderService->deleteItem($id);
+        return $this->dataResponse(new OrderResource($order), __("action.remove", ["attr" => __("attr.order_item")]));
     }
 
     public function digipayCalc(DigipayCalcRequest $request)
     {
-        $value = $this->orderService->digipayCalc($request->get("start_date"), $request->get("end_date"));
-        return $this->dataResponse(["value" => $value]);
-    }
-
-    public function cancel(CancelOrderRequest $request)
-    {
-        $order = $this->orderService->cancelOrder($request->get("id"));
-        return $this->dataResponse(new OrderResource($order), Lang::get("action.cancel", ["attr" => Lang::get("attr.order")]));
-    }
-
-    public function updateItem(UpdateOrderItemRequest $request)
-    {
-        $order = $this->orderService->updateOrderItem($request->get("id"), $request->get("count"));
-        return $this->dataResponse(new OrderResource($order), Lang::get("action.update", ["attr" => Lang::get("attr.order_item")]));
-    }
-
-    public function deleteItem(DeleteOrderItemRequest $request)
-    {
-        $order = $this->orderService->deleteOrderItem($request->get("id"));
-        return $this->dataResponse(new OrderResource($order), Lang::get("action.remove", ["attr" => Lang::get("attr.order_item")]));
+        $dto = new DigipayCalcDto(...$request->validated());
+        return $this->dataResponse(["value" => $this->orderService->digipayCalc($dto)]);
     }
 }

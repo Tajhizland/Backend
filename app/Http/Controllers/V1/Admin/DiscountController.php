@@ -8,9 +8,7 @@ use App\Http\Requests\Admin\Discount\SortTopRequest;
 use App\Http\Requests\Admin\Discount\StoreDiscountRequest;
 use App\Http\Requests\Admin\Discount\UpdateDiscountRequest;
 use App\Http\Requests\Admin\Discount\UpdateItemRequest;
-use App\Http\Resources\Discount\DiscountCollection;
 use App\Http\Resources\Discount\DiscountResource;
-use App\Http\Resources\DiscountItem\DiscountItemCollection;
 use App\Http\Resources\DiscountItem\DiscountItemResource;
 use App\Services\Discount\DiscountServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -26,7 +24,7 @@ class DiscountController extends Controller
     public function dataTable()
     {
         $response = $this->discountService->dataTable();
-        return $this->dataResponseCollection(new DiscountCollection($response));
+        return $this->dataResponseCollection(DiscountResource::collection($response));
     }
 
     public function store(StoreDiscountRequest $request)
@@ -50,7 +48,7 @@ class DiscountController extends Controller
     public function getItem($id)
     {
         $response = $this->discountService->getItem($id);
-        return $this->dataResponseCollection(new DiscountItemCollection($response));
+        return $this->dataResponseCollection(DiscountItemResource::collection($response));
     }
 
     public function setItem(SetDiscountRequest $request)
@@ -74,7 +72,7 @@ class DiscountController extends Controller
     public function getTopDiscountItem($id)
     {
         $response = $this->discountService->getTopItem($id);
-        return $this->dataResponseCollection(new DiscountItemCollection($response));
+        return $this->dataResponseCollection(DiscountItemResource::collection($response));
     }
 
     public function sort(SortTopRequest $request)

@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources\Filter;
 
-use App\Http\Resources\FilterItem\FilterItemCollection;
-use App\Http\Resources\ProductFilter\ProductFilterCollection;
 use App\Http\Resources\ProductFilter\ProductFilterResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\FilterItem\FilterItemResource;
 
 /** @mixin \App\Models\Filter */
 class FilterResource extends JsonResource
@@ -18,7 +17,7 @@ class FilterResource extends JsonResource
             'name' => $this->name,
             'status' => $this->status->value,
 //            'type' => $this->type->label(),
-            'items' => new FilterItemCollection($this->items),
+            'items' => ["data" => FilterItemResource::collection($this->items)],
             'productFilters' => new ProductFilterResource($this->whenLoaded('productFilters')),
 
         ];

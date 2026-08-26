@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Delivery\StoreDeliveryRequest;
 use App\Http\Requests\Admin\Delivery\UpdateDeliveryRequest;
-use App\Http\Resources\Delivery\DeliveryCollection;
 use App\Http\Resources\Delivery\DeliveryResource;
 use App\Services\Delivery\DeliveryServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -21,7 +20,7 @@ class DeliveryController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new DeliveryCollection($this->deliveryService->dataTable()));
+        return $this->dataResponseCollection(DeliveryResource::collection($this->deliveryService->dataTable()));
     }
 
     public function findById($id)

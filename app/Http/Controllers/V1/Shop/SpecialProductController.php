@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Banner\BannerCollection;
-use App\Http\Resources\Product\ProductCollection;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Product\ProductServiceInterface;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Banner\BannerResource;
 
 class SpecialProductController extends Controller
 {
@@ -20,8 +20,8 @@ class SpecialProductController extends Controller
 
     public function list()
     {
-        $banners = new BannerCollection($this->bannerService->getSpecialBanner());
-        $data = new ProductCollection($this->productService->special());
+        $banners = BannerResource::collection($this->bannerService->getSpecialBanner())->response()->getData();
+        $data = ProductResource::collection($this->productService->special())->response()->getData();
         return $this->dataResponse(
             [
                 "data" => $data,

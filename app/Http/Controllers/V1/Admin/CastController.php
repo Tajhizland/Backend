@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Cast\StoreCastRequest;
 use App\Http\Requests\Admin\Cast\UpdateCastRequest;
-use App\Http\Resources\Cast\CastCollection;
 use App\Http\Resources\Cast\CastResource;
 use App\Services\Cast\CastServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,7 +21,7 @@ class CastController extends Controller
     public function dataTable()
     {
         $response = $this->castService->dataTable();
-        return $this->dataResponseCollection(new CastCollection($response));
+        return $this->dataResponseCollection(CastResource::collection($response));
     }
 
     public function find($id)

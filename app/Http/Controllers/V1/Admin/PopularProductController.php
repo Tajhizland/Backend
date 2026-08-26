@@ -4,10 +4,9 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PopularProduct\PopularProductRequest;
-use App\Http\Resources\PopularCategory\PopularCategoryCollection;
-use App\Http\Resources\PopularProduct\PopularProductCollection;
 use App\Services\PopularProduct\PopularProductServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\PopularProduct\PopularProductResource;
 
 class PopularProductController extends Controller
 {
@@ -17,7 +16,7 @@ class PopularProductController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new PopularProductCollection($this->popularProductService->dataTable()));
+        return $this->dataResponseCollection(PopularProductResource::collection($this->popularProductService->dataTable()));
     }
     public function add(PopularProductRequest $request)
     {

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\WalletTransaction\WalletTransactionCollection;
 use App\Services\WalletTransaction\WalletTransactionServiceInterface;
+use App\Http\Resources\WalletTransaction\WalletTransactionResource;
 
 class WalletTransactionController extends Controller
 {
@@ -18,6 +18,6 @@ class WalletTransactionController extends Controller
     public function dataTable()
     {
         $response = $this->walletTransactionService->dataTable();
-        return $this->dataResponseCollection(new WalletTransactionCollection($response));
+        return $this->dataResponseCollection(WalletTransactionResource::collection($response));
     }
 }

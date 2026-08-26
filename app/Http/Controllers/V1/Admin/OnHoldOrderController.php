@@ -4,7 +4,6 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\OnHoldOrder\OnHoldOrderRequest;
-use App\Http\Resources\OnHoldOrder\OnHoldOrderCollection;
 use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
 use App\Http\Resources\Order\OrderResource;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
@@ -21,7 +20,7 @@ class OnHoldOrderController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new OnHoldOrderCollection($this->onHoldOrderService->dataTable())) ;
+        return $this->dataResponseCollection(OnHoldOrderResource::collection($this->onHoldOrderService->dataTable())) ;
     }
     public function findById($id)
     {

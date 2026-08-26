@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\GroupProduct;
 
-use App\Http\Resources\GroupFieldValue\GroupFieldValueCollection;
 use App\Http\Resources\GroupFieldValue\GroupFieldValueResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\GroupProduct;
@@ -25,7 +24,7 @@ GroupProductResource extends JsonResource
 
             'group' => new ProductResource($this->whenLoaded('group')),
             'product' => new ProductResource($this->whenLoaded('product')),
-            'value' => new GroupFieldValueCollection($this->whenLoaded('value')),
+            'value' => ["data" => GroupFieldValueResource::collection($this->whenLoaded('value'))],
         ];
     }
 }

@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\DTOs\Order\TapinRegisterDto;
 use App\Http\Requests\Admin\Tapin\TapinRegisterRequest;
 use App\Services\Order\OrderServiceInterface;
 use App\Services\Tapin\TapinService;
-use Illuminate\Support\Facades\Lang;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class TapinController extends Controller
 {
-    public function __construct
-    (
-        private TapinService          $tapinService,
-        private OrderServiceInterface $orderService
+    public function __construct(
+        private readonly TapinService          $tapinService,
+        private readonly OrderServiceInterface $orderService,
     )
     {
     }
 
     public function register($id, TapinRegisterRequest $request)
     {
-        $order = $this->orderService->findById($id);
+        $dto = new TapinRegisterDto($id, ...$request->validated());
+        $order = $this->orderService->find($dto->orderId);
         $orderItems = $order->orderItems;
         $weight = 0;
         $width = 0;
@@ -68,7 +68,7 @@ class TapinController extends Controller
         if ($weight < 50) {
             $weight = 50;
         }
-        $tapin = $this->tapinService->send($order, $request->get("status"), $weight, $size);
+        $tapin = $this->tapinService->send($order, $dto->status, $weight, $size);
 
         if (isset($tapin->returns->status) && $tapin->returns->status == 200) {
             throw new BadRequestHttpException("خطا از سمت سرویس پست :: " . json_encode($tapin, JSON_UNESCAPED_UNICODE));
@@ -81,7 +81,7 @@ class TapinController extends Controller
 
         $this->orderService->setDeliveryToken($order->id, $postReferenceID);
 
-        return $this->successResponse(Lang::get("action.send", ["attr" => Lang::get("attr.order")]));
+        return $this->successResponse(__("action.send", ["attr" => __("attr.order")]));
 
 
     }

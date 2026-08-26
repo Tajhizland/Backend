@@ -6,14 +6,13 @@ use App\Enums\SmsLogStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Sms\SendToContactRequest;
 use App\Http\Requests\Admin\Sms\SmsRequest;
-use App\Http\Resources\SmsLog\SmsLogCollection;
-use App\Http\Resources\SmsLogItem\SmsLogItemCollection;
 use App\Http\Resources\SmsLogItem\SmsLogItemResource;
 use App\Jobs\GroupContactSmsMarketingJob;
 use App\Jobs\GroupUserSmsMarketingJob;
 use App\Services\SmsLog\SmsLogServiceInterface;
 use App\Services\SmsLogItem\SmsLogItemServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\SmsLog\SmsLogResource;
 
 class SmsController extends Controller
 {
@@ -28,13 +27,13 @@ class SmsController extends Controller
     public function dataTable()
     {
         $response = $this->smsLogService->dataTable();
-        return $this->dataResponseCollection(SmsLogCollection::make($response));
+        return $this->dataResponseCollection(SmsLogResource::collection($response));
     }
 
     public function itemDataTable($id)
     {
         $response = $this->smsLogItemService->dataTable($id);
-        return $this->dataResponseCollection(SmsLogItemCollection::make($response));
+        return $this->dataResponseCollection(SmsLogItemResource::collection($response));
     }
 
     public function viewItem($id)

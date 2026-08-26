@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Menu\StoreMenuRequest;
 use App\Http\Requests\Admin\Menu\UpdateMenuRequest;
-use App\Http\Resources\Menu\MenuCollection;
 use App\Http\Resources\Menu\MenuResource;
 use App\Services\Menu\MenuServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -21,12 +20,12 @@ class MenuController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new MenuCollection($this->menuService->dataTable()));
+        return $this->dataResponseCollection(MenuResource::collection($this->menuService->dataTable()));
     }
 
     public function list()
     {
-        return $this->dataResponseCollection(new MenuCollection($this->menuService->list()));
+        return $this->dataResponseCollection(MenuResource::collection($this->menuService->list()));
     }
 
     public function store(StoreMenuRequest $request)

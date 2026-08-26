@@ -5,9 +5,9 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FileManager\FileManagerRequest;
 use App\Http\Requests\Admin\FileManager\GetFilesRequest;
-use App\Http\Resources\Filemanager\FilemanagerCollection;
 use App\Services\FileManager\FileManagerServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Filemanager\FilemanagerResource;
 
 class FileManagerController extends Controller
 {
@@ -30,6 +30,6 @@ class FileManagerController extends Controller
     }
     public function get(GetFilesRequest $request)
     {
-        return $this->dataResponseCollection(new FilemanagerCollection($this->fileManagerService->geyByModelId($request->get("model_id"), $request->get("model_type"))));
+        return $this->dataResponseCollection(FilemanagerResource::collection($this->fileManagerService->geyByModelId($request->get("model_id"), $request->get("model_type"))));
     }
 }

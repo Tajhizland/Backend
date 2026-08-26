@@ -22,14 +22,7 @@ use App\Http\Requests\Admin\Product\SetProductVideosRequest;
 use App\Http\Requests\Admin\Product\SetVideoRequest;
 use App\Http\Requests\Admin\Product\StoreProductRequest;
 use App\Http\Requests\Admin\Product\UpdateProductRequest;
-use App\Http\Resources\Filter\FilterCollection;
-use App\Http\Resources\Option\OptionCollection;
-use App\Http\Resources\OptionItem\OptionItemCollection;
-use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Resources\ProductColor\ProductColorCollection;
-use App\Http\Resources\ProductImage\ProductImageCollection;
-use App\Http\Resources\ProductVideo\ProductVideoCollection;
 use App\Services\Filter\FilterServiceInterface;
 use App\Services\Option\OptionServiceInterface;
 use App\Services\Product\ProductServiceInterface;
@@ -37,6 +30,11 @@ use App\Services\ProductColor\ProductColorServiceInterface;
 use App\Services\ProductImage\ProductImageServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\ProductImage\ProductImageResource;
+use App\Http\Resources\Filter\FilterResource;
+use App\Http\Resources\ProductVideo\ProductVideoResource;
+use App\Http\Resources\OptionItem\OptionItemResource;
+use App\Http\Resources\ProductColor\ProductColorResource;
 
 class ProductController extends Controller
 {
@@ -53,22 +51,22 @@ class ProductController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new ProductCollection($this->productService->dataTable()));
+        return $this->dataResponseCollection(ProductResource::collection($this->productService->dataTable()));
     }
 
     public function stockProductDataTable()
     {
-        return $this->dataResponseCollection(new ProductCollection($this->productService->stockDataTable()));
+        return $this->dataResponseCollection(ProductResource::collection($this->productService->stockDataTable()));
     }
 
     public function hasDiscountDataTable()
     {
-        return $this->dataResponseCollection(new ProductCollection($this->productService->hasDiscountDataTable()));
+        return $this->dataResponseCollection(ProductResource::collection($this->productService->hasDiscountDataTable()));
     }
 
     public function hasLimitDataTable()
     {
-        return $this->dataResponseCollection(new ProductCollection($this->productService->hasLimitDataTable()));
+        return $this->dataResponseCollection(ProductResource::collection($this->productService->hasLimitDataTable()));
     }
 
     public function findById($id)
@@ -90,23 +88,23 @@ class ProductController extends Controller
 
     public function getFilter($id)
     {
-        return $this->dataResponseCollection(new FilterCollection($this->filterService->getByProductId($id)));
+        return $this->dataResponseCollection(FilterResource::collection($this->filterService->getByProductId($id)));
 
     }
 
     public function getOption($id)
     {
-        return $this->dataResponseCollection(new OptionItemCollection($this->optionService->getByProductId($id)));
+        return $this->dataResponseCollection(OptionItemResource::collection($this->optionService->getByProductId($id)));
     }
 
     public function getColor($id)
     {
-        return $this->dataResponseCollection(new ProductColorCollection($this->productColorService->getByProductId($id)));
+        return $this->dataResponseCollection(ProductColorResource::collection($this->productColorService->getByProductId($id)));
     }
 
     public function getImage($id)
     {
-        return $this->dataResponseCollection(new ProductImageCollection($this->productImageService->getByProductId($id)));
+        return $this->dataResponseCollection(ProductImageResource::collection($this->productImageService->getByProductId($id)));
     }
 
     public function setFilter(ProductFilterRequest $request)
@@ -154,13 +152,13 @@ class ProductController extends Controller
     public function getVideo($id)
     {
         $response = $this->productService->getVideo($id);
-        return $this->dataResponseCollection(new ProductVideoCollection($response));
+        return $this->dataResponseCollection(ProductVideoResource::collection($response));
     }
 
     public function searchList(SearchListRequest $request)
     {
         $response = $this->productService->searchList($request->get("categoryId"), $request->get("brandId"), $request->get("searchQuery"), $request->get("discountId"));
-        return $this->dataResponseCollection(new ProductCollection($response));
+        return $this->dataResponseCollection(ProductResource::collection($response));
     }
 
     public function deleteVideo($id)

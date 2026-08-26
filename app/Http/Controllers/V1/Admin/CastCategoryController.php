@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CastCategory\StoreCastCategoryRequest;
 use App\Http\Requests\Admin\CastCategory\UpdateCastCategoryRequest;
-use App\Http\Resources\CastCategory\CastCategoryCollection;
 use App\Http\Resources\CastCategory\CastCategoryResource;
 use App\Services\CastCategory\CastCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,13 +21,13 @@ class CastCategoryController extends Controller
     public function dataTable()
     {
         $response = $this->castCategoryService->dataTable();
-        return $this->dataResponseCollection(new CastCategoryCollection($response));
+        return $this->dataResponseCollection(CastCategoryResource::collection($response));
     }
 
     public function get()
     {
         $response = $this->castCategoryService->get();
-        return $this->dataResponseCollection(new CastCategoryCollection($response));
+        return $this->dataResponseCollection(CastCategoryResource::collection($response));
     }
 
     public function find($id)

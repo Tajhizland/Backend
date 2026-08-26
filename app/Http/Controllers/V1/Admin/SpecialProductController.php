@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SpecialProduct\ShowHomepageRequest;
 use App\Http\Requests\Admin\SpecialProduct\SpecialProductRequest;
 use App\Http\Requests\Admin\SpecialProduct\SpecialProductSortRequest;
-use App\Http\Resources\Product\ProductCollection;
-use App\Http\Resources\SpecialProduct\SpecialProductCollection;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\SpecialProduct\SpecialProductServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\SpecialProduct\SpecialProductResource;
+use App\Http\Resources\Product\ProductResource;
 
 class SpecialProductController extends Controller
 {
@@ -23,7 +23,7 @@ class SpecialProductController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new SpecialProductCollection($this->specialProductService->dataTable()));
+        return $this->dataResponseCollection(SpecialProductResource::collection($this->specialProductService->dataTable()));
     }
 
     public function add(SpecialProductRequest $request)
@@ -46,8 +46,8 @@ class SpecialProductController extends Controller
 
     public function list()
     {
-        $data = new ProductCollection($this->productService->special());
-        return $this->dataResponseCollection(new ProductCollection($data));
+        $data = ProductResource::collection($this->productService->special())->response()->getData();
+        return $this->dataResponseCollection(ProductResource::collection($data));
     }
     public function sort(SpecialProductSortRequest $request)
     {

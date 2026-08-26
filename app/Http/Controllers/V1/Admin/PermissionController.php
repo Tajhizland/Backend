@@ -5,10 +5,9 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Permission\StorePermissionRequest;
 use App\Http\Requests\Admin\Permission\UpdatePermissionRequest;
-use App\Http\Resources\PermissionResource;
-use App\Http\Resources\Permission\PermissionCollection;
 use App\Services\Permission\PermissionServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Permission\PermissionResource;
 
 class PermissionController extends Controller
 {
@@ -22,7 +21,7 @@ class PermissionController extends Controller
     public function dataTable()
     {
         $response = $this->permissionService->dataTable();
-        return $this->dataResponseCollection(PermissionCollection::make($response));
+        return $this->dataResponseCollection(PermissionResource::collection($response));
     }
 
     public function find($id)
@@ -33,7 +32,7 @@ class PermissionController extends Controller
     public function getAll()
     {
         $response = $this->permissionService->getAll();
-        return $this->dataResponseCollection(PermissionCollection::make($response));
+        return $this->dataResponseCollection(PermissionResource::collection($response));
     }
 
     public function store(StorePermissionRequest $request)

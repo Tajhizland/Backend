@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Banner\BannerCollection;
-use App\Http\Resources\Cast\CastCollection;
 use App\Http\Resources\Cast\CastResource;
-use App\Http\Resources\CastCategory\CastCategoryCollection;
 use App\Repositories\Banner\BannerRepositoryInterface;
 use App\Services\Cast\CastServiceInterface;
 use App\Services\CastCategory\CastCategoryServiceInterface;
 use Illuminate\Http\Request;
+use App\Http\Resources\CastCategory\CastCategoryResource;
+use App\Http\Resources\Banner\BannerResource;
 
 class CastController extends Controller
 {
@@ -25,10 +24,10 @@ class CastController extends Controller
 
     public function index(Request $request)
     {
-        $banner = new BannerCollection($this->bannerRepository->getBannerByType("cast"));
-        $listing = new CastCollection($this->castService->listing($request->get("filter")));
-        $mostViewed = new CastCollection($this->castService->getMostViewed());
-        $category = new CastCategoryCollection($this->castCategoryService->get());
+        $banner = BannerResource::collection($this->bannerRepository->getBannerByType("cast"))->response()->getData();
+        $listing = CastResource::collection($this->castService->listing($request->get("filter")))->response()->getData();
+        $mostViewed = CastResource::collection($this->castService->getMostViewed())->response()->getData();
+        $category = CastCategoryResource::collection($this->castCategoryService->get())->response()->getData();
         return $this->dataResponse([
             "category" => $category,
             "banner" => $banner,

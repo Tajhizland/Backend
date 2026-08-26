@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\ProductColor;
 
-use App\Http\Resources\DiscountItem\DiscountItemCollection;
 use App\Http\Resources\Product\SimpleProduct\SimpleProductResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\DiscountItem\DiscountItemResource;
 
 /** @mixin \App\Models\ProductColor */
 class ProductColorResource extends JsonResource
@@ -43,7 +43,7 @@ class ProductColorResource extends JsonResource
 //             'discount' => round(($this->price?->price - $this->price?->discount) / ($this->price?->price != 0 ? $this->price?->price : 1) * 100),
 //            'discountedPrice' => $discountedPrice,
             'product' => new SimpleProductResource($this->whenLoaded('product')),
-            'discountItem' => new DiscountItemCollection($this->whenLoaded('discountItem')),
+            'discountItem' => ["data" => DiscountItemResource::collection($this->whenLoaded('discountItem'))],
 
 //            'discountedPrice' => $this->price?->discount != 0 ? $this->price?->discount : $this->price?->price,
             'stock' => $this->stock?->stock ?? 0,

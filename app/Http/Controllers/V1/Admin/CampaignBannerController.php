@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Banner\BannerSortRequest;
 use App\Http\Requests\Admin\CampaignBanner\StoreCampaignBannerRequest;
 use App\Http\Requests\Admin\CampaignBanner\UpdateCampaignBannerRequest;
-use App\Http\Resources\CampaignBanner\CampaignBannerCollection;
 use App\Http\Resources\CampaignBanner\CampaignBannerResource;
 use App\Services\CampaignBanner\CampaignBannerServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,7 +21,7 @@ class CampaignBannerController extends Controller
 
     public function dataTable($id)
     {
-        return $this->dataResponseCollection(new CampaignBannerCollection($this->campaignBannerService->dataTable($id)));
+        return $this->dataResponseCollection(CampaignBannerResource::collection($this->campaignBannerService->dataTable($id)));
     }
 
     public function delete($id)
@@ -50,7 +49,7 @@ class CampaignBannerController extends Controller
 
     public function list($type)
     {
-        return $this->dataResponseCollection(new CampaignBannerCollection($this->campaignBannerService->getByType($type)));
+        return $this->dataResponseCollection(CampaignBannerResource::collection($this->campaignBannerService->getByType($type)));
     }
 
     public function sort(BannerSortRequest $request)

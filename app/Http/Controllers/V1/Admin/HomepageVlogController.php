@@ -4,9 +4,9 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\HomepageVlog\UpdateHomePageVlogRequest;
-use App\Http\Resources\HomepageVlog\HomePageVlogCollection;
 use App\Services\HomepageVlog\HomepageVlogServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\HomepageVlog\HomepageVlogResource;
 
 class HomepageVlogController extends Controller
 {
@@ -20,7 +20,7 @@ class HomepageVlogController extends Controller
     public function get()
     {
         $response = $this->homepageVlogService->get();
-        return $this->dataResponseCollection(new HomePageVlogCollection($response));
+        return $this->dataResponseCollection(HomepageVlogResource::collection($response));
     }
 
     public function update(UpdateHomePageVlogRequest $request)

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Product\ComparisonRequest;
-use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use App\Services\Product\ProductServiceInterface;
 
@@ -16,7 +15,7 @@ class ComparisonController extends Controller
 
     public function searchProduct(ComparisonRequest $request)
     {
-        return $this->dataResponse(new ProductCollection($this->productService->searchProductWithCategory($request->get("query"),$request->get("category_id"))));
+        return $this->dataResponse(ProductResource::collection($this->productService->searchProductWithCategory($request->get("query"),$request->get("category_id")))->response()->getData());
     }
 
     public function selectProduct($id)

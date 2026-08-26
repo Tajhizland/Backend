@@ -9,11 +9,10 @@ use App\Http\Requests\Admin\Sample\SortImageRequest;
 use App\Http\Requests\Admin\Sample\SortVideoRequest;
 use App\Http\Requests\Admin\SampleRequest;
 use App\Http\Resources\Sample\SampleResource;
-use App\Http\Resources\SampleImage\SampleImageCollection;
-use App\Http\Resources\SampleVideo\SampleVideoCollection;
 use App\Http\Resources\SampleVideo\SampleVideoResource;
 use App\Services\Sample\SampleServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\SampleImage\SampleImageResource;
 
 class SampleController extends Controller
 {
@@ -63,12 +62,12 @@ class SampleController extends Controller
 
     public function getImages()
     {
-        return $this->dataResponseCollection(new SampleImageCollection($this->sampleService->getImages()));
+        return $this->dataResponseCollection(SampleImageResource::collection($this->sampleService->getImages()));
     }
 
     public function getVideos()
     {
-        return $this->dataResponseCollection(new SampleVideoCollection($this->sampleService->getVideos()));
+        return $this->dataResponseCollection(SampleVideoResource::collection($this->sampleService->getVideos()));
     }
     public function sortVideo(SortVideoRequest $request)
     {

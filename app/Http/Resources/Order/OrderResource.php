@@ -5,10 +5,10 @@ namespace App\Http\Resources\Order;
 use App\Http\Resources\Delivery\DeliveryResource;
 use App\Http\Resources\Gateway\GatewayResource;
 use App\Http\Resources\OrderInfo\OrderInfoResource;
-use App\Http\Resources\OrderItem\OrderItemCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\OrderItem\OrderItemResource;
 
 /** @mixin \App\Models\Order */
 class OrderResource extends JsonResource
@@ -30,7 +30,7 @@ class OrderResource extends JsonResource
             'order_date' => Jalalian::fromDateTime($this->order_date)->format('Y/m/d  H:i:s'),
             'delivery_date' => Jalalian::fromDateTime($this->delivery_date)->format('Y/m/d'),
             'tracking_number' => $this->tracking_number,
-            'orderItems' => new OrderItemCollection($this->whenLoaded('orderItems')),
+            'orderItems' => ["data" => OrderItemResource::collection($this->whenLoaded('orderItems'))],
             'orderInfo' => new OrderInfoResource($this->whenLoaded('orderInfo')),
             'delivery' => new DeliveryResource($this->whenLoaded('delivery')),
             'payment' => new GatewayResource($this->whenLoaded('payment')),

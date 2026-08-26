@@ -6,13 +6,13 @@ use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\Price\PriceResource;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Resources\ProductColor\ProductColorCollection;
-use App\Http\Resources\ProductImage\ProductImageCollection;
-use App\Http\Resources\ProductOption\ProductOptionCollection;
 use App\Http\Resources\Stock\StockResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\ProductImage\ProductImageResource;
+use App\Http\Resources\ProductColor\ProductColorResource;
+use App\Http\Resources\ProductOption\ProductOptionResource;
 
 /** @mixin \App\Models\Product */
 class SimpleProductResource extends JsonResource
@@ -40,10 +40,10 @@ class SimpleProductResource extends JsonResource
             'weight' => $this->weight,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
-            'colors' => new ProductColorCollection($this->activeProductColors),
-            'productOptions' => new ProductOptionCollection($this->productOptions),
+            'colors' => ["data" => ProductColorResource::collection($this->activeProductColors)],
+            'productOptions' => ["data" => ProductOptionResource::collection($this->productOptions)],
             'stockOf' => new ProductResource($this->whenLoaded("stockOf")),
-            'images' => new ProductImageCollection($this->images),
+            'images' => ["data" => ProductImageResource::collection($this->images)],
         ];
     }
 }

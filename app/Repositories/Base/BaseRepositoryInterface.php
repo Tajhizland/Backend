@@ -12,6 +12,8 @@ interface BaseRepositoryInterface
 
     public function create(array $data): mixed;
 
+    public function find(int $id): mixed;
+
     public function findOrFail(int $id): mixed;
 
     public function update(Model $entity, array $data): bool;

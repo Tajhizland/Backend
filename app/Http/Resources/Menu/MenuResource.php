@@ -5,6 +5,7 @@ namespace App\Http\Resources\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;
+use App\Http\Resources\Menu\MenuResource;
 
 /** @mixin \App\Models\Menu */
 class MenuResource extends JsonResource
@@ -19,7 +20,7 @@ class MenuResource extends JsonResource
             'parent_id' => $this->parent_id,
             'status' => $this->status,
             'parent' => new MenuResource($this->whenLoaded('parent')),
-            'children' => new MenuCollection($this->whenLoaded('children')),
+            'children' => ["data" => MenuResource::collection($this->whenLoaded('children'))],
             'url' => $this->url,
             'category_id' => $this->category_id,
             'banner_link' => $this->banner_link,

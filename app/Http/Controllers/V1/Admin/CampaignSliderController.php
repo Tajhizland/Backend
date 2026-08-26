@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CampaignSlider\SortCampaignSliderRequest;
 use App\Http\Requests\Admin\CampaignSlider\StoreCampaignSliderRequest;
 use App\Http\Requests\Admin\CampaignSlider\UpdateCampaignSliderRequest;
-use App\Http\Resources\CampaignSlider\CampaignSliderCollection;
 use App\Http\Resources\CampaignSlider\CampaignSliderResource;
 use App\Services\CampaignSlider\CampaignSliderServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -24,7 +23,7 @@ class CampaignSliderController extends Controller
     public function campaignDataTable($campaignId)
     {
         $response = $this->campaignSliderService->getByCampaignId($campaignId);
-        return $this->dataResponseCollection(new CampaignSliderCollection($response));
+        return $this->dataResponseCollection(CampaignSliderResource::collection($response));
     }
 
     public function store(StoreCampaignSliderRequest $request)
@@ -42,13 +41,13 @@ class CampaignSliderController extends Controller
     public function getAllDesktop()
     {
         $response = $this->campaignSliderService->getAllDesktop();
-        return $this->dataResponseCollection(new CampaignSliderCollection($response));
+        return $this->dataResponseCollection(CampaignSliderResource::collection($response));
     }
 
     public function getAllMobile()
     {
         $response = $this->campaignSliderService->getAllMobile();
-        return $this->dataResponseCollection(new CampaignSliderCollection($response));
+        return $this->dataResponseCollection(CampaignSliderResource::collection($response));
     }
 
     public function sort(SortCampaignSliderRequest $request)

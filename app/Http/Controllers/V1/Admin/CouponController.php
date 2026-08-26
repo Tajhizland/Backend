@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Coupon\StoreCouponRequest;
 use App\Http\Requests\Admin\Coupon\StoreGroupCouponRequest;
 use App\Http\Requests\Admin\Coupon\UpdateCouponRequest;
-use App\Http\Resources\Coupon\CouponCollection;
 use App\Http\Resources\Coupon\CouponResource;
 use App\Services\Coupon\CouponServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -23,7 +22,7 @@ class CouponController extends Controller
     public function dataTable()
     {
         $response = $this->couponService->dataTable();
-        return $this->dataResponseCollection(CouponCollection::make($response));
+        return $this->dataResponseCollection(CouponResource::collection($response));
     }
 
     public function find($id)

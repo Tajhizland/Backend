@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\slider\StoreSliderRequest;
 use App\Http\Requests\Admin\slider\UpdateSliderRequest;
 use App\Http\Requests\Admin\SliderSortRequest;
-use App\Http\Resources\Slider\SliderCollection;
 use App\Http\Resources\Slider\SliderResource;
 use App\Services\Slider\SliderServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,7 +21,7 @@ class SliderController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new SliderCollection($this->sliderService->dataTable()));
+        return $this->dataResponseCollection(SliderResource::collection($this->sliderService->dataTable()));
     }
 
     public function findById($id)
@@ -45,13 +44,13 @@ class SliderController extends Controller
     public function getAllDesktop()
     {
         $response = $this->sliderService->getAllDesktop();
-        return $this->dataResponseCollection(new SliderCollection($response));
+        return $this->dataResponseCollection(SliderResource::collection($response));
     }
 
     public function getAllMobile()
     {
         $response = $this->sliderService->getAllMobile();
-        return $this->dataResponseCollection(new SliderCollection($response));
+        return $this->dataResponseCollection(SliderResource::collection($response));
     }
 
     public function sort(SliderSortRequest $request)

@@ -5,13 +5,12 @@ namespace App\Http\Controllers\V1\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Address\ChangeActiveAddressRequest;
 use App\Http\Requests\Shop\Address\UpdateAddresRequest;
-use App\Http\Resources\Address\AddressCollection;
 use App\Http\Resources\Address\AddressResource;
-use App\Http\Resources\City\CityCollection;
-use App\Http\Resources\Province\ProvinceCollection;
 use App\Services\Address\AddressServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\City\CityResource;
+use App\Http\Resources\Province\ProvinceResource;
 
 class AddressController extends Controller
 {
@@ -41,7 +40,7 @@ class AddressController extends Controller
     public function getAll()
     {
         $userId = Auth::user()->id;
-        return $this->dataResponseCollection(new AddressCollection($this->addressService->getByUserId($userId)));
+        return $this->dataResponseCollection(AddressResource::collection($this->addressService->getByUserId($userId)));
     }
 
     public function updateOrCreate(UpdateAddresRequest $request)
@@ -60,11 +59,11 @@ class AddressController extends Controller
 
     public function getCities($id)
     {
-        return $this->dataResponseCollection(new CityCollection($this->addressService->getCities($id)));
+        return $this->dataResponseCollection(CityResource::collection($this->addressService->getCities($id)));
     }
 
     public function getProvinces()
     {
-        return $this->dataResponseCollection(new ProvinceCollection($this->addressService->getProvinces()));
+        return $this->dataResponseCollection(ProvinceResource::collection($this->addressService->getProvinces()));
     }
 }

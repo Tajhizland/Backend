@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PhoneBock\StorePhoneBockRequest;
 use App\Http\Requests\Admin\PhoneBock\UpdatePhoneBockRequest;
 use App\Http\Requests\Admin\PhoneBock\UploadExcelRequest;
-use App\Http\Resources\PhoneBock\PhoneBockCollection;
 use App\Http\Resources\PhoneBock\PhoneBockResource;
 use App\Imports\PhoneBockImport;
 use App\Services\PhoneBock\PhoneBockService;
@@ -24,13 +23,13 @@ class PhoneBockController extends Controller
     public function dataTable()
     {
         $response = $this->phoneBockService->dataTable();
-        return $this->dataResponseCollection(PhoneBockCollection::make($response));
+        return $this->dataResponseCollection(PhoneBockResource::collection($response));
     }
 
     public function all()
     {
         $response = $this->phoneBockService->getAll();
-        return $this->dataResponseCollection(PhoneBockCollection::make($response));
+        return $this->dataResponseCollection(PhoneBockResource::collection($response));
     }
 
     public function find($id)

@@ -2,108 +2,102 @@
 
 namespace App\Services\Order;
 
+use App\DTOs\Order\DigipayCalcDto;
+use App\DTOs\Order\OrderItemUpdateDto;
+use App\DTOs\Order\OrderStatusUpdateDto;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentGateway;
-use App\Exceptions\BreakException;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\OrderItem\OrderItemRepositoryInterface;
 use App\Services\SnappPay\SnappPayService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OrderService implements OrderServiceInterface
+readonly class OrderService implements OrderServiceInterface
 {
     public function __construct(
         private OrderRepositoryInterface     $orderRepository,
         private OrderItemRepositoryInterface $orderItemRepository,
-        private SnappPayService              $snappPayService
+        private SnappPayService              $snappPayService,
     )
     {
     }
 
-    public function userOrderPaginate($userId)
-    {
-        return $this->orderRepository->userOrderPaginate($userId);
-    }
-
-    /**
-     * بدون بررسی مالکیت. فقط برای مصرف داخلی/ادمین.
-     */
-    public function findById($id)
-    {
-        return $this->orderRepository->findOrFail($id);
-    }
-
-    /**
-     * سفارشِ کاربرِ احرازهویت‌شده.
-     *
-     * اندپوینت‌های فروشگاه باید از این استفاده کنند: OrderPolicy::view بررسی می‌کند
-     * سفارش متعلق به همان کاربر باشد، وگرنه ۴۰۳ می‌دهد.
-     */
-    public function findUserOrder($id)
-    {
-        $order = $this->orderRepository->findOrFail($id);
-        Gate::authorize("view", $order);
-        return $order;
-    }
-
-    public function findWithDetails($id)
-    {
-        return $this->orderRepository->findWithDetails($id);
-    }
-
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->orderRepository->dataTable();
     }
 
-    public function updateOrderStatus($id, $status)
+    public function find(int $id): mixed
     {
-        $order = $this->orderRepository->findOrFail($id);
-        try {
-            $status = OrderStatus::from($status);
-        } catch (\Throwable $throwable) {
-            throw new BreakException($throwable->getMessage());
+        $order = $this->orderRepository->find($id);
+        if (!$order) {
+            throw new NotFoundHttpException();
+        }
+        return $order;
+    }
+
+    public function findWithDetails(int $id): mixed
+    {
+        $order = $this->orderRepository->findWithDetails($id);
+        if (!$order) {
+            throw new NotFoundHttpException();
+        }
+        return $order;
+    }
+
+    public function userOrderPaginate(int $userId): mixed
+    {
+        return $this->orderRepository->userOrderPaginate($userId);
+    }
+
+    public function updateStatus(OrderStatusUpdateDto $dto): bool
+    {
+        $order = $this->find($dto->orderId);
+        $status = OrderStatus::tryFrom($dto->status);
+        if (!$status) {
+            throw new BadRequestHttpException(__("exceptions.invalid_order_status"));
         }
         return $this->orderRepository->updateOrderStatus($order, $status->value);
     }
 
-    public function setDeliveryToken($id, $token)
+    public function setDeliveryToken(int $id, $token): bool
     {
-        $order = $this->orderRepository->findOrFail($id);
+        $order = $this->find($id);
         return $this->orderRepository->update($order, ["delivery_token" => $token]);
     }
 
-    public function digipayCalc($startDate, $endDate)
+    public function digipayCalc(DigipayCalcDto $dto): mixed
     {
-        return $this->orderRepository->digipaySumOrder($startDate, $endDate);
+        return $this->orderRepository->digipaySumOrder($dto->start_date, $dto->end_date);
     }
 
-    public function cancelOrder($id)
+    public function cancel(int $id): mixed
     {
         DB::transaction(function () use ($id) {
-            $order = $this->orderRepository->findOrFail($id);
+            $order = $this->find($id);
             $this->orderRepository->setStatus($order, OrderStatus::Cancelled->value);
         });
 
-        $order = $this->orderRepository->findOrFail($id);
+        $order = $this->find($id);
         if (PaymentGateway::normalize($order->payment_method) === PaymentGateway::SnappPay) {
             $this->snappPayService->cancel($id);
         }
 
-        return $this->orderRepository->findWithDetails($id);
+        return $this->findWithDetails($id);
     }
 
-    public function updateOrderItem($itemId, $count)
+    public function updateItem(OrderItemUpdateDto $dto): mixed
     {
-        $orderId = DB::transaction(function () use ($itemId, $count) {
-            $item = $this->orderItemRepository->findOrFail($itemId);
+        $orderId = DB::transaction(function () use ($dto) {
+            $item = $this->orderItemRepository->findOrFail($dto->orderItemId);
 
-            if ($count > $item->count) {
-                throw new BreakException(__("action.order_item_only_decrease"));
+            if ($dto->count > $item->count) {
+                throw new BadRequestHttpException(__("action.order_item_only_decrease"));
             }
 
-            $this->orderItemRepository->update($item, ["count" => $count]);
+            $this->orderItemRepository->update($item, ["count" => $dto->count]);
             $this->recalculateOrderPrices($item->order_id);
 
             return $item->order_id;
@@ -111,18 +105,17 @@ class OrderService implements OrderServiceInterface
 
         $this->syncSnappPayPayment($orderId);
 
-        return $this->orderRepository->findWithDetails($orderId);
+        return $this->findWithDetails($orderId);
     }
 
-    public function deleteOrderItem($itemId)
+    public function deleteItem(int $itemId): mixed
     {
         $orderId = DB::transaction(function () use ($itemId) {
             $item = $this->orderItemRepository->findOrFail($itemId);
             $orderId = $item->order_id;
 
-            // سفارش باید همیشه حداقل یک آیتم داشته باشد؛ آخرین محصول قابل حذف نیست
             if ($this->orderItemRepository->getByOrderId($orderId)->count() <= 1) {
-                throw new BreakException(__("action.order_item_last_cannot_delete"));
+                throw new BadRequestHttpException(__("action.order_item_last_cannot_delete"));
             }
 
             $this->orderItemRepository->delete($item);
@@ -133,19 +126,12 @@ class OrderService implements OrderServiceInterface
 
         $this->syncSnappPayPayment($orderId);
 
-        return $this->orderRepository->findWithDetails($orderId);
+        return $this->findWithDetails($orderId);
     }
 
-    /**
-     * Recompute the order invoice amounts based on its current items.
-     *
-     * price        = مجموع مبلغ نهایی آیتم‌ها (final_price * count)
-     * total_price  = مبلغ کل سفارش (آیتم‌ها + هزینه ارسال - تخفیف)
-     * final_price  = مبلغ قابل پرداخت (مبلغ کل - مبلغ استفاده‌شده از کیف پول)
-     */
-    private function recalculateOrderPrices($orderId)
+    private function recalculateOrderPrices($orderId): void
     {
-        $order = $this->orderRepository->findOrFail($orderId);
+        $order = $this->find($orderId);
 
         $itemsPrice = $this->orderItemRepository->sumFinalPrice($orderId);
         $totalPrice = max(0, $itemsPrice + $order->delivery_price - $order->off);
@@ -158,13 +144,9 @@ class OrderService implements OrderServiceInterface
         ]);
     }
 
-    /**
-     * اگر درگاه پرداخت سفارش اسنپ‌پی (۴) باشد، مبالغ به‌روزشده را به اسنپ‌پی هم اعلام می‌کنیم.
-     * این فراخوانی بعد از کامیت تراکنش انجام می‌شود تا تماس شبکه‌ای داخل تراکنش نباشد.
-     */
-    private function syncSnappPayPayment($orderId)
+    private function syncSnappPayPayment($orderId): void
     {
-        $order = $this->orderRepository->findOrFail($orderId);
+        $order = $this->find($orderId);
 
         if (PaymentGateway::normalize($order->payment_method) !== PaymentGateway::SnappPay) {
             return;

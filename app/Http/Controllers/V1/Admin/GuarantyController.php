@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Guaranty\StoreGuarantyRequest;
 use App\Http\Requests\Admin\Guaranty\UpdateGuarantyRequest;
-use App\Http\Resources\Guaranty\GuarantyCollection;
 use App\Http\Resources\Guaranty\GuarantyResource;
 use App\Services\Guaranty\GuarantyServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -21,11 +20,11 @@ class GuarantyController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new GuarantyCollection($this->guarantyService->dataTable()));
+        return $this->dataResponseCollection(GuarantyResource::collection($this->guarantyService->dataTable()));
     }
     public function list()
     {
-        return $this->dataResponseCollection(new GuarantyCollection($this->guarantyService->getActives()));
+        return $this->dataResponseCollection(GuarantyResource::collection($this->guarantyService->getActives()));
     }
 
     public function findById($id)

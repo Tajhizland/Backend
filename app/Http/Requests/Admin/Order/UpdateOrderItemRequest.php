@@ -9,7 +9,6 @@ class UpdateOrderItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:order_items,id'],
             'count' => ['required', 'integer', 'min:1'],
         ];
     }

@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\CategoryList;
 
-use App\Http\Resources\Filter\FilterCollection;
-use App\Http\Resources\Product\ProductCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Morilog\Jalali\Jalalian;

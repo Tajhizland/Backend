@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Gateway\StoreGatewayRequest;
 use App\Http\Requests\Admin\Gateway\UpdateGatewayRequest;
-use App\Http\Resources\Gateway\GatewayCollection;
 use App\Http\Resources\Gateway\GatewayResource;
 use App\Services\Gateway\GatewayServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -19,7 +18,7 @@ class GatewayController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new GatewayCollection($this->gatewayService->dataTable()));
+        return $this->dataResponseCollection(GatewayResource::collection($this->gatewayService->dataTable()));
     }
 
     public function findById($id)

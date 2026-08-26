@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Page\StorePageRequest;
 use App\Http\Requests\Admin\Page\UpdatePageRequest;
-use App\Http\Resources\Page\PageCollection;
 use App\Http\Resources\Page\PageResource;
 use App\Services\Page\PageServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -21,7 +20,7 @@ class PageController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new PageCollection($this->pageService->dataTable()));
+        return $this->dataResponseCollection(PageResource::collection($this->pageService->dataTable()));
     }
 
     public function findById($id)

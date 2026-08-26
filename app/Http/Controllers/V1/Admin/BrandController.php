@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Brand\BrandSortRequest;
 use App\Http\Requests\Admin\Brand\StoreBrandRequest;
 use App\Http\Requests\Admin\Brand\UpdateBrandRequest;
-use App\Http\Resources\Brand\BrandCollection;
 use App\Http\Resources\Brand\BrandResource;
 use App\Services\Brand\BrandServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -23,12 +22,12 @@ class BrandController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new BrandCollection($this->brandService->dataTable()));
+        return $this->dataResponseCollection(BrandResource::collection($this->brandService->dataTable()));
     }
 
     public function list()
     {
-        return $this->dataResponseCollection(new BrandCollection($this->brandService->list()));
+        return $this->dataResponseCollection(BrandResource::collection($this->brandService->list()));
     }
 
     public function sort(BrandSortRequest $request)

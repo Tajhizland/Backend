@@ -58,6 +58,11 @@ class BaseRepository
         return $this->model->create($data);
     }
 
+    public function find(int $id): mixed
+    {
+        return $this->model->find($id);
+    }
+
     /**
      * Return an entity.
      *

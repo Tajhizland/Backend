@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\VlogCategory\StoreVlogCategoryRequest;
 use App\Http\Requests\Admin\VlogCategory\UpdateVlogCategoryRequest;
-use App\Http\Resources\VlogCategory\VlogCategoryCollection;
 use App\Http\Resources\VlogCategory\VlogCategoryResource;
 use App\Http\Requests\Admin\VlogCategory\VlogCategorySortRequest;
 use App\Services\VlogCategory\VlogCategoryServiceInterface;
@@ -22,12 +21,12 @@ class VlogCategoryController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new VlogCategoryCollection($this->vlogCategoryService->dataTable()));
+        return $this->dataResponseCollection(VlogCategoryResource::collection($this->vlogCategoryService->dataTable()));
     }
 
     public function list()
     {
-        return $this->dataResponseCollection(new VlogCategoryCollection($this->vlogCategoryService->getActiveList()));
+        return $this->dataResponseCollection(VlogCategoryResource::collection($this->vlogCategoryService->getActiveList()));
     }
 
     public function findById($id)

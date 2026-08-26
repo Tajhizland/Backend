@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BlogCategory\StoreBlogCategoryRequest;
 use App\Http\Requests\Admin\BlogCategory\UpdateBlogCategoryRequest;
-use App\Http\Resources\BlogCategory\BlogCategoryCollection;
 use App\Http\Resources\BlogCategory\BlogCategoryResource;
 use App\Services\BlogCategory\BlogCategoryServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -21,12 +20,12 @@ class BlogCategoryController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new BlogCategoryCollection($this->blogCategoryService->dataTable()));
+        return $this->dataResponseCollection(BlogCategoryResource::collection($this->blogCategoryService->dataTable()));
     }
 
     public function list()
     {
-        return $this->dataResponseCollection(new BlogCategoryCollection($this->blogCategoryService->list()));
+        return $this->dataResponseCollection(BlogCategoryResource::collection($this->blogCategoryService->list()));
     }
 
 

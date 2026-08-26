@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\Vlog\StoreVlogRequest;
 use App\Http\Requests\Admin\Vlog\UpdateVlogRequest;
 use App\Http\Requests\Admin\Vlog\VlogSearchRequest;
 use App\Http\Requests\Admin\Vlog\VlogSortRequest;
-use App\Http\Resources\Vlog\VlogCollection;
 use App\Http\Resources\Vlog\VlogResource;
 use App\Services\Vlog\VlogServiceInterface;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +24,7 @@ class VlogController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new VlogCollection($this->vlogService->dataTable()));
+        return $this->dataResponseCollection(VlogResource::collection($this->vlogService->dataTable()));
     }
 
     public function findById($id)
@@ -82,12 +81,12 @@ class VlogController extends Controller
     }
     public function search(VlogSearchRequest $request)
     {
-        return $this->dataResponseCollection(new VlogCollection($this->vlogService->search($request->get("query"))));
+        return $this->dataResponseCollection(VlogResource::collection($this->vlogService->search($request->get("query"))));
     }
 
     public function list()
     {
-        return $this->dataResponseCollection(new VlogCollection($this->vlogService->list()));
+        return $this->dataResponseCollection(VlogResource::collection($this->vlogService->list()));
     }
 
     public function sort(VlogSortRequest $request)

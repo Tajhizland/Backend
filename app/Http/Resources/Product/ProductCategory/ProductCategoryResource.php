@@ -2,14 +2,14 @@
 
 namespace App\Http\Resources\Product\ProductCategory;
 
-use App\Http\Resources\Comment\CommentCollection;
-use App\Http\Resources\GroupProduct\GroupProductCollection;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Resources\ProductColor\ProductColorCollection;
-use App\Http\Resources\ProductImage\ProductImageCollection;
-use App\Http\Resources\ProductOption\ProductOptionCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Comment\CommentResource;
+use App\Http\Resources\ProductImage\ProductImageResource;
+use App\Http\Resources\ProductOption\ProductOptionResource;
+use App\Http\Resources\GroupProduct\GroupProductResource;
+use App\Http\Resources\ProductColor\ProductColorResource;
 
 class ProductCategoryResource extends JsonResource
 {
@@ -30,11 +30,11 @@ class ProductCategoryResource extends JsonResource
             'rating' => $this->getRatingAvg(),
             'allow_digipay' => $this->allow_digipay,
             'allow_snappay' => $this->allow_snappay,
-            'colors' => new ProductColorCollection($this->activeProductColors),
-            'images' => new ProductImageCollection($this->images),
-            'groupItems' => new GroupProductCollection($this->groupItems),
-            'comments' => new CommentCollection($this->confirmedComments),
-            'productOptions' => new ProductOptionCollection($this->productOptions),
+            'colors' => ["data" => ProductColorResource::collection($this->activeProductColors)],
+            'images' => ["data" => ProductImageResource::collection($this->images)],
+            'groupItems' => ["data" => GroupProductResource::collection($this->groupItems)],
+            'comments' => ["data" => CommentResource::collection($this->confirmedComments)],
+            'productOptions' => ["data" => ProductOptionResource::collection($this->productOptions)],
             'stockOf' => new ProductResource($this->whenLoaded("stockOf")),
             'category_ids' => $this->productCategories->pluck('category_id'),
 

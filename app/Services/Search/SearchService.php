@@ -2,12 +2,12 @@
 
 namespace App\Services\Search;
 
-use App\Http\Resources\Category\CategoryCollection;
-use App\Http\Resources\Product\ProductCollection;
-use App\Http\Resources\Vlog\VlogCollection;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;
+use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Vlog\VlogResource;
+use App\Http\Resources\Product\ProductResource;
 
 class SearchService implements SearchServiceInterface
 {
@@ -25,9 +25,9 @@ class SearchService implements SearchServiceInterface
         $vlogs = $this->vlogRepository->searchQuery($query);
         $categories = $this->categoryRepository->search($query);
         return [
-            "products" => ProductCollection::make($products),
-            "vlogs" => VlogCollection::make($vlogs),
-            "categories" => CategoryCollection::make($categories),
+            "products" => ProductResource::collection($products)->response()->getData(),
+            "vlogs" => VlogResource::collection($vlogs)->response()->getData(),
+            "categories" => CategoryResource::collection($categories)->response()->getData(),
         ];
     }
 

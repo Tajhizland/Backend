@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Banner\BannerCollection;
-use App\Http\Resources\Brand\BrandCollection;
 use App\Http\Resources\Brand\BrandResource;
-use App\Http\Resources\Category\SimpleCategoryCollection;
-use App\Http\Resources\Product\ProductCollection;
 use App\Services\Banner\BannerServiceInterface;
 use App\Services\Brand\BrandServiceInterface;
 use Illuminate\Http\Request;
+use App\Http\Resources\Category\SimpleCategoryResource;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Banner\BannerResource;
 
 class BrandController extends Controller
 {
@@ -27,9 +26,9 @@ class BrandController extends Controller
         $listing = $this->brandService->listing($request->get("url"), $request->get("filter"));
 
         $brandResource = new BrandResource($listing["brand"]);
-        $productCollection = new ProductCollection($listing["products"]);
-        $categoryCollection = $listing["categories"] ? new SimpleCategoryCollection($listing["categories"]) : $listing["categories"];
-        $banners = new BannerCollection($this->bannerService->getBrandBanner());
+        $productCollection = ProductResource::collection($listing["products"])->response()->getData();
+        $categoryCollection = $listing["categories"] ? SimpleCategoryResource::collection($listing["categories"])->response()->getData() : $listing["categories"];
+        $banners = BannerResource::collection($this->bannerService->getBrandBanner())->response()->getData();
         return $this->dataResponse([
             "brand" => $brandResource,
             "banner" => $banners,
@@ -40,8 +39,8 @@ class BrandController extends Controller
 
     public function list()
     {
-        $banners = new BannerCollection($this->bannerService->getBrandBanner());
-        $data = new BrandCollection($this->brandService->getAllActive());
+        $banners = BannerResource::collection($this->bannerService->getBrandBanner())->response()->getData();
+        $data = BrandResource::collection($this->brandService->getAllActive())->response()->getData();
         return $this->dataResponse(
             [
                 "brand" => $data,

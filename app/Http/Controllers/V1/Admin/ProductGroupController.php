@@ -6,12 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductGroup\AddFieldRequest;
 use App\Http\Requests\Admin\ProductGroup\AddProductRequest;
 use App\Http\Requests\Admin\ProductGroup\SetFieldValueRequest;
-use App\Http\Resources\GroupField\GroupFieldCollection;
-use App\Http\Resources\GroupProduct\GroupProductCollection;
-use App\Http\Resources\Product\SimpleProduct\SimpleProductCollection;
 use App\Http\Resources\Product\SimpleProduct\SimpleProductResource;
 use App\Services\ProductGroup\ProductGroupServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\GroupProduct\GroupProductResource;
+use App\Http\Resources\GroupField\GroupFieldResource;
 
 class ProductGroupController extends Controller
 {
@@ -25,19 +24,19 @@ class ProductGroupController extends Controller
     public function dataTable()
     {
         $response = $this->productGroupService->dataTable();
-        return $this->dataResponseCollection(new SimpleProductCollection($response));
+        return $this->dataResponseCollection(SimpleProductResource::collection($response));
     }
 
     public function getField($id)
     {
         $response = $this->productGroupService->getFieldByGroupId($id);
-        return $this->dataResponseCollection(new GroupFieldCollection($response));
+        return $this->dataResponseCollection(GroupFieldResource::collection($response));
     }
 
     public function getProduct($id)
     {
         $response = $this->productGroupService->getProductByGroupId($id);
-        return $this->dataResponseCollection(new GroupProductCollection($response));
+        return $this->dataResponseCollection(GroupProductResource::collection($response));
     }
 
     public function getFieldValue($id)
@@ -46,8 +45,8 @@ class ProductGroupController extends Controller
         $fields = $this->productGroupService->getFieldByGroupId($id);
         return $this->dataResponse(
             [
-                "value" => new GroupProductCollection($values),
-                "fields" => new GroupFieldCollection($fields)
+                "value" => GroupProductResource::collection($values)->response()->getData(),
+                "fields" => GroupFieldResource::collection($fields)->response()->getData()
             ]
         );
     }

@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Cart\AddToCartRequest;
 use App\Http\Requests\Shop\Cart\MergeCartRequest;
 use App\Http\Requests\Shop\Cart\UpdateCartItemRequest;
-use App\Http\Resources\CartItem\CartItemCollection;
 use App\Services\Cart\CartServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\CartItem\CartItemResource;
 
 class CartController extends Controller
 {
@@ -20,7 +20,7 @@ class CartController extends Controller
     public function get()
     {
         $cart = $this->cartService->getCartItems(Auth::user()->id);
-        return $this->dataResponseCollection(new CartItemCollection($cart));
+        return $this->dataResponseCollection(CartItemResource::collection($cart));
     }
 
     public function addToCart(AddToCartRequest $request)
@@ -32,7 +32,7 @@ class CartController extends Controller
     public function merge(MergeCartRequest $request)
     {
         $cart = $this->cartService->mergeCart(Auth::user()->id, $request->get("items"));
-        return $this->dataResponseCollection(new CartItemCollection($cart), Lang::get("action.update", ["attr" => Lang::get("attr.cart")]));
+        return $this->dataResponseCollection(CartItemResource::collection($cart), Lang::get("action.update", ["attr" => Lang::get("attr.cart")]));
     }
 
     public function removeItem(UpdateCartItemRequest $request)

@@ -5,10 +5,9 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\StoreRoleRequest;
 use App\Http\Requests\Admin\Role\UpdateRoleRequest;
-use App\Http\Resources\RoleResource;
-use App\Http\Resources\Role\RoleCollection;
 use App\Services\Role\RoleServiceInterface;
 use Illuminate\Support\Facades\Lang;
+use App\Http\Resources\Role\RoleResource;
 
 class RoleController extends Controller
 {
@@ -22,7 +21,7 @@ class RoleController extends Controller
     public function dataTable()
     {
         $response = $this->roleService->dataTable();
-        return $this->dataResponseCollection(RoleCollection::make($response));
+        return $this->dataResponseCollection(RoleResource::collection($response));
     }
 
     public function find($id)
@@ -33,7 +32,7 @@ class RoleController extends Controller
     public function getAll()
     {
         $response = $this->roleService->getAll();
-        return $this->dataResponseCollection(RoleCollection::make($response));
+        return $this->dataResponseCollection(RoleResource::collection($response));
     }
 
     public function store(StoreRoleRequest $request)

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Transaction\TransactionCollection;
 use App\Services\Transaction\TransactionService;
+use App\Http\Resources\Transaction\TransactionResource;
 
 class TransactionController extends Controller
 {
@@ -17,6 +17,6 @@ class TransactionController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new TransactionCollection($this->transactionService->dataTable()));
+        return $this->dataResponseCollection(TransactionResource::collection($this->transactionService->dataTable()));
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Landing;
 
-use App\Http\Resources\Category\SimpleCategoryCollection;
-use App\Http\Resources\LandingBanner\LandingBannerCollection;
-use App\Http\Resources\Product\ProductCollection;
 use App\Models\Landing;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Category\SimpleCategoryResource;
+use App\Http\Resources\LandingBanner\LandingBannerResource;
+use App\Http\Resources\Product\ProductResource;
 
 /** @mixin Landing */
 class LandingResource extends JsonResource
@@ -23,10 +23,10 @@ class LandingResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 
-            'product' =>new ProductCollection($this->whenLoaded("products")),
-            'category' => new SimpleCategoryCollection($this->whenLoaded("categories")),
-            'landingBannerImage' => new LandingBannerCollection($this->whenLoaded("landingBannerImage")),
-            'landingBannerSlider' => new LandingBannerCollection($this->whenLoaded("landingBannerSlider")),
+            'product' =>["data" => ProductResource::collection($this->whenLoaded("products"))],
+            'category' => ["data" => SimpleCategoryResource::collection($this->whenLoaded("categories"))],
+            'landingBannerImage' => ["data" => LandingBannerResource::collection($this->whenLoaded("landingBannerImage"))],
+            'landingBannerSlider' => ["data" => LandingBannerResource::collection($this->whenLoaded("landingBannerSlider"))],
 
 
         ];

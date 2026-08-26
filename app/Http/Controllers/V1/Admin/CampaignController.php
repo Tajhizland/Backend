@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Campaign\StoreCampaignRequest;
 use App\Http\Requests\Admin\Campaign\UpdateCampaignRequest;
-use App\Http\Resources\Campaign\CampaignCollection;
 use App\Http\Resources\Campaign\CampaignResource;
 use App\Services\Campaign\CampaignServiceInterface;
 use Illuminate\Support\Facades\Lang;
@@ -22,7 +21,7 @@ class CampaignController extends Controller
     public function dataTable()
     {
         $response = $this->campaignService->dataTable();
-        return $this->dataResponseCollection(new CampaignCollection($response));
+        return $this->dataResponseCollection(CampaignResource::collection($response));
     }
 
     public function find($id)

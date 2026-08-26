@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\News\StoreNewsRequest;
 use App\Http\Requests\Admin\News\UpdateNewsRequest;
-use App\Http\Resources\News\NewsCollection;
 use App\Http\Resources\News\NewsResource;
 use App\Services\New\NewServiceInterface;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +22,7 @@ class NewsController extends Controller
 
     public function dataTable()
     {
-        return $this->dataResponseCollection(new NewsCollection($this->newService->dataTable()));
+        return $this->dataResponseCollection(NewsResource::collection($this->newService->dataTable()));
     }
 
     public function findById($id)
