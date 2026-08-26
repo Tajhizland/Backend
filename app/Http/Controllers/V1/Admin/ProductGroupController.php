@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
+use App\DTOs\ProductGroup\ProductGroupAddFieldDto;
+use App\DTOs\ProductGroup\ProductGroupAddProductDto;
+use App\DTOs\ProductGroup\ProductGroupSetFieldValueDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductGroup\AddFieldRequest;
 use App\Http\Requests\Admin\ProductGroup\AddProductRequest;
@@ -52,19 +55,19 @@ class ProductGroupController extends Controller
 
     public function addProduct(AddProductRequest $request)
     {
-        $this->productGroupService->addProductToGroup($request->get("productId"), $request->get("groupId"));
+        $this->productGroupService->addProductToGroup(new ProductGroupAddProductDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.group")]));
     }
 
     public function addField(AddFieldRequest $request)
     {
-        $this->productGroupService->addFieldToGroup($request->get("title"), $request->get("groupId"));
+        $this->productGroupService->addFieldToGroup(new ProductGroupAddFieldDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.group")]));
     }
 
     public function set(SetFieldValueRequest $request)
     {
-        $this->productGroupService->setFieldValue($request->get("groupProductId"), $request->get("fieldId"), $request->get("value"));
+        $this->productGroupService->setFieldValue(new ProductGroupSetFieldValueDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.group")]));
     }
 

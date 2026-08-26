@@ -2,6 +2,10 @@
 
 namespace App\Services\ProductGroup;
 
+use App\DTOs\ProductGroup\ProductGroupAddFieldDto;
+use App\DTOs\ProductGroup\ProductGroupAddProductDto;
+use App\DTOs\ProductGroup\ProductGroupSetFieldValueDto;
+
 use App\Repositories\GroupField\GroupFieldRepositoryInterface;
 use App\Repositories\GroupFieldValue\GroupFieldValueRepositoryInterface;
 use App\Repositories\GroupProduct\GroupProductRepositoryInterface;
@@ -21,7 +25,7 @@ readonly class ProductGroupService implements ProductGroupServiceInterface
     {
     }
 
-    public function dataTable()
+    public function dataTable(): mixed
     {
         return $this->productRepository->groupDataTable();
     }
@@ -47,8 +51,10 @@ readonly class ProductGroupService implements ProductGroupServiceInterface
         return $this->groupProductRepository->getByGroupIdWithValue($groupId);
     }
 
-    public function addProductToGroup($productId, $groupId)
+    public function addProductToGroup(ProductGroupAddProductDto $dto): mixed
     {
+        $productId = $dto->productId;
+        $groupId = $dto->groupId;
         $groupProduct = $this->groupProductRepository->findByGroupAndProduct($productId, $groupId);
         if ($groupProduct) {
             throw new BadRequestHttpException("این محصول قبلا به این گروه اضافه شده است ");
@@ -66,8 +72,10 @@ readonly class ProductGroupService implements ProductGroupServiceInterface
         return $this->groupProductRepository->delete($groupProduct);
     }
 
-    public function addFieldToGroup($title, $groupId)
+    public function addFieldToGroup(ProductGroupAddFieldDto $dto): mixed
     {
+        $title = $dto->title;
+        $groupId = $dto->groupId;
         return $this->groupFieldRepository->create(["title" => $title, "group_id" => $groupId]);
     }
 
@@ -78,8 +86,11 @@ readonly class ProductGroupService implements ProductGroupServiceInterface
         return $this->groupFieldRepository->delete($groupField);
     }
 
-    public function setFieldValue($groupProductId, $fieldId, $value)
+    public function setFieldValue(ProductGroupSetFieldValueDto $dto): mixed
     {
+        $groupProductId = $dto->groupProductId;
+        $fieldId = $dto->fieldId;
+        $value = $dto->value;
         $groupFieldValue = $this->groupFieldValueRepository->findByGroupAndField($groupProductId, $fieldId);
         if ($groupFieldValue) {
             return $this->groupFieldValueRepository->update($groupFieldValue, ["value" => $value]);

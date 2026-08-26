@@ -331,16 +331,16 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::put("{id}", "update");
         Route::delete("{id}", "destroy");
     });
-    Route::group(["prefix" => "group"], function () {
-        Route::get("dataTable", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "dataTable"]);
-        Route::get("field/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "getField"]);
-        Route::get("product/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "getProduct"]);
-        Route::get("field-value/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "getFieldValue"]);
-        Route::delete("field/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "removeField"]);
-        Route::delete("product/{id}", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "removeProduct"]);
-        Route::post("field", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "addField"]);
-        Route::post("product", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "addProduct"]);
-        Route::post("set", [\App\Http\Controllers\V1\Admin\ProductGroupController::class, "set"]);
+    Route::prefix("group")->controller(\App\Http\Controllers\V1\Admin\ProductGroupController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("field", "addField");
+        Route::post("product", "addProduct");
+        Route::post("field-value", "set");
+        Route::delete("field/{id}", "removeField");
+        Route::delete("product/{id}", "removeProduct");
+        Route::get("{id}/field", "getField");
+        Route::get("{id}/product", "getProduct");
+        Route::get("{id}/field-value", "getFieldValue");
     });
 
     Route::prefix("run-concept-answer")->controller(\App\Http\Controllers\V1\Admin\RunConceptAnswerController::class)->group(function () {
