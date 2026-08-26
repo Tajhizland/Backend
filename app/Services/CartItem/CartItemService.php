@@ -39,7 +39,7 @@ readonly class CartItemService implements CartItemServiceInterface
             $price = $this->priceRepository->findByProductColorId($cartItem->product_color_id);
             $guarantyPrice = 0;
             if ($cartItem->guaranty_id) {
-                $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
+                $guaranty = $this->guarantyService->find($cartItem->guaranty_id);
                 if (!$guaranty->free) {
                     $guarantyPrice = $this->guarantyService->calculatePrice($price->price);
                 }
@@ -113,7 +113,7 @@ readonly class CartItemService implements CartItemServiceInterface
             $guarantyPrice = 0;
             $discount = 0;
             if ($cartItem->guaranty_id) {
-                $guaranty = $this->guarantyService->findById($cartItem->guaranty_id);
+                $guaranty = $this->guarantyService->find($cartItem->guaranty_id);
                 if (!$guaranty->free) {
                     $guarantyPrice = $this->guarantyService->calculatePrice($price->price);
                 }

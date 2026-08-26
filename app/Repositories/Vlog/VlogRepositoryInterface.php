@@ -42,4 +42,6 @@ interface VlogRepositoryInterface extends BaseRepositoryInterface
 
     public function getByCategory($categoryId);
 
+
+    public function paginated($query);
 }
