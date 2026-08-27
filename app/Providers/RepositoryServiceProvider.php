@@ -365,6 +365,10 @@ use App\Services\VlogCategory\VlogCategoryServiceInterface;
 use App\Services\WalletTransaction\WalletTransactionService;
 use App\Services\WalletTransaction\WalletTransactionServiceInterface;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\RequestLog\RequestLogRepository;
+use App\Repositories\RequestLog\RequestLogRepositoryInterface;
+use App\Services\RequestLog\RequestLogService;
+use App\Services\RequestLog\RequestLogServiceInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -377,6 +381,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(BaseRepositoryInterface::class, BaseRepository::class);
 
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+
+        $this->app->bind(RequestLogRepositoryInterface::class, RequestLogRepository::class);
 
         $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
 
@@ -565,6 +571,8 @@ class RepositoryServiceProvider extends ServiceProvider
         /** Service */
 
         $this->app->bind(UserServiceInterface::class, UserService::class);
+
+        $this->app->bind(RequestLogServiceInterface::class, RequestLogService::class);
 
         $this->app->bind(RegisterServiceInterface::class, RegisterService::class);
 

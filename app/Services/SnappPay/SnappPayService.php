@@ -5,10 +5,24 @@ namespace App\Services\SnappPay;
 use App\Exceptions\BreakException;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\RequestLog\RequestLogServiceInterface;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 class SnappPayService
 {
+    public function __construct(private readonly RequestLogServiceInterface $requestLogService)
+    {
+    }
+
+    private function logCall(string $title, mixed $request, Response $response): void
+    {
+        $this->requestLogService->log($title, $request, [
+            "status" => $response->status(),
+            "body" => $response->json() ?? $response->body(),
+        ]);
+    }
+
     public function auth()
     {
         $client_id = config("Gateway.snappay.client_id");
@@ -29,6 +43,7 @@ class SnappPayService
                 'username' => $username,
                 'password' => $password,
             ]);
+        $this->logCall("snapppay.auth", ["grant_type" => "password", "scope" => "online-merchant", "username" => $username, "password" => "***", "client_id" => $client_id], $response);
 
         if ($response->successful()) {
             return $response->json();
@@ -50,6 +65,7 @@ class SnappPayService
         ])
             ->asForm() // همان --data-urlencode
             ->get("{$url}/api/online/offer/v1/eligible?amount=$price");
+        $this->logCall("snapppay.eligible", ["amount" => $price], $response);
 
         return $response->json();
 
@@ -111,6 +127,7 @@ class SnappPayService
             'Content-Type' => 'application/json',
         ])
             ->post("{$url}/api/online/payment/v1/token", $data);
+        $this->logCall("snapppay.request", $data, $response);
 
 
         if ($response->successful()) {
@@ -182,6 +199,7 @@ class SnappPayService
             'Content-Type' => 'application/json',
         ])
             ->post("{$url}/api/online/payment/v1/update", $data);
+        $this->logCall("snapppay.update", $data, $response);
 
         if ($response->successful()) {
             return $response->json();
@@ -208,6 +226,7 @@ class SnappPayService
             'Content-Type' => 'application/json',
         ])
             ->post("{$url}/api/online/payment/v1/verify", $data);
+        $this->logCall("snapppay.verify", $data, $response);
 
         if ($response->successful()) {
             return $response->json();
@@ -228,6 +247,7 @@ class SnappPayService
                         'Content-Type' => 'application/json',
                     ])
                         ->post("{$url}/api/online/payment/v1/settle", $data);
+                    $this->logCall("snapppay.settle", $data, $response);
 
                     if ($response->successful()) {
                         return $response->json();
@@ -258,6 +278,7 @@ class SnappPayService
             'Content-Type' => 'application/json',
         ])
             ->get("{$url}/api/online/payment/v1/status?paymentToken=$paymentToken");
+        $this->logCall("snapppay.status", ["paymentToken" => $paymentToken], $response);
 
         if ($response->successful()) {
             return $response->json();
@@ -285,6 +306,7 @@ class SnappPayService
             'Content-Type' => 'application/json',
         ])
             ->post("{$url}/api/online/payment/v1/settle", $data);
+        $this->logCall("snapppay.settle", $data, $response);
 
         if ($response->successful()) {
             return $response->json();
@@ -305,6 +327,7 @@ class SnappPayService
                         'Content-Type' => 'application/json',
                     ])
                         ->post("{$url}/api/online/payment/v1/settle", $data);
+                    $this->logCall("snapppay.settle", $data, $response);
 
                     if ($response->successful()) {
                         return $response->json();
@@ -340,6 +363,7 @@ class SnappPayService
             'Content-Type' => 'application/json',
         ])
             ->post("{$url}/api/online/payment/v1/cancel", $data);
+        $this->logCall("snapppay.cancel", $data, $response);
 
         if ($response->successful()) {
             return $response->json();
