@@ -12,6 +12,7 @@ use App\Models\HomepageCategory;
 use App\Models\HomepageVlog;
 use App\Models\News;
 use App\Models\Poster;
+use App\Models\RandomProductCategory;
 use App\Models\Slider;
 use App\Models\SpecialProduct;
 use App\Models\TrustedBrand;
@@ -57,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
         Brand::class,
         TrustedBrand::class,
         HomepageCategory::class,
+        RandomProductCategory::class,
         HomepageVlog::class,
         SpecialProduct::class,
         Campaign::class,

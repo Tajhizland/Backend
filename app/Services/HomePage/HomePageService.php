@@ -11,6 +11,7 @@ use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
 use App\Repositories\New\NewRepositoryInterface;
 use App\Repositories\Poster\PosterRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\RandomProductCategory\RandomProductCategoryRepositoryInterface;
 use App\Repositories\Slider\SliderRepositoryInterface;
 use App\Repositories\SpecialProduct\SpecialProductRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;
@@ -36,7 +37,8 @@ readonly class HomePageService implements HomePageServiceInterface
 
     public function __construct
     (
-        private HomepageCategoryRepositoryInterface $homepageCategoryRepository,
+        private HomepageCategoryRepositoryInterface      $homepageCategoryRepository,
+        private RandomProductCategoryRepositoryInterface $randomProductCategoryRepository,
         private SliderRepositoryInterface           $sliderRepository,
         private SpecialProductRepositoryInterface   $specialProductRepository,
         private ConceptRepositoryInterface          $conceptRepository,
@@ -75,6 +77,7 @@ readonly class HomePageService implements HomePageServiceInterface
             discountTimer: $this->discountItemService->findFirstExpireDiscount(),
             topDiscountedProducts: $this->productRepository->getTopDiscountedProductCards($config["top_discount_limit"]),
             specialProducts: $this->specialProductRepository->getHomepageProductCards(),
+            randomProducts: $this->randomProductCategoryRepository->getRandomProductCards($config["random_product_limit"]),
             homePageCategories: $this->homepageCategoryRepository->getWithCategory($config["category_product_limit"]),
             concepts: $this->conceptRepository->getActiveWithCategory(),
             brands: $this->brandRepository->getAllActive($config["brand_limit"]),

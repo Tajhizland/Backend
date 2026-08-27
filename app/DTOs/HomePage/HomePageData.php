@@ -18,6 +18,8 @@ final class HomePageData
         public readonly mixed      $discountTimer,
         public readonly Collection $topDiscountedProducts,
         public readonly Collection $specialProducts,
+        /** محصولات تصادفیِ بخش «منتخب تجهیزلند» */
+        public readonly Collection $randomProducts,
         public readonly Collection $homePageCategories,
         public readonly Collection $concepts,
         public readonly Collection $brands,

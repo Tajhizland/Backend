@@ -44,6 +44,7 @@ class HomePageResource extends JsonResource
 
             "topDiscountedProducts" => ProductCardResource::collection($data->topDiscountedProducts),
             "specialProducts" => ProductCardResource::collection($data->specialProducts),
+            "randomProducts" => ProductCardResource::collection($data->randomProducts),
             "homepageCategories" => HomePageCategoryResource::collection($data->homePageCategories),
 
             "concepts" => ConceptResource::collection($data->concepts),

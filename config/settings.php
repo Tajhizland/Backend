@@ -32,6 +32,8 @@ return [
 
         "top_discount_limit" => (int)env("HOME_PAGE_TOP_DISCOUNT_LIMIT", 24),
         "category_product_limit" => 8,
+        // تعداد محصول تصادفیِ بخش «منتخب تجهیزلند» (دسته‌بندی‌هایش در پنل تعریف می‌شود)
+        "random_product_limit" => (int)env("HOME_PAGE_RANDOM_PRODUCT_LIMIT", 10),
         "vlog_limit" => 4,
         "news_limit" => 4,
         "brand_limit" => 12,

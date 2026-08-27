@@ -78,6 +78,8 @@ use App\Repositories\Guaranty\GuarantyRepository;
 use App\Repositories\Guaranty\GuarantyRepositoryInterface;
 use App\Repositories\HomepageCategory\HomepageCategoryRepository;
 use App\Repositories\HomepageCategory\HomepageCategoryRepositoryInterface;
+use App\Repositories\RandomProductCategory\RandomProductCategoryRepository;
+use App\Repositories\RandomProductCategory\RandomProductCategoryRepositoryInterface;
 use App\Repositories\HomepageVlog\HomepageVlogRepository;
 use App\Repositories\HomepageVlog\HomepageVlogRepositoryInterface;
 use App\Repositories\Landing\LandingRepository;
@@ -265,6 +267,8 @@ use App\Services\HomePage\HomePageService;
 use App\Services\HomePage\HomePageServiceInterface;
 use App\Services\HomepageCategory\HomepageCategoryService;
 use App\Services\HomepageCategory\HomepageCategoryServiceInterface;
+use App\Services\RandomProductCategory\RandomProductCategoryService;
+use App\Services\RandomProductCategory\RandomProductCategoryServiceInterface;
 use App\Services\HomepageVlog\HomepageVlogService;
 use App\Services\HomepageVlog\HomepageVlogServiceInterface;
 use App\Services\ImageResize\ImageResizeService;
@@ -451,6 +455,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SpecialProductRepositoryInterface::class, SpecialProductRepository::class);
 
         $this->app->bind(HomepageCategoryRepositoryInterface::class, HomepageCategoryRepository::class);
+
+        $this->app->bind(RandomProductCategoryRepositoryInterface::class, RandomProductCategoryRepository::class);
 
         $this->app->bind(MenuRepositoryInterface::class, MenuRepository::class);
 
@@ -643,6 +649,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SpecialProductServiceInterface::class, SpecialProductService::class);
 
         $this->app->bind(HomepageCategoryServiceInterface::class, HomepageCategoryService::class);
+
+        $this->app->bind(RandomProductCategoryServiceInterface::class, RandomProductCategoryService::class);
 
         $this->app->bind(MenuServiceInterface::class, MenuService::class);
 

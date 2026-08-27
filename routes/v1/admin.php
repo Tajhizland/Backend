@@ -198,6 +198,11 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("{id}/icon", "setIcon");
         Route::delete("{id}", "destroy");
     });
+    Route::prefix("random-product-category")->controller(\App\Http\Controllers\V1\Admin\RandomProductCategoryController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::post("/", "store");
+        Route::delete("{id}", "destroy");
+    });
     Route::prefix("menu")->controller(\App\Http\Controllers\V1\Admin\MenuController::class)->group(function () {
         Route::get("dataTable", "dataTable");
         Route::get("list", "list");
