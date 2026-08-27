@@ -7,11 +7,15 @@ use App\Models\Product;
 use App\Models\RandomProductCategory;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class RandomProductCategoryRepository extends BaseRepository implements RandomProductCategoryRepositoryInterface
 {
+    /** کلید کشِ فهرست شناسه‌ی کاندیدها (نه نتیجه‌ی انتخاب تصادفی) */
+    private const CANDIDATE_CACHE_KEY = "shop:home_page:random_product_candidates:v1";
+
     public function __construct(RandomProductCategory $model)
     {
         parent::__construct($model);
@@ -42,11 +46,12 @@ class RandomProductCategoryRepository extends BaseRepository implements RandomPr
      * چند محصول تصادفی از مجموعِ دسته‌بندی‌های انتخاب‌شده در پنل.
      *
      * انتخاب دو مرحله‌ای است تا ORDER BY RAND() روی کوئری سنگینِ کارت محصول اجرا نشود:
-     * اول فقط شناسه‌ی کاندیدها خوانده می‌شود (بدون eager load) و در PHP نمونه‌برداری
-     * می‌شود، بعد همان چند شناسه با اسکوپ forCard واکشی می‌شوند.
+     * اول شناسه‌ی همه‌ی کاندیدها گرفته می‌شود (کوئری سنگینِ whereHas، ولی فقط ستون id
+     * و بدون eager load — پس کش می‌شود)، بعد در PHP نمونه‌برداری می‌شود و فقط همان
+     * چند شناسه با اسکوپ forCard واکشی می‌شوند.
      *
-     * چون پاسخ صفحه اصلی کش می‌شود، ترکیب خروجی هر settings.home_page.cache_ttl
-     * ثانیه یک‌بار عوض می‌شود، نه در هر ریکوئست.
+     * شافل در هر فراخوانی انجام می‌شود، پس هر ریکوئست ترکیب متفاوتی می‌گیرد؛ چیزی
+     * که کش می‌شود فهرست کاندیدهاست نه نتیجه‌ی انتخاب.
      *
      * @return Collection<int, Product>
      */
@@ -58,18 +63,7 @@ class RandomProductCategoryRepository extends BaseRepository implements RandomPr
             return new Collection();
         }
 
-        $categoryIds = $this->model::query()->pluck("category_id");
-
-        if ($categoryIds->isEmpty()) {
-            return new Collection();
-        }
-
-        $candidateIds = Product::query()
-            ->select("products.id")
-            ->where("products.status", ProductStatus::Active->value)
-            ->hasColorHasStock()
-            ->whereHas("categories", fn($query) => $query->whereIn("categories.id", $categoryIds))
-            ->pluck("id");
+        $candidateIds = collect($this->getCandidateProductIds());
 
         if ($candidateIds->isEmpty()) {
             return new Collection();
@@ -91,5 +85,49 @@ class RandomProductCategoryRepository extends BaseRepository implements RandomPr
             ->all();
 
         return new Collection($ordered);
+    }
+
+    /**
+     * شناسه‌ی همه‌ی محصولات فعال و موجودِ دسته‌بندی‌های انتخاب‌شده.
+     *
+     * این کوئری سنگین است ولی خروجی‌اش فقط یک آرایه‌ی id است، پس کش می‌شود.
+     * تازگی‌اش (ورود/خروج محصول از این فهرست) با candidate_cache_ttl کنترل می‌شود.
+     *
+     * @return array<int, int>
+     */
+    public function getCandidateProductIds(): array
+    {
+        $ttl = (int)config("settings.home_page.random_product_candidate_ttl", 600);
+
+        if ($ttl <= 0) {
+            return $this->queryCandidateProductIds();
+        }
+
+        return Cache::remember(self::CANDIDATE_CACHE_KEY, $ttl, fn() => $this->queryCandidateProductIds());
+    }
+
+    public function flushCandidateCache(): void
+    {
+        Cache::forget(self::CANDIDATE_CACHE_KEY);
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    private function queryCandidateProductIds(): array
+    {
+        $categoryIds = $this->model::query()->pluck("category_id");
+
+        if ($categoryIds->isEmpty()) {
+            return [];
+        }
+
+        return Product::query()
+            ->select("products.id")
+            ->where("products.status", ProductStatus::Active->value)
+            ->hasColorHasStock()
+            ->whereHas("categories", fn($query) => $query->whereIn("categories.id", $categoryIds))
+            ->pluck("id")
+            ->all();
     }
 }

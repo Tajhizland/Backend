@@ -4,6 +4,7 @@ namespace App\Services\HomePage;
 
 use App\DTOs\HomePage\HomePageData;
 use App\Http\Resources\HomePage\HomePageResource;
+use App\Http\Resources\Product\Card\ProductCardResource;
 use App\Repositories\Banner\BannerRepositoryInterface;
 use App\Repositories\Brand\BrandRepositoryInterface;
 use App\Repositories\Concept\ConceptRepositoryInterface;
@@ -64,7 +65,13 @@ readonly class HomePageService implements HomePageServiceInterface
             return new HomePageResource($this->buildData());
         }
 
-        return Cache::remember($this->cacheKey(), $ttl, fn() => $this->buildPayload());
+        $payload = Cache::remember($this->cacheKey(), $ttl, fn() => $this->buildPayload());
+
+        // بخش «منتخب» عمدا از کش بیرون کشیده می‌شود تا هر ریکوئست ترکیب تازه بگیرد؛
+        // وگرنه تا انقضای کش صفحه اصلی همان ۱۰ محصول ثابت می‌ماند.
+        $payload["randomProducts"] = $this->randomProductsPayload();
+
+        return $payload;
     }
 
     public function buildData(): HomePageData
@@ -93,6 +100,23 @@ readonly class HomePageService implements HomePageServiceInterface
     public function flushCache(): void
     {
         Cache::forget($this->cacheKey());
+        $this->randomProductCategoryRepository->flushCandidateCache();
+    }
+
+    /**
+     * محصولات تصادفیِ همین ریکوئست، به صورت آرایه‌ی خالص (هم‌شکلِ بقیه‌ی پاسخ کش‌شده).
+     */
+    private function randomProductsPayload(): array
+    {
+        $products = $this->randomProductCategoryRepository->getRandomProductCards(
+            config("settings.home_page.random_product_limit")
+        );
+
+        if ($products->isEmpty()) {
+            return [];
+        }
+
+        return json_decode(ProductCardResource::collection($products)->toJson(), true);
     }
 
     /**

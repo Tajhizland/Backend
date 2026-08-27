@@ -34,6 +34,12 @@ return [
         "category_product_limit" => 8,
         // تعداد محصول تصادفیِ بخش «منتخب تجهیزلند» (دسته‌بندی‌هایش در پنل تعریف می‌شود)
         "random_product_limit" => (int)env("HOME_PAGE_RANDOM_PRODUCT_LIMIT", 10),
+        /*
+        | عمر کشِ «فهرست شناسه‌ی محصولات کاندید» برای بخش منتخب.
+        | خودِ انتخاب تصادفی کش نمی‌شود و در هر ریکوئست دوباره انجام می‌گیرد؛
+        | این عدد فقط تعیین می‌کند چند وقت یک‌بار فهرست کاندیدها از دیتابیس تازه شود.
+        */
+        "random_product_candidate_ttl" => (int)env("HOME_PAGE_RANDOM_CANDIDATE_TTL", 600),
         "vlog_limit" => 4,
         "news_limit" => 4,
         "brand_limit" => 12,

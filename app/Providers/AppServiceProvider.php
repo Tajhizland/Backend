@@ -70,7 +70,12 @@ class AppServiceProvider extends ServiceProvider
 
     private function invalidateHomePageCacheOnContentChange(): void
     {
-        if ((int) config("settings.home_page.cache_ttl") <= 0) {
+        // flushCache دو کش دارد (پاسخ صفحه اصلی و فهرست کاندیدهای بخش منتخب)؛
+        // اگر هر کدام روشن باشد هوک لازم است.
+        $homePageTtl = (int) config("settings.home_page.cache_ttl");
+        $candidateTtl = (int) config("settings.home_page.random_product_candidate_ttl");
+
+        if ($homePageTtl <= 0 && $candidateTtl <= 0) {
             return;
         }
 
