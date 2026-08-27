@@ -35,11 +35,25 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
         ]);
     }
 
-    public function getWithProduct()
+    /**
+     * محصولات خاصِ صفحه اصلی؛ فقط ستون‌ها و روابط لازم برای کارت محصول.
+     *
+     * خروجی، خودِ محصول‌هاست (نه رکورد واسط special_products) چون رکورد واسط
+     * هیچ فیلد قابل استفاده‌ای برای فرانت ندارد.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product>
+     */
+    public function getHomepageProductCards()
     {
-        return $this->model::where("homepage", 1)->with(["product" => function ($query) {
-            $query->WithActiveColor();
-        }])->orderBy("sort")->get();
+        return $this->model::query()
+            ->where("homepage", 1)
+            ->whereHas("product")
+            ->with(["product" => fn ($query) => $query->forCard()])
+            ->orderBy("sort")
+            ->get()
+            ->pluck("product")
+            ->filter()
+            ->values();
     }
 
     public function sort($id, $sort)

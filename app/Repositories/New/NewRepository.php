@@ -53,9 +53,14 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
             "published" => $published,
         ]);
     }
-    public function getLastActiveNews()
+    public function getLastActiveNews(?int $limit = null)
     {
-        return $this->model::published()->latest("id")->limit(4)->get();
+        return $this->model::published()
+            ->select("id", "title", "url", "content", "img", "published", "static", "category_id", "author", "created_at", "updated_at")
+            ->with("user:id,name")
+            ->latest("id")
+            ->limit($limit ?: 4)
+            ->get();
     }
     public function getSitemapData()
     {

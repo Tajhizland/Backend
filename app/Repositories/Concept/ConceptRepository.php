@@ -16,11 +16,16 @@ class ConceptRepository extends BaseRepository implements ConceptRepositoryInter
     public function getActiveWithCategory()
     {
         return $this->model::active()
+            ->select("id", "title", "description", "status", "icon", "created_at", "updated_at")
             ->with([
-                'categories' => function ($query) {
-                    $query->withPivot('display');
-                }
-            ])->latest("id")->get();
+                'categories' => fn ($query) => $query
+                    ->select("categories.id", "categories.name", "categories.url", "categories.image",
+                        "categories.status", "categories.parent_id", "categories.description",
+                        "categories.created_at", "categories.updated_at")
+                    ->withPivot('display'),
+            ])
+            ->latest("id")
+            ->get();
     }
 
     public function dataTable()

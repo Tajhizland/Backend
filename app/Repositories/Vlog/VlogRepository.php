@@ -3,6 +3,7 @@
 namespace App\Repositories\Vlog;
 
 use App\Models\Dictionary;
+use App\Models\HomepageVlog;
 use App\Models\Vlog;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -43,14 +44,27 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
         return $this->model::active()->latest("id")->whereIn("category_id", [1, 2, 4])->limit(4)->get();
     }
 
-    public function getHomePageVlogs()
+    /**
+     * ولاگ‌های انتخاب‌شده برای صفحه اصلی، به ترتیب ردیف homepage_vlogs.
+     *
+     * ترتیب در خود دیتابیس اعمال می‌شود (قبلا بعد از get در php مرتب می‌شد)
+     * و author با eager load گرفته می‌شود تا Resource به ازای هر ولاگ کوئری نزند.
+     */
+    public function getHomePageVlogs(?int $limit = null)
     {
-        return $this->model::with('homePage')
-            ->whereHas('homePage')
-            ->get()
-            ->sortBy(fn($item) => optional($item->homePage)->id)
-            ->values();
+        $query = $this->model::query()
+            ->select("id", "title", "description", "url", "video", "hls", "poster", "view", "author", "created_at")
+            ->whereHas("homePage")
+            ->with("user:id,name")
+            ->orderBy(
+                HomepageVlog::select("id")->whereColumn("vlog_id", "vlogs.id")->orderBy("id")->limit(1)
+            );
 
+        if ($limit !== null && $limit > 0) {
+            $query->limit($limit);
+        }
+
+        return $query->get();
     }
 
     public function paginated($query)

@@ -29,9 +29,15 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     {
         return $this->model::where('url', $url)->first();
     }
-    public function getAllActive()
+    public function getAllActive(?int $limit = null)
     {
-        return $this->model::active()->orderBy("sort")->get();
+        $query = $this->model::active()->orderBy("sort");
+
+        if ($limit !== null && $limit > 0) {
+            $query->limit($limit);
+        }
+
+        return $query->get();
     }
 
     public function sort($id, $sort)

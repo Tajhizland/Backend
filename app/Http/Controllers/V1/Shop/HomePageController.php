@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\HomePage\HomePageResource;
 use App\Services\HomePage\HomePageServiceInterface;
+use Illuminate\Http\JsonResponse;
 
 class HomePageController extends Controller
 {
@@ -15,8 +15,8 @@ class HomePageController extends Controller
     {
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
-        return $this->dataResponse(new HomePageResource($this->homePageService->buildData()));
+        return $this->dataResponse($this->homePageService->payload());
     }
 }

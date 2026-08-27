@@ -21,7 +21,7 @@ interface VlogRepositoryInterface extends BaseRepositoryInterface
 
     public function filterTitle($query, $title);
 
-     public function getHomePageVlogs();
+     public function getHomePageVlogs(?int $limit = null);
 
      public function getLastActives();
 

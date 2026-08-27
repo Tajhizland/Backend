@@ -2,7 +2,6 @@
 
 namespace App\Repositories\HomepageCategory;
 
-use App\Enums\ProductColorStatus;
 use App\Enums\ProductStatus;
 use App\Models\HomepageCategory;
 use App\Repositories\Base\BaseRepository;
@@ -35,19 +34,28 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
             "category_id" => $categoryId
         ]);
     }
-    public function getWithCategory()
+    /**
+     * دسته‌بندی‌های صفحه اصلی به همراه چند محصول موجودِ هر دسته.
+     *
+     * محصولات با اسکوپ forCard لود می‌شوند تا ستون‌ها و روابط سنگین
+     * (review، comments، images کامل و …) وارد پاسخ صفحه اصلی نشوند.
+     */
+    public function getWithCategory(?int $productLimit = null)
     {
-        return $this->model::with([
-            'category',
-            'category.products' => function ($query) {
-                $query->WithActiveColor()->whereHas("productColors", function ($query) {
-                    $query->where("status", "<>", ProductColorStatus::DeActive->value)
+        $productLimit ??= (int)config("settings.home_page.category_product_limit", 8);
 
-                        ->whereHas("stock", function ($subQuery) {
-                            $subQuery->where("stock", ">", 0);
-                        });
-                })->where("status", ProductStatus::Active->value)->limit(8);
-            }
-        ])->latest("id")->get();
+        return $this->model::query()
+            ->select("id", "category_id", "icon")
+            ->whereHas("category")
+            ->with([
+                'category:id,name,url,image,status,parent_id,type',
+                'category.products' => fn ($query) => $query
+                    ->forCard()
+                    ->hasColorHasStock()
+                    ->where("products.status", ProductStatus::Active->value)
+                    ->limit($productLimit),
+            ])
+            ->latest("id")
+            ->get();
     }
 }

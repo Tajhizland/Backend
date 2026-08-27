@@ -21,6 +21,6 @@ class PosterRepository extends BaseRepository implements PosterRepositoryInterfa
     }
     public function getHomepagePosters()
     {
-        return $this->model::whereIn("id",[1,2])->get();
+        return $this->model::select("id", "image", "created_at", "updated_at")->whereIn("id", [1, 2])->orderBy("id")->get();
     }
 }

@@ -13,14 +13,18 @@ class SliderRepository extends BaseRepository implements SliderRepositoryInterfa
         parent::__construct($model);
     }
 
-    public function getActiveDesktopSlider()
+    /**
+     * همه اسلایدرهای فعال با یک کوئری، گروه‌بندی‌شده بر اساس type (desktop/mobile).
+     *
+     * @return \Illuminate\Support\Collection<string, \Illuminate\Database\Eloquent\Collection>
+     */
+    public function getActiveGroupedByType()
     {
-        return $this->model::active()->desktop()->orderBy("sort")->get();
-    }
-
-    public function getActiveMobileSlider()
-    {
-        return $this->model::active()->mobile()->orderBy("sort")->get();
+        return $this->model::select("id", "title", "url", "image", "status", "type", "sort", "created_at", "updated_at")
+            ->active()
+            ->orderBy("sort")
+            ->get()
+            ->groupBy("type");
     }
 
     public function dataTable()

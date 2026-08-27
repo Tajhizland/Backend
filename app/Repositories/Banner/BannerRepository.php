@@ -35,4 +35,21 @@ class BannerRepository extends BaseRepository implements BannerRepositoryInterfa
     {
         return $this->model::where("type", $type)->orderBy("sort")->get();
     }
+
+    /**
+     * چند نوع بنر را با یک کوئری می‌گیرد و بر اساس type گروه‌بندی می‌کند.
+     *
+     * برای صفحاتی مثل صفحه اصلی که به ۷ نوع بنر نیاز دارند و قبلا ۷ کوئری جدا می‌زدند.
+     *
+     * @param string[] $types
+     * @return \Illuminate\Support\Collection<string, \Illuminate\Database\Eloquent\Collection>
+     */
+    public function getGroupedByTypes(array $types)
+    {
+        return $this->model::select("id", "image", "url", "type", "sort", "created_at", "updated_at")
+            ->whereIn("type", $types)
+            ->orderBy("sort")
+            ->get()
+            ->groupBy("type");
+    }
 }

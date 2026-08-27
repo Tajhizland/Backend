@@ -426,7 +426,32 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getTopDiscountedProducts()
     {
-        return $this->model::withActiveColor()->active()->hasTopDiscount()
+        return $this->topDiscountedQuery()->withActiveColor()->get();
+    }
+
+    /**
+     * همان محصولات پرتخفیف، ولی فقط با ستون‌ها و روابط لازم برای «کارت محصول».
+     *
+     * برای صفحه اصلی استفاده می‌شود تا ProductResource سنگین (با review/comments/…)
+     * روی ده‌ها محصول اجرا نشود.
+     */
+    public function getTopDiscountedProductCards(?int $limit = null)
+    {
+        $query = $this->topDiscountedQuery()->forCard();
+
+        if ($limit !== null && $limit > 0) {
+            $query->limit($limit);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * کوئری پایه‌ی محصولات دارای تخفیف top، مرتب‌شده بر اساس sort آیتم تخفیف.
+     */
+    private function topDiscountedQuery()
+    {
+        return $this->model::active()->hasTopDiscount()
             ->orderBy(
                 DiscountItem::select("discount_items.sort")
                     ->join("product_colors", "product_colors.id", "=", "discount_items.product_color_id")
@@ -434,8 +459,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     ->where("discount_items.top", 1)
                     ->orderBy("discount_items.sort")
                     ->limit(1)
-            )
-            ->get();
+            );
     }
 
     public function getStockProducts()

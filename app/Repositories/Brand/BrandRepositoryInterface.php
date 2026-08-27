@@ -11,7 +11,7 @@ interface BrandRepositoryInterface extends BaseRepositoryInterface
     public function list();
     public function findByUrl($url);
     public function sort($id,$sort);
-    public function getAllActive();
+    public function getAllActive(?int $limit = null);
     public function getSitemapData();
 
 }

@@ -11,4 +11,6 @@ interface BannerRepositoryInterface extends  BaseRepositoryInterface
     public function sort($id,$sort);
 
     public function getBannerByType($type);
+
+    public function getGroupedByTypes(array $types);
 }

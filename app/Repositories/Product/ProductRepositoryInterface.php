@@ -82,6 +82,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getDiscountedProducts();
     public function getTopDiscountedProducts();
 
+    public function getTopDiscountedProductCards(?int $limit = null);
+
     public function getDiscountedProductsId();
 
     /***Filters***/

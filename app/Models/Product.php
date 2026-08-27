@@ -316,4 +316,48 @@ class Product extends Model
             }, "discountItem.discount"])->orderByDesc(Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1));
         }]);
     }
+
+    /**
+     * فقط ستون‌ها و روابطی که «کارت محصول» (اسلایدر/گرید صفحات فروشگاه) لازم دارد.
+     *
+     * هدف: حذف N+1 و جلوگیری از خواندن ستون‌های سنگین (review/study/meta) در لیست‌ها.
+     * خروجی این اسکوپ با ProductCardResource رندر می‌شود.
+     */
+    public function scopeForCard(Builder $query, ?int $imageLimit = null): Builder
+    {
+        $imageLimit ??= (int) config("settings.product_card.image_limit", 4);
+
+        return $query
+            ->select([
+                "products.id",
+                "products.name",
+                "products.url",
+                "products.description",
+                "products.type",
+                "products.is_stock",
+                "products.brand_id",
+                "products.guaranty_id",
+            ])
+            ->with([
+                "guaranty:id,name,url,icon,free",
+                "images" => fn ($query) => $query
+                    ->select("id", "product_id", "product_color_id", "url", "sort")
+                    ->limit($imageLimit),
+                "activeProductColors" => fn ($query) => $query
+                    ->select("id", "product_id", "color_name", "color_code", "delivery_delay", "status")
+                    ->with([
+                        "price:id,product_color_id,price",
+                        "stock:id,product_color_id,stock",
+                        "activeDiscountItem" => fn ($query) => $query
+                            ->select("id", "product_color_id", "discount_id", "discount_price", "discount_expire_time", "top")
+                            ->limit(1),
+                    ])
+                    ->orderByDesc(
+                        Stock::select("stock")->whereColumn("product_color_id", "product_colors.id")->limit(1)
+                    ),
+            ])
+            ->withCount("confirmedComments as comments_count")
+            ->withAvg("confirmedComments as rating", "rating")
+            ->withMin("prices as min_price", "price");
+    }
 }
