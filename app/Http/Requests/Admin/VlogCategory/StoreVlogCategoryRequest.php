@@ -12,7 +12,7 @@ class StoreVlogCategoryRequest extends FormRequest
             'name' => ['required'],
             'url' => ['required', 'unique:App\Models\VlogCategory'],
             'status' => ['required'],
-            'icon' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            'icon' => ['nullable','image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp'],
 
         ];
     }

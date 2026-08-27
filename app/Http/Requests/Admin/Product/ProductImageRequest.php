@@ -10,7 +10,7 @@ class ProductImageRequest extends FormRequest
     {
         return [
 //            'image' => ['required', 'array'],
-            'image.*' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp' ], // اعتبارسنجی هر فایل در آرایه
+            'image.*' => ['required', 'image:allow_svg', 'mimes:jpeg,png,jpg,gif,svg,webp' ], // اعتبارسنجی هر فایل در آرایه
             'product_id'=> ['required', 'exists:products,id'],
 
         ];

@@ -13,7 +13,7 @@ class UpdateDeliveryRequest extends FormRequest
             'description' => ['nullable'],
             'status' => ['required', 'integer'],
             'price' => ['required', 'integer'],
-            'logo' =>  ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            'logo' =>  ['nullable' , 'image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp'],
         ];
     }
 

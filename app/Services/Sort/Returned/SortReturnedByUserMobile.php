@@ -7,9 +7,9 @@ use Spatie\QueryBuilder\Sorts\Sort;
 
 class SortReturnedByUserMobile implements Sort
 {
-    public function __invoke(Builder $query, bool $descending, string $property)
+    public function __invoke(Builder $query, bool $descending, string $property): void
     {
-        return $query
+        $query
             ->leftJoin('users', 'returneds.user_id', '=', 'users.id')
             ->orderBy('users.username', $descending ? 'desc' : 'asc');
     }

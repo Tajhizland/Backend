@@ -15,7 +15,7 @@ class UpdateMenuRequest extends FormRequest
             'status' => ['required','in:0,1'],
             'category_id' => ['nullable'],
             'banner_link' => ['nullable'],
-            'banner_logo' =>  ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            'banner_logo' =>  ['nullable' , 'image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp'],
         ];
     }
 

@@ -7,9 +7,9 @@ use Spatie\QueryBuilder\Sorts\Sort;
 
 class SortTransactionByUserName implements  Sort
 {
-    public function __invoke(Builder $query, bool $descending, string $property)
+    public function __invoke(Builder $query, bool $descending, string $property): void
     {
-        return $query
+        $query
             ->leftJoin('users', 'transactions.user_id', '=', 'users.id')
             ->orderBy('users.name', $descending ? 'desc' : 'asc');
     }

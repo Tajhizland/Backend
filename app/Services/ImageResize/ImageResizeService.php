@@ -9,7 +9,8 @@ class ImageResizeService implements ImageResizeServiceInterface
 {
     public function resize($image , $width , $height  )
     {
-        $image = Image::read($image);
+        // Intervention Image v4 replaced ImageManager::read() with decode().
+        $image = Image::decode($image);
         $image->resize($width, $height);
         return $image->encode();
     }

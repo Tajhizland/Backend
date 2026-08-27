@@ -12,7 +12,7 @@ class StoreSliderRequest extends FormRequest
             'title' => ['required'],
             'url' => ['required'],
             'type' => ['required','string','in:desktop,mobile'],
-            'image' =>  ['required' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            'image' =>  ['required' , 'image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp'],
             'status' => ['required', 'integer'],
         ];
     }

@@ -13,7 +13,7 @@ class UpdateNewsRequest extends FormRequest
             "title" => ["required","string"],
             "url" => ["required","string" , Rule::unique('news')->ignore($this->route('id'))],
             "content" => ["required","string"],
-            "image" => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            "image" => ['nullable' , 'image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp'],
             "categoryId" => ["nullable","exists:App\Models\BlogCategory,id"],
             "published" => ["required","integer","in:1,0"],
             "static" => ["nullable"],

@@ -10,7 +10,7 @@ class StoreCampaignBannerRequest extends FormRequest
     {
         return [
             'campaign_id' => ['required', 'exists:App\Models\Campaign,id'],
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
+            'image' => ['required', 'image:allow_svg', 'mimes:jpeg,png,jpg,gif,svg,webp'],
             'url' => ['required'],
             'type' => ['required'],
         ];

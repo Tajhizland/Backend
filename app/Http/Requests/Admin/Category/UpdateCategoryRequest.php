@@ -13,7 +13,7 @@ class UpdateCategoryRequest extends FormRequest
             'name' => ['required'],
             'type' => ['required','string','in:landing,listing'],
             'url' => ['required', Rule::unique('categories')->ignore($this->route('id'))],
-            'image' => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            'image' => ['nullable' , 'image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp'],
             'parent_id' => ['required', 'integer'],
             'status' => ['required', 'integer'],
             'description' => ['nullable'],

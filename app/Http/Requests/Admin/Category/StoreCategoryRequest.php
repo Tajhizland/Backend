@@ -13,7 +13,7 @@ class StoreCategoryRequest extends FormRequest
             'name' => ['required'],
             'url' => ['required','unique:App\Models\Category'],
             'type' => ['required','string','in:landing,listing'],
-            'image' => ['nullable' , 'image','mimes:jpeg,png,jpg,gif,svg,webp'],
+            'image' => ['nullable' , 'image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp'],
             'parent_id' => ['required', 'integer'],
             'status' => ['required', 'integer'],
             'description' => ['nullable'],

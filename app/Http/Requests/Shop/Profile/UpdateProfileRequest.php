@@ -14,7 +14,7 @@ class UpdateProfileRequest extends FormRequest
             'national_code' => ['required','string','size:10'],
             'email' => ['nullable','string' ,'email'],
             'gender' => ['numeric','in:0,1','nullable'],
-            'avatar' => ['image','mimes:jpeg,png,jpg,gif,svg,webp','nullable'],
+            'avatar' => ['image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp','nullable'],
         ];
     }
 

@@ -32,7 +32,7 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    'lifetime' => (int) env('SESSION_LIFETIME', 120),
 
     'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
 
@@ -213,5 +213,21 @@ return [
     */
 
     'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Session Serialization
+    |--------------------------------------------------------------------------
+    |
+    | This value controls the serialization strategy for session data. Laravel
+    | 13 ships with "json" by default, but we keep "php" here so that active
+    | user sessions survive the upgrade. Switching to "json" is more secure
+    | (it blocks gadget chain attacks) but logs every current user out.
+    |
+    | Supported: "json", "php"
+    |
+    */
+
+    'serialization' => env('SESSION_SERIALIZATION', 'php'),
 
 ];

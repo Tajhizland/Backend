@@ -9,7 +9,7 @@ class UpdateCampaignBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
+            'image' => ['nullable', 'image:allow_svg', 'mimes:jpeg,png,jpg,gif,svg,webp'],
             'url' => ['required'],
             'type' => ['required'],
         ];

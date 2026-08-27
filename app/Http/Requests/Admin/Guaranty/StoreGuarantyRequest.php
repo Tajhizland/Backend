@@ -13,7 +13,7 @@ class StoreGuarantyRequest extends FormRequest
             'description' => ['nullable','string'],
             'url' => ['required','string'],
             'free' => ['required' ,'in:0,1' ,'numeric'],
-            'icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp'],
+            'icon' => ['nullable', 'image:allow_svg', 'mimes:jpeg,png,jpg,gif,svg,webp'],
             'status' => ['required', 'integer'],
         ];
     }

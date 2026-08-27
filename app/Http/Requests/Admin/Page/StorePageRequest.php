@@ -11,7 +11,7 @@ class StorePageRequest extends FormRequest
         return [
             'title' => ['required'],
             'url' => ['required'],
-            'image' => ['nullable' , 'image' ,'mimes:jpeg,png,jpg,gif,svg,webp'],
+            'image' => ['nullable' , 'image:allow_svg' ,'mimes:jpeg,png,jpg,gif,svg,webp'],
             'content' => ['required'],
             'status' => ['required', 'integer'],
         ];
