@@ -5,6 +5,8 @@ namespace App\Repositories\RandomProductCategory;
 use App\Enums\ProductStatus;
 use App\Models\Product;
 use App\Models\RandomProductCategory;
+use App\Enums\CategoryStatus;
+use App\Models\Category;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -116,11 +118,15 @@ class RandomProductCategoryRepository extends BaseRepository implements RandomPr
      */
     private function queryCandidateProductIds(): array
     {
-        $categoryIds = $this->model::query()->pluck("category_id");
+        $selectedIds = $this->model::query()->pluck("category_id")->all();
 
-        if ($categoryIds->isEmpty()) {
+        if (empty($selectedIds)) {
             return [];
         }
+
+        // انتخابِ یک دسته‌بندی پدر یعنی محصولات همه‌ی زیرشاخه‌هایش هم بیایند،
+        // همان رفتاری که صفحه‌ی خودِ دسته‌بندی دارد.
+        $categoryIds = $this->expandWithDescendantIds($selectedIds);
 
         return Product::query()
             ->select("products.id")
@@ -129,5 +135,50 @@ class RandomProductCategoryRepository extends BaseRepository implements RandomPr
             ->whereHas("categories", fn($query) => $query->whereIn("categories.id", $categoryIds))
             ->pluck("id")
             ->all();
+    }
+
+    /**
+     * دسته‌بندی‌های داده‌شده به همراه همه‌ی زیرشاخه‌هایشان در هر عمقی.
+     *
+     * کل درختِ دسته‌بندی‌های فعال با یک کوئری خوانده می‌شود و پیمایش در PHP
+     * انجام می‌گیرد؛ چون ورودی چند ریشه است و پیمایش بازگشتیِ رابطه‌ای برای هر
+     * گره یک کوئری جدا می‌زد.
+     *
+     * @param array<int, int> $categoryIds
+     * @return array<int, int>
+     */
+    private function expandWithDescendantIds(array $categoryIds): array
+    {
+        $roots = array_unique(array_map("intval", $categoryIds));
+
+        if (empty($roots)) {
+            return [];
+        }
+
+        $childrenByParent = Category::query()
+            ->select("id", "parent_id")
+            ->where("status", CategoryStatus::Active->value)
+            ->whereNotNull("parent_id")
+            ->get()
+            ->groupBy("parent_id");
+
+        $collected = [];
+        $queue = array_values($roots);
+
+        while (!empty($queue)) {
+            $current = array_pop($queue);
+
+            // اگر داده حلقه داشته باشد (دسته‌ای که جدِ خودش شده) اینجا متوقف می‌شود
+            if (isset($collected[$current])) {
+                continue;
+            }
+            $collected[$current] = true;
+
+            foreach ($childrenByParent->get($current, []) as $child) {
+                $queue[] = (int)$child->id;
+            }
+        }
+
+        return array_keys($collected);
     }
 }
