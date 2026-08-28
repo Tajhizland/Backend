@@ -21,8 +21,8 @@ class DictionaryRepository extends BaseRepository implements DictionaryRepositor
     public function dataTable()
     {
         return QueryBuilder::for(Dictionary::class)
-            ->allowedFilters(...['id', 'original_word', ',mean', 'id', 'created_at', 'updated_at'])
-            ->allowedSorts(...['id', 'original_word', ',mean', 'id', 'created_at', 'updated_at'])
+            ->allowedFilters(...['id', 'original_word', 'mean', 'created_at', 'updated_at'])
+            ->allowedSorts(...['id', 'original_word', 'mean', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
 }

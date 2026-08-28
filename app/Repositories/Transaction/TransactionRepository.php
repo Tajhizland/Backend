@@ -40,12 +40,10 @@ class TransactionRepository extends BaseRepository implements TransactionReposit
                     $query->whereHas('user', function ($query) use ($value) {
                         $query->where('username', 'like', '%' . $value . '%');
                     });
-                })
-            ])
+                }), 'id', 'created_at'])
             ->allowedSorts(...['user_id', 'order_id', 'track_id', 'price'
                 , AllowedSort::custom("user", new SortTransactionByUserName())
-                , AllowedSort::custom("mobile", new SortTransactionByUserMobile())
-            ])
+                , AllowedSort::custom("mobile", new SortTransactionByUserMobile()), 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 }

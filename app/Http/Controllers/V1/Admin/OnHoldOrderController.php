@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
 use App\Http\Resources\Order\OrderResource;
 use App\Services\OnHoldOrder\OnHoldOrderServiceInterface;
+use Morilog\Jalali\Jalalian;
 
 class OnHoldOrderController extends Controller
 {
@@ -22,7 +23,24 @@ class OnHoldOrderController extends Controller
     }
     public function show($id)
     {
-        return $this->dataResponse(new OrderResource($this->onHoldOrderService->findOrderById($id)));
+        $onHoldOrder = $this->onHoldOrderService->findById($id);
+        $order = $this->onHoldOrderService->findOrderById($id);
+
+        // وضعیت خودِ درخواستِ معلق کنار سفارش برمی‌گردد تا پنل ادمین بداند
+        // این درخواست قبلا بررسی (تایید/رد) شده یا نه.
+        return $this->dataResponse(array_merge(
+            (new OrderResource($order))->resolve(request()),
+            [
+                'on_hold_id' => $onHoldOrder->id,
+                'on_hold_status' => $onHoldOrder->status,
+                'on_hold_review_date' => $onHoldOrder->review_date
+                    ? Jalalian::fromDateTime($onHoldOrder->review_date)->format('Y/m/d H:i:s')
+                    : null,
+                'on_hold_expire_date' => $onHoldOrder->expire_date
+                    ? Jalalian::fromDateTime($onHoldOrder->expire_date)->format('Y/m/d H:i:s')
+                    : null,
+            ]
+        ));
     }
     public function accept($id)
     {

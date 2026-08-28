@@ -49,12 +49,11 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
                     $query->whereHas('product', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
                     });
-                })
-            ])
+                }), 'id'])
             ->allowedSorts(...['user_id', 'product_id', 'rating', 'status', 'created_at', "text"
                 , AllowedSort::custom("product", new SortCommentByProductName())
                 , AllowedSort::custom("mobile", new SortCommentByUserMobile())
-                , AllowedSort::custom("user", new SortCommentByUserName())])
+                , AllowedSort::custom("user", new SortCommentByUserName()), 'id'])
             ->paginate($this->pageSize);
     }
 

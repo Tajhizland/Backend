@@ -17,8 +17,8 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
     public function dataTable()
     {
         return QueryBuilder::for(Campaign::class)
-            ->allowedFilters(...['id', 'start_date', 'end_date', 'status', 'title', 'color', 'created_at'])
-            ->allowedSorts(...['id', 'start_date', 'end_date', 'status', 'title', 'color', 'created_at'])
+            ->allowedFilters(...['id', 'start_date', 'end_date', 'status', 'title', 'color', 'created_at', 'background_color'])
+            ->allowedSorts(...['id', 'start_date', 'end_date', 'status', 'title', 'color', 'created_at', 'background_color'])
             ->paginate($this->pageSize);
     }
 

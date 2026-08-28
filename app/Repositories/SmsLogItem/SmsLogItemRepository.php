@@ -17,8 +17,8 @@ class SmsLogItemRepository extends BaseRepository implements SmsLogItemRepositor
     {
         return QueryBuilder::for(SmsLogItem::class)
             ->where("sms_log_id", $id)
-            ->allowedFilters(...['message', 'mobile', 'created_at'])
-            ->allowedSorts(...['message', 'mobile', 'created_at'])
+            ->allowedFilters(...['message', 'mobile', 'created_at', 'id', 'is_send'])
+            ->allowedSorts(...['message', 'mobile', 'created_at', 'id', 'is_send'])
             ->paginate($this->pageSize);
     }
 }

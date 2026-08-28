@@ -26,12 +26,13 @@ class PopularProductRepository extends BaseRepository implements PopularProductR
     {
         return QueryBuilder::for(PopularProduct::class)
             ->with("product")
-            ->allowedFilters(...['id', 'created_at',
+            ->allowedFilters(...['id', 'created_at', 'product_id',
                 AllowedFilter::callback('product', function ($query, $value) {
                     $query->whereHas('product', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
                     });
                 }),])
+            ->allowedSorts(...['id', 'created_at', 'product_id'])
             ->paginate($this->pageSize);
     }
 

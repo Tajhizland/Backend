@@ -7,6 +7,7 @@ use App\Models\Dictionary;
 use App\Models\DiscountItem;
 use App\Models\Product;
 use App\Repositories\Base\BaseRepository;
+use App\Services\Sort\Product\SortProductByBrandName;
 use App\Services\Sort\Product\SortProductByCategoryName;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
@@ -133,7 +134,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->where("is_stock", 0)
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
             ->allowedFilters(...[
-                'width', 'height', 'length', 'weight', 'name', 'url', 'status', 'id', 'view', 'created_at',
+                'width', 'height', 'length', 'weight', 'name', 'url', 'status', 'id', 'view', 'created_at', 'is_stock',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('categories', function ($query) use ($value) {
@@ -147,9 +148,10 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 }),
             ])
             ->allowedSorts(...[
-                'width', 'height', 'length', 'weight', 'id', 'name', 'url', 'status', 'view', 'created_at',
+                'width', 'height', 'length', 'weight', 'id', 'name', 'url', 'status', 'view', 'created_at', 'is_stock',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
+                AllowedSort::custom("brand_name", new SortProductByBrandName()),
             ])
             ->latest("id")
             ->paginate($this->pageSize);
@@ -162,7 +164,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->select("products.*")
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
             ->allowedFilters(...[
-                'name', 'url', 'status', 'id', 'view', 'created_at',
+                'name', 'url', 'status', 'id', 'view', 'created_at', 'is_stock', 'testing_time',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('categories', function ($query) use ($value) {
@@ -176,9 +178,10 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 }),
             ])
             ->allowedSorts(...[
-                'id', 'name', 'url', 'status', 'view', 'created_at',
+                'id', 'name', 'url', 'status', 'view', 'created_at', 'is_stock', 'testing_time',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
+                AllowedSort::custom("brand_name", new SortProductByBrandName()),
             ])
             ->latest("id")
             ->paginate($this->pageSize);
@@ -514,6 +517,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ])
             ->allowedSorts(...['id', 'name', 'url', 'status', 'view', 'created_at',
                 AllowedSort::custom("category", new SortProductByCategoryName()),
+                AllowedSort::custom("brand_name", new SortProductByBrandName()),
             ])
             ->where("type", "group")
             ->paginate($this->pageSize);
@@ -557,7 +561,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->select("products.*")
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
             ->allowedFilters(...[
-                'name', 'url', 'status', 'id', 'view', 'created_at',
+                'name', 'url', 'status', 'id', 'view', 'created_at', 'is_stock',
+                'width', 'height', 'length', 'weight',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('categories', function ($query) use ($value) {
@@ -571,9 +576,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 }),
             ])
             ->allowedSorts(...[
-                'id', 'name', 'url', 'status', 'view', 'created_at',
+                'id', 'name', 'url', 'status', 'view', 'created_at', 'is_stock',
+                'width', 'height', 'length', 'weight',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
+                AllowedSort::custom("brand_name", new SortProductByBrandName()),
             ])
             ->whereHas("productColors", function ($query) {
                 $query->where("status", ProductColorStatus::Limit->value);
@@ -587,7 +594,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->select("products.*")
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
             ->allowedFilters(...[
-                'name', 'url', 'status', 'id', 'view', 'created_at',
+                'name', 'url', 'status', 'id', 'view', 'created_at', 'is_stock',
+                'width', 'height', 'length', 'weight',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('categories', function ($query) use ($value) {
@@ -601,9 +609,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 }),
             ])
             ->allowedSorts(...[
-                'id', 'name', 'url', 'status', 'view', 'created_at',
+                'id', 'name', 'url', 'status', 'view', 'created_at', 'is_stock',
+                'width', 'height', 'length', 'weight',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
+                AllowedSort::custom("brand_name", new SortProductByBrandName()),
             ])
             ->whereHas("activeProductColors")
             ->whereHas("prices")

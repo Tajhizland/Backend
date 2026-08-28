@@ -19,12 +19,13 @@ class HomepageCategoryRepository extends BaseRepository implements HomepageCateg
     {
         return QueryBuilder::for(HomepageCategory::class)
             ->with("category")
-            ->allowedFilters(...['id', 'created_at',
+            ->allowedFilters(...['id', 'created_at', 'category_id',
                 AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('category', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
                     });
                 }),])
+            ->allowedSorts(...['id', 'created_at', 'category_id'])
             ->paginate($this->pageSize);
     }
 

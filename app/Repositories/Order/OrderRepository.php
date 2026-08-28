@@ -37,7 +37,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function dataTable()
     {
         return QueryBuilder::for(Order::class)
-            ->allowedFilters(...['id','user_id', 'final_price', 'total_price', 'use_wallet_price', 'status', 'payment_method', 'delivery_method', 'order_date',
+            ->allowedFilters(...['id', 'user_id', 'price', 'delivery_price', 'final_price', 'total_price', 'use_wallet_price',
+                'status', 'payment_method', 'delivery_method', 'order_date', 'delivery_date', 'tracking_number', 'created_at',
                 AllowedFilter::callback('user', function ($query, $value) {
                     $query->whereHas('user', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
@@ -49,7 +50,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                     });
                 })
             ])
-            ->allowedSorts(...['user_id', 'order_id', 'track_id', 'final_price', 'use_wallet_price', 'total_price'
+            ->allowedSorts(...['id', 'user_id', 'price', 'delivery_price', 'final_price', 'use_wallet_price', 'total_price',
+                'status', 'payment_method', 'delivery_method', 'order_date', 'delivery_date', 'created_at'
                 , AllowedSort::custom("user", new SortOrderByUserName())
                 , AllowedSort::custom("mobile", new SortOrderByUserMobile())
             ])
