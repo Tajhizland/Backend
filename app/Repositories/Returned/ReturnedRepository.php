@@ -50,7 +50,7 @@ class ReturnedRepository extends BaseRepository implements ReturnedRepositoryInt
     public function dataTable(): mixed
     {
         return QueryBuilder::for(Returned::class)
-            ->allowedFilters(['user_id', 'order_id', 'count', 'description', 'status', 'created_at',
+            ->allowedFilters(...['user_id', 'order_id', 'count', 'description', 'status', 'created_at',
                 AllowedFilter::callback('user', function ($query, $value) {
                     $query->whereHas('user', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
@@ -67,7 +67,7 @@ class ReturnedRepository extends BaseRepository implements ReturnedRepositoryInt
                         });
                     });
                 })])
-            ->allowedSorts(['user_id', 'order_id', 'count', 'description', 'status', 'created_at'
+            ->allowedSorts(...['user_id', 'order_id', 'count', 'description', 'status', 'created_at'
                 , AllowedSort::custom("product", new SortReturnedByProductName())
                 , AllowedSort::custom("mobile", new SortReturnedByUserMobile())
                 , AllowedSort::custom("user", new SortReturnedByUserName())])

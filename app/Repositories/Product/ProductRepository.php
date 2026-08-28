@@ -132,7 +132,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->select("products.*")
             ->where("is_stock", 0)
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
-            ->allowedFilters([
+            ->allowedFilters(...[
                 'width', 'height', 'length', 'weight', 'name', 'url', 'status', 'id', 'view', 'created_at',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
@@ -146,7 +146,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     });
                 }),
             ])
-            ->allowedSorts([
+            ->allowedSorts(...[
                 'width', 'height', 'length', 'weight', 'id', 'name', 'url', 'status', 'view', 'created_at',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
@@ -161,7 +161,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->where("is_stock", 1)
             ->select("products.*")
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
-            ->allowedFilters([
+            ->allowedFilters(...[
                 'name', 'url', 'status', 'id', 'view', 'created_at',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
@@ -175,7 +175,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     });
                 }),
             ])
-            ->allowedSorts([
+            ->allowedSorts(...[
                 'id', 'name', 'url', 'status', 'view', 'created_at',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
@@ -501,7 +501,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         return QueryBuilder::for(Product::class)
             ->select("products.*")
-            ->allowedFilters(['name', 'url', 'status', 'id', 'view', 'created_at'
+            ->allowedFilters(...['name', 'url', 'status', 'id', 'view', 'created_at'
                 , AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('categories', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
@@ -512,7 +512,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     });
                 }),
             ])
-            ->allowedSorts(['id', 'name', 'url', 'status', 'view', 'created_at',
+            ->allowedSorts(...['id', 'name', 'url', 'status', 'view', 'created_at',
                 AllowedSort::custom("category", new SortProductByCategoryName()),
             ])
             ->where("type", "group")
@@ -556,7 +556,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return QueryBuilder::for(Product::class)
             ->select("products.*")
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
-            ->allowedFilters([
+            ->allowedFilters(...[
                 'name', 'url', 'status', 'id', 'view', 'created_at',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
@@ -570,7 +570,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     });
                 }),
             ])
-            ->allowedSorts([
+            ->allowedSorts(...[
                 'id', 'name', 'url', 'status', 'view', 'created_at',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),
@@ -586,7 +586,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return QueryBuilder::for(Product::class)
             ->select("products.*")
             ->withCount("images") // اضافه کردن تعداد عکس‌ها
-            ->allowedFilters([
+            ->allowedFilters(...[
                 'name', 'url', 'status', 'id', 'view', 'created_at',
                 'images_count', // فیلتر روی تعداد عکس‌ها
                 AllowedFilter::callback('category', function ($query, $value) {
@@ -600,7 +600,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     });
                 }),
             ])
-            ->allowedSorts([
+            ->allowedSorts(...[
                 'id', 'name', 'url', 'status', 'view', 'created_at',
                 'images_count', // سورت روی تعداد عکس‌ها
                 AllowedSort::custom("category", new SortProductByCategoryName()),

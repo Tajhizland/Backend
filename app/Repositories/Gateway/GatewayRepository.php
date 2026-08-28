@@ -16,8 +16,8 @@ class GatewayRepository extends BaseRepository implements GatewayRepositoryInter
     public function dataTable()
     {
         return QueryBuilder::for(Gateway::class)
-            ->allowedFilters(['name', 'description', 'status', 'id', 'created_at'])
-            ->allowedSorts(['name', 'description', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['name', 'description', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['name', 'description', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

@@ -16,8 +16,8 @@ class LandingRepository extends BaseRepository implements LandingRepositoryInter
     public function dataTable()
     {
         return QueryBuilder::for(Landing::class)
-            ->allowedFilters(['title', 'url', 'status', 'id', 'created_at'])
-            ->allowedSorts(['title', 'url', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['title', 'url', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['title', 'url', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

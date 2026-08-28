@@ -18,8 +18,8 @@ class CampaignBannerRepository extends BaseRepository implements CampaignBannerR
     {
         return QueryBuilder::for(CampaignBanner::class)
             ->where("campaign_id", $campaign_id)
-            ->allowedFilters(['url', 'id', 'type', 'created_at', 'updated_at'])
-            ->allowedSorts(['url', 'id', 'type', 'created_at', 'updated_at'])
+            ->allowedFilters(...['url', 'id', 'type', 'created_at', 'updated_at'])
+            ->allowedSorts(...['url', 'id', 'type', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
 

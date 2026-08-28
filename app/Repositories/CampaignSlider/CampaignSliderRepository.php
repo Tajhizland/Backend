@@ -35,8 +35,8 @@ class CampaignSliderRepository extends BaseRepository implements CampaignSliderR
     {
         return QueryBuilder::for(CampaignSlider::class)
             ->where("campaign_id", $campaignId)
-            ->allowedFilters(['id', 'url', 'status', 'type', 'sort', 'title', 'created_at'])
-            ->allowedSorts(['id', 'url', 'status', 'type', 'sort', 'title', 'created_at'])
+            ->allowedFilters(...['id', 'url', 'status', 'type', 'sort', 'title', 'created_at'])
+            ->allowedSorts(...['id', 'url', 'status', 'type', 'sort', 'title', 'created_at'])
             ->paginate($this->pageSize);
     }
 }

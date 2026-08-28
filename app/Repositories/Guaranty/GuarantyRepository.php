@@ -16,8 +16,8 @@ class GuarantyRepository extends BaseRepository implements GuarantyRepositoryInt
     public function dataTable()
     {
         return QueryBuilder::for(Guaranty::class)
-            ->allowedFilters(['name', 'description', 'status', 'id', 'created_at'])
-            ->allowedSorts(['name', 'description', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['name', 'description', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['name', 'description', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

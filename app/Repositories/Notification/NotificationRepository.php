@@ -33,8 +33,8 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
     {
         return QueryBuilder::for(Notification::class)
             ->select("notifications.*")
-            ->allowedFilters(['title', 'seen', 'type', 'id', 'created_at'])
-            ->allowedSorts(['title', 'seen', 'type', 'id', 'created_at'])
+            ->allowedFilters(...['title', 'seen', 'type', 'id', 'created_at'])
+            ->allowedSorts(...['title', 'seen', 'type', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

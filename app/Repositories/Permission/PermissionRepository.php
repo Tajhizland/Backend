@@ -16,8 +16,8 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
     public function dataTable()
     {
         return QueryBuilder::for(Permission::class)
-            ->allowedFilters(['id', 'name', 'value', 'created_at', 'updated_at'])
-            ->allowedSorts(['id', 'name', 'value', 'created_at', 'updated_at'])
+            ->allowedFilters(...['id', 'name', 'value', 'created_at', 'updated_at'])
+            ->allowedSorts(...['id', 'name', 'value', 'created_at', 'updated_at'])
             ->latest("id")
             ->paginate($this->pageSize);
     }

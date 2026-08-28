@@ -39,8 +39,8 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
     {
         return QueryBuilder::for(Filter::class)
             ->select("filters.*")
-            ->allowedFilters(['name', 'category_id', 'status', 'type', 'created_at', 'updated_at'])
-            ->allowedSorts(['name', 'category_id', 'status', 'type', 'created_at', 'updated_at'])
+            ->allowedFilters(...['name', 'category_id', 'status', 'type', 'created_at', 'updated_at'])
+            ->allowedSorts(...['name', 'category_id', 'status', 'type', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
 

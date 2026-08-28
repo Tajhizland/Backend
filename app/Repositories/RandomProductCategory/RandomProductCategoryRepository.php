@@ -27,13 +27,13 @@ class RandomProductCategoryRepository extends BaseRepository implements RandomPr
     {
         return QueryBuilder::for(RandomProductCategory::class)
             ->with("category")
-            ->allowedFilters(['id', 'category_id', 'created_at',
+            ->allowedFilters(...['id', 'category_id', 'created_at',
                 AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('category', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
                     });
                 }),])
-            ->allowedSorts(['id', 'category_id', 'created_at'])
+            ->allowedSorts(...['id', 'category_id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

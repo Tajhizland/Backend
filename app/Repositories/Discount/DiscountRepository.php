@@ -16,8 +16,8 @@ class DiscountRepository extends BaseRepository implements DiscountRepositoryInt
     public function dataTable()
     {
         return QueryBuilder::for(Discount::class)
-            ->allowedFilters(['title', 'id', 'status', 'start_date', 'end_date', 'created_at', 'updated_at'])
-            ->allowedSorts(['title', 'id', 'status', 'start_date', 'end_date', 'created_at', 'updated_at'])
+            ->allowedFilters(...['title', 'id', 'status', 'start_date', 'end_date', 'created_at', 'updated_at'])
+            ->allowedSorts(...['title', 'id', 'status', 'start_date', 'end_date', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
 }

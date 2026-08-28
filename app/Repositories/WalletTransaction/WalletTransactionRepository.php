@@ -16,8 +16,8 @@ class WalletTransactionRepository extends BaseRepository implements WalletTransa
     public function dataTable()
     {
         return QueryBuilder::for(WalletTransaction::class)
-            ->allowedFilters(['user_id', 'amount', 'status', 'id', 'created_at'])
-            ->allowedSorts(['user_id', 'amount', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['user_id', 'amount', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['user_id', 'amount', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 }

@@ -16,8 +16,8 @@ class ContactRepository extends BaseRepository implements ContactRepositoryInter
     public function dataTable()
     {
         return QueryBuilder::for(Contact::class)
-            ->allowedFilters(['name', 'email', 'message', 'id', 'created_at'])
-            ->allowedSorts(['name', 'email', 'message', 'id', 'created_at'])
+            ->allowedFilters(...['name', 'email', 'message', 'id', 'created_at'])
+            ->allowedSorts(...['name', 'email', 'message', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

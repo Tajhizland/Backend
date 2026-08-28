@@ -16,8 +16,8 @@ class FaqRepository extends BaseRepository implements FaqRepositoryInterface
     public function dataTable()
     {
         return QueryBuilder::for(Faq::class)
-            ->allowedFilters(['question', 'answer', 'status', 'id', 'created_at'])
-            ->allowedSorts(['question', 'answer', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['question', 'answer', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['question', 'answer', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

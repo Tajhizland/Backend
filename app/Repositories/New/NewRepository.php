@@ -27,8 +27,8 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
     {
         return QueryBuilder::for(News::class)
             ->select("news.*")
-            ->allowedFilters(['title', 'url', 'content', 'id', 'created_at', 'published'])
-            ->allowedSorts(['title', 'url', 'content', 'id', 'created_at', 'published'])
+            ->allowedFilters(...['title', 'url', 'content', 'id', 'created_at', 'published'])
+            ->allowedSorts(...['title', 'url', 'content', 'id', 'created_at', 'published'])
             ->paginate($this->pageSize);
     }
 

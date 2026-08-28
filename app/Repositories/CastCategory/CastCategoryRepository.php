@@ -16,8 +16,8 @@ class CastCategoryRepository extends BaseRepository implements CastCategoryRepos
     public function dataTable()
     {
         return QueryBuilder::for(CastCategory::class)
-            ->allowedFilters(['name', 'status', 'id', 'created_at'])
-            ->allowedSorts(['name', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['name', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['name', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

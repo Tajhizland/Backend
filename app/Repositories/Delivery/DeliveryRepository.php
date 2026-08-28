@@ -21,8 +21,8 @@ class DeliveryRepository extends BaseRepository implements DeliveryRepositoryInt
     public function dataTable()
     {
         return QueryBuilder::for(Delivery::class)
-            ->allowedFilters(['name', 'description', 'status', 'id', 'price', 'created_at'])
-            ->allowedSorts(['name', 'description', 'status', 'id', 'price', 'created_at'])
+            ->allowedFilters(...['name', 'description', 'status', 'id', 'price', 'created_at'])
+            ->allowedSorts(...['name', 'description', 'status', 'id', 'price', 'created_at'])
             ->paginate($this->pageSize);
     }
 

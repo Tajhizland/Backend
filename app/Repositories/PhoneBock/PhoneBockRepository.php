@@ -16,8 +16,8 @@ class PhoneBockRepository extends BaseRepository implements PhoneBockRepositoryI
     public function dataTable()
     {
         return QueryBuilder::for(PhoneBock::class)
-            ->allowedFilters(['name', 'mobile', 'id', 'created_at'])
-            ->allowedSorts(['name', 'mobile', 'id', 'created_at'])
+            ->allowedFilters(...['name', 'mobile', 'id', 'created_at'])
+            ->allowedSorts(...['name', 'mobile', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 }

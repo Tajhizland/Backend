@@ -16,8 +16,8 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
     public function dataTable()
     {
         return QueryBuilder::for(Role::class)
-            ->allowedFilters(['id', 'name', 'created_at', 'updated_at'])
-            ->allowedSorts(['id', 'name', 'created_at', 'updated_at'])
+            ->allowedFilters(...['id', 'name', 'created_at', 'updated_at'])
+            ->allowedSorts(...['id', 'name', 'created_at', 'updated_at'])
             ->latest("id")
             ->paginate($this->pageSize);
     }

@@ -17,8 +17,8 @@ class PageRepository extends BaseRepository implements PageRepositoryInterface
     public function dataTable()
     {
         return QueryBuilder::for(Page::class)
-            ->allowedFilters(['title', 'url', 'status', 'id', 'created_at'])
-            ->allowedSorts(['title', 'url', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['title', 'url', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['title', 'url', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

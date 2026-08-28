@@ -16,8 +16,8 @@ class VlogCategoryRepository extends BaseRepository implements VlogCategoryRepos
     public function dataTable()
     {
         return QueryBuilder::for(VlogCategory::class)
-            ->allowedFilters(['name', 'status', 'url', 'id', 'created_at'])
-            ->allowedSorts(['title', 'status', 'url', 'id', 'created_at'])
+            ->allowedFilters(...['name', 'status', 'url', 'id', 'created_at'])
+            ->allowedSorts(...['title', 'status', 'url', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

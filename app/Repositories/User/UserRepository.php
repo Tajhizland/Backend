@@ -35,8 +35,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return QueryBuilder::for(User::class)
             ->select("users.*")
-            ->allowedFilters(['name', 'role', 'username', 'id', 'created_at'])
-            ->allowedSorts(['name', 'role', 'username', 'id', 'created_at'])
+            ->allowedFilters(...['name', 'role', 'username', 'id', 'created_at'])
+            ->allowedSorts(...['name', 'role', 'username', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 
@@ -45,8 +45,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return QueryBuilder::for(User::class)
             ->select("users.*")
             ->where("role", "admin")
-            ->allowedFilters(['name', 'role', 'username', 'id', 'created_at'])
-            ->allowedSorts(['name', 'role', 'username', 'id', 'created_at'])
+            ->allowedFilters(...['name', 'role', 'username', 'id', 'created_at'])
+            ->allowedSorts(...['name', 'role', 'username', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

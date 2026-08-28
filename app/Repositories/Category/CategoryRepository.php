@@ -58,8 +58,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         return QueryBuilder::for(Category::class)
             ->select("categories.*")
-            ->allowedFilters(['name', 'url', 'status', 'id', 'created_at', 'parent_id'])
-            ->allowedSorts(['name', 'url', 'status', 'id', 'created_at', 'parent_id'])
+            ->allowedFilters(...['name', 'url', 'status', 'id', 'created_at', 'parent_id'])
+            ->allowedSorts(...['name', 'url', 'status', 'id', 'created_at', 'parent_id'])
             ->paginate($this->pageSize);
     }
 

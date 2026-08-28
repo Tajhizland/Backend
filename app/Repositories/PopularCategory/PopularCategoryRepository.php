@@ -18,7 +18,7 @@ class PopularCategoryRepository extends BaseRepository implements PopularCategor
     {
         return QueryBuilder::for(PopularCategory::class)
             ->with("category")
-            ->allowedFilters(['id', 'created_at',
+            ->allowedFilters(...['id', 'created_at',
                 AllowedFilter::callback('category', function ($query, $value) {
                     $query->whereHas('category', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');

@@ -16,8 +16,8 @@ class SmsLogRepository extends BaseRepository implements SmsLogRepositoryInterfa
     public function dataTable()
     {
         return QueryBuilder::for(SmsLog::class)
-        ->allowedFilters(['id', 'type', 'created_at'])
-        ->allowedSorts(['id', 'type', 'created_at'])
+        ->allowedFilters(...['id', 'type', 'created_at'])
+        ->allowedSorts(...['id', 'type', 'created_at'])
         ->paginate($this->pageSize);
     }
 }

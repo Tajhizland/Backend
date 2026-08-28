@@ -35,7 +35,7 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
     public function dataTable()
     {
         return QueryBuilder::for(Comment::class)
-            ->allowedFilters(['user_id', 'product_id', 'rating', 'status', 'created_at', "text",
+            ->allowedFilters(...['user_id', 'product_id', 'rating', 'status', 'created_at', "text",
                 AllowedFilter::callback('user', function ($query, $value) {
                     $query->whereHas('user', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
@@ -51,7 +51,7 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
                     });
                 })
             ])
-            ->allowedSorts(['user_id', 'product_id', 'rating', 'status', 'created_at', "text"
+            ->allowedSorts(...['user_id', 'product_id', 'rating', 'status', 'created_at', "text"
                 , AllowedSort::custom("product", new SortCommentByProductName())
                 , AllowedSort::custom("mobile", new SortCommentByUserMobile())
                 , AllowedSort::custom("user", new SortCommentByUserName())])

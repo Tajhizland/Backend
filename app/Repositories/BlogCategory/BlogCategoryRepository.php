@@ -16,8 +16,8 @@ class BlogCategoryRepository extends BaseRepository implements BlogCategoryRepos
     public function dataTable()
     {
         return QueryBuilder::for(BlogCategory::class)
-            ->allowedFilters(['url', 'id', 'status', 'name', 'created_at', 'updated_at'])
-            ->allowedSorts(['url', 'id', 'status', 'name', 'created_at', 'updated_at'])
+            ->allowedFilters(...['url', 'id', 'status', 'name', 'created_at', 'updated_at'])
+            ->allowedSorts(...['url', 'id', 'status', 'name', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
 

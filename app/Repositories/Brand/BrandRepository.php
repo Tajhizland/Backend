@@ -16,8 +16,8 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     public function dataTable()
     {
         return QueryBuilder::for(Brand::class)
-            ->allowedFilters(['name', 'url', 'status', 'description', 'id', 'created_at', 'parent_id'])
-            ->allowedSorts(['name', 'url', 'status', 'id', 'description', 'created_at', 'parent_id'])
+            ->allowedFilters(...['name', 'url', 'status', 'description', 'id', 'created_at', 'parent_id'])
+            ->allowedSorts(...['name', 'url', 'status', 'id', 'description', 'created_at', 'parent_id'])
             ->paginate($this->pageSize);
     }
 

@@ -17,8 +17,8 @@ class TrustedBrandRepository extends BaseRepository implements TrustedBrandRepos
     public function dataTable()
     {
         return QueryBuilder::for(TrustedBrand::class)
-            ->allowedFilters(['id'])
-            ->allowedSorts(['id'])
+            ->allowedFilters(...['id'])
+            ->allowedSorts(...['id'])
             ->paginate($this->pageSize);
     }
 }

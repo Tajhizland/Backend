@@ -30,7 +30,7 @@ class TransactionRepository extends BaseRepository implements TransactionReposit
     public function dataTable()
     {
         return QueryBuilder::for(Transaction::class)
-            ->allowedFilters(['user_id', 'order_id', 'track_id', 'price',
+            ->allowedFilters(...['user_id', 'order_id', 'track_id', 'price',
                 AllowedFilter::callback('user', function ($query, $value) {
                     $query->whereHas('user', function ($query) use ($value) {
                         $query->where('name', 'like', '%' . $value . '%');
@@ -42,7 +42,7 @@ class TransactionRepository extends BaseRepository implements TransactionReposit
                     });
                 })
             ])
-            ->allowedSorts(['user_id', 'order_id', 'track_id', 'price'
+            ->allowedSorts(...['user_id', 'order_id', 'track_id', 'price'
                 , AllowedSort::custom("user", new SortTransactionByUserName())
                 , AllowedSort::custom("mobile", new SortTransactionByUserMobile())
             ])

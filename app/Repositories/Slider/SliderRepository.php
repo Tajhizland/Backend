@@ -31,8 +31,8 @@ class SliderRepository extends BaseRepository implements SliderRepositoryInterfa
     {
         return QueryBuilder::for(Slider::class)
             ->select("sliders.*")
-            ->allowedFilters(['id', 'url', 'title', 'status', 'type', 'created_at', 'published'])
-            ->allowedSorts(['id', 'url', 'title', 'status', 'type', 'created_at', 'published'])
+            ->allowedFilters(...['id', 'url', 'title', 'status', 'type', 'created_at', 'published'])
+            ->allowedSorts(...['id', 'url', 'title', 'status', 'type', 'created_at', 'published'])
             ->paginate($this->pageSize);
     }
 

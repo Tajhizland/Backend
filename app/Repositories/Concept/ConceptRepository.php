@@ -31,8 +31,8 @@ class ConceptRepository extends BaseRepository implements ConceptRepositoryInter
     public function dataTable()
     {
         return QueryBuilder::for(Concept::class)
-            ->allowedFilters(['title', 'description', 'status', 'id', 'created_at'])
-            ->allowedSorts(['title', 'description', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['title', 'description', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['title', 'description', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

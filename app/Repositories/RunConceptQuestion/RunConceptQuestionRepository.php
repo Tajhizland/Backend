@@ -16,8 +16,8 @@ class RunConceptQuestionRepository extends BaseRepository implements RunConceptQ
     public function dataTable()
     {
         return QueryBuilder::for(RunConceptQuestion::class)
-            ->allowedFilters(['question', 'parent_question', 'parent_answer', 'status', 'level', 'id', 'created_at'])
-            ->allowedSorts(['question', 'parent_question', 'parent_answer', 'status', 'level', 'id', 'created_at'])
+            ->allowedFilters(...['question', 'parent_question', 'parent_answer', 'status', 'level', 'id', 'created_at'])
+            ->allowedSorts(...['question', 'parent_question', 'parent_answer', 'status', 'level', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 

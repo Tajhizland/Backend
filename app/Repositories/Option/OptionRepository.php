@@ -41,8 +41,8 @@ class OptionRepository extends BaseRepository implements OptionRepositoryInterfa
     {
         return QueryBuilder::for(Option::class)
             ->select("options.*")
-            ->allowedFilters(['title', 'category_id', 'status', 'created_at', 'updated_at'])
-            ->allowedSorts(['title', 'category_id', 'status', 'created_at', 'updated_at'])
+            ->allowedFilters(...['title', 'category_id', 'status', 'created_at', 'updated_at'])
+            ->allowedSorts(...['title', 'category_id', 'status', 'created_at', 'updated_at'])
             ->paginate($this->pageSize);
     }
 

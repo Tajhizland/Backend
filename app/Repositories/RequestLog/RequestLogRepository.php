@@ -25,8 +25,8 @@ class RequestLogRepository extends BaseRepository implements RequestLogRepositor
     public function dataTable()
     {
         return QueryBuilder::for(RequestLog::class)
-            ->allowedFilters(['id', 'title'])
-            ->allowedSorts(['id', 'title', 'created_at'])
+            ->allowedFilters(...['id', 'title'])
+            ->allowedSorts(...['id', 'title', 'created_at'])
             ->latest("id")
             ->paginate($this->pageSize);
     }
