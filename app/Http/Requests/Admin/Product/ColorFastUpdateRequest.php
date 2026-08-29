@@ -9,7 +9,8 @@ class ColorFastUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'color.*.id' => ['nullable','integer','exists:App\Models\ProductColor'],
+            'color' => ['required','array','min:1'],
+            'color.*.id' => ['required','integer','exists:App\Models\ProductColor'],
             'color.*.price' => ['required','int','min:0'],
             'color.*.discount' => ['required','int','min:0'],
             'color.*.status' => ['required','int','in:0,1,2'],

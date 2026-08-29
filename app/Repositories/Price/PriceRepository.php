@@ -19,7 +19,7 @@ class PriceRepository extends BaseRepository implements PriceRepositoryInterface
             [
                 "product_color_id" => $productColorId,
                 "price" => $price,
-                "discount_expire_time" => $discountExpireTime,
+                "discount_expire_time" => $this->normalizeExpireTime($discountExpireTime),
                 "discount" => $discount
             ]
         );
@@ -31,10 +31,16 @@ class PriceRepository extends BaseRepository implements PriceRepositoryInterface
             ->update(
                 [
                     "price" => $price,
-                    "discount_expire_time" => $discountExpireTime,
+                    "discount_expire_time" => $this->normalizeExpireTime($discountExpireTime),
                     "discount" => $discount
                 ]
             );
+    }
+
+    /** فرم‌های ادمین برای «بدون تاریخ» رشته‌ی خالی می‌فرستند که ستون timestamp قبولش نمی‌کند. */
+    private function normalizeExpireTime($discountExpireTime)
+    {
+        return $discountExpireTime === "" ? null : $discountExpireTime;
     }
 
     public function findByProductColorId($productColorId)
