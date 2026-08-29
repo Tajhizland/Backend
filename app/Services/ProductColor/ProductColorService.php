@@ -41,6 +41,7 @@ readonly class ProductColorService implements ProductColorServiceInterface
                 $this->stockRepository->createStock($productColor->id, $item["stock"]);
             }
         }
+        return true;
     }
 
     public function colorFastUpdate(ProductColorFastUpdateDto $dto): mixed
