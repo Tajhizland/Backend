@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Http;
 
 class SnappPayService
 {
+    private const GUARANTEE_ITEM_NAME = "گارانتی ویژه";
+    private const GUARANTEE_ITEM_CATEGORY = "گارانتی";
+
     public function __construct(private readonly RequestLogServiceInterface $requestLogService)
     {
     }
@@ -71,25 +74,56 @@ class SnappPayService
 
     }
 
-    public function request($orderId, $orderItems, $amount)
+    /**
+     * ساخت آیتم‌های سبد اسنپ‌پی.
+     * قیمت گارانتی از قیمت خود کالا کسر و به صورت یک آیتم مجزا در انتهای سبد اضافه می‌شود.
+     *
+     * @return array{0: array<int, \stdClass>, 1: int} [آیتم‌ها، مجموع مبلغ سبد به ریال]
+     */
+    private function buildCartItems($orderId, $orderItems): array
     {
-
-        $order = Order::find($orderId);
         $cartItems = [];
         $sumCartPrice = 0;
-        $sumOff = 0;
+        $sumGuarantee = 0;
+
         foreach ($orderItems as $item) {
+            $guarantyPrice = (int)$item->guaranty_price * 10;
+            $itemPrice = ($item->final_price * 10) - $guarantyPrice;
+
             $object = new \stdClass();
             $object->id = $item->product_color_id;
-            $object->amount = $item->final_price * 10;
+            $object->amount = $itemPrice;
             $object->name = $item->product->name;
             $object->count = $item->count;
             $object->commissionType = 100;
             $object->category = $item->product->categories[0]->name;
-            $object->guarantee = (int)$item->guaranty_price * 10;
             $cartItems[] = $object;
-            $sumCartPrice += ($item->final_price) * $item->count * 10;
+
+            $sumCartPrice += $itemPrice * $item->count;
+            $sumGuarantee += $guarantyPrice * $item->count;
         }
+
+        if ($sumGuarantee > 0) {
+            $object = new \stdClass();
+            $object->id = (int)$orderId;
+            $object->amount = $sumGuarantee;
+            $object->name = self::GUARANTEE_ITEM_NAME;
+            $object->count = 1;
+            $object->commissionType = 100;
+            $object->category = self::GUARANTEE_ITEM_CATEGORY;
+            $cartItems[] = $object;
+
+            $sumCartPrice += $sumGuarantee;
+        }
+
+        return [$cartItems, $sumCartPrice];
+    }
+
+    public function request($orderId, $orderItems, $amount)
+    {
+
+        $order = Order::find($orderId);
+        [$cartItems, $sumCartPrice] = $this->buildCartItems($orderId, $orderItems);
 
         $mobile = $order->orderInfo->mobile;
         $mobile = preg_replace('/^0/', '+98', $mobile);
@@ -155,20 +189,7 @@ class SnappPayService
             ];
         }
 
-        $cartItems = [];
-        $sumCartPrice = 0;
-        foreach ($orderItems as $item) {
-            $object = new \stdClass();
-            $object->id = $item->product_color_id;
-            $object->amount = $item->final_price * 10;
-            $object->name = $item->product->name;
-            $object->count = $item->count;
-            $object->commissionType = 100;
-            $object->category = $item->product->categories[0]->name;
-            $object->guarantee = (int)$item->guaranty_price * 10;
-            $cartItems[] = $object;
-            $sumCartPrice += ($item->final_price) * $item->count * 10;
-        }
+        [$cartItems, $sumCartPrice] = $this->buildCartItems($orderId, $orderItems);
 
         $data = [
             "amount" => $amount,
