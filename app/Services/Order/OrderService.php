@@ -78,12 +78,8 @@ readonly class OrderService implements OrderServiceInterface
         DB::transaction(function () use ($id) {
             $order = $this->find($id);
             $this->orderRepository->setStatus($order, OrderStatus::Cancelled->value);
+            $this->cancelSnappPayPayment($order);
         });
-
-        $order = $this->find($id);
-        if (PaymentGateway::normalize($order->payment_method) === PaymentGateway::SnappPay) {
-            $this->snappPayService->cancel($id);
-        }
 
         return $this->findWithDetails($id);
     }
@@ -99,11 +95,10 @@ readonly class OrderService implements OrderServiceInterface
 
             $this->orderItemRepository->update($item, ["count" => $dto->count]);
             $this->recalculateOrderPrices($item->order_id);
+            $this->syncSnappPayPayment($item->order_id);
 
             return $item->order_id;
         });
-
-        $this->syncSnappPayPayment($orderId);
 
         return $this->findWithDetails($orderId);
     }
@@ -120,11 +115,10 @@ readonly class OrderService implements OrderServiceInterface
 
             $this->orderItemRepository->delete($item);
             $this->recalculateOrderPrices($orderId);
+            $this->syncSnappPayPayment($orderId);
 
             return $orderId;
         });
-
-        $this->syncSnappPayPayment($orderId);
 
         return $this->findWithDetails($orderId);
     }
@@ -148,11 +142,43 @@ readonly class OrderService implements OrderServiceInterface
     {
         $order = $this->find($orderId);
 
-        if (PaymentGateway::normalize($order->payment_method) !== PaymentGateway::SnappPay) {
+        if (!$this->hasSnappPayPayment($order)) {
             return;
         }
 
         $orderItems = $this->orderItemRepository->getByOrderId($orderId);
-        $this->snappPayService->update($orderId, $orderItems, $order->final_price * 10);
+        $result = $this->snappPayService->update($orderId, $orderItems, $order->final_price * 10);
+
+        $this->assertSnappPaySuccessful($result);
+    }
+
+    private function cancelSnappPayPayment($order): void
+    {
+        if (!$this->hasSnappPayPayment($order)) {
+            return;
+        }
+
+        $result = $this->snappPayService->cancel($order->id);
+
+        $this->assertSnappPaySuccessful($result);
+    }
+
+    private function hasSnappPayPayment($order): bool
+    {
+        return PaymentGateway::normalize($order->payment_method) === PaymentGateway::SnappPay
+            && !empty($order->payment_token);
+    }
+
+    /**
+     * در صورت خطای اسنپ‌پی استثنا پرتاب می‌شود تا تراکنش دیتابیس رول‌بک شود
+     * و ویرایش/کنسلی سفارش انجام نشود.
+     */
+    private function assertSnappPaySuccessful(mixed $result): void
+    {
+        if (is_array($result) && ($result["successful"] ?? false) === true) {
+            return;
+        }
+
+        throw new BadRequestHttpException(__("exceptions.snapppay_error"));
     }
 }
