@@ -53,6 +53,9 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::post("sort", "productSort");
 
         Route::post("filter", "setFilter");
+        Route::post("filter/sort", "sortFilter");
+        Route::post("filter-item/sort", "sortFilterItem");
+        Route::get("filter-item/{id}", "getFilterItem");
         Route::post("option", "setOption");
         Route::put("option", "updateOption");
         Route::post("option/sort", "sortOption");

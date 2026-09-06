@@ -16,11 +16,24 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
 
     public function createFilter($name, $categoryId, $status)
     {
-       return $this->create([
+        $lastSort = $this->findLastSortOfCategory($categoryId);
+
+        return $this->create([
             "name" => $name,
             "category_id" => $categoryId,
             "status" => $status,
+            "sort" => ($lastSort->sort ?? 0) + 1,
         ]);
+    }
+
+    public function findLastSortOfCategory($categoryId)
+    {
+        return $this->model::where("category_id", $categoryId)->latest("sort")->first();
+    }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
     }
 
     public function updateFilter($id, $name, $categoryId, $status)
@@ -51,13 +64,20 @@ class FilterRepository extends BaseRepository implements FilterRepositoryInterfa
                 $query2->where("product_id", $productId);
             });
         })
-            ->with(["items"])
+            ->with(["items" => function ($query) {
+                $query->orderBy("sort");
+            }])
             ->with(["productFilters" => function ($query) use ($productId) {
                 $query->where("product_id", $productId);
-            }])->get();
+            }])->orderBy("sort")->get();
     }
     public function getCategoryFilters($categoryId)
     {
-        return $this->model::where("category_id", $categoryId)->with("items")->get();
+        return $this->model::where("category_id", $categoryId)
+            ->with(["items" => function ($query) {
+                $query->orderBy("sort");
+            }])
+            ->orderBy("sort")
+            ->get();
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Services\Filter;
 
+use App\DTOs\Filter\FilterItemSortDto;
 use App\DTOs\Filter\FilterSetDto;
+use App\DTOs\Filter\FilterSortDto;
 use App\DTOs\Filter\FilterStoreDto;
 use App\DTOs\Filter\FilterUpdateDto;
 use App\DTOs\Product\ProductSetFilterDto;
@@ -19,4 +21,7 @@ interface FilterServiceInterface
     public function setFilterToProduct(ProductSetFilterDto $dto): void;
     public function getCategoryFilters($categoryId);
     public function setFilter(FilterSetDto $dto): void;
+    public function getItemOfFilter($filterId);
+    public function sortFilter(FilterSortDto $dto): mixed;
+    public function sortFilterItem(FilterItemSortDto $dto): mixed;
 }

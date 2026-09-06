@@ -23,8 +23,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         return $this->model::with(["filters" => function ($query) {
             $query->with(["items" => function ($query) {
-                $query->where("status", FilterStatus::Active->value);
-            }])->where("status", FilterStatus::Active->value);
+                $query->where("status", FilterStatus::Active->value)->orderBy("sort");
+            }])->where("status", FilterStatus::Active->value)->orderBy("sort");
         }])->where("url", $url)->active()->first();
     }
 

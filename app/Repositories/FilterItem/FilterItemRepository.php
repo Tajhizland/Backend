@@ -14,11 +14,29 @@ class FilterItemRepository extends BaseRepository implements FilterItemRepositor
 
     public function createFilterItem($filterId, $value, $status)
     {
+        $lastSort = $this->findLastSortOfFilter($filterId);
+
         return $this->create([
             "filter_id" => $filterId,
             "value" => $value,
             "status" => $status,
+            "sort" => ($lastSort->sort ?? 0) + 1,
         ]);
+    }
+
+    public function findLastSortOfFilter($filterId)
+    {
+        return $this->model::where("filter_id", $filterId)->latest("sort")->first();
+    }
+
+    public function sort($id, $sort)
+    {
+        return $this->model::where("id", $id)->update(["sort" => $sort]);
+    }
+
+    public function getByFilterId($filterId)
+    {
+        return $this->model::where("filter_id", $filterId)->orderBy("sort")->get();
     }
 
     public function updateFilterItem(FilterItem $filterItem , $value, $status)

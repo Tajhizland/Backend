@@ -5,7 +5,9 @@ namespace App\Http\Controllers\V1\Admin;
 use App\DTOs\Category\CategoryProductSortDto;
 use App\DTOs\Category\CategoryStoreDto;
 use App\DTOs\Category\CategoryUpdateDto;
+use App\DTOs\Filter\FilterItemSortDto;
 use App\DTOs\Filter\FilterSetDto;
+use App\DTOs\Filter\FilterSortDto;
 use App\DTOs\Option\OptionItemSortDto;
 use App\DTOs\Option\OptionItemUpdateDto;
 use App\DTOs\Option\OptionSetDto;
@@ -15,6 +17,8 @@ use App\Http\Requests\Admin\Category\ProductSortRequest;
 use App\Http\Requests\Admin\Category\StoreCategoryRequest;
 use App\Http\Requests\Admin\Category\UpdateCategoryRequest;
 use App\Http\Requests\Admin\Filter\SetFilterRequest;
+use App\Http\Requests\Admin\Filter\SortFilterItemRequest;
+use App\Http\Requests\Admin\Filter\SortFilterRequest;
 use App\Http\Requests\Admin\Option\SetOptionRequest;
 use App\Http\Requests\Admin\Option\SortOptionItemRequest;
 use App\Http\Requests\Admin\Option\SortOptionRequest;
@@ -27,6 +31,7 @@ use App\Http\Resources\Category\SimpleCategoryResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\OptionItem\OptionItemResource;
 use App\Http\Resources\Filter\FilterResource;
+use App\Http\Resources\FilterItem\FilterItemResource;
 use App\Http\Resources\CategoryList\CategoryListResource;
 
 class CategoryController extends Controller
@@ -120,6 +125,23 @@ class CategoryController extends Controller
     {
         $this->optionService->sortOptionItem(new OptionItemSortDto(...$request->validated()));
         return $this->successResponse(__("action.sort", ["attr" => __("attr.option")]));
+    }
+
+    public function getFilterItem($id)
+    {
+        return $this->dataResponseCollection(FilterItemResource::collection($this->filterService->getItemOfFilter($id)));
+    }
+
+    public function sortFilter(SortFilterRequest $request)
+    {
+        $this->filterService->sortFilter(new FilterSortDto(...$request->validated()));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.filter")]));
+    }
+
+    public function sortFilterItem(SortFilterItemRequest $request)
+    {
+        $this->filterService->sortFilterItem(new FilterItemSortDto(...$request->validated()));
+        return $this->successResponse(__("action.sort", ["attr" => __("attr.filter")]));
     }
 
     public function deleteImage($id)

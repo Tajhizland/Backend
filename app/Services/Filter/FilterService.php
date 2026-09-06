@@ -2,7 +2,9 @@
 
 namespace App\Services\Filter;
 
+use App\DTOs\Filter\FilterItemSortDto;
 use App\DTOs\Filter\FilterSetDto;
+use App\DTOs\Filter\FilterSortDto;
 use App\DTOs\Filter\FilterStoreDto;
 use App\DTOs\Filter\FilterUpdateDto;
 use App\DTOs\Product\ProductSetFilterDto;
@@ -144,6 +146,27 @@ readonly class FilterService implements FilterServiceInterface
     public function getCategoryFilters($categoryId)
     {
         return $this->filterRepository->getCategoryFilters($categoryId);
+    }
+
+    public function getItemOfFilter($filterId)
+    {
+        return $this->filterItemRepository->getByFilterId($filterId);
+    }
+
+    public function sortFilter(FilterSortDto $dto): mixed
+    {
+        foreach ($dto->filter as $item) {
+            $this->filterRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
+    }
+
+    public function sortFilterItem(FilterItemSortDto $dto): mixed
+    {
+        foreach ($dto->filterItem as $item) {
+            $this->filterItemRepository->sort($item["id"], $item["sort"]);
+        }
+        return true;
     }
 
     public function setFilter(FilterSetDto $dto): void
