@@ -9,7 +9,9 @@ use App\DTOs\Cart\CartMergeDto;
 use App\Exceptions\BreakException;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\CartItem\CartItemRepositoryInterface;
+use App\Enums\MarketingEventType;
 use App\Repositories\ProductColor\ProductColorRepositoryInterface;
+use App\Services\Marketing\MarketingTrackerServiceInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
@@ -19,7 +21,8 @@ readonly class CartService implements CartServiceInterface
     (
         private CartRepositoryInterface         $cartRepository,
         private CartItemRepositoryInterface     $cartItemRepository,
-        private ProductColorRepositoryInterface $productColorRepository
+        private ProductColorRepositoryInterface $productColorRepository,
+        private MarketingTrackerServiceInterface $marketingTrackerService
     )
     {
     }
@@ -54,6 +57,12 @@ readonly class CartService implements CartServiceInterface
         $cartItem
             ? $this->cartItemRepository->updateItem($cart->id, $productColorId, $totalQuantity,$guarantyId)
             : $this->cartItemRepository->addItem($cart->id, $productColorId, $quantity,$guarantyId);
+
+        $this->marketingTrackerService->track(MarketingEventType::AddToCart, $productColor->product_id, [
+            'user_id' => $userId,
+            'quantity' => $quantity,
+            'meta' => ['product_color_id' => $productColorId],
+        ]);
 
         return $cartItem;
     }

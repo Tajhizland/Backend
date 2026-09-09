@@ -18,7 +18,9 @@ use App\Exceptions\BreakException;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use App\Repositories\ProductVideo\ProductVideoRepositoryInterface;
+use App\Enums\MarketingEventType;
 use App\Services\Filter\FilterServiceInterface;
+use App\Services\Marketing\MarketingTrackerServiceInterface;
 use App\Services\ProductCategory\ProductCategoryServiceInterface;
 use App\Services\ProductGuaranty\ProductGuarantyServiceInterface;
 use App\Services\S3\S3ServiceInterface;
@@ -34,6 +36,7 @@ readonly class ProductService implements ProductServiceInterface
         private FilterServiceInterface             $filterService,
         private ProductVideoRepositoryInterface    $productVideoRepository,
         private S3ServiceInterface                 $s3Service,
+        private MarketingTrackerServiceInterface   $marketingTrackerService,
     )
     {
     }
@@ -59,6 +62,10 @@ readonly class ProductService implements ProductServiceInterface
             throw new ModelNotFoundException();
         }
         $this->productRepository->incrementViewCount($product);
+        // شمارنده view روی محصول کل عمر را نگه می‌دارد؛ این رویداد بازه‌ی زمانی و بازدیدکننده را هم ثبت می‌کند.
+        $this->marketingTrackerService->track(MarketingEventType::ProductView, $product->id, [
+            'category_id' => $product->categories->first()?->id,
+        ]);
         return $product;
     }
 

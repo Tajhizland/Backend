@@ -8,6 +8,7 @@ use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Vlog\VlogResource;
 use App\Http\Resources\Product\ProductResource;
+use App\Services\Marketing\MarketingTrackerServiceInterface;
 
 readonly class SearchService implements SearchServiceInterface
 {
@@ -15,6 +16,7 @@ readonly class SearchService implements SearchServiceInterface
         private ProductRepositoryInterface  $productRepository,
         private VlogRepositoryInterface     $vlogRepository,
         private CategoryRepositoryInterface $categoryRepository,
+        private MarketingTrackerServiceInterface $marketingTrackerService,
     )
     {
     }
@@ -24,6 +26,13 @@ readonly class SearchService implements SearchServiceInterface
         $products = $this->productRepository->search($query);
         $vlogs = $this->vlogRepository->searchQuery($query);
         $categories = $this->categoryRepository->search($query);
+
+        $this->marketingTrackerService->logSearch(
+            $query,
+            $products->count() + $vlogs->count() + $categories->count(),
+            $products->count()
+        );
+
         return [
             "products" => ProductResource::collection($products)->response()->getData(),
             "vlogs" => VlogResource::collection($vlogs)->response()->getData(),
@@ -33,7 +42,14 @@ readonly class SearchService implements SearchServiceInterface
 
     public function searchPaginate($query)
     {
-        return $this->productRepository->searchPaginate($query);
+        $products = $this->productRepository->searchPaginate($query);
+
+        // فقط صفحه اول ثبت می‌شود تا ورق‌زدن نتایج، آمار جستجو را باد نکند.
+        if ($products->currentPage() === 1) {
+            $this->marketingTrackerService->logSearch($query, $products->total(), $products->total());
+        }
+
+        return $products;
     }
 
 }

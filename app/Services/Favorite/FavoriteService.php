@@ -6,7 +6,9 @@ use App\DTOs\Favorite\FavoriteProductDto;
 
 use App\Exceptions\BreakException;
 use App\Repositories\Favorite\FavoriteRepositoryInterface;
+use App\Enums\MarketingEventType;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Services\Marketing\MarketingTrackerServiceInterface;
 use Illuminate\Support\Facades\Lang;
 
 readonly class FavoriteService implements FavoriteServiceInterface
@@ -14,7 +16,8 @@ readonly class FavoriteService implements FavoriteServiceInterface
     public function __construct
     (
         private FavoriteRepositoryInterface $favoriteRepository,
-        private ProductRepositoryInterface  $productRepository
+        private ProductRepositoryInterface  $productRepository,
+        private MarketingTrackerServiceInterface $marketingTrackerService
     )
     {
     }
@@ -30,7 +33,9 @@ readonly class FavoriteService implements FavoriteServiceInterface
         $find = $this->favoriteRepository->findProduct($productId, $userId);
         if ($find)
             throw new BreakException(Lang::get("exceptions.product_already_exist_favorite"));
-        return $this->favoriteRepository->addProduct($productId, $userId);
+        $favorite = $this->favoriteRepository->addProduct($productId, $userId);
+        $this->marketingTrackerService->track(MarketingEventType::Favorite, $productId, ['user_id' => $userId]);
+        return $favorite;
     }
 
     public function removeProduct(FavoriteProductDto $dto): mixed

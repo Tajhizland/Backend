@@ -6,6 +6,20 @@ Route::group(["middleware" => "auth:sanctum"], function () {
 
     Route::get('/dashboard', [\App\Http\Controllers\V1\Admin\DashboardController::class, "index"]);
 
+    Route::prefix("marketing")->controller(\App\Http\Controllers\V1\Admin\MarketingController::class)->group(function () {
+        Route::get("overview", "overview");
+        Route::get("top-viewed-products", "topViewedProducts");
+        Route::get("top-cart-products", "topCartProducts");
+        Route::get("top-compared-products", "topComparedProducts");
+        Route::get("top-favorite-products", "topFavoriteProducts");
+        Route::get("top-categories", "topCategories");
+        Route::get("top-searches", "topSearches");
+        Route::get("zero-result-searches", "zeroResultSearches");
+        Route::get("conversion-opportunities", "conversionOpportunities");
+        Route::get("unmet-demand", "unmetDemand");
+        Route::get("search-log/dataTable", "searchLogDataTable");
+    });
+
     Route::prefix("notification")->controller(\App\Http\Controllers\V1\Admin\NotificationController::class)->group(function () {
         Route::get("dataTable", "dataTable");
         Route::get("unseen", "unSeen");

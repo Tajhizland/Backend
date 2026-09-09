@@ -64,6 +64,14 @@ use App\Repositories\Filter\FilterRepository;
 use App\Repositories\Filter\FilterRepositoryInterface;
 use App\Repositories\FilterItem\FilterItemRepository;
 use App\Repositories\FilterItem\FilterItemRepositoryInterface;
+use App\Repositories\MarketingEvent\MarketingEventRepository;
+use App\Repositories\MarketingEvent\MarketingEventRepositoryInterface;
+use App\Repositories\SearchLog\SearchLogRepository;
+use App\Repositories\SearchLog\SearchLogRepositoryInterface;
+use App\Services\Marketing\MarketingReportService;
+use App\Services\Marketing\MarketingReportServiceInterface;
+use App\Services\Marketing\MarketingTrackerService;
+use App\Services\Marketing\MarketingTrackerServiceInterface;
 use App\Repositories\Footprint\FootprintRepository;
 use App\Repositories\Footprint\FootprintRepositoryInterface;
 use App\Repositories\Gateway\GatewayRepository;
@@ -506,6 +514,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(FootprintRepositoryInterface::class, FootprintRepository::class);
 
+        $this->app->bind(MarketingEventRepositoryInterface::class, MarketingEventRepository::class);
+
+        $this->app->bind(SearchLogRepositoryInterface::class, SearchLogRepository::class);
+
         $this->app->bind(ProductVideoRepositoryInterface::class, ProductVideoRepository::class);
 
         $this->app->bind(HomepageVlogRepositoryInterface::class, HomepageVlogRepository::class);
@@ -713,6 +725,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductGroupServiceInterface::class, ProductGroupService::class);
 
         $this->app->bind(CompareServiceInterface::class, CompareService::class);
+
+        $this->app->bind(MarketingTrackerServiceInterface::class, MarketingTrackerService::class);
+
+        $this->app->bind(MarketingReportServiceInterface::class, MarketingReportService::class);
 
         $this->app->bind(WalletTransactionServiceInterface::class, WalletTransactionService::class);
 

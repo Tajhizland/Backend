@@ -24,6 +24,9 @@ Route::post('goftino/sync', [\App\Http\Controllers\V1\Shop\ChatInfoController::c
 Route::get('emalls/list', [\App\Http\Controllers\V1\Shop\EmallsController::class, "list"]);
 //Route::get('torob/list', [\App\Http\Controllers\V1\Shop\TorobController::class, "get"]);
 Route::post('footprint', [\App\Http\Controllers\V1\Shop\FootprintController::class, "handle"]);
+// اندپوینت عمومیِ نوشتن است، پس محدودیت نرخ دارد تا آمار با درخواست انبوه دستکاری نشود.
+Route::post('marketing/event', [\App\Http\Controllers\V1\Shop\MarketingEventController::class, "track"])
+    ->middleware('throttle:120,1');
 Route::get('checkout/delivery', [\App\Http\Controllers\V1\Shop\CheckoutController::class, "getShippingMethods"])->middleware("auth:sanctum");
 Route::post('torob/product', [\App\Http\Controllers\V1\Shop\TorobController::class, "list"]);
 
