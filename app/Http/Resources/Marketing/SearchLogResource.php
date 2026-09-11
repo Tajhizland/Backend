@@ -18,11 +18,11 @@ class SearchLogResource extends JsonResource
             'product_count' => $this->product_count,
             'ip' => $this->ip,
             'source' => $this->source,
-            'user' => $this->whenLoaded('user', fn() => [
-                'id' => $this->user?->id,
-                'name' => trim(($this->user?->name ?? '') . ' ' . ($this->user?->last_name ?? '')),
-                'username' => $this->user?->username,
-            ]),
+            'user' => $this->user ? [
+                'id' => $this->user->id,
+                'name' => trim(($this->user->name ?? '') . ' ' . ($this->user->last_name ?? '')),
+                'username' => $this->user->username,
+            ] : null,
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d H:i:s'),
         ];
     }

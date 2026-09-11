@@ -42,7 +42,7 @@ readonly class MarketingTrackerService implements MarketingTrackerServiceInterfa
                 'type' => $type->value,
                 'product_id' => $productId,
                 'category_id' => $attributes['category_id'] ?? null,
-                'user_id' => $attributes['user_id'] ?? Auth::id(),
+                'user_id' => $attributes['user_id'] ?? $this->currentUserId(),
                 'ip' => request()->ip(),
                 'session_id' => $this->sessionId(),
                 'quantity' => max((int)($attributes['quantity'] ?? 1), 1),
@@ -94,7 +94,7 @@ readonly class MarketingTrackerService implements MarketingTrackerServiceInterfa
             'normalized_term' => mb_substr($normalized, 0, 191),
             'result_count' => max($resultCount, 0),
             'product_count' => max($productCount ?? $resultCount, 0),
-            'user_id' => Auth::id(),
+            'user_id' => $this->currentUserId(),
             'ip' => request()->ip(),
             'session_id' => $this->sessionId(),
             'source' => $source,
@@ -171,6 +171,16 @@ readonly class MarketingTrackerService implements MarketingTrackerServiceInterfa
         $normalized = preg_replace('/[\x{064B}-\x{0652}]/u', '', $normalized) ?? $normalized;
 
         return trim(preg_replace('/\s+/u', ' ', $normalized) ?? $normalized);
+    }
+
+    /**
+     * مسیرهای فروشگاه (جستجو، رویدادهای مارکتینگ) middleware احراز هویت ندارند، پس گارد پیش‌فرض
+     * روی این درخواست‌ها کاربر را برنمی‌گرداند و همه‌چیز «مهمان» ثبت می‌شد. توکن Bearer را
+     * مستقیم از گارد sanctum می‌خوانیم تا کاربرِ لاگین‌کرده به رویداد بچسبد.
+     */
+    private function currentUserId(): ?int
+    {
+        return Auth::id() ?? Auth::guard('sanctum')->id();
     }
 
     private function sessionId(): ?string

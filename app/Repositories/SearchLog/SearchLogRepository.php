@@ -113,6 +113,7 @@ class SearchLogRepository extends BaseRepository implements SearchLogRepositoryI
     public function dataTable()
     {
         return QueryBuilder::for(SearchLog::class)
+            ->with('user')
             ->allowedFilters(...['id', 'term', 'normalized_term', 'result_count', 'product_count', 'ip', 'user_id'])
             ->allowedSorts(...['id', 'term', 'result_count', 'product_count', 'created_at'])
             ->latest("id")
