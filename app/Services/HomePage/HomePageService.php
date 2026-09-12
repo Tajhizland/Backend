@@ -94,6 +94,7 @@ readonly class HomePageService implements HomePageServiceInterface
             posters: $this->posterRepository->getHomepagePosters(),
             sliderGroups: $this->sliderRepository->getActiveGroupedByType(),
             bannerGroups: $this->bannerRepository->getGroupedByTypes(self::BANNER_TYPES),
+            hasStockProducts: $this->productRepository->hasAvailableStockProducts(),
         );
     }
 

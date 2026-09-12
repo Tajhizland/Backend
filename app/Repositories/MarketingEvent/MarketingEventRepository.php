@@ -2,6 +2,7 @@
 
 namespace App\Repositories\MarketingEvent;
 
+use App\Enums\DeviceType;
 use App\Enums\MarketingEventType;
 use App\Models\MarketingEvent;
 use App\Repositories\Base\BaseRepository;
@@ -161,6 +162,33 @@ class MarketingEventRepository extends BaseRepository implements MarketingEventR
             ->orderByDesc('total')
             ->limit($limit)
             ->with(['product' => fn($query) => $query->select(self::PRODUCT_COLUMNS)->with('images')])
+            ->get();
+    }
+
+    /**
+     * قیف بازدید → سبد → خرید به تفکیک دستگاه.
+     *
+     * پاسخ به سوال بعدیِ «سهم موبایل چقدر است؟»: اگر سهم بازدید موبایل بالا ولی سهم
+     * خریدش پایین باشد، مشکل از تجربه‌ی موبایل است نه از ترافیک.
+     */
+    public function deviceConversion(Carbon $from, Carbon $to)
+    {
+        $sum = fn(string $type) => "SUM(CASE WHEN type = '{$type}' THEN 1 ELSE 0 END)";
+
+        return $this->model::query()
+            ->selectRaw('COALESCE(device, ?) as device', [DeviceType::Unknown->value])
+            ->selectRaw($sum(MarketingEventType::ProductView->value) . ' as views')
+            ->selectRaw($sum(MarketingEventType::AddToCart->value) . ' as carts')
+            ->selectRaw($sum(MarketingEventType::Purchase->value) . ' as purchases')
+            ->selectRaw('COUNT(DISTINCT COALESCE(user_id, ip)) as visitors')
+            ->whereIn('type', [
+                MarketingEventType::ProductView->value,
+                MarketingEventType::AddToCart->value,
+                MarketingEventType::Purchase->value,
+            ])
+            ->whereBetween('created_at', [$from, $to])
+            ->groupBy('device')
+            ->orderByDesc('views')
             ->get();
     }
 }

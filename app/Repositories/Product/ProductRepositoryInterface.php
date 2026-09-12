@@ -31,6 +31,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function getStockProductIds();
 
+    public function hasAvailableStockProducts(): bool;
+
 
     public function getByCategoryId($id, $except, $limit = 10);
 

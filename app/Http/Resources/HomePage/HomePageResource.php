@@ -52,6 +52,8 @@ class HomePageResource extends JsonResource
             "trustedBrands" => TrustedBrandResource::collection($data->trustedBrands),
             "posters" => PosterResource::collection($data->posters),
 
+            "hasStockProducts" => $data->hasStockProducts,
+
             "vlogs" => HomePageVlogResource::collection($data->vlogs),
             "news" => HomePageNewsResource::collection($data->news),
         ];

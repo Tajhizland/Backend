@@ -6,6 +6,7 @@ use App\DTOs\Marketing\MarketingEventDto;
 use App\Enums\MarketingEventType;
 use App\Repositories\MarketingEvent\MarketingEventRepositoryInterface;
 use App\Repositories\SearchLog\SearchLogRepositoryInterface;
+use App\Services\Device\DeviceDetectorServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -31,6 +32,7 @@ readonly class MarketingTrackerService implements MarketingTrackerServiceInterfa
     public function __construct(
         private MarketingEventRepositoryInterface $marketingEventRepository,
         private SearchLogRepositoryInterface      $searchLogRepository,
+        private DeviceDetectorServiceInterface    $deviceDetectorService,
     )
     {
     }
@@ -45,6 +47,7 @@ readonly class MarketingTrackerService implements MarketingTrackerServiceInterfa
                 'user_id' => $attributes['user_id'] ?? $this->currentUserId(),
                 'ip' => request()->ip(),
                 'session_id' => $this->sessionId(),
+                'device' => $this->deviceDetectorService->detect(request()->userAgent())['device'],
                 'quantity' => max((int)($attributes['quantity'] ?? 1), 1),
                 'meta' => $attributes['meta'] ?? null,
             ]);

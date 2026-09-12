@@ -68,6 +68,8 @@ use App\Repositories\MarketingEvent\MarketingEventRepository;
 use App\Repositories\MarketingEvent\MarketingEventRepositoryInterface;
 use App\Repositories\SearchLog\SearchLogRepository;
 use App\Repositories\SearchLog\SearchLogRepositoryInterface;
+use App\Services\Device\DeviceDetectorService;
+use App\Services\Device\DeviceDetectorServiceInterface;
 use App\Services\Marketing\MarketingReportService;
 use App\Services\Marketing\MarketingReportServiceInterface;
 use App\Services\Marketing\MarketingTrackerService;
@@ -725,6 +727,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductGroupServiceInterface::class, ProductGroupService::class);
 
         $this->app->bind(CompareServiceInterface::class, CompareService::class);
+
+        $this->app->bind(DeviceDetectorServiceInterface::class, DeviceDetectorService::class);
 
         $this->app->bind(MarketingTrackerServiceInterface::class, MarketingTrackerService::class);
 

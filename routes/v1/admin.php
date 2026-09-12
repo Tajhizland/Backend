@@ -17,6 +17,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("zero-result-searches", "zeroResultSearches");
         Route::get("conversion-opportunities", "conversionOpportunities");
         Route::get("unmet-demand", "unmetDemand");
+        Route::get("devices", "devices");
         Route::get("search-log/dataTable", "searchLogDataTable");
     });
 

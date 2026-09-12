@@ -31,6 +31,8 @@ final class HomePageData
         public readonly Collection $sliderGroups,
         /** بنرها گروه‌بندی‌شده بر اساس type */
         public readonly Collection $bannerGroups,
+        /** آیا محصول کارکرده‌ی فعال و موجودی وجود دارد؟ (برای نمایش لینک «کارکرده») */
+        public readonly bool       $hasStockProducts = false,
     )
     {
     }

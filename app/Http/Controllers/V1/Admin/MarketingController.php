@@ -83,6 +83,11 @@ class MarketingController extends Controller
         ));
     }
 
+    public function devices(MarketingReportRequest $request)
+    {
+        return $this->dataResponse($this->marketingReportService->deviceReport($this->dto($request)));
+    }
+
     public function searchLogDataTable()
     {
         return $this->dataResponseCollection(SearchLogResource::collection(

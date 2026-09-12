@@ -22,4 +22,6 @@ interface MarketingEventRepositoryInterface extends BaseRepositoryInterface
     public function engagementMatrix(Carbon $from, Carbon $to, int $limit, int $minViews = 1, string $orderBy = 'views');
 
     public function unmetDemand(Carbon $from, Carbon $to, int $limit);
+
+    public function deviceConversion(Carbon $from, Carbon $to);
 }

@@ -3,7 +3,9 @@
 namespace App\Services\Marketing;
 
 use App\DTOs\Marketing\MarketingReportDto;
+use App\Enums\DeviceType;
 use App\Enums\MarketingEventType;
+use App\Repositories\Footprint\FootprintRepositoryInterface;
 use App\Repositories\MarketingEvent\MarketingEventRepositoryInterface;
 use App\Repositories\SearchLog\SearchLogRepositoryInterface;
 
@@ -21,6 +23,7 @@ readonly class MarketingReportService implements MarketingReportServiceInterface
     public function __construct(
         private MarketingEventRepositoryInterface $marketingEventRepository,
         private SearchLogRepositoryInterface      $searchLogRepository,
+        private FootprintRepositoryInterface      $footprintRepository,
     )
     {
     }
@@ -114,6 +117,75 @@ readonly class MarketingReportService implements MarketingReportServiceInterface
     public function unmetDemand(MarketingReportDto $dto)
     {
         return $this->marketingEventRepository->unmetDemand($dto->from, $dto->to, $dto->limit);
+    }
+
+    /**
+     * گزارش دستگاه: کاربران با چه چیزی وارد سایت می‌شوند.
+     *
+     * مبنای سهم، جدول بازدید صفحات (footprints) است نه رویدادهای محصولی، چون هر
+     * تغییر مسیر در سایت آنجا ثبت می‌شود و کامل‌ترین تصویر از ورود کاربر را می‌دهد.
+     * ربات‌ها جدا شمرده می‌شوند ولی در سهمِ کاربران واقعی نمی‌آیند تا درصدها واقعی بماند.
+     */
+    public function deviceReport(MarketingReportDto $dto): array
+    {
+        $breakdown = $this->footprintRepository->deviceBreakdown($dto->from, $dto->to);
+
+        $byDevice = $breakdown->keyBy('device');
+        $humanTotal = $breakdown
+            ->reject(fn($row) => $row->device === DeviceType::Bot->value)
+            ->sum('total');
+
+        $share = collect(DeviceType::reportOrder())
+            ->map(function (DeviceType $device) use ($byDevice, $humanTotal) {
+                $row = $byDevice->get($device->value);
+                $total = (int)($row->total ?? 0);
+                $isBot = $device === DeviceType::Bot;
+
+                return [
+                    'device' => $device->value,
+                    'label' => $device->label(),
+                    'total' => $total,
+                    'visitors' => (int)($row->visitors ?? 0),
+                    // سهم ربات‌ها معنا ندارد؛ برای همین null است نه صفر.
+                    'share' => $isBot || $humanTotal === 0 ? null : round($total / $humanTotal * 100, 1),
+                ];
+            })
+            ->filter(fn(array $row) => $row['total'] > 0)
+            ->values()
+            ->all();
+
+        return [
+            'share' => $share,
+            'humanTotal' => (int)$humanTotal,
+            'trend' => $this->footprintRepository->deviceDailyCounts($dto->from, $dto->to),
+            'platforms' => $this->footprintRepository->attributeBreakdown('platform', $dto->from, $dto->to, $dto->limit),
+            'browsers' => $this->footprintRepository->attributeBreakdown('browser', $dto->from, $dto->to, $dto->limit),
+            'conversion' => $this->deviceConversion($dto),
+        ];
+    }
+
+    /**
+     * نرخ تبدیل هر دستگاه؛ مقادیر درصدی همین‌جا حساب می‌شوند تا فرانت فقط نمایش بدهد.
+     */
+    private function deviceConversion(MarketingReportDto $dto): array
+    {
+        return $this->marketingEventRepository->deviceConversion($dto->from, $dto->to)
+            ->map(function ($row) {
+                $views = (int)$row->views;
+                $carts = (int)$row->carts;
+
+                return [
+                    'device' => $row->device,
+                    'label' => (DeviceType::tryFrom($row->device) ?? DeviceType::Unknown)->label(),
+                    'views' => $views,
+                    'carts' => $carts,
+                    'purchases' => (int)$row->purchases,
+                    'visitors' => (int)$row->visitors,
+                    'viewToCartRate' => $views > 0 ? round($carts / $views * 100, 1) : 0.0,
+                    'cartToPurchaseRate' => $carts > 0 ? round((int)$row->purchases / $carts * 100, 1) : 0.0,
+                ];
+            })
+            ->all();
     }
 
     public function searchLogDataTable()

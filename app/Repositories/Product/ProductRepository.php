@@ -470,6 +470,23 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model::withActiveColor()->active()->isStock()->customOrder();
     }
 
+    /**
+     * آیا حداقل یک محصول کارکرده‌ی فعال با رنگِ فعال، موجود و قیمت‌دار وجود دارد؟
+     *
+     * صفحه اصلی با این فلگ تصمیم می‌گیرد لینک «کارکرده» را نشان بدهد یا نه.
+     */
+    public function hasAvailableStockProducts(): bool
+    {
+        return $this->model::active()
+            ->isStock()
+            ->whereHas("productColors", function ($query) {
+                $query->whereIn("status", [ProductColorStatus::Active->value, ProductColorStatus::Limit->value])
+                    ->whereHas("stock", fn($subQuery) => $subQuery->where("stock", ">", 0))
+                    ->whereHas("price", fn($subQuery) => $subQuery->where("price", ">", 0));
+            })
+            ->exists();
+    }
+
     public function getStockProductIds()
     {
         return $this->model::withActiveColor()->active()->isStock()->pluck("id");;

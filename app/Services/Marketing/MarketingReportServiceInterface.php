@@ -26,5 +26,7 @@ interface MarketingReportServiceInterface
 
     public function unmetDemand(MarketingReportDto $dto);
 
+    public function deviceReport(MarketingReportDto $dto): array;
+
     public function searchLogDataTable();
 }
