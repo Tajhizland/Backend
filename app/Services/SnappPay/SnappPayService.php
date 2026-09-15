@@ -46,7 +46,7 @@ class SnappPayService
                 'username' => $username,
                 'password' => $password,
             ]);
-        var_dump($response->getStatusCode());
+        var_dump($response->throw());
         die();
         $this->logCall("snapppay.auth", ["grant_type" => "password", "scope" => "online-merchant", "username" => $username, "password" => "***", "client_id" => $client_id], $response);
 
