@@ -2,6 +2,7 @@
 
 namespace App\Services\CartItem;
 
+use App\Services\SnappPay\SnappPayPrice;
 use App\Enums\ProductColorStatus;
 use App\Enums\ProductStatus;
 use App\Exceptions\BreakException;
@@ -28,7 +29,7 @@ readonly class CartItemService implements CartItemServiceInterface
     {
     }
 
-    public function calculatePrice($cartItems , $isDigipay=false): array
+    public function calculatePrice($cartItems, $isDigipay = false, $isSnappay = false): array
     {
         $itemsPrice = 0;
         $totalItemPrice = 0;
@@ -42,6 +43,9 @@ readonly class CartItemService implements CartItemServiceInterface
                 $guaranty = $this->guarantyService->find($cartItem->guaranty_id);
                 if (!$guaranty->free) {
                     $guarantyPrice = $this->guarantyService->calculatePrice($price->price);
+                    if ($isSnappay) {
+                        $guarantyPrice = (int) round($guarantyPrice);
+                    }
                 }
             }
             $itemsPrice += $price->price * $cartItem->count;
@@ -59,6 +63,13 @@ readonly class CartItemService implements CartItemServiceInterface
                 $totalItemPrice += ($price->price + $guarantyPrice) * $cartItem->count;
                 $extraPrice += round($itemCartPrice + ($itemCartPrice * $productColor->product->digipay_extra_price / 100));
 
+            }
+
+            if ($isSnappay) {
+                $totalItemPrice += SnappPayPrice::fee(
+                    $itemCartPrice / $cartItem->count,
+                    $productColor->product->snappay_extra_price ?? 0,
+                ) * $cartItem->count;
             }
 
             if ($cartItem->productColor->delivery_delay > $maxDeliveryDelay) {
@@ -104,7 +115,7 @@ readonly class CartItemService implements CartItemServiceInterface
         return true;
     }
 
-    public function convertCartItemToOrderItem($cartItems, $orderId, $disableDiscount = false): bool
+    public function convertCartItemToOrderItem($cartItems, $orderId, $disableDiscount = false, $isSnappay = false): bool
     {
         foreach ($cartItems as $cartItem) {
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
@@ -116,6 +127,9 @@ readonly class CartItemService implements CartItemServiceInterface
                 $guaranty = $this->guarantyService->find($cartItem->guaranty_id);
                 if (!$guaranty->free) {
                     $guarantyPrice = $this->guarantyService->calculatePrice($price->price);
+                    if ($isSnappay) {
+                        $guarantyPrice = (int) round($guarantyPrice);
+                    }
                 }
             }
             if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$disableDiscount) {
@@ -124,7 +138,10 @@ readonly class CartItemService implements CartItemServiceInterface
             } else {
                 $finalPrice = ($price->price + $guarantyPrice);
             }
-            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count, $price->price, $discount, $finalPrice, $cartItem->guaranty_id, $guarantyPrice);
+            $snappayFee = $isSnappay
+                ? SnappPayPrice::fee($finalPrice, $productColor->product->snappay_extra_price ?? 0)
+                : 0;
+            $this->orderItemRepository->createOrderItem($orderId, $productColor->product_id, $productColor->id, $cartItem->count, $price->price, $discount, $finalPrice + $snappayFee, $cartItem->guaranty_id, $guarantyPrice, $snappayFee);
         }
         return true;
     }

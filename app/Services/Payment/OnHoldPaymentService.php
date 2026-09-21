@@ -5,6 +5,7 @@ namespace App\Services\Payment;
 use App\DTOs\OnHoldOrder\OnHoldOrderCheckoutPaymentDto;
 use App\Enums\OnHoldOrderStatus;
 use App\Enums\PaymentGateway;
+use App\Services\SnappPay\SnappPayPrice;
 use App\Events\OrderPaymentRequestEvent;
 use App\Exceptions\BreakException;
 use App\Models\Order;
@@ -123,21 +124,36 @@ readonly class OnHoldPaymentService
             $useWallet = false;
         }
 
-        $prices = $this->frozenItemsPrice($orderItems);
+        $prices = $this->frozenItemsPrice($orderItems, $gatewayEnum === PaymentGateway::SnappPay);
         $totalItemsPrice = $prices["totalItemPrice"];
-        $shippingPrice = $this->resolveShippingPrice($orderItems, $address, $totalItemsPrice, $shippingMethod);
+        $shippingPrice = $this->resolveShippingPrice($orderItems, $address, $prices["baseItemPrice"], $shippingMethod);
 
         $coupon = $this->couponCalculator->apply(
             $code,
             $userId,
             $totalItemsPrice + $shippingPrice,
             $prices["extraPrice"] + $shippingPrice,
-            $totalItemsPrice,
+            $prices["baseItemPrice"],
         );
 
         $finalPrice = max(0, (int)round($totalItemsPrice + $shippingPrice - $coupon->off));
         $finalExtraPrice = max(0, (int)round($prices["extraPrice"] + $shippingPrice - $coupon->extraOff));
         $off = (int)round($coupon->off);
+        if ($gatewayEnum === PaymentGateway::SnappPay) {
+            $off = min($totalItemsPrice + $shippingPrice, $off);
+            $finalPrice = $totalItemsPrice + $shippingPrice - $off;
+        }
+
+        // Replace the previous fee, so retrying or switching gateways never compounds it.
+        foreach ($orderItems as $item) {
+            $basePrice = $item->final_price - ($item->snappay_fee ?? 0);
+            $fee = $gatewayEnum === PaymentGateway::SnappPay
+                ? SnappPayPrice::fee($basePrice, $item->product?->snappay_extra_price ?? 0)
+                : 0;
+            $item->final_price = $basePrice + $fee;
+            $item->snappay_fee = $fee;
+            $item->save();
+        }
 
         $this->refreshOrderInfo($order, $user, $address);
         $this->replaceCoupon($order, $userId, $coupon->coupon);
@@ -281,19 +297,24 @@ readonly class OnHoldPaymentService
      * - totalItemPrice : مبلغ عادی (final_price هر واحد شامل تخفیف و قیمت گارانتی است)
      * - extraPrice     : مبلغ دیجی‌پی؛ تخفیف محصول اعمال نمی‌شود و درصد کارمزد اضافه می‌گردد
      */
-    private function frozenItemsPrice($orderItems): array
+    private function frozenItemsPrice($orderItems, bool $isSnappay = false): array
     {
         $totalItemPrice = 0;
+        $baseItemPrice = 0;
         $extraPrice = 0;
         foreach ($orderItems as $item) {
-            $totalItemPrice += $item->final_price * $item->count;
+            $basePrice = $item->final_price - ($item->snappay_fee ?? 0);
+            $baseItemPrice += $basePrice * $item->count;
+            $fee = $isSnappay ? SnappPayPrice::fee($basePrice, $item->product?->snappay_extra_price ?? 0) : 0;
+            $totalItemPrice += ($basePrice + $fee) * $item->count;
 
-            $withoutDiscount = ($item->final_price + $item->discount) * $item->count;
+            $withoutDiscount = ($basePrice + $item->discount) * $item->count;
             $percent = $item->product?->digipay_extra_price ?? 0;
             $extraPrice += round($withoutDiscount + ($withoutDiscount * $percent / 100));
         }
         return [
             "totalItemPrice" => $totalItemPrice,
+            "baseItemPrice" => $baseItemPrice,
             "extraPrice" => $extraPrice,
         ];
     }

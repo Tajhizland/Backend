@@ -19,6 +19,7 @@ use App\Services\Order\OrderFactoryInterface;
 use App\Services\Order\OrderPaymentFinalizerInterface;
 use App\Services\Payment\Concerns\BuildsPaymentResponse;
 use App\Services\Payment\Data\CheckoutContext;
+use App\Services\Payment\Data\AppliedCoupon;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -53,7 +54,7 @@ readonly class CheckoutPaymentService
     public function request(PaymentRequestDto $dto)
     {
         $userId = $dto->userId;
-        $useWallet = $dto->wallet;
+        $useWallet = $dto->wallet && !PaymentGateway::normalize($dto->gateway)?->isCreditProvider();
         $shippingMethod = $dto->shippingMethod;
         $shippingPrice = $dto->shippingPrice;
 
@@ -125,13 +126,16 @@ readonly class CheckoutPaymentService
         $shippingPrice ??= $delivery->price;
 
         $isDigipay = PaymentGateway::normalize($gateway) === PaymentGateway::DigiPay;
-        $cartPrices = $this->cartItemService->calculatePrice($cartItems, $isDigipay);
+        $cartPrices = $this->cartItemService->calculatePrice($cartItems, $isDigipay, PaymentGateway::normalize($gateway) === PaymentGateway::SnappPay);
 
         $itemsPrice = $cartPrices["totalItemPrice"];
         $amount = $itemsPrice + $shippingPrice;
         $extraAmount = $cartPrices["extraPrice"] + $shippingPrice;
 
         $coupon = $this->couponCalculator->apply($code, $userId, $amount, $extraAmount);
+        if (PaymentGateway::normalize($gateway) === PaymentGateway::SnappPay) {
+            $coupon = new AppliedCoupon($coupon->coupon, min($amount, (int) round($coupon->off)), $coupon->extraOff);
+        }
 
         return new CheckoutContext(
             user: $user,

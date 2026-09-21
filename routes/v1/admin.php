@@ -52,6 +52,7 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::patch("group-change-digipay", "groupChangeDigipay");
         Route::patch("group-change-snappay", "groupChangeSnappay");
         Route::patch("group-change-percent", "groupChangePercent");
+        Route::patch("group-change-snappay-percent", "groupChangeSnappayPercent");
 
         Route::post("/", "store");
         Route::get("{id}", "show");

@@ -26,6 +26,7 @@ class CartItemResource extends JsonResource
                 'allow_snappay' => $this?->product?->allow_snappay,
                 'url' => $this?->product?->url,
                 'digipay_extra_price' => $this?->product?->digipay_extra_price,
+                'snappay_extra_price' => $this?->product?->snappay_extra_price,
                 'image' => $this?->product?->images?->first()?->url,
             ],
             'color' => [

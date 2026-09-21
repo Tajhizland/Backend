@@ -29,6 +29,7 @@ use App\Http\Requests\Admin\Option\UpdateProductOptionRequest;
 use App\Http\Requests\Admin\Product\ColorFastUpdateRequest;
 use App\Http\Requests\Admin\Product\GroupChangePriceRequest;
 use App\Http\Requests\Admin\Product\GroupChangePercentRequest;
+use App\Http\Requests\Admin\Product\GroupChangeSnappayPercentRequest;
 use App\Http\Requests\Admin\Product\GroupChangeStatusRequest;
 use App\Http\Requests\Admin\Product\GroupChangeStockRequest;
 use App\Http\Requests\Admin\Product\ProductColorRequest;
@@ -223,6 +224,12 @@ class ProductController extends Controller
     {
         $this->productService->groupChangePrice(new ProductGroupPriceDto(...$request->validated()));
         return $this->successResponse(__("action.update", ["attr" => __("attr.price")]));
+    }
+
+    public function groupChangeSnappayPercent(GroupChangeSnappayPercentRequest $request)
+    {
+        $this->productService->groupChangeSnappayPercent(new ProductGroupPercentDto(...$request->validated()));
+        return $this->successResponse(__("action.update", ["attr" => __("attr.product")]));
     }
 
     public function groupChangePercent(GroupChangePercentRequest $request)

@@ -48,7 +48,7 @@ readonly class OrderFactory implements OrderFactoryInterface
         }
 
         $this->cartRepository->update($draft->cart, ["order_id" => $order->id]);
-        $this->cartItemService->convertCartItemToOrderItem($draft->cartItems, $order->id, $draft->disableDiscount);
+        $this->cartItemService->convertCartItemToOrderItem($draft->cartItems, $order->id, $draft->disableDiscount, PaymentGateway::normalize($draft->paymentMethod) === PaymentGateway::SnappPay);
 
         return $order;
     }

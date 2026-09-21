@@ -88,6 +88,7 @@ class SnappPayService
 
         foreach ($orderItems as $item) {
             $guarantyPrice = (int)$item->guaranty_price * 10;
+            // final_price already includes the stored SnappPay fee; never apply the live percentage again.
             $itemPrice = ($item->final_price * 10) - $guarantyPrice;
 
             $object = new \stdClass();

@@ -4,7 +4,7 @@ namespace App\Services\CartItem;
 
 interface CartItemServiceInterface
 {
-    public function calculatePrice($cartItems , $isDigipay=false): array;
+    public function calculatePrice($cartItems, $isDigipay = false, $isSnappay = false): array;
 
     public function checkAllow($cartItems): bool;
 
@@ -12,5 +12,5 @@ interface CartItemServiceInterface
 
     public function checkoutCart($userId): bool;
 
-    public function convertCartItemToOrderItem($cartItems, $orderId, $disableDiscount = false): bool;
+    public function convertCartItemToOrderItem($cartItems, $orderId, $disableDiscount = false, $isSnappay = false): bool;
 }

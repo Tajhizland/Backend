@@ -344,6 +344,16 @@ readonly class ProductService implements ProductServiceInterface
         }
         return true;
     }
+    public function groupChangeSnappayPercent(ProductGroupPercentDto $dto): mixed
+    {
+        foreach ($dto->ids as $id) {
+            $product = $this->productRepository->findOrFail($id);
+            $product->snappay_extra_price = $dto->percent;
+            $product->save();
+        }
+        return true;
+    }
+
    public function groupChangeDigipayPercent(ProductGroupPercentDto $dto): mixed
     {
         $ids = $dto->ids; $percent = $dto->percent;

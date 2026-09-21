@@ -66,5 +66,6 @@ interface ProductServiceInterface
     public function groupChangeDigipay(ProductGroupDigipayDto $dto): mixed;
     public function groupChangeSnappay(ProductGroupSnappayDto $dto): mixed;
     public function groupChangeDigipayPercent(ProductGroupPercentDto $dto): mixed;
+    public function groupChangeSnappayPercent(ProductGroupPercentDto $dto): mixed;
 
 }
