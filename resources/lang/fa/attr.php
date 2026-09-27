@@ -35,6 +35,8 @@ return
         "user" => 'کاربر',
         "filter" => 'فیلتر',
         "sample" => 'نمونه کار',
+        "instagram_post" => 'پست اینستاگرام',
+        "instagram_media" => 'رسانه پست اینستاگرام',
         "slider" => 'اسلایدر',
         "option" => 'آپشن',
         "banner" => 'بنر',

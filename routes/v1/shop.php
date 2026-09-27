@@ -136,6 +136,10 @@ Route::prefix("vlog")->controller(\App\Http\Controllers\V1\Shop\VlogController::
     Route::post('category', "get")->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
     Route::get('/', "listing");
 });
+Route::prefix("instagram-post")->controller(\App\Http\Controllers\V1\Shop\InstagramPostController::class)->group(function () {
+    Route::post('find', "find")->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+    Route::get('/', "listing");
+});
 Route::get('vlog-category', [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "list"]);
 Route::get('special-product', [\App\Http\Controllers\V1\Shop\SpecialProductController::class, "list"]);
 Route::get('sample', [\App\Http\Controllers\V1\Shop\SampleController::class, "index"]);

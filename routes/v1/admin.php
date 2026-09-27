@@ -293,6 +293,21 @@ Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get("{id}", "show");
         Route::put("{id}", "update");
     });
+    Route::prefix("instagram-post")->controller(\App\Http\Controllers\V1\Admin\InstagramPostController::class)->group(function () {
+        Route::get("dataTable", "dataTable");
+        Route::get("list", "list");
+        Route::post("sort", "sort");
+
+        Route::post("media", "addMedia");
+        Route::post("media/sort", "sortMedia");
+        Route::delete("media/{id}", "removeMedia");
+
+        Route::post("/", "store");
+        Route::get("{id}", "show");
+        Route::put("{id}", "update");
+        Route::delete("{id}", "destroy");
+        Route::get("{id}/media", "getMedia");
+    });
     Route::prefix("banner")->controller(\App\Http\Controllers\V1\Admin\BannerController::class)->group(function () {
         Route::get("dataTable", "dataTable");
         Route::get("list", "list");
