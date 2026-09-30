@@ -10,13 +10,11 @@ return new class extends Migration {
         Schema::create('instagram_posts', function (Blueprint $table) {
             $table->id();
             $table->text('caption')->nullable();
-            $table->string('url', 256);
             $table->integer('status');
             $table->integer('view')->default(0);
             $table->integer('author')->nullable();
             $table->integer('sort')->nullable();
             $table->timestamps();
-            $table->unique('url', 'instagram_posts_url_unique');
             $table->index(['status', 'sort'], 'instagram_posts_status_sort');
         });
     }

@@ -17,8 +17,8 @@ class InstagramPostRepository extends BaseRepository implements InstagramPostRep
     {
         return QueryBuilder::for(InstagramPost::class)
             ->withCount("media")
-            ->allowedFilters(...['caption', 'url', 'status', 'id', 'created_at'])
-            ->allowedSorts(...['caption', 'url', 'status', 'id', 'created_at'])
+            ->allowedFilters(...['caption', 'status', 'id', 'created_at'])
+            ->allowedSorts(...['caption', 'status', 'id', 'created_at'])
             ->paginate($this->pageSize);
     }
 
@@ -27,9 +27,9 @@ class InstagramPostRepository extends BaseRepository implements InstagramPostRep
         return $this->model::with("media")->find($id);
     }
 
-    public function findByUrl($url)
+    public function findActiveWithMedia(int $id)
     {
-        return $this->model::active()->with("media")->where("url", $url)->first();
+        return $this->model::active()->with("media")->find($id);
     }
 
     /**

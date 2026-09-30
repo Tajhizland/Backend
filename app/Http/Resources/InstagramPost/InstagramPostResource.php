@@ -15,7 +15,6 @@ class InstagramPostResource extends JsonResource
         return [
             'id' => $this->id,
             'caption' => $this->caption,
-            'url' => $this->url,
             'status' => $this->status,
             'view' => $this->view,
             'sort' => $this->sort,

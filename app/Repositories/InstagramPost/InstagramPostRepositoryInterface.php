@@ -10,7 +10,7 @@ interface InstagramPostRepositoryInterface extends BaseRepositoryInterface
 
     public function findWithMedia(int $id);
 
-    public function findByUrl($url);
+    public function findActiveWithMedia(int $id);
 
     public function activeQuery();
 

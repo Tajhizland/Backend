@@ -137,7 +137,7 @@ Route::prefix("vlog")->controller(\App\Http\Controllers\V1\Shop\VlogController::
     Route::get('/', "listing");
 });
 Route::prefix("instagram-post")->controller(\App\Http\Controllers\V1\Shop\InstagramPostController::class)->group(function () {
-    Route::post('find', "find")->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+    Route::post('find', "find");
     Route::get('/', "listing");
 });
 Route::get('vlog-category', [\App\Http\Controllers\V1\Admin\VlogCategoryController::class, "list"]);

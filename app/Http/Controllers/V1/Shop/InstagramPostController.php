@@ -5,7 +5,7 @@ namespace App\Http\Controllers\V1\Shop;
 use App\DTOs\InstagramPost\InstagramPostFindDto;
 use App\DTOs\InstagramPost\InstagramPostListingDto;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Shop\InstagramPost\FindInstagramPostByUrlRequest;
+use App\Http\Requests\Shop\InstagramPost\FindInstagramPostRequest;
 use App\Http\Requests\Shop\InstagramPost\InstagramPostListingRequest;
 use App\Http\Resources\InstagramPost\InstagramPostResource;
 use App\Services\InstagramPost\InstagramPostServiceInterface;
@@ -29,9 +29,9 @@ class InstagramPostController extends Controller
         ]);
     }
 
-    public function find(FindInstagramPostByUrlRequest $request)
+    public function find(FindInstagramPostRequest $request)
     {
-        $post = $this->instagramPostService->findByUrl((new InstagramPostFindDto(...$request->validated()))->url);
+        $post = $this->instagramPostService->findActive((new InstagramPostFindDto(...$request->validated()))->id);
         $this->instagramPostService->view($post);
 
         return $this->dataResponse([

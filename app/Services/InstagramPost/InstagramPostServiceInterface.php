@@ -23,7 +23,7 @@ interface InstagramPostServiceInterface
 
     public function sort(InstagramPostSortDto $dto): bool;
 
-    public function findByUrl($url): mixed;
+    public function findActive(int $id): mixed;
 
     public function listing($filters): mixed;
 

@@ -49,7 +49,6 @@ readonly class InstagramPostService implements InstagramPostServiceInterface
     {
         $post = $this->postRepository->create([
             "caption" => $dto->caption,
-            "url" => $dto->url,
             "status" => $dto->status,
             "author" => $dto->author,
         ]);
@@ -65,7 +64,6 @@ readonly class InstagramPostService implements InstagramPostServiceInterface
 
         $this->postRepository->update($post, [
             "caption" => $dto->caption,
-            "url" => $dto->url,
             "status" => $dto->status,
         ]);
 
@@ -94,9 +92,9 @@ readonly class InstagramPostService implements InstagramPostServiceInterface
         return true;
     }
 
-    public function findByUrl($url): mixed
+    public function findActive(int $id): mixed
     {
-        $post = $this->postRepository->findByUrl($url);
+        $post = $this->postRepository->findActiveWithMedia($id);
         if (!$post) {
             throw new NotFoundHttpException();
         }

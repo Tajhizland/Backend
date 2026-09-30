@@ -4,12 +4,12 @@ namespace App\Http\Requests\Shop\InstagramPost;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FindInstagramPostByUrlRequest extends FormRequest
+class FindInstagramPostRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            "url" => ["required", "string"],
+            "id" => ["required", "integer"],
         ];
     }
 
