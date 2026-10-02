@@ -181,6 +181,15 @@ readonly class ProductService implements ProductServiceInterface
         return $this->productRepository->getByCategoryId($productCategory->category_id, $id);
     }
 
+    /**
+     * محصولات لینک‌شده به یک ولاگ؛ برای ردیف «محصولات مرتبط» صفحه ولاگ.
+     * اگر ولاگ به محصولی لینک نشده باشد مجموعه خالی برمی‌گردد.
+     */
+    public function getVlogRelatedProducts($vlogId): mixed
+    {
+        return $this->productRepository->getByVlogId($vlogId);
+    }
+
     public function setVideo(ProductSetVideoDto $dto): mixed
     {
         $productId = $dto->productId; $vlogId = $dto->vlogId; $type = $dto->type;

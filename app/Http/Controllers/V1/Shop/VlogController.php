@@ -9,10 +9,12 @@ use App\Http\Requests\Shop\Vlog\VlogListingRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\Vlog\FindVlogByUrlRequest;
 use App\Http\Requests\Shop\Vlog\GetBlogByCategoryRequest;
+use App\Http\Resources\Product\Card\ProductCardResource;
 use App\Http\Resources\Vlog\VlogResource;
 use App\Http\Resources\VlogCategory\VlogCategoryResource;
 use App\Repositories\VlogCategory\VlogCategoryRepositoryInterface;
 use App\Services\Banner\BannerServiceInterface;
+use App\Services\Product\ProductServiceInterface;
 use App\Services\Vlog\VlogServiceInterface;
 use App\Http\Resources\Banner\BannerResource;
 
@@ -22,7 +24,8 @@ class VlogController extends Controller
     (
         private readonly BannerServiceInterface          $bannerService,
         private readonly VlogCategoryRepositoryInterface $vlogCategoryRepository,
-        private readonly VlogServiceInterface            $vlogService
+        private readonly VlogServiceInterface            $vlogService,
+        private readonly ProductServiceInterface         $productService
     )
     {
     }
@@ -31,10 +34,12 @@ class VlogController extends Controller
     {
         $vlogResponse = $this->vlogService->findByUrl((new VlogFindDto(...$request->validated()))->url);
         $relatedVlogs = $this->vlogService->getRelatedVlogs($vlogResponse->category_id, $vlogResponse->id);
+        $relatedProducts = $this->productService->getVlogRelatedProducts($vlogResponse->id);
         $this->vlogService->view($vlogResponse);
         return $this->dataResponse([
             "vlog" => new VlogResource($vlogResponse),
-            "relatedVlogs" => VlogResource::collection($relatedVlogs)->response()->getData()
+            "relatedVlogs" => VlogResource::collection($relatedVlogs)->response()->getData(),
+            "relatedProducts" => ProductCardResource::collection($relatedProducts)->response()->getData()
         ]);
     }
 

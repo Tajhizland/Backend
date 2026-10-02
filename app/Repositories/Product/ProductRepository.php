@@ -66,6 +66,25 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         })->where("id", "<>", $except)->limit($limit)->get();
     }
 
+    /**
+     * محصولاتی که این ولاگ به آن‌ها لینک شده است (جدول product_videos).
+     *
+     * همان فیلتر محصولات مرتبطِ صفحه محصول: فقط محصول فعال و موجود،
+     * و با forCard تا کارت‌های اسلایدر بدون N+1 رندر شوند.
+     */
+    public function getByVlogId($vlogId, $limit = 10)
+    {
+        return $this->model::active()
+            ->HasColorHasStock()
+            ->forCard()
+            ->whereHas("videos", function ($query) use ($vlogId) {
+                $query->where("vlog_id", $vlogId);
+            })
+            ->latest("products.id")
+            ->limit($limit)
+            ->get();
+    }
+
     public function getByCategoryIds(array $categoryIds, $except, $limit = 10)
     {
         $results = collect(); // برای ذخیره نتایج

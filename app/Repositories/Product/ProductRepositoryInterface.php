@@ -36,6 +36,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function getByCategoryId($id, $except, $limit = 10);
 
+    public function getByVlogId($vlogId, $limit = 10);
+
     public function getByCategoryIds(array $categoryIds, $except, $limit = 10);
 
     public function getAllByCategoryId($id);

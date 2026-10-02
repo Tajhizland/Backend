@@ -36,6 +36,8 @@ interface ProductServiceInterface
 
     public function getRelatedProducts($id): mixed;
 
+    public function getVlogRelatedProducts($vlogId): mixed;
+
     public function storeProduct(ProductStoreDto $dto): mixed;
 
     public function updateProduct(ProductUpdateDto $dto): mixed;
