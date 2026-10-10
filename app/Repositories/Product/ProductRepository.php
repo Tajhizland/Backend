@@ -143,7 +143,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function incrementViewCount($product)
     {
-        return $product->increment('view');
+        return Product::withoutTimestamps(fn () => $product->increment('view'));
     }
 
     public function dataTable()
@@ -518,7 +518,10 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getSitemapData()
     {
-        return $this->model::active()->select("url")->latest("id")->get();
+        return $this->model::active()->isProduct()->whereHas("activeProductColors")
+            ->select("id", "url", "updated_at")
+            ->withMax(["prices", "stocks", "productColors", "images", "confirmedComments", "productOptions", "discountItems"], "updated_at")
+            ->latest("id")->get();
     }
 
     public function customPaginate($perPage)

@@ -3,6 +3,7 @@
 namespace App\Repositories\Price;
 
 use App\Models\Price;
+use App\Services\Seo\ShopCacheInvalidator;
 use App\Repositories\Base\BaseRepository;
 use Carbon\Carbon;
 
@@ -35,6 +36,7 @@ class PriceRepository extends BaseRepository implements PriceRepositoryInterface
                     "discount" => $discount
                 ]
             );
+        app(ShopCacheInvalidator::class)->schedule();
     }
 
     /** فرم‌های ادمین برای «بدون تاریخ» رشته‌ی خالی می‌فرستند که ستون timestamp قبولش نمی‌کند. */

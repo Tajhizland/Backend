@@ -3,6 +3,7 @@
 namespace App\Repositories\Stock;
 
 use App\Models\Stock;
+use App\Services\Seo\ShopCacheInvalidator;
 use App\Repositories\Base\BaseRepository;
 
 class StockRepository extends BaseRepository implements StockRepositoryInterface
@@ -26,15 +27,24 @@ class StockRepository extends BaseRepository implements StockRepositoryInterface
     {
         $this->model::where("product_color_id", $productColorId)
             ->update(["stock" => $stock]);
+        app(ShopCacheInvalidator::class)->schedule();
     }
 
     public function increment($productColorId, $count)
     {
-        return $this->model::where("product_color_id", $productColorId)->increment('stock', $count);
+        $updated = $this->model::where("product_color_id", $productColorId)->increment('stock', $count);
+        if ($updated) {
+            app(ShopCacheInvalidator::class)->schedule();
+        }
+        return $updated;
     }
 
     public function decrement($productColorId, $count)
     {
-        return $this->model::where("product_color_id", $productColorId)->decrement('stock', $count);
+        $updated = $this->model::where("product_color_id", $productColorId)->decrement('stock', $count);
+        if ($updated) {
+            app(ShopCacheInvalidator::class)->schedule();
+        }
+        return $updated;
     }
 }

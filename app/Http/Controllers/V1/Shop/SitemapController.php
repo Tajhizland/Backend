@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1\Shop;
 
 use App\Http\Controllers\Controller;
+use App\Models\{Product, Category, Page, VlogCategory, Cast};
 use App\Services\Brand\BrandServiceInterface;
 use App\Services\Category\CategoryServiceInterface;
 use App\Services\Guaranty\GuarantyServiceInterface;
@@ -60,5 +61,40 @@ class SitemapController extends Controller
     public function getLandingSitemap()
     {
         return $this->dataResponseCollection(SitemapResource::collection($this->landingService->getSitemapData()));
+    }
+
+    public function getGroupSitemap()
+    {
+        return $this->dataResponseCollection(SitemapResource::collection(
+            Product::active()->isGroup()->select('id', 'url', 'updated_at')->withMax('groupItems', 'updated_at')->get()
+        ));
+    }
+
+    public function getCategoryGroupSitemap()
+    {
+        return $this->dataResponseCollection(SitemapResource::collection(
+            Category::active()->select('url', 'updated_at')->get()
+        ));
+    }
+
+    public function getPageSitemap()
+    {
+        return $this->dataResponseCollection(SitemapResource::collection(
+            Page::active()->select('url', 'updated_at')->get()
+        ));
+    }
+
+    public function getVlogCategorySitemap()
+    {
+        return $this->dataResponseCollection(SitemapResource::collection(
+            VlogCategory::active()->select('url', 'updated_at')->get()
+        ));
+    }
+
+    public function getCastSitemap()
+    {
+        return $this->dataResponseCollection(SitemapResource::collection(
+            Cast::where('status', 1)->select('url', 'updated_at')->get()
+        ));
     }
 }

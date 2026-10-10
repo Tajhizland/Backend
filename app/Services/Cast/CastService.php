@@ -79,7 +79,7 @@ readonly class CastService implements CastServiceInterface
     public function findByUrl($url): mixed
     {
         $response = $this->castRepository->findByUrl($url);
-        $this->castRepository->update($response, ["view" => $response->view + 1]);
+        \App\Models\Cast::withoutTimestamps(fn () => $response->increment("view"));
         return $response;
     }
 

@@ -28,6 +28,8 @@ class VlogResource extends JsonResource
             'view' => $this->view,
             'author' => $this->user->name ??"",
             'category' => $this->category?->name ??"",
+            'published_at_iso' => $this->created_at?->toISOString(),
+            'updated_at_iso' => $this->updated_at?->toISOString(),
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
         ];

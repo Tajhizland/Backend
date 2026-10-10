@@ -2,6 +2,11 @@
 
 return [
 
+    'shop_cache' => [
+        'url' => env('SHOP_REVALIDATE_URL'),
+        'secret' => env('SHOP_REVALIDATE_SECRET'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Third Party Services

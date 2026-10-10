@@ -18,8 +18,10 @@ use App\Models\SpecialProduct;
 use App\Models\TrustedBrand;
 use App\Models\Vlog;
 use App\Services\HomePage\HomePageServiceInterface;
+use App\Services\Seo\ShopCacheInvalidator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(ShopCacheInvalidator::class);
     }
 
     /**
@@ -42,6 +44,39 @@ class AppServiceProvider extends ServiceProvider
         DB::prohibitDestructiveCommands($this->app->isProduction());
 
         $this->invalidateHomePageCacheOnContentChange();
+        $this->invalidateShopCacheOnContentChange();
+    }
+
+    private function invalidateShopCacheOnContentChange(): void
+    {
+        if (! config('services.shop_cache.url') || ! config('services.shop_cache.secret')) {
+            return;
+        }
+        $invalidate = function (string $event, array $models): void {
+            $model = $models[0];
+            if (! in_array($model->getTable(), [
+                'products', 'product_colors', 'prices', 'stocks', 'product_images',
+                'product_options', 'product_categories', 'product_guaranties', 'product_videos',
+                'group_products', 'categories', 'brands', 'guaranties', 'comments',
+                'discounts', 'discount_items', 'news', 'vlogs', 'vlog_categories',
+                'casts', 'cast_categories', 'pages', 'landings', 'landing_products',
+                'landing_categories', 'landing_banners', 'banners', 'sliders', 'special_products',
+            ], true)) {
+                return;
+            }
+            // View counters are analytics, not content changes.
+            if (str_starts_with($event, 'eloquent.saved:') && ! $model->wasRecentlyCreated
+                && ! array_diff(array_keys($model->getChanges()), ['view', 'updated_at'])) {
+                return;
+            }
+            $this->app->make(ShopCacheInvalidator::class)->schedule();
+        };
+        Event::listen('eloquent.saved: *', $invalidate);
+        Event::listen('eloquent.deleted: *', $invalidate);
+        $this->app->terminating(fn () => $this->app->make(ShopCacheInvalidator::class)->flush());
+        // Queue workers are long-lived; flush after each job, not only at exit.
+        Event::listen(\Illuminate\Queue\Events\JobProcessed::class,
+            fn () => $this->app->make(ShopCacheInvalidator::class)->flush());
     }
 
     /**

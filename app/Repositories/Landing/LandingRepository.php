@@ -31,6 +31,6 @@ class LandingRepository extends BaseRepository implements LandingRepositoryInter
 
     public function getSitemapData()
     {
-        return $this->model::active()->select("url")->latest("id")->get();
+        return $this->model::active()->select("url", "updated_at")->latest("id")->get();
     }
 }

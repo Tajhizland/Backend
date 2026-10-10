@@ -217,7 +217,7 @@ readonly class VlogService implements VlogServiceInterface
 
     public function view(Vlog $vlog): mixed
     {
-        return $this->vlogRepository->update($vlog, ["view" => $vlog->view + 1]);
+        return Vlog::withoutTimestamps(fn () => $vlog->increment("view"));
     }
 
     public function getSitemapData(): mixed

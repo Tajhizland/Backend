@@ -23,6 +23,8 @@ class NewsResource extends JsonResource
             "category_id" => $this->category_id,
             'author' => $this->user->name??"" ,
             'category' => new BlogCategoryResource($this->whenLoaded('category')),
+            'published_at_iso' => $this->created_at?->toISOString(),
+            'updated_at_iso' => $this->updated_at?->toISOString(),
             'created_at' => Jalalian::fromDateTime($this->created_at)->format('Y/m/d'),
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d'),
         ];

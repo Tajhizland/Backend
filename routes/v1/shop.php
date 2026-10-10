@@ -151,6 +151,11 @@ Route::prefix("sitemap")->controller(\App\Http\Controllers\V1\Shop\SitemapContro
     Route::get('blog', "getBlogSitemap");
     Route::get('guaranty', "getGuarantySitemap");
     Route::get('landing', "getLandingSitemap");
+    Route::get('group', "getGroupSitemap");
+    Route::get('category-group', "getCategoryGroupSitemap");
+    Route::get('page', "getPageSitemap");
+    Route::get('vlog-category', "getVlogCategorySitemap");
+    Route::get('cast', "getCastSitemap");
 });
 Route::get('leading', [\App\Http\Controllers\V1\Shop\LeadingController::class, "index"]);
 Route::prefix("compare")->controller(\App\Http\Controllers\V1\Shop\CompareController::class)->group(function () {

@@ -90,6 +90,11 @@ class Product extends Model
         return $this->hasManyThrough(Stock::class, ProductColor::class);
     }
 
+    public function discountItems(): HasManyThrough
+    {
+        return $this->hasManyThrough(DiscountItem::class, ProductColor::class);
+    }
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'product_categories');

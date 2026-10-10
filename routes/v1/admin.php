@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(["middleware" => "auth:sanctum"], function () {
+Route::group(["middleware" => ["auth:sanctum", \App\Http\Middleware\InvalidateShopCache::class]], function () {
 
     Route::get('/dashboard', [\App\Http\Controllers\V1\Admin\DashboardController::class, "index"]);
 

@@ -64,7 +64,7 @@ class NewRepository extends BaseRepository implements NewRepositoryInterface
     }
     public function getSitemapData()
     {
-        return $this->model::published()->select("url")->latest("id")->get();
+        return $this->model::published()->select("url", "updated_at")->latest("id")->get();
     }
 
     public function getLastPost()
