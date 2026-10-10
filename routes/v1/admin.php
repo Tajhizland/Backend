@@ -300,6 +300,7 @@ Route::group(["middleware" => ["auth:sanctum", \App\Http\Middleware\InvalidateSh
 
         Route::post("media", "addMedia");
         Route::post("media/sort", "sortMedia");
+        Route::post("media/{id}/cover", "updateCover");
         Route::delete("media/{id}", "removeMedia");
 
         Route::post("/", "store");

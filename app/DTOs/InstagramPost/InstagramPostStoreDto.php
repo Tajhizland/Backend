@@ -10,6 +10,8 @@ class InstagramPostStoreDto
         /** @var \Illuminate\Http\UploadedFile[] */
         public array   $media,
         public ?string $caption = null,
+        /** @var array<int, \Illuminate\Http\UploadedFile|null> کاور با همان اندیس ویدیو */
+        public array   $covers = [],
     )
     {
     }

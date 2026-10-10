@@ -9,6 +9,7 @@ use App\DTOs\InstagramPost\InstagramPostStoreDto;
 use App\DTOs\InstagramPost\InstagramPostUpdateDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\InstagramPost\InstagramPostMediaRequest;
+use App\Http\Requests\Admin\InstagramPost\InstagramPostCoverRequest;
 use App\Http\Requests\Admin\InstagramPost\InstagramPostSortMediaRequest;
 use App\Http\Requests\Admin\InstagramPost\InstagramPostSortRequest;
 use App\Http\Requests\Admin\InstagramPost\StoreInstagramPostRequest;
@@ -84,6 +85,12 @@ class InstagramPostController extends Controller
     {
         $this->instagramPostService->removeMedia($id);
         return $this->successResponse(__("action.remove", ["attr" => __("attr.instagram_media")]));
+    }
+
+    public function updateCover($id, InstagramPostCoverRequest $request)
+    {
+        $media = $this->instagramPostService->updateCover((int) $id, $request->validated('cover'));
+        return $this->dataResponse(new InstagramPostMediaResource($media), 'کاور ویدیو ذخیره شد.');
     }
 
     public function sortMedia(InstagramPostSortMediaRequest $request)

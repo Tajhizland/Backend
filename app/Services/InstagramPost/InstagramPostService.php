@@ -12,6 +12,8 @@ use App\Models\InstagramPost;
 use App\Repositories\InstagramPost\InstagramPostRepositoryInterface;
 use App\Repositories\InstagramPostMedia\InstagramPostMediaRepositoryInterface;
 use App\Services\S3\S3ServiceInterface;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class InstagramPostService implements InstagramPostServiceInterface
@@ -53,7 +55,7 @@ readonly class InstagramPostService implements InstagramPostServiceInterface
             "author" => $dto->author,
         ]);
 
-        $this->storeMediaFiles($post->id, $dto->media, 0);
+        $this->storeMediaFiles($post->id, $dto->media, 0, $dto->covers);
 
         return $this->find($post->id);
     }
@@ -77,6 +79,9 @@ readonly class InstagramPostService implements InstagramPostServiceInterface
 
         foreach ($post->media as $media) {
             $this->s3Service->remove(self::DISK_FOLDER . "/" . $media->file);
+            if ($media->cover) {
+                $this->s3Service->remove(self::DISK_FOLDER . "/" . $media->cover);
+            }
         }
 
         $this->mediaRepository->deleteByPost($post->id);
@@ -127,14 +132,43 @@ readonly class InstagramPostService implements InstagramPostServiceInterface
     {
         $post = $this->find($dto->postId);
 
-        return $this->storeMediaFiles($post->id, $dto->media, $this->mediaRepository->nextSort($post->id));
+        return $this->storeMediaFiles($post->id, $dto->media, $this->mediaRepository->nextSort($post->id), $dto->covers);
     }
 
     public function removeMedia(int $id): bool|null
     {
         $media = $this->mediaRepository->findOrFail($id);
         $this->s3Service->remove(self::DISK_FOLDER . "/" . $media->file);
+        if ($media->cover) {
+            $this->s3Service->remove(self::DISK_FOLDER . "/" . $media->cover);
+        }
         return $this->mediaRepository->delete($media);
+    }
+
+    public function updateCover(int $id, UploadedFile $cover): mixed
+    {
+        $media = $this->mediaRepository->findOrFail($id);
+        if ($media->type !== InstagramMediaType::Video->value) {
+            throw ValidationException::withMessages(['cover' => 'کاور فقط برای ویدیو قابل ثبت است.']);
+        }
+
+        $previous = $media->cover;
+        $fileName = $this->s3Service->upload($cover, self::DISK_FOLDER);
+
+        try {
+            if (!$this->mediaRepository->update($media, ['cover' => $fileName])) {
+                throw new \RuntimeException('Unable to save Instagram video cover.');
+            }
+        } catch (\Throwable $exception) {
+            $this->s3Service->remove(self::DISK_FOLDER . '/' . $fileName);
+            throw $exception;
+        }
+
+        if ($previous && $previous !== $fileName) {
+            $this->s3Service->remove(self::DISK_FOLDER . '/' . $previous);
+        }
+
+        return $media;
     }
 
     public function sortMedia(InstagramPostSortMediaDto $dto): bool
@@ -166,19 +200,34 @@ readonly class InstagramPostService implements InstagramPostServiceInterface
      *
      * @param \Illuminate\Http\UploadedFile[] $files
      */
-    private function storeMediaFiles(int $postId, array $files, int $startSort): array
+    private function storeMediaFiles(int $postId, array $files, int $startSort, array $covers = []): array
     {
         $created = [];
 
-        foreach (array_values($files) as $index => $file) {
+        foreach ($files as $index => $file) {
+            $type = InstagramMediaType::fromMime($file->getMimeType());
             $fileName = $this->s3Service->upload($file, self::DISK_FOLDER);
+            $coverName = null;
 
-            $created[] = $this->mediaRepository->create([
-                "instagram_post_id" => $postId,
-                "type" => InstagramMediaType::fromMime($file->getMimeType())->value,
-                "file" => $fileName,
-                "sort" => $startSort + $index,
-            ]);
+            try {
+                if ($type === InstagramMediaType::Video && isset($covers[$index])) {
+                    $coverName = $this->s3Service->upload($covers[$index], self::DISK_FOLDER);
+                }
+
+                $created[] = $this->mediaRepository->create([
+                    "instagram_post_id" => $postId,
+                    "type" => $type->value,
+                    "file" => $fileName,
+                    "cover" => $coverName,
+                    "sort" => $startSort + count($created),
+                ]);
+            } catch (\Throwable $exception) {
+                $this->s3Service->remove(self::DISK_FOLDER . '/' . $fileName);
+                if ($coverName) {
+                    $this->s3Service->remove(self::DISK_FOLDER . '/' . $coverName);
+                }
+                throw $exception;
+            }
         }
 
         return $created;

@@ -15,6 +15,7 @@ class InstagramPostMediaResource extends JsonResource
             'postId' => $this->instagram_post_id,
             'type' => $this->type,
             'file' => $this->file,
+            'cover' => $this->cover,
             'sort' => $this->sort,
         ];
     }

@@ -8,6 +8,8 @@ class InstagramPostMediaDto
         public int   $postId,
         /** @var \Illuminate\Http\UploadedFile[] */
         public array $media,
+        /** @var array<int, \Illuminate\Http\UploadedFile|null> */
+        public array $covers = [],
     )
     {
     }

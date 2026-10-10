@@ -8,6 +8,7 @@ use App\DTOs\InstagramPost\InstagramPostSortMediaDto;
 use App\DTOs\InstagramPost\InstagramPostStoreDto;
 use App\DTOs\InstagramPost\InstagramPostUpdateDto;
 use App\Models\InstagramPost;
+use Illuminate\Http\UploadedFile;
 
 interface InstagramPostServiceInterface
 {
@@ -36,6 +37,8 @@ interface InstagramPostServiceInterface
     public function addMedia(InstagramPostMediaDto $dto): mixed;
 
     public function removeMedia(int $id): bool|null;
+
+    public function updateCover(int $id, UploadedFile $cover): mixed;
 
     public function sortMedia(InstagramPostSortMediaDto $dto): bool;
 }

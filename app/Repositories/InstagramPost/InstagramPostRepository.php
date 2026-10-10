@@ -54,7 +54,7 @@ class InstagramPostRepository extends BaseRepository implements InstagramPostRep
 
     public function paginated($query)
     {
-        return $query->paginate($this->pageSize);
+        return $query->paginate(12);
     }
 
     public function activeList()
