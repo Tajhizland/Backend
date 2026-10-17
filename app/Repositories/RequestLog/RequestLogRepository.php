@@ -4,6 +4,7 @@ namespace App\Repositories\RequestLog;
 
 use App\Models\RequestLog;
 use App\Repositories\Base\BaseRepository;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class RequestLogRepository extends BaseRepository implements RequestLogRepositoryInterface
@@ -15,11 +16,28 @@ class RequestLogRepository extends BaseRepository implements RequestLogRepositor
 
     public function store(?string $title, ?string $request, ?string $response): mixed
     {
-        return $this->model::create([
+        $attributes = [
             "title" => $title,
             "request" => $request,
             "response" => $response,
-        ]);
+        ];
+        $connection = $this->model->getConnection();
+
+        if ($connection->transactionLevel() === 0) {
+            return $this->model->newQuery()->create($attributes);
+        }
+
+        // Failed payments roll back the order transaction; diagnostics must survive it.
+        $logConnection = DB::build(array_replace($connection->getConfig(), [
+            'name' => $connection->getName() . '_request_logs',
+        ]));
+
+        try {
+            return $this->model->on($logConnection->getName())->create($attributes)
+                ->setConnection($connection->getName());
+        } finally {
+            DB::purge($logConnection->getName());
+        }
     }
 
     public function dataTable()
