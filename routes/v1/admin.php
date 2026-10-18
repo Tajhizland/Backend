@@ -293,6 +293,10 @@ Route::group(["middleware" => ["auth:sanctum", \App\Http\Middleware\InvalidateSh
         Route::get("{id}", "show");
         Route::put("{id}", "update");
     });
+    Route::prefix('instagram-profile')->controller(\App\Http\Controllers\V1\Admin\InstagramProfileController::class)->group(function () {
+        Route::get('/', 'show');
+        Route::put('/', 'update')->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class);
+    });
     Route::prefix("instagram-post")->controller(\App\Http\Controllers\V1\Admin\InstagramPostController::class)->group(function () {
         Route::get("dataTable", "dataTable");
         Route::get("list", "list");

@@ -8,13 +8,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\InstagramPost\FindInstagramPostRequest;
 use App\Http\Requests\Shop\InstagramPost\InstagramPostListingRequest;
 use App\Http\Resources\InstagramPost\InstagramPostResource;
+use App\Http\Resources\InstagramProfile\InstagramProfileResource;
 use App\Services\InstagramPost\InstagramPostServiceInterface;
+use App\Services\InstagramProfile\InstagramProfileServiceInterface;
 
 class InstagramPostController extends Controller
 {
     public function __construct
     (
-        private readonly InstagramPostServiceInterface $instagramPostService
+        private readonly InstagramPostServiceInterface $instagramPostService,
+        private readonly InstagramProfileServiceInterface $profileService,
     )
     {
     }
@@ -26,6 +29,7 @@ class InstagramPostController extends Controller
 
         return $this->dataResponse([
             "listing" => $listing,
+            "profile" => new InstagramProfileResource($this->profileService->get()),
         ]);
     }
 
@@ -36,6 +40,7 @@ class InstagramPostController extends Controller
 
         return $this->dataResponse([
             "post" => new InstagramPostResource($post),
+            "profile" => new InstagramProfileResource($this->profileService->get()),
         ]);
     }
 }

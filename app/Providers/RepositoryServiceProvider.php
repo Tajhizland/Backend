@@ -194,6 +194,8 @@ use App\Repositories\InstagramPost\InstagramPostRepository;
 use App\Repositories\InstagramPost\InstagramPostRepositoryInterface;
 use App\Repositories\InstagramPostMedia\InstagramPostMediaRepository;
 use App\Repositories\InstagramPostMedia\InstagramPostMediaRepositoryInterface;
+use App\Repositories\InstagramProfile\InstagramProfileRepository;
+use App\Repositories\InstagramProfile\InstagramProfileRepositoryInterface;
 use App\Repositories\Vlog\VlogRepository;
 use App\Repositories\Vlog\VlogRepositoryInterface;
 use App\Repositories\VlogCategory\VlogCategoryRepository;
@@ -374,6 +376,8 @@ use App\Services\User\UserService;
 use App\Services\User\UserServiceInterface;
 use App\Services\InstagramPost\InstagramPostService;
 use App\Services\InstagramPost\InstagramPostServiceInterface;
+use App\Services\InstagramProfile\InstagramProfileService;
+use App\Services\InstagramProfile\InstagramProfileServiceInterface;
 use App\Services\Vlog\VlogService;
 use App\Services\Vlog\VlogServiceInterface;
 use App\Services\VlogCategory\VlogCategoryService;
@@ -499,6 +503,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(InstagramPostRepositoryInterface::class, InstagramPostRepository::class);
 
         $this->app->bind(InstagramPostMediaRepositoryInterface::class, InstagramPostMediaRepository::class);
+        $this->app->bind(InstagramProfileRepositoryInterface::class, InstagramProfileRepository::class);
 
         $this->app->bind(VlogRepositoryInterface::class, VlogRepository::class);
 
@@ -705,6 +710,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(BannerServiceInterface::class, BannerService::class);
 
         $this->app->bind(InstagramPostServiceInterface::class, InstagramPostService::class);
+        $this->app->bind(InstagramProfileServiceInterface::class, InstagramProfileService::class);
 
         $this->app->bind(VlogServiceInterface::class, VlogService::class);
 
