@@ -40,6 +40,14 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
 
     public function getUnSeen()
     {
-        return $this->model::unSeen()->latest("id")->get();
+        // Keep every unread notification alongside the ten most recent entries.
+        $recentIds = $this->model::query()->latest("id")->limit(10)->pluck("id");
+
+        return $this->model::query()
+            ->where(function ($query) use ($recentIds) {
+                $query->where("seen", 0)->orWhereIn("id", $recentIds);
+            })
+            ->latest("id")
+            ->get();
     }
 }
