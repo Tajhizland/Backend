@@ -9,7 +9,7 @@ class FootprintRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "path" => ["required"],
+            "path" => ["required", "string", "max:16383"],
             "user_id" => ["nullable"]
         ];
     }
