@@ -2,6 +2,8 @@
 
 namespace App\Services\Search;
 
+use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Http\Resources\Brand\BrandResource;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Vlog\VlogRepositoryInterface;
@@ -16,6 +18,7 @@ readonly class SearchService implements SearchServiceInterface
         private ProductRepositoryInterface  $productRepository,
         private VlogRepositoryInterface     $vlogRepository,
         private CategoryRepositoryInterface $categoryRepository,
+        private BrandRepositoryInterface $brandRepository,
         private MarketingTrackerServiceInterface $marketingTrackerService,
     )
     {
@@ -26,10 +29,11 @@ readonly class SearchService implements SearchServiceInterface
         $products = $this->productRepository->search($query);
         $vlogs = $this->vlogRepository->searchQuery($query);
         $categories = $this->categoryRepository->search($query);
+        $brands = $this->brandRepository->search($query);
 
         $this->marketingTrackerService->logSearch(
             $query,
-            $products->count() + $vlogs->count() + $categories->count(),
+            $products->count() + $vlogs->count() + $categories->count() + $brands->count(),
             $products->count()
         );
 
@@ -37,6 +41,7 @@ readonly class SearchService implements SearchServiceInterface
             "products" => ProductResource::collection($products)->response()->getData(),
             "vlogs" => VlogResource::collection($vlogs)->response()->getData(),
             "categories" => CategoryResource::collection($categories)->response()->getData(),
+            "brands" => BrandResource::collection($brands)->response()->getData(),
         ];
     }
 

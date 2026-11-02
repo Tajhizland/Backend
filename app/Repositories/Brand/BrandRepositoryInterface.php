@@ -7,6 +7,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface BrandRepositoryInterface extends BaseRepositoryInterface
 {
+    public function search($query);
     public function dataTable();
     public function list();
     public function findByUrl($url);

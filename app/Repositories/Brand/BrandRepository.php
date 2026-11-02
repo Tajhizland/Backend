@@ -13,6 +13,15 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
         parent::__construct($model);
     }
 
+    public function search($query)
+    {
+        return $this->model::active()
+            ->where("name", "like", "%$query%")
+            ->orderBy("sort")
+            ->limit(config("settings.search_item_limit"))
+            ->get();
+    }
+
     public function dataTable()
     {
         return QueryBuilder::for(Brand::class)
