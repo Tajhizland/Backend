@@ -25,6 +25,11 @@ readonly class OnHoldOrderService implements OnHoldOrderServiceInterface
         return $this->onHoldOrderRepository->findOrFail($id);
     }
 
+    public function openForUser($userId)
+    {
+        return $this->onHoldOrderRepository->openForUser($userId);
+    }
+
     public function userHoldOnPaginate($userId)
     {
         return $this->onHoldOrderRepository->userOnHoldOrderPaginate($userId);

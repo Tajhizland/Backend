@@ -117,6 +117,7 @@ Route::prefix("payment")->group(function () {
 Route::middleware("auth:sanctum")->prefix("on-hold-order")
     ->controller(\App\Http\Controllers\V1\Shop\OnHoldOrderController::class)->group(function () {
         Route::get('/', "userHoldOnPaginate");
+        Route::get('open', "openOrders");
         Route::post('{id}/payment', "payment");
         Route::post('{id}/wallet', "paymentByWallet");
         Route::get('{id}/checkout', "checkout");

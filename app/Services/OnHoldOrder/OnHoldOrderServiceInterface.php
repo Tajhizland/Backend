@@ -4,6 +4,7 @@ namespace App\Services\OnHoldOrder;
 
 interface OnHoldOrderServiceInterface
 {
+    public function openForUser($userId);
     public function userHoldOnPaginate($userId);
     public function checkoutData($id, $userId);
     public function checkoutItems($id, $userId);

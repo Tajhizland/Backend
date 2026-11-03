@@ -17,6 +17,7 @@ use App\Services\Payment\PaymentServicesInterface;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Delivery\DeliveryResource;
 use App\Http\Resources\OnHoldOrder\OnHoldOrderResource;
+use App\Http\Resources\OnHoldOrder\OpenOnHoldOrderResource;
 
 class OnHoldOrderController extends Controller
 {
@@ -28,6 +29,13 @@ class OnHoldOrderController extends Controller
         private readonly CouponServiceInterface      $couponService,
     )
     {
+    }
+
+    public function openOrders()
+    {
+        return $this->dataResponseCollection(
+            OpenOnHoldOrderResource::collection($this->onHoldOrderService->openForUser(Auth::id()))
+        );
     }
 
     public function userHoldOnPaginate()

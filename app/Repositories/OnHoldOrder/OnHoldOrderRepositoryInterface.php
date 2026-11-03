@@ -7,6 +7,7 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface OnHoldOrderRepositoryInterface extends  BaseRepositoryInterface
 {
+    public function openForUser($userId);
     public function userOnHoldOrderPaginate($userId);
     public function findWithCheckoutRelations($id);
     public function getByUserId($userId);

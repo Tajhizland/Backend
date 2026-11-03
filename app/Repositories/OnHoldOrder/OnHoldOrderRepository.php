@@ -3,6 +3,7 @@
 namespace App\Repositories\OnHoldOrder;
 
 use App\Enums\OnHoldOrderStatus;
+use App\Enums\OrderStatus;
 use App\Models\OnHoldOrder;
 use App\Repositories\Base\BaseRepository;
 use Carbon\Carbon;
@@ -30,6 +31,28 @@ class OnHoldOrderRepository extends BaseRepository implements OnHoldOrderReposit
             "order_id" => $orderId,
             "status" => OnHoldOrderStatus::Pending->value
         ]);
+    }
+
+    public function openForUser($userId)
+    {
+        return $this->model::with(['order.orderItems.product:id,name'])
+            ->whereHas('order', function ($query) use ($userId) {
+                $query->where('user_id', $userId)->whereIn('status', [
+                    OrderStatus::Unpaid->value,
+                    OrderStatus::OnHold->value,
+                    OrderStatus::Accepted->value,
+                ]);
+            })
+            ->where(function ($query) {
+                $query->where('status', OnHoldOrderStatus::Pending->value)
+                    ->orWhere(function ($query) {
+                        $query->where('status', OnHoldOrderStatus::Accept->value)
+                            ->where('expire_date', '>', now());
+                    });
+            })
+            ->orderByDesc('status')
+            ->latest('id')
+            ->get();
     }
 
     public function userOnHoldOrderPaginate($userId)
