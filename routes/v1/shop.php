@@ -29,6 +29,12 @@ Route::post('marketing/event', [\App\Http\Controllers\V1\Shop\MarketingEventCont
     ->middleware('throttle:120,1');
 Route::get('checkout/delivery', [\App\Http\Controllers\V1\Shop\CheckoutController::class, "getShippingMethods"])->middleware("auth:sanctum");
 Route::post('torob/product', [\App\Http\Controllers\V1\Shop\TorobController::class, "list"]);
+Route::prefix('snappay/products')->controller(\App\Http\Controllers\V1\Shop\SnappPayProductFeedController::class)
+    ->withoutMiddleware(\App\Http\Middleware\Fa2EnMiddleware::class)
+    ->middleware('throttle:120,1')->group(function () {
+        Route::get('/', 'index');
+        Route::get('{id}', 'show')->whereNumber('id');
+    });
 
 
 Route::middleware("auth:sanctum")->prefix("cart")->controller(CartController::class)->group(function () {
