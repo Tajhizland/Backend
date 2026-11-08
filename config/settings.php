@@ -27,7 +27,7 @@ return [
     |
     */
     "home_page" => [
-        "cache_key" => "shop:home_page:v1",
+        "cache_key" => "shop:home_page:v2",
         "cache_ttl" => (int)env("HOME_PAGE_CACHE_TTL", 300),
 
         "top_discount_limit" => (int)env("HOME_PAGE_TOP_DISCOUNT_LIMIT", 24),

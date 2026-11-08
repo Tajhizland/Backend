@@ -6,9 +6,11 @@ use App\Enums\ProductColorStatus;
 use App\Models\Dictionary;
 use App\Models\DiscountItem;
 use App\Models\Product;
+use App\Models\ProductColor;
 use App\Repositories\Base\BaseRepository;
 use App\Services\Sort\Product\SortProductByBrandName;
 use App\Services\Sort\Product\SortProductByCategoryName;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -449,6 +451,37 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function getTopDiscountedProducts()
     {
         return $this->topDiscountedQuery()->withActiveColor()->get();
+    }
+
+    /** بیشترین درصد تخفیف معتبر در کل کاتالوگِ فعال و موجود، مستقل از محدودیت اسلایدر. */
+    public function maxActiveDiscountPercent(): int
+    {
+        $now = now();
+        // Select the same latest active discount used by the product and checkout pages.
+        $discount = DiscountItem::query()->select('discount_price')
+            ->whereColumn('product_color_id', 'product_colors.id')
+            ->where(fn ($query) => $query->whereNull('discount_expire_time')->orWhere('discount_expire_time', '>', $now))
+            ->whereHas('discount', function ($query) use ($now) {
+                $query->where('status', 1)
+                    ->where(fn ($query) => $query->whereNull('start_date')->orWhere('start_date', '<', $now))
+                    ->where(fn ($query) => $query->whereNull('end_date')->orWhere('end_date', '>', $now));
+            })->orderByDesc('discount_id')->limit(1);
+
+        $offers = ProductColor::query()
+            ->whereIn('product_colors.status', [ProductColorStatus::Active->value, ProductColorStatus::Limit->value])
+            ->whereHas('product', fn ($query) => $query->active()->isProduct())
+            ->whereHas('stock', fn ($query) => $query->where('stock', '>', 0))
+            ->join('prices', 'prices.product_color_id', '=', 'product_colors.id')
+            ->where('prices.price', '>', 0)
+            ->select('prices.price as regular_price')->selectSub($discount, 'sale_price');
+
+        $maximum = DB::query()->fromSub($offers, 'offers')
+            ->where('sale_price', '>', 0)->whereColumn('sale_price', '<', 'regular_price')
+            ->selectRaw('MAX((regular_price - sale_price) * 100.0 / regular_price) as maximum')
+            ->value('maximum');
+
+        // Do not advertise a larger percentage than any customer can actually receive.
+        return (int) floor((float) $maximum);
     }
 
     /**

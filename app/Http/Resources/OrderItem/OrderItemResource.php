@@ -24,7 +24,8 @@ class OrderItemResource extends JsonResource
             'updated_at' => Jalalian::fromDateTime($this->updated_at)->format('Y/m/d H:i:s'),
 
             'product_id' => $this->product_id,
-            'discount' => $this->discount,
+            // A held order keeps its original discount for gateway retries; expose only what was applied.
+            'discount' => max(0, min($this->discount, $this->price + $this->guaranty_price + ($this->snappay_fee ?? 0) - $this->final_price)),
             'product_color_id' => $this->product_color_id,
             'order_id' => $this->order_id,
             'guaranty_id' => $this->guaranty_id,

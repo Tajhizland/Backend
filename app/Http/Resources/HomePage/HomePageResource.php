@@ -29,6 +29,7 @@ class HomePageResource extends JsonResource
         return [
             "campaign" => $data->campaign ? new CampaignResource($data->campaign) : null,
             "pending_campaign" => $data->pendingCampaign ? new CampaignResource($data->pendingCampaign) : null,
+            "maxDiscountPercent" => $data->maxDiscountPercent,
             "discount" => $data->discountTimer ? new DiscountItemResource($data->discountTimer) : null,
 
             "desktopSliders" => SliderResource::collection($data->sliders("desktop")),

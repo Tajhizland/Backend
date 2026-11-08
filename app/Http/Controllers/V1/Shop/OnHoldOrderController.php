@@ -82,7 +82,7 @@ class OnHoldOrderController extends Controller
         $address = $this->addressRepository->findActiveByUserId($userId);
         $totalItemsPrice = 0;
         foreach ($items as $item) {
-            $totalItemsPrice += ($item->final_price - ($item->snappay_fee ?? 0)) * $item->count;
+            $totalItemsPrice += ($item->price - $item->discount + $item->guaranty_price) * $item->count;
         }
 
         return $this->dataResponseCollection(DeliveryResource::collection(
@@ -99,7 +99,7 @@ class OnHoldOrderController extends Controller
         $items = $this->onHoldOrderService->checkoutItems($id, $userId);
         $totalItemsPrice = 0;
         foreach ($items as $item) {
-            $totalItemsPrice += ($item->final_price - ($item->snappay_fee ?? 0)) * $item->count;
+            $totalItemsPrice += ($item->price - $item->discount + $item->guaranty_price) * $item->count;
         }
 
         return $this->dataResponse(

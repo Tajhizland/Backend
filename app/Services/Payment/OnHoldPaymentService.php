@@ -146,7 +146,8 @@ readonly class OnHoldPaymentService
 
         // Replace the previous fee, so retrying or switching gateways never compounds it.
         foreach ($orderItems as $item) {
-            $basePrice = $item->final_price - ($item->snappay_fee ?? 0);
+            // Always start from frozen fields: retries must not compound fees or lose the cash discount.
+            $basePrice = $item->price - ($gatewayEnum === PaymentGateway::SnappPay ? 0 : $item->discount) + $item->guaranty_price;
             $fee = $gatewayEnum === PaymentGateway::SnappPay
                 ? SnappPayPrice::fee($basePrice, $item->product?->snappay_extra_price ?? 0)
                 : 0;
@@ -303,12 +304,13 @@ readonly class OnHoldPaymentService
         $baseItemPrice = 0;
         $extraPrice = 0;
         foreach ($orderItems as $item) {
-            $basePrice = $item->final_price - ($item->snappay_fee ?? 0);
-            $baseItemPrice += $basePrice * $item->count;
+            $cashPrice = $item->price - $item->discount + $item->guaranty_price;
+            $basePrice = $isSnappay ? $item->price + $item->guaranty_price : $cashPrice;
+            $baseItemPrice += $cashPrice * $item->count;
             $fee = $isSnappay ? SnappPayPrice::fee($basePrice, $item->product?->snappay_extra_price ?? 0) : 0;
             $totalItemPrice += ($basePrice + $fee) * $item->count;
 
-            $withoutDiscount = ($basePrice + $item->discount) * $item->count;
+            $withoutDiscount = ($item->price + $item->guaranty_price) * $item->count;
             $percent = $item->product?->digipay_extra_price ?? 0;
             $extraPrice += round($withoutDiscount + ($withoutDiscount * $percent / 100));
         }

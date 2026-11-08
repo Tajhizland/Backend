@@ -38,9 +38,6 @@ class ProductFeedService
                 'activeProductColors:id,product_id,color_name,status,delivery_delay',
                 'activeProductColors.price:id,product_color_id,price',
                 'activeProductColors.stock:id,product_color_id,stock',
-                'activeProductColors.activeDiscountItem' => fn ($query) => $query
-                    ->select('id', 'product_color_id', 'discount_id', 'discount_price', 'discount_expire_time')
-                    ->limit(1),
             ]);
     }
 }

@@ -33,6 +33,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function hasAvailableStockProducts(): bool;
 
+    public function maxActiveDiscountPercent(): int;
+
 
     public function getByCategoryId($id, $except, $limit = 10);
 

@@ -53,7 +53,7 @@ readonly class CartItemService implements CartItemServiceInterface
             $productColor = $this->productColorRepository->findOrFail($cartItem->product_color_id);
             $discountItem = $productColor->activeDiscountItem->first();
 
-            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$isDigipay) {
+            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$isDigipay && !$isSnappay) {
                 $discountAmount = ($price->price - $discountItem->discount_price) * $cartItem->count;
                 $itemCartPrice = ($discountItem->discount_price + $guarantyPrice) * $cartItem->count;
                 $totalItemPrice += ($discountItem->discount_price + $guarantyPrice) * $cartItem->count;
@@ -132,7 +132,7 @@ readonly class CartItemService implements CartItemServiceInterface
                     }
                 }
             }
-            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$disableDiscount) {
+            if ($discountItem && $discountItem->discount_price && $discountItem->discount_price != 0 && !$disableDiscount && !$isSnappay) {
                 $finalPrice = ($discountItem->discount_price + $guarantyPrice);
                 $discount = $price->price - $discountItem->discount_price;
             } else {

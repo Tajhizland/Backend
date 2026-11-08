@@ -178,7 +178,7 @@ readonly class CheckoutPaymentService
             off: $context->coupon->off,
             deliveryDelayDays: $context->maxDeliveryDelay,
             coupon: $context->coupon->coupon,
-            disableDiscount: $context->isDigipay(),
+            disableDiscount: PaymentGateway::normalize($context->gateway)?->isCreditProvider() ?? false,
         ));
 
         if ($context->hasLimitedItem) {

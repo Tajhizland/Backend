@@ -17,8 +17,6 @@ class ProductFeedResource extends JsonResource
         $variants = $this->activeProductColors->filter(fn ($color) => (int) $color->price?->price > 0)
             ->map(function ($color) use ($percent) {
                 $regular = (int) $color->price->price;
-                $discount = (int) ($color->activeDiscountItem->first()?->discount_price ?? 0);
-                $sale = $discount > 0 && $discount < $regular ? $discount : $regular;
 
                 return [
                     'color' => $color,
@@ -26,7 +24,7 @@ class ProductFeedResource extends JsonResource
                     'available' => (int) $color->status === ProductColorStatus::Active->value
                         && (int) $color->stock?->stock > 0,
                     'regular' => $regular + SnappPayPrice::fee($regular, $percent),
-                    'sale' => $sale + SnappPayPrice::fee($sale, $percent),
+                    'sale' => $regular + SnappPayPrice::fee($regular, $percent),
                 ];
             });
         $available = $variants->where('available', true);

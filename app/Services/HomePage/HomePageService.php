@@ -95,6 +95,7 @@ readonly class HomePageService implements HomePageServiceInterface
             sliderGroups: $this->sliderRepository->getActiveGroupedByType(),
             bannerGroups: $this->bannerRepository->getGroupedByTypes(self::BANNER_TYPES),
             hasStockProducts: $this->productRepository->hasAvailableStockProducts(),
+            maxDiscountPercent: $this->productRepository->maxActiveDiscountPercent(),
         );
     }
 
