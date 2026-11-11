@@ -40,6 +40,9 @@ readonly class CategoryService implements CategoryServiceInterface
         $categoryIds = $this->categoryTreeService->getCategoryAndChildrenIds($category);
         $children = $this->categoryRepository->getByIdsExpect($categoryIds, $category->id);
         $productsQuery = $this->productRepository->activeProductQuery($categoryIds);
+        $bounds = $this->productRepository->priceBounds($productsQuery);
+        $category->setAttribute('minPrice', $bounds['minPrice']);
+        $category->setAttribute('maxPrice', $bounds['maxPrice']);
         $productsQuery = $this->filterService->apply($productsQuery, $filters);
         $products = $this->productRepository->paginated($productsQuery);
         $groups = $this->productRepository->activeGroupLimit($categoryIds);

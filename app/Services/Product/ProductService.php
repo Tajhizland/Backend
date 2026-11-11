@@ -291,6 +291,11 @@ readonly class ProductService implements ProductServiceInterface
                     if ($action == "dec")
                         $newPrice = $currentPrice - ($currentPrice * $percent / 100);
 
+                    if ($action === "inc" && $percent > 0) {
+                        // Bulk increases are rounded up in 100,000-toman steps.
+                        $newPrice = (int) (ceil($newPrice / 100000) * 100000);
+                    }
+
                     $price->price = $newPrice;
                     $price->save();
                 }

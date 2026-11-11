@@ -8,6 +8,10 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 {
     public function findByUrl($url);
 
+    public function priceBounds($query): array;
+
+    public function priceRangeFilter($query, $minimum, $maximum);
+
     public function hasLimitDataTable();
 
     public function getStockProducts();

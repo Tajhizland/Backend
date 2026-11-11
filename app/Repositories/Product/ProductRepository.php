@@ -309,6 +309,51 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $query->paginate($this->pageSize);
     }
 
+    /** Price bounds cover the complete category, before filters or pagination. */
+    public function priceBounds($query): array
+    {
+        $bounds = DB::query()->fromSub($this->effectiveColorPrices(), 'offers')
+            ->whereIn('product_id', (clone $query)->setEagerLoads([])->reorder()->select('products.id'))
+            ->selectRaw('MIN(sale_price) as minimum, MAX(sale_price) as maximum')->first();
+
+        return ['minPrice' => (int) ($bounds->minimum ?? 0), 'maxPrice' => (int) ($bounds->maximum ?? 0)];
+    }
+
+    public function priceRangeFilter($query, $minimum, $maximum)
+    {
+        $offers = DB::query()->fromSub($this->effectiveColorPrices(), 'offers')->select('product_id');
+        if (is_numeric($minimum) && $minimum >= 0) {
+            $offers->where('sale_price', '>=', $minimum);
+        }
+        if (is_numeric($maximum) && $maximum >= 0) {
+            $offers->where('sale_price', '<=', $maximum);
+        }
+
+        // Both limits must match the same color, including its current discount.
+        return $query->whereIn('products.id', $offers);
+    }
+
+    private function effectiveColorPrices()
+    {
+        $now = now();
+        $discount = DiscountItem::query()->select('discount_price')
+            ->whereColumn('product_color_id', 'product_colors.id')
+            ->where(fn ($query) => $query->whereNull('discount_expire_time')->orWhere('discount_expire_time', '>', $now))
+            ->whereHas('discount', function ($query) use ($now) {
+                $query->where('status', 1)
+                    ->where(fn ($query) => $query->whereNull('start_date')->orWhere('start_date', '<', $now))
+                    ->where(fn ($query) => $query->whereNull('end_date')->orWhere('end_date', '>', $now));
+            })->orderByDesc('discount_id')->limit(1);
+        $colors = ProductColor::query()
+            ->whereIn('product_colors.status', [ProductColorStatus::Active->value, ProductColorStatus::Limit->value])
+            ->join('prices', 'prices.product_color_id', '=', 'product_colors.id')->where('prices.price', '>', 0)
+            ->select('product_colors.product_id', 'prices.price as regular_price')
+            ->selectSub($discount, 'discounted_price');
+
+        return DB::query()->fromSub($colors, 'color_prices')->select('product_id')
+            ->selectRaw('CASE WHEN discounted_price > 0 AND discounted_price < regular_price THEN discounted_price ELSE regular_price END as sale_price');
+    }
+
     public function minPriceFilter($query, $minPrice)
     {
         return $query->whereHas("prices", function ($q) use ($minPrice) {
@@ -546,7 +591,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getSpecial()
     {
-        return $this->model::withActiveColor()->active()->whereHas("special")->latest("id")->paginate($this->pageSize);
+        return $this->model::withActiveColor()->active()->whereHas("special")
+            ->withExists(['activeProductColors as available_for_purchase' => fn ($query) => $query
+                ->whereHas('stock', fn ($query) => $query->where('stock', '>', 0))
+                ->whereHas('price', fn ($query) => $query->where('price', '>', 0))])
+            ->orderByDesc('available_for_purchase')->latest("id")->paginate($this->pageSize);
     }
 
     public function getSitemapData()

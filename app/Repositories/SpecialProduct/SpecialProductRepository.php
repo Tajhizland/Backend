@@ -3,6 +3,8 @@
 namespace App\Repositories\SpecialProduct;
 
 use App\Models\SpecialProduct;
+use App\Models\ProductColor;
+use App\Enums\ProductColorStatus;
 use App\Repositories\Base\BaseRepository;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -49,6 +51,11 @@ class SpecialProductRepository extends BaseRepository implements SpecialProductR
             ->where("homepage", 1)
             ->whereHas("product")
             ->with(["product" => fn ($query) => $query->forCard()])
+            ->orderByDesc(ProductColor::query()->selectRaw('1')
+                ->whereColumn('product_id', 'special_products.product_id')
+                ->whereIn('status', [ProductColorStatus::Active->value, ProductColorStatus::Limit->value])
+                ->whereHas('stock', fn ($query) => $query->where('stock', '>', 0))
+                ->whereHas('price', fn ($query) => $query->where('price', '>', 0))->limit(1))
             ->orderBy("sort")
             ->get()
             ->pluck("product")

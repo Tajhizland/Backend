@@ -31,6 +31,9 @@ readonly class FilterService implements FilterServiceInterface
     public function apply($productQuery, $filters)
     {
         if ($filters) {
+            if (isset($filters['minPrice']) || isset($filters['maxPrice'])) {
+                $this->productRepository->priceRangeFilter($productQuery, $filters['minPrice'] ?? null, $filters['maxPrice'] ?? null);
+            }
             foreach ($filters as $filter => $value) {
                 /** Dynamic Filters **/
 
@@ -50,7 +53,7 @@ readonly class FilterService implements FilterServiceInterface
 
                 if ($filter == "minPrice") {
                     /** Example : filter[minPrice]=10 */
-                    $this->productRepository->minPriceFilter($productQuery, $value);
+                    // Price limits were applied together above.
                     continue;
                 }
                 if ($filter == "category") {
@@ -61,7 +64,7 @@ readonly class FilterService implements FilterServiceInterface
 
                 if ($filter == "maxPrice") {
                     /** Example : filter[maxPrice]=10 */
-                    $this->productRepository->maxPriceFilter($productQuery, $value);
+                    // Price limits were applied together above.
                     continue;
                 }
 
