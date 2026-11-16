@@ -14,7 +14,7 @@ class UpdateCategoryRequest extends FormRequest
             'type' => ['required','string','in:landing,listing'],
             'url' => ['required', Rule::unique('categories')->ignore($this->route('id'))],
             'image' => ['nullable' , 'image:allow_svg','mimes:jpeg,png,jpg,gif,svg,webp'],
-            'parent_id' => ['required', 'integer'],
+            'parent_id' => ['required', 'integer', new \App\Rules\ValidTreeParent(\App\Models\Category::class, (int) $this->route('id'))],
             'status' => ['required', 'integer'],
             'description' => ['nullable'],
         ];

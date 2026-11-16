@@ -56,6 +56,20 @@ class OrderController extends Controller
         return $this->dataResponse(new OrderResource($order), __("action.remove", ["attr" => __("attr.order_item")]));
     }
 
+    public function snappayCalc(DigipayCalcRequest $request)
+    {
+        return $this->dataResponse(['value' => $this->orderService->gatewayCalc(
+            \App\Enums\PaymentGateway::SnappPay->value, new DigipayCalcDto(...$request->validated())
+        )]);
+    }
+
+    public function zibalCalc(DigipayCalcRequest $request)
+    {
+        return $this->dataResponse(['value' => $this->orderService->gatewayCalc(
+            \App\Enums\PaymentGateway::Online->value, new DigipayCalcDto(...$request->validated())
+        )]);
+    }
+
     public function digipayCalc(DigipayCalcRequest $request)
     {
         $dto = new DigipayCalcDto(...$request->validated());

@@ -26,6 +26,13 @@ Route::group(["middleware" => ["auth:sanctum", \App\Http\Middleware\InvalidateSh
         Route::get("unseen", "unSeen");
         Route::patch("seen", "seen");
     });
+    Route::prefix('product/{id}/comments')->controller(\App\Http\Controllers\V1\Admin\ProductCommentController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::put('{commentId}', 'update');
+        Route::delete('{commentId}', 'destroy');
+    });
+
     Route::prefix("product")->controller(\App\Http\Controllers\V1\Admin\ProductController::class)->group(function () {
         Route::get("dataTable", "dataTable");
         Route::get("stock/dataTable", "stockProductDataTable");
@@ -168,6 +175,8 @@ Route::group(["middleware" => ["auth:sanctum", \App\Http\Middleware\InvalidateSh
         Route::controller(\App\Http\Controllers\V1\Admin\OrderController::class)->group(function () {
             Route::get("dataTable", "dataTable");
             Route::post("digipay-calc", "digipayCalc");
+            Route::post("snappay-calc", "snappayCalc");
+            Route::post("zibal-calc", "zibalCalc");
             Route::patch("item/{id}", "updateItem");
             Route::delete("item/{id}", "deleteItem");
             Route::get("{id}", "show");

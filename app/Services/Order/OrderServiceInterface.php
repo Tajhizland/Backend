@@ -26,5 +26,7 @@ interface OrderServiceInterface
 
     public function deleteItem(int $itemId): mixed;
 
+    public function gatewayCalc(int $gateway, DigipayCalcDto $dto): mixed;
+
     public function digipayCalc(DigipayCalcDto $dto): mixed;
 }

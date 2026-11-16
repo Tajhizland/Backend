@@ -68,6 +68,11 @@ readonly class OrderService implements OrderServiceInterface
         return $this->orderRepository->update($order, ["delivery_token" => $token]);
     }
 
+    public function gatewayCalc(int $gateway, DigipayCalcDto $dto): mixed
+    {
+        return $this->orderRepository->gatewaySumOrder($gateway, $dto->start_date, $dto->end_date);
+    }
+
     public function digipayCalc(DigipayCalcDto $dto): mixed
     {
         return $this->orderRepository->digipaySumOrder($dto->start_date, $dto->end_date);

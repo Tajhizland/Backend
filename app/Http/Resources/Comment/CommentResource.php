@@ -14,7 +14,7 @@ class CommentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => $this->user->name,
+            'user' => $this->author_name ?? $this->user?->name ?? '',
             'product_id' => $this->product_id,
             'product' => new ProductResource($this->whenLoaded("product")),
             'rating' => $this->rating,

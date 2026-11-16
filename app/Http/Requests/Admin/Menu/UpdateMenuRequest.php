@@ -10,7 +10,7 @@ class UpdateMenuRequest extends FormRequest
     {
         return [
             'title' => ['required'],
-            'parent_id' => ['nullable','integer'],
+            'parent_id' => ['nullable', 'integer', new \App\Rules\ValidTreeParent(\App\Models\Menu::class, (int) $this->route('id'))],
             'url' => ['required'],
             'status' => ['required','in:0,1'],
             'category_id' => ['nullable'],

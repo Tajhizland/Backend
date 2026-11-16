@@ -25,5 +25,7 @@ interface OrderRepositoryInterface extends BaseRepositoryInterface
 
     public function todayOrderCount();
 
+    public function gatewaySumOrder(int $gateway, string $startDate, string $endDate);
+
     public function digipaySumOrder($startDate, $endDate);
 }
