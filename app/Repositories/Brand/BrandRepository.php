@@ -4,6 +4,7 @@ namespace App\Repositories\Brand;
 
 use App\Models\Brand;
 use App\Repositories\Base\BaseRepository;
+use App\Services\Search\SearchTerms;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class BrandRepository extends BaseRepository implements BrandRepositoryInterface
@@ -15,8 +16,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 
     public function search($query)
     {
-        return $this->model::active()
-            ->where("name", "like", "%$query%")
+        return SearchTerms::apply($this->model::active(), 'name', $query, false)
             ->orderBy("sort")
             ->limit(config("settings.search_item_limit"))
             ->get();

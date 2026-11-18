@@ -5,6 +5,7 @@ namespace App\Repositories\Category;
 use App\Enums\FilterStatus;
 use App\Models\Category;
 use App\Repositories\Base\BaseRepository;
+use App\Services\Search\SearchTerms;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
@@ -16,7 +17,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function search($query)
     {
-        return $this->model::where("name", "like", "%$query%")->active()->limit(config("settings.search_item_limit"))->get();
+        return SearchTerms::apply($this->model::active(), 'name', $query, false)
+            ->limit(config("settings.search_item_limit"))->get();
     }
 
     public function findByUrl($url)

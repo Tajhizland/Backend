@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Vlog;
 
-use App\Models\Dictionary;
 use App\Models\HomepageVlog;
 use App\Models\Vlog;
 use App\Repositories\Base\BaseRepository;
+use App\Services\Search\SearchTerms;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class VlogRepository extends BaseRepository implements VlogRepositoryInterface
@@ -138,24 +138,7 @@ class VlogRepository extends BaseRepository implements VlogRepositoryInterface
     public function searchQuery($query)
     {
 
-        $keywords = explode(' ', $query);
-        $dictionary = Dictionary::whereIn('original_word', $keywords)->get()
-            ->pluck('mean', 'original_word')
-            ->toArray();
-
-        return $this->model::active()->where(function ($q) use ($keywords, $dictionary) {
-            foreach ($keywords as $word) {
-                $q->where(function ($sub) use ($word, $dictionary) {
-                    // همیشه خود کلمه سرچ میشه
-                    $sub->where('title', 'like', '%' . $word . '%');
-
-                    // اگه تو دیکشنری باشه mean هم اضافه می‌کنیم
-                    if (isset($dictionary[$word])) {
-                        $sub->orWhere('title', 'like', '%' . $dictionary[$word] . '%');
-                    }
-                });
-            }
-        })
+        return SearchTerms::apply($this->model::active(), 'title', $query)
             ->limit(config("settings.search_item_limit"))
             ->get();
 

@@ -3,11 +3,11 @@
 namespace App\Repositories\Product;
 
 use App\Enums\ProductColorStatus;
-use App\Models\Dictionary;
 use App\Models\DiscountItem;
 use App\Models\Product;
 use App\Models\ProductColor;
 use App\Repositories\Base\BaseRepository;
+use App\Services\Search\SearchTerms;
 use App\Services\Sort\Product\SortProductByBrandName;
 use App\Services\Sort\Product\SortProductByCategoryName;
 use Illuminate\Support\Facades\DB;
@@ -210,24 +210,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function search($query)
     {
-        $keywords = explode(' ', $query);
-        $dictionary = Dictionary::whereIn('original_word', $keywords)->get()
-            ->pluck('mean', 'original_word')
-            ->toArray();
-
-        return $this->model::where(function ($q) use ($keywords, $dictionary) {
-            foreach ($keywords as $word) {
-                $q->where(function ($sub) use ($word, $dictionary) {
-                    // همیشه خود کلمه سرچ میشه
-                    $sub->where('name', 'like', '%' . $word . '%');
-
-                    // اگه تو دیکشنری باشه mean هم اضافه می‌کنیم
-                    if (isset($dictionary[$word])) {
-                        $sub->orWhere('name', 'like', '%' . $dictionary[$word] . '%');
-                    }
-                });
-            }
-        })
+        return SearchTerms::apply($this->model->newQuery(), 'name', $query)
             ->whereHas("activeProductColors")
             ->limit(config("settings.search_item_limit"))
             ->get();
@@ -448,27 +431,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function searchPaginate($query)
     {
-        $keywords = explode(' ', $query);
-
-// گرفتن همه‌ی لغات موجود در دیکشنری
-        $dictionary = Dictionary::whereIn('original_word', $keywords)->get()
-            ->groupBy('original_word'); // ممکنه یک کلمه چند mean داشته باشه
-
-        return $this->model::where(function ($q) use ($keywords, $dictionary) {
-            foreach ($keywords as $word) {
-                $q->where(function ($sub) use ($word, $dictionary) {
-                    // همیشه خود کلمه
-                    $sub->where('name', 'like', '%' . $word . '%');
-
-                    // اگر معادل در دیکشنری هست، اضافه کن
-                    if ($dictionary->has($word)) {
-                        foreach ($dictionary[$word] as $dict) {
-                            $sub->orWhere('name', 'like', '%' . $dict->mean . '%');
-                        }
-                    }
-                });
-            }
-        })
+        return SearchTerms::apply($this->model->newQuery(), 'name', $query)
             ->whereHas("activeProductColors")
             ->withActiveColor()
             ->customOrder()
